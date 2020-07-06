@@ -26,10 +26,21 @@
                               <build_depend>, <build_export_depend> and
                               <exec_depend>.
   -->
-  <!--
-    Example:
-    <depend>mrt_opencv</depend>
-  -->
+  <depend>lanelet2_core</depend>
+  <depend>lanelet2_matching</depend>
+  <depend>util_motion</depend>
+  <depend>interpolated_distance</depend>
+  <depend>common_types</depend>
+  <depend>data_types</depend>
+  <depend>polyvision</depend>
+  <depend>localization</depend>
+  <depend>understanding</depend>
+  <depend>decision_making</depend>
+  <depend>planner</depend>
+  <depend>action</depend>
+  <depend>visualization</depend>
+
+
 
   <export>
     <!-- Other tools can request additional information be placed here -->
