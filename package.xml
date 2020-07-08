@@ -7,7 +7,7 @@
   <license>MRT</license>
   <maintainer email="sahin.tas@kit.edu">Sahin Tas</maintainer>
   <author email="sahin.tas@kit.edu">Sahin Tas</author>
-  <url type="repository">https://gitlab.mrt.uni-karlsruhe.de/MRT/private/tas/simulation/mp_sim</url>
+  <url type="repository">https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/mp_sim</url>
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>mrt_cmake_modules</build_depend>
