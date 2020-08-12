@@ -1,6 +1,6 @@
 from data_types.timestamp import update_timestamp_object
 from prediction.situation_model import SituationModel
-from utilities.print_utils.consoleprint import Print2Console
+from util_simulation.output.consoleprint import Print2Console
 #from visualization.spatiotemporal.plot_prediction import plot_prediction
 #from visualization.spatiotemporal.plot_planning import plot_planning
 #from visualization.spatiotemporal.plot_velocity_position import plot_xv
@@ -57,7 +57,7 @@ def drive(vehicle, ground_truth_objects, laneletmap, save_dir, timestamp_now):
     #plot_prediction(situation_model.objects, vehicle.vehicle_id, settings["Main"]["N"], settings["Main"]["dt"], curr_save_dir)
 
     # Decision Making --------------------------------------------------------------------------------------------------
-    decision_base = vehicle.decision(scene_model, situation_model)
+    decision_base = vehicle.modules.decision(scene_model, situation_model)
     #vehicle.timestampdata[timestamp_now].decision_base = decision_base
     #plot_planning(vehicle, current_time, lightsaber_base, settings)
 

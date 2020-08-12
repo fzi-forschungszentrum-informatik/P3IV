@@ -29,6 +29,7 @@
   <depend>lanelet2_core</depend>
   <depend>lanelet2_matching</depend>
   <depend>util_motion</depend>
+  <depend>util_simulation</depend>
   <depend>interpolated_distance</depend>
   <depend>common_types</depend>
   <depend>data_types</depend>
