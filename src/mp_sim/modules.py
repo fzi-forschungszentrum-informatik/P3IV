@@ -25,16 +25,14 @@ class VehicleModules(object):
        """
         self.prediction = Predict(configurations["temporal"]["dt"], configurations["temporal"]["N"], laneletmap)
 
+        self.decision = Decide(vehicle.characteristics.max_acceleration,
+                               vehicle.characteristics.max_deceleration,
+                               vehicle.objective.set_speed,
+                               configurations["temporal"]["dt"],
+                               configurations["temporal"]["N"],
+                               configurations["temporal"]["N_pin_future"],
+                               configurations["decision_making"]["astar_initialization"])
         """
-        Decide.__init__(self,
-                        self.properties.max_acceleration,
-                        self.properties.max_deceleration,
-                        self.properties.set_speed,
-                        self.settings["Main"]["dt"],
-                        self.settings["Main"]["N"],
-                        self.settings["Opt"]["ceres1d"]["N_pin_future"],
-                        self.settings["Opt"]["initialization_astar"])
-
         Plan.__init__(self,
                       self.settings["Opt"])
 

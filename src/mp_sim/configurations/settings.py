@@ -37,6 +37,10 @@ settings = {
         "otherVehicle_sensor_fov": [-130, 130]
     },
 
+    "decision_making": {
+        "astar_initialization": False,
+    },
+
     "Planning": {
         "distance2static_obs": 1.0,  # m
         "v2v_safety_dist": 6.0,  # m
