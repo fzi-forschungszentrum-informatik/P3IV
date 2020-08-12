@@ -9,12 +9,12 @@ def get_settings(output_path):
     settings['start_time'] = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
     settings['save_dir'] = str(output_path)  # will serve as save directory for figures
 
-    # Number of timesteps
-    N = int(settings['temporal']['horizon'] / settings['temporal']['dt'])
+    # Number of timesteps (horizon is defined in seconds, not ms)
+    N = int(settings['temporal']['horizon'] / (settings['temporal']['dt'] / 1000))
     settings['temporal']['N'] = N
 
     # Extract timestamps to be computed
-    NN = int(settings['main']['travel_length']/settings['temporal']['dt'])
+    NN = int(settings['main']['travel_length']/ (settings['temporal']['dt'] / 1000))
     settings['main']['NN'] = NN
 
     return settings

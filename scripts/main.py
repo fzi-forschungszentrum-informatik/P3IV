@@ -42,11 +42,11 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
     if configurations["interaction_sim"]:
         from mp_sim.bindings.interaction_dataset import use_interaction_sim_data, create_simulation_objects
         situation = use_interaction_sim_data(configurations)
-        ground_truth_objects = create_simulation_objects(situation.objects.values(), configurations['vehicle_of_interest'], laneletmap, configurations)
+        ground_truth_objects = create_simulation_objects(situation.objects.values(), laneletmap, configurations)
     else:
         raise Exception("Specify ground truth object data!")
 
-    sampling_time = int(configurations['temporal']['dt'] * 1000)
+    sampling_time = int(configurations['temporal']['dt'])
     timestamps = [configurations['timestamp_begin'] + i * sampling_time for i in range(0, configurations['main']['NN'])]
 
     #vehicles = create_objects(parsed_xml_data, map_data, instance_settings["Main"]["dt"], N_TOTAL, instance_settings)

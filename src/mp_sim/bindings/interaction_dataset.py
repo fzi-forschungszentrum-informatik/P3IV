@@ -16,7 +16,7 @@ def use_interaction_sim_data(instance_settings):
     return object_list
 
 
-def create_simulation_objects(object_list, voi_id, laneletmap, configurations):
+def create_simulation_objects(object_list, laneletmap, configurations):
 
     ground_truth_objects = []
     lanelet_analyzer = LaneletAnalyzer(laneletmap)
@@ -30,7 +30,7 @@ def create_simulation_objects(object_list, voi_id, laneletmap, configurations):
         # v.objective.route = ""
         # v.objective.set_speed = ""
 
-        if o.v_id != voi_id:
+        if o.v_id != configurations['vehicle_of_interest']:
             v.perception.sensor_fov = configurations['perception']['otherVehicle_sensor_fov']
             v.perception.sensor_range = configurations['perception']['otherVehicle_sensor_range']
         else:
@@ -48,12 +48,13 @@ def create_simulation_objects(object_list, voi_id, laneletmap, configurations):
         o.motion.frenet(pos_frenet, dt=0.1)
 
         # fill tracked motion
-        v.timestamps.create_and_add(o.timestamps[-1], o.motion)
+        v.timestamps.create_and_add(configurations['timestamp_begin'])
+        v.timestamps.latest().motion = o.motion
 
         # fill initial values of KF
         v.modules.localization.setup_localization(pos_frenet[-1, 0], o.speed, 0.0)
 
-        if o.v_id != voi_id:
+        if o.v_id != configurations['vehicle_of_interest']:
             ground_truth_objects.append(v)
         else:
             voi = v
