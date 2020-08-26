@@ -43,21 +43,17 @@ def drive(vehicle, ground_truth_objects, laneletmap, save_dir, timestamp_now):
     situation_model = SituationModel()
 
     # situation model needs to be filled with objects in order prediction-module to be able to predict
-    raw_input("create sit. model from env. model -> func in sit. model")
-    for v in environment_model:
-        situation_model.add_object(v.v_id, v.appearance.color, v.appearance.length, v.appearance.width, v.timestamps.latest().motion)
-    situation_model = vehicle.modules.prediction(situation_model)
-    timestampdata.situation = situation_model
+    timestampdata.environment = vehicle.modules.prediction(timestampdata.environment)
     #plot_prediction(situation_model.objects, vehicle.vehicle_id, settings["Main"]["N"], settings["Main"]["dt"], curr_save_dir)
 
     # Decision Making --------------------------------------------------------------------------------------------------
-    decision_base = vehicle.modules.decision(scene_model, situation_model)
+    #decision_base = vehicle.modules.decision(scene_model, situation_model)
     #vehicle.timestampdata[timestamp_now].decision_base = decision_base
     #plot_planning(vehicle, current_time, lightsaber_base, settings)
 
     # Motion Planning --------------------------------------------------------------------------------------------------
     #vehicle.plan(situation_model, decision_base, timestamp_now)
-    vehicle.plan(situation_model, timestamp_now)
+    vehicle.modules.plan(timestampdata.environment, timestamp_now)
     #plot_planning(vehicle, current_time, decision_base, settings)
 
     # Execution --------------------------------------------------------------------------------------------------------
