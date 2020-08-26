@@ -30,11 +30,11 @@ settings = {
 
     "perception": {
         "perception_noise": 0.8,
-        "override_visibility": True,
+        "override_visibility": False,
         "egoVehicle_sensor_range": 20.0,
         "otherVehicle_sensor_range": 30.0,
-        "egoVehicle_sensor_fov": [-130, 130],
-        "otherVehicle_sensor_fov": [-130, 130]
+        "egoVehicle_sensor_fov": 130,
+        "otherVehicle_sensor_fov": 130
     },
 
     "decision_making": {
