@@ -42,7 +42,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
     if configurations["interaction_sim"]:
         from mp_sim.bindings.interaction_dataset import use_interaction_sim_data, create_simulation_objects
         situation = use_interaction_sim_data(configurations)
-        ground_truth_objects = create_simulation_objects(situation.objects.values(), laneletmap, configurations)
+        ground_truth_objects = create_simulation_objects(situation.tracked_objects.values(), laneletmap, configurations)
     else:
         raise Exception("Specify ground truth object data!")
 
