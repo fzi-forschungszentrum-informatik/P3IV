@@ -41,7 +41,7 @@ settings = {
         "astar_initialization": False,
     },
 
-    "Planning": {
+    "planning": {
         "distance2static_obs": 1.0,  # m
         "v2v_safety_dist": 6.0,  # m
         "override_max_deceleration": True,  # use the value specified here instead of the OSM file
