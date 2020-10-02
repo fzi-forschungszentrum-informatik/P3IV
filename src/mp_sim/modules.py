@@ -1,5 +1,6 @@
 from perception.main import Percept
 from localization.main import Localization
+from understanding.main import Understand
 from prediction.main import Predict
 from decision_making.main import Decide
 from lightsaber_interface.planner_interface import PlannerInterfacePyWrapper
@@ -14,6 +15,8 @@ class VehicleModules(object):
 
         self.perception = Percept(laneletmap, vehicle.perception.sensor_fov, vehicle.perception.sensor_fov,
                                   vehicle.perception.sensor_noise, override_visibility=configurations['perception']['override_visibility'])
+
+        self.understanding = Understand(configurations["temporal"]["dt"], configurations["temporal"]["N"], laneletmap)
 
         self.prediction = Predict(configurations["temporal"]["dt"], configurations["temporal"]["N"], laneletmap)
 

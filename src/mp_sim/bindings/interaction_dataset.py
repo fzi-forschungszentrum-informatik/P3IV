@@ -1,6 +1,6 @@
 from util_simulation.vehicle.main import Vehicle
 from mp_sim.modules import VehicleModules
-from prediction.lanelet_analyzer.main import LaneletAnalyzer
+from understanding.lanelet_sequence_analyzer import LaneletSequenceAnalyzer
 from interpolated_distance.coordinate_transformation import CoordinateTransform
 
 
@@ -19,7 +19,7 @@ def use_interaction_sim_data(instance_settings):
 def create_simulation_objects(object_list, laneletmap, configurations):
 
     ground_truth_objects = []
-    lanelet_analyzer = LaneletAnalyzer(laneletmap)
+    lanelet_sequence_analyzer = LaneletSequenceAnalyzer(laneletmap)
 
     for o in object_list:
         v = Vehicle(o.v_id)
@@ -41,7 +41,7 @@ def create_simulation_objects(object_list, laneletmap, configurations):
         v.modules = VehicleModules(configurations, laneletmap, v)
 
         # extract frenet motion
-        lanelet_path_wrapper = lanelet_analyzer.match(o.motion)
+        lanelet_path_wrapper = lanelet_sequence_analyzer.match(o.motion)
         centerline = lanelet_path_wrapper.centerline()
         c = CoordinateTransform(centerline)
         pos_frenet = c.xy2ld(o.motion.cartesian.position.mean)

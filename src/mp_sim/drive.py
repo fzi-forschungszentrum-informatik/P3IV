@@ -36,14 +36,16 @@ def drive(vehicle, ground_truth_objects, laneletmap, save_dir, timestamp_now):
     # Perception -------------------------------------------------------------------------------------------------------
     current_cartesian_pos = timestampdata.motion.cartesian.position[-1]
     current_yaw_angle = timestampdata.motion.yaw_angle[-1]
-    environment_model = vehicle.modules.perception(ground_truth_objects, current_cartesian_pos.mean, current_yaw_angle, vehicle.v_id)
-    timestampdata.environment = environment_model
+    scene_model = vehicle.modules.perception(ground_truth_objects, current_cartesian_pos.mean, current_yaw_angle, vehicle.v_id)
+    timestampdata.scene = scene_model
+
+    # Understanding ----------------------------------------------------------------------------------------------------
+    vehicle.modules.understanding(timestampdata.scene)
 
     # Understanding and Prediction -------------------------------------------------------------------------------------
     situation_model = SituationModel()
-
     # situation model needs to be filled with objects in order prediction-module to be able to predict
-    timestampdata.environment = vehicle.modules.prediction(timestampdata.environment)
+    timestampdata.situation = vehicle.modules.prediction(timestampdata.scene)
     #plot_prediction(situation_model.objects, vehicle.vehicle_id, settings["Main"]["N"], settings["Main"]["dt"], curr_save_dir)
 
     # Decision Making --------------------------------------------------------------------------------------------------
