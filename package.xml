@@ -35,6 +35,8 @@
   <depend>data_types</depend>
   <depend>polyvision</depend>
   <depend>localization</depend>
+  <depend>understanding</depend>
+  <depend>prediction</depend>
   <depend>decision_making</depend>
   <depend>planner</depend>
   <depend>action</depend>
