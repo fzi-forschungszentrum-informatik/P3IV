@@ -38,7 +38,7 @@ def drive(vehicle, ground_truth_objects, laneletmap, save_dir, timestamp_now):
     timestampdata.scene = vehicle.modules.perception(ground_truth_objects, current_cartesian_pos.mean, current_yaw_angle, vehicle.v_id)
 
     # Understanding ----------------------------------------------------------------------------------------------------
-    vehicle.modules.understanding(timestampdata.scene)
+    vehicle.modules.understanding(timestampdata.scene, timestampdata.motion)
 
     # Understanding and Prediction -------------------------------------------------------------------------------------
     timestampdata.situation = vehicle.modules.prediction(timestampdata.scene)
