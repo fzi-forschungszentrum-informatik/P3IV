@@ -7,7 +7,11 @@ import pprint
 import os
 
 
-def drive(vehicle, ground_truth_objects, laneletmap, save_dir, timestamp_now):
+def drive(vehicle, ground_truth_objects, laneletmap, configurations, timestamp_now):
+
+    save_dir = configurations['save_dir']
+    to_lanelet = configurations['toLanelet']
+
     Print2Console.p('s', ['-' * 72], style='cyan', bold=True, first_col_w=40)
     Print2Console.p('ss', ['Computing vehicle: ', vehicle.v_id], style='cyan', bold=True, first_col_w=40)
     Print2Console.p('s', ['-' * 72], style='cyan', bold=True, first_col_w=40)
@@ -45,7 +49,7 @@ def drive(vehicle, ground_truth_objects, laneletmap, save_dir, timestamp_now):
     #plot_prediction(situation_model.objects, vehicle.vehicle_id, settings["Main"]["N"], settings["Main"]["dt"], curr_save_dir)
 
     # Decision Making --------------------------------------------------------------------------------------------------
-    #decision_base = vehicle.modules.decision(scene_model, situation_model)
+    decision_base = vehicle.modules.decision(timestampdata.scene, timestampdata.situation, to_lanelet)
     #vehicle.timestampdata[timestamp_now].decision_base = decision_base
     #plot_planning(vehicle, current_time, lightsaber_base, settings)
 

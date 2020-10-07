@@ -5,5 +5,6 @@ test_cases = {
         "timestamp_begin": 4400,
         "timestamp_end": 6400,
         "vehicle_of_interest": 1,
+        "toLanelet": "30008",
     }
 }

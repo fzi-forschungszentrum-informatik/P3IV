@@ -62,7 +62,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
         # Compute the trajectory of vehicles
         for vehicle in ground_truth_objects:
             print "v: ", vehicle
-            vehicles = drive(vehicle, ground_truth_objects, laneletmap, configurations['save_dir'], ts_now)
+            vehicles = drive(vehicle, ground_truth_objects, laneletmap, configurations, ts_now)
 
 
 if __name__ == '__main__':
