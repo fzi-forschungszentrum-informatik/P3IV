@@ -1,5 +1,4 @@
 from data_types.timestamp import update_timestamp_object
-from prediction.situation_model import SituationModel
 from util_simulation.output.consoleprint import Print2Console
 #from visualization.spatiotemporal.plot_prediction import plot_prediction
 #from visualization.spatiotemporal.plot_planning import plot_planning
@@ -36,15 +35,12 @@ def drive(vehicle, ground_truth_objects, laneletmap, save_dir, timestamp_now):
     # Perception -------------------------------------------------------------------------------------------------------
     current_cartesian_pos = timestampdata.motion.cartesian.position[-1]
     current_yaw_angle = timestampdata.motion.yaw_angle[-1]
-    scene_model = vehicle.modules.perception(ground_truth_objects, current_cartesian_pos.mean, current_yaw_angle, vehicle.v_id)
-    timestampdata.scene = scene_model
+    timestampdata.scene = vehicle.modules.perception(ground_truth_objects, current_cartesian_pos.mean, current_yaw_angle, vehicle.v_id)
 
     # Understanding ----------------------------------------------------------------------------------------------------
     vehicle.modules.understanding(timestampdata.scene)
 
     # Understanding and Prediction -------------------------------------------------------------------------------------
-    situation_model = SituationModel()
-    # situation model needs to be filled with objects in order prediction-module to be able to predict
     timestampdata.situation = vehicle.modules.prediction(timestampdata.scene)
     #plot_prediction(situation_model.objects, vehicle.vehicle_id, settings["Main"]["N"], settings["Main"]["dt"], curr_save_dir)
 

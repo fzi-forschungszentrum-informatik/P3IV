@@ -3,7 +3,7 @@ from localization.main import Localization
 from understanding.main import Understand
 from prediction.main import Predict
 from decision_making.main import Decide
-from lightsaber_interface.planner_interface import PlannerInterfacePyWrapper
+from planner.main import Plan
 from action.main import Act
 
 
@@ -27,6 +27,11 @@ class VehicleModules(object):
                                configurations["temporal"]["N"],
                                configurations["temporal"]["N_pin_future"],
                                configurations["decision_making"]["astar_initialization"])
+
+        self.planner = Plan(configurations,
+                            vehicle.characteristics.max_acceleration,
+                            vehicle.characteristics.max_deceleration)
+
         """
         Plan.__init__(self,
                       self.settings["Opt"])
