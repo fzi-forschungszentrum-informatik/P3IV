@@ -11,7 +11,7 @@ def use_interaction_sim_data(instance_settings):
 
     track_dictionary = track_reader(instance_settings["map"])
     data_handler = InteractionDataHandler(int(instance_settings["temporal"]["dt"]*1000), track_dictionary)
-    object_list = data_handler.fill_situation(instance_settings["timestamp_begin"])
+    object_list = data_handler.fill_scene(instance_settings["timestamp_begin"])
 
     return object_list
 
