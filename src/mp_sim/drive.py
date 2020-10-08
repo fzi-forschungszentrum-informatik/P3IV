@@ -49,13 +49,13 @@ def drive(vehicle, ground_truth_objects, laneletmap, configurations, timestamp_n
     #plot_prediction(situation_model.objects, vehicle.vehicle_id, settings["Main"]["N"], settings["Main"]["dt"], curr_save_dir)
 
     # Decision Making --------------------------------------------------------------------------------------------------
-    decision_base = vehicle.modules.decision(timestampdata.scene, timestampdata.situation, to_lanelet)
+    timestampdata.decision_base = vehicle.modules.decision(timestampdata.scene, timestampdata.situation, to_lanelet)
     #vehicle.timestampdata[timestamp_now].decision_base = decision_base
     #plot_planning(vehicle, current_time, lightsaber_base, settings)
 
     # Motion Planning --------------------------------------------------------------------------------------------------
     #vehicle.plan(situation_model, decision_base, timestamp_now)
-    vehicle.modules.plan(timestampdata.environment, timestamp_now)
+    vehicle.modules.planner(timestampdata.decision_base, timestamp_now)
     #plot_planning(vehicle, current_time, decision_base, settings)
 
     # Execution --------------------------------------------------------------------------------------------------------
