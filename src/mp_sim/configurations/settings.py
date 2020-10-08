@@ -7,7 +7,7 @@ settings = {
     },
 
     "temporal": {
-        "horizon": 10,  # s
+        "horizon": 6,  # s
         "dt": 100,  # ms (step-width)
         # "N": 50,  # int(horizon / dt)
         "N_pin_past": 4,
