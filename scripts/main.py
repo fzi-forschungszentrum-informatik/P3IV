@@ -49,9 +49,6 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
     sampling_time = int(configurations['temporal']['dt'])
     timestamps = [configurations['timestamp_begin'] + i * sampling_time for i in range(0, configurations['main']['NN'])]
 
-    #vehicles = create_objects(parsed_xml_data, map_data, instance_settings["Main"]["dt"], N_TOTAL, instance_settings)
-    #vehicles = list(vehicles)
-
     # Perform computation
     for ts_now in timestamps:
         # Print information
@@ -61,8 +58,19 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
 
         # Compute the trajectory of vehicles
         for vehicle in ground_truth_objects:
-            print "v: ", vehicle
-            vehicles = drive(vehicle, ground_truth_objects, laneletmap, configurations, ts_now)
+
+            # create a timestamp if it does not exist
+            if vehicle.timestamps.latest().timestamp != ts_now:
+                vehicle.timestamps.create_and_add(ts_now)
+
+            drive(vehicle, ground_truth_objects, laneletmap, configurations, ts_now)
+
+            # Update vehicle data
+            for i in range(len(ground_truth_objects)):
+                if ground_truth_objects[i].v_id == vehicle.v_id:
+                    ground_truth_objects[i] = vehicle
+
+    return ground_truth_objects
 
 
 if __name__ == '__main__':
