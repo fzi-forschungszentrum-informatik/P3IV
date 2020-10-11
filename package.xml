@@ -32,7 +32,6 @@
   <depend>util_simulation</depend>
   <depend>interpolated_distance</depend>
   <depend>common_types</depend>
-  <depend>data_types</depend>
   <depend>polyvision</depend>
   <depend>localization</depend>
   <depend>understanding</depend>
