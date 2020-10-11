@@ -1,4 +1,3 @@
-from data_types.timestamp import update_timestamp_object
 from util_simulation.output.consoleprint import Print2Console
 #from visualization.spatiotemporal.plot_prediction import plot_prediction
 #from visualization.spatiotemporal.plot_planning import plot_planning
@@ -16,13 +15,6 @@ def drive(vehicle, ground_truth_objects, laneletmap, configurations, timestamp_n
     Print2Console.p('ss', ['Computing vehicle: ', vehicle.v_id], style='cyan', bold=True, first_col_w=40)
     Print2Console.p('s', ['-' * 72], style='cyan', bold=True, first_col_w=40)
 
-    # timestamp object UPDATE
-    """
-    if len(vehicle.timestamps) > 0:
-        raw_input("Warn drive.py @ mp_sim")
-        vehicle.timestampdata[timestamp_now] = update_timestamp_object(timestamp_now, vehicle)
-    #vehicle.timestamps.append(timestamp_now)
-    """
     timestampdata = vehicle.timestamps.latest()
     Print2Console.p('s', ['\nNodes for computation: '], style='blue', bold=False, first_col_w=40)
     pprint.pprint(timestampdata.motion.cartesian.position.mean[-4:])
@@ -50,35 +42,12 @@ def drive(vehicle, ground_truth_objects, laneletmap, configurations, timestamp_n
 
     # Decision Making --------------------------------------------------------------------------------------------------
     timestampdata.decision_base = vehicle.modules.decision(timestampdata.scene, timestampdata.situation, to_lanelet)
-    #vehicle.timestampdata[timestamp_now].decision_base = decision_base
     #plot_planning(vehicle, current_time, lightsaber_base, settings)
 
     # Motion Planning --------------------------------------------------------------------------------------------------
-    #vehicle.plan(situation_model, decision_base, timestamp_now)
-    vehicle.modules.planner(timestampdata.decision_base, timestamp_now)
+    timestampdata.motion_plans = vehicle.modules.planner(timestampdata.decision_base, current_cartesian_pos)
     #plot_planning(vehicle, current_time, decision_base, settings)
 
-    # Execution --------------------------------------------------------------------------------------------------------
-    vehicle.act(timestamp_now)
-
-    """
-    # dummy calculation for postprocessing
-    for i, v in enumerate(ground_truth_objects):
-        if "ego" not in v.vehicle_id:
-            percepted_obj_id = [p.vehicle_id for p in environment_model.percepted_vehicles]
-            if v.vehicle_id in percepted_obj_id:
-                dist = v.timestampdata[current_time].executed.frenet.position[-1, 0] - position
-            else:
-                dist = None
-            vehicle.timestampdata[current_time].distance2obj = dist
-
-    plot_xv(vehicle, map_data, settings, current_time)
-    """
-    # Update vehicle data
-    for i, v in enumerate(ground_truth_objects):
-        if v.vehicle_id == vehicle.vehicle_id:
-            ground_truth_objects[i] = vehicle
-
-    return ground_truth_objects
-
+    # Pick the optimal action ------------------------------------------------------------------------------------------
+    vehicle.modules.action(timestampdata.motion_plans)
 

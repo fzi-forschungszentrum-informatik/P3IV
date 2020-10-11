@@ -32,9 +32,5 @@ class VehicleModules(object):
                             vehicle.characteristics.max_acceleration,
                             vehicle.characteristics.max_deceleration)
 
-        """
-        Plan.__init__(self,
-                      self.settings["Opt"])
+        self.action = Act()
 
-        Act.__init__(self)
-        """
