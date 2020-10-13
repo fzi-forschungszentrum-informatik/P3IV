@@ -39,10 +39,12 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
     laneletmap = lanelet_map_reader(configurations["map"])
 
     # Get ground-truth object data
-    if configurations["interaction_sim"]:
-        from mp_sim.bindings.interaction_dataset import use_interaction_sim_data, create_simulation_objects
-        scene_model = use_interaction_sim_data(configurations)
-        ground_truth_objects = create_simulation_objects(scene_model.tracked_objects.values(), laneletmap, configurations)
+    if configurations['source'''] == 'interaction_sim':
+        from mp_sim.bindings.interaction_dataset import InteractionDatasetBindings
+        bindings = InteractionDatasetBindings(configurations, laneletmap)
+        scene_model = bindings.get_scene_model(configurations["timestamp_begin"])
+        ground_truth_objects = bindings.create_simulation_objects(scene_model.tracked_objects.values(), laneletmap, configurations)
+
     else:
         raise Exception("Specify ground truth object data!")
 
@@ -56,13 +58,10 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
         Print2Console.p('sf', ['Computing timestamp:', ts_now], first_col_w=38, style='magenta', bold=True)
         Print2Console.p('s', ['='*72], style='magenta', bold=True)
 
+        bindings.update_simulation_objects_motion(ground_truth_objects, ts_now)
+
         # Compute the trajectory of vehicles
         for vehicle in ground_truth_objects:
-
-            # create a timestamp if it does not exist
-            if vehicle.timestamps.latest().timestamp != ts_now:
-                vehicle.timestamps.create_and_add(ts_now)
-
             drive(vehicle, ground_truth_objects, laneletmap, configurations, ts_now)
 
             # Update vehicle data

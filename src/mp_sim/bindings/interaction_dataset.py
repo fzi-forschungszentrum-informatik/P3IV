@@ -1,63 +1,78 @@
+import warnings
 from util_simulation.vehicle.main import Vehicle
 from mp_sim.modules import VehicleModules
 from understanding.lanelet_sequence_analyzer import LaneletSequenceAnalyzer
 from interpolated_distance.coordinate_transformation import CoordinateTransform
+from interaction_prediction_sim.interaction_data_extractor import track_reader
+from interaction_prediction_sim.interaction_data_handler import InteractionDataHandler
 
 
-def use_interaction_sim_data(instance_settings):
+class InteractionDatasetBindings(object):
+    def __init__(self, instance_settings, laneletmap):
+        track_dictionary = track_reader(instance_settings["map"])
+        self.data_handler = InteractionDataHandler(int(instance_settings["temporal"]["dt"]*1000), track_dictionary)
+        self.lanelet_sequence_analyzer = LaneletSequenceAnalyzer(laneletmap)
 
-    from interaction_prediction_sim.interaction_data_extractor import track_reader
-    from interaction_prediction_sim.interaction_data_handler import InteractionDataHandler
+    def get_scene_model(self, timestamp):
+        return self.data_handler.fill_scene(timestamp)
 
-    track_dictionary = track_reader(instance_settings["map"])
-    data_handler = InteractionDataHandler(int(instance_settings["temporal"]["dt"]*1000), track_dictionary)
-    scene_model = data_handler.fill_scene(instance_settings["timestamp_begin"])
+    def create_simulation_objects(self, object_list, laneletmap, configurations):
 
-    return scene_model
+        ground_truth_objects = []
 
+        for o in object_list:
+            v = Vehicle(o.v_id)
+            v.appearance.color = o.color
+            v.appearance.length = o.length
+            v.appearance.width = o.width
 
-def create_simulation_objects(object_list, laneletmap, configurations):
+            # v.objective.route = ""
+            # v.objective.set_speed = ""
 
-    ground_truth_objects = []
-    lanelet_sequence_analyzer = LaneletSequenceAnalyzer(laneletmap)
+            if o.v_id != configurations['vehicle_of_interest']:
+                v.perception.sensor_fov = configurations['perception']['otherVehicle_sensor_fov']
+                v.perception.sensor_range = configurations['perception']['otherVehicle_sensor_range']
+            else:
+                v.perception.sensor_fov = configurations['perception']['egoVehicle_sensor_fov']
+                v.perception.sensor_range = configurations['perception']['egoVehicle_sensor_range']
+            v.perception.sensor_noise = configurations['perception']['perception_noise']
 
-    for o in object_list:
-        v = Vehicle(o.v_id)
-        v.appearance.color = o.color
-        v.appearance.length = o.length
-        v.appearance.width = o.width
+            v.modules = VehicleModules(configurations, laneletmap, v)
 
-        # v.objective.route = ""
-        # v.objective.set_speed = ""
+            # fill initial values of KF
+            motion = self._extract_frenet_motion(o.motion)
+            v.modules.localization.setup_localization(motion.frenet.position.mean[-1, 0], o.speed, 0.0)
 
-        if o.v_id != configurations['vehicle_of_interest']:
-            v.perception.sensor_fov = configurations['perception']['otherVehicle_sensor_fov']
-            v.perception.sensor_range = configurations['perception']['otherVehicle_sensor_range']
-        else:
-            v.perception.sensor_fov = configurations['perception']['egoVehicle_sensor_fov']
-            v.perception.sensor_range = configurations['perception']['egoVehicle_sensor_range']
-        v.perception.sensor_noise = configurations['perception']['perception_noise']
+            if o.v_id != configurations['vehicle_of_interest']:
+                ground_truth_objects.append(v)
+            else:
+                voi = v
+        ground_truth_objects.append(voi)
 
-        v.modules = VehicleModules(configurations, laneletmap, v)
+        return ground_truth_objects
 
-        # extract frenet motion
-        lanelet_path_wrapper = lanelet_sequence_analyzer.match(o.motion)
+    def update_simulation_objects_motion(self, ground_truth_objects, timestamp):
+
+        assert (isinstance(timestamp, int))
+        for o in ground_truth_objects:
+
+            if len(o.timestamps) == 0:
+                o.timestamps.create_and_add(timestamp)
+            # create a timestamp if it does not exist
+            elif o.timestamps.latest().timestamp != timestamp:
+                o.timestamps.create_and_add(timestamp)
+            else:
+                warnings.warn("Timestamp is already present in Timestamps!")
+
+            motion = self.data_handler.update_scene_object_motion(timestamp, o.v_id)
+            o.timestamps.latest().motion = self._extract_frenet_motion(motion)
+
+        return ground_truth_objects
+
+    def _extract_frenet_motion(self, motion):
+        lanelet_path_wrapper = self.lanelet_sequence_analyzer.match(motion)
         centerline = lanelet_path_wrapper.centerline()
         c = CoordinateTransform(centerline)
-        pos_frenet = c.xy2ld(o.motion.cartesian.position.mean)
-        o.motion.frenet(pos_frenet, dt=0.1)
-
-        # fill tracked motion
-        v.timestamps.create_and_add(configurations['timestamp_begin'])
-        v.timestamps.latest().motion = o.motion
-
-        # fill initial values of KF
-        v.modules.localization.setup_localization(pos_frenet[-1, 0], o.speed, 0.0)
-
-        if o.v_id != configurations['vehicle_of_interest']:
-            ground_truth_objects.append(v)
-        else:
-            voi = v
-    ground_truth_objects.append(voi)
-
-    return ground_truth_objects
+        pos_frenet = c.xy2ld(motion.cartesian.position.mean)
+        motion.frenet(pos_frenet, dt=0.1)
+        return motion
