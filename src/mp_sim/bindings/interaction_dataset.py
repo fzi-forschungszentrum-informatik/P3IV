@@ -1,5 +1,6 @@
 import warnings
 from util_simulation.vehicle.main import Vehicle
+from util_simulation.ground_truth.main import GroundTruth
 from mp_sim.modules import VehicleModules
 from understanding.lanelet_sequence_analyzer import LaneletSequenceAnalyzer
 from interpolated_distance.coordinate_transformation import CoordinateTransform
@@ -18,7 +19,7 @@ class InteractionDatasetBindings(object):
 
     def create_simulation_objects(self, object_list, laneletmap, configurations):
 
-        ground_truth_objects = []
+        gt = GroundTruth()
 
         for o in object_list:
             v = Vehicle(o.v_id)
@@ -44,17 +45,17 @@ class InteractionDatasetBindings(object):
             v.modules.localization.setup_localization(motion.frenet.position.mean[-1, 0], o.speed, 0.0)
 
             if o.v_id != configurations['vehicle_of_interest']:
-                ground_truth_objects.append(v)
+                gt.append(v)
             else:
                 voi = v
-        ground_truth_objects.append(voi)
+        gt.append(voi)
 
-        return ground_truth_objects
+        return gt
 
-    def update_simulation_objects_motion(self, ground_truth_objects, timestamp):
+    def update_simulation_objects_motion(self, ground_truth, timestamp):
 
         assert (isinstance(timestamp, int))
-        for o in ground_truth_objects:
+        for o in ground_truth.vehicles():
 
             if len(o.timestamps) == 0:
                 o.timestamps.create_and_add(timestamp)
@@ -67,7 +68,7 @@ class InteractionDatasetBindings(object):
             motion = self.data_handler.update_scene_object_motion(timestamp, o.v_id)
             o.timestamps.latest().motion = self._extract_frenet_motion(motion)
 
-        return ground_truth_objects
+        return ground_truth
 
     def _extract_frenet_motion(self, motion):
         lanelet_path_wrapper = self.lanelet_sequence_analyzer.match(motion)

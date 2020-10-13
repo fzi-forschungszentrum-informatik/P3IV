@@ -43,7 +43,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
         from mp_sim.bindings.interaction_dataset import InteractionDatasetBindings
         bindings = InteractionDatasetBindings(configurations, laneletmap)
         scene_model = bindings.get_scene_model(configurations["timestamp_begin"])
-        ground_truth_objects = bindings.create_simulation_objects(scene_model.tracked_objects.values(), laneletmap, configurations)
+        ground_truth = bindings.create_simulation_objects(scene_model.tracked_objects.values(), laneletmap, configurations)
 
     else:
         raise Exception("Specify ground truth object data!")
@@ -59,21 +59,19 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
         Print2Console.p('s', ['='*72], style='magenta', bold=True)
 
         if configurations['open_loop'] or i == 0:
-            bindings.update_simulation_objects_motion(ground_truth_objects, ts_now)
+            bindings.update_simulation_objects_motion(ground_truth, ts_now)
         else:
             Exception("implement closed-loop case")
             pass
 
         # Compute the trajectory of vehicles
-        for vehicle in ground_truth_objects:
-            drive(vehicle, ground_truth_objects, laneletmap, configurations, ts_now)
+        for vehicle in ground_truth.vehicles():
+            drive(vehicle, ground_truth, laneletmap, configurations, ts_now)
 
             # Update vehicle data
-            for k in range(len(ground_truth_objects)):
-                if ground_truth_objects[k].v_id == vehicle.v_id:
-                    ground_truth_objects[k] = vehicle
+            ground_truth.update(vehicle)
 
-    return ground_truth_objects
+    return ground_truth
 
 
 if __name__ == '__main__':

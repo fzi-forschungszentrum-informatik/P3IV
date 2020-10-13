@@ -6,7 +6,7 @@ import pprint
 import os
 
 
-def drive(vehicle, ground_truth_objects, laneletmap, configurations, timestamp_now):
+def drive(vehicle, ground_truth, laneletmap, configurations, timestamp_now):
 
     save_dir = configurations['save_dir']
     to_lanelet = configurations['toLanelet']
@@ -31,7 +31,7 @@ def drive(vehicle, ground_truth_objects, laneletmap, configurations, timestamp_n
     # Perception -------------------------------------------------------------------------------------------------------
     current_cartesian_pos = timestampdata.motion.cartesian.position[-1]
     current_yaw_angle = timestampdata.motion.yaw_angle[-1]
-    timestampdata.scene = vehicle.modules.perception(ground_truth_objects, current_cartesian_pos.mean, current_yaw_angle, vehicle.v_id)
+    timestampdata.scene = vehicle.modules.perception(ground_truth, current_cartesian_pos.mean, current_yaw_angle, vehicle.v_id)
 
     # Understanding ----------------------------------------------------------------------------------------------------
     vehicle.modules.understanding(timestampdata.scene, timestampdata.motion)
