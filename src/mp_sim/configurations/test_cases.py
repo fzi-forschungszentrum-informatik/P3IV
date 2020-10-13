@@ -1,7 +1,7 @@
 test_cases = {
     "case_01": {
         "source": "interaction_sim",
-        "closed_loop": True,
+        "open_loop": False,
         "map": 'DR_DEU_Merging_MT_extended',
         "timestamp_begin": 4400,
         "timestamp_end": 6400,

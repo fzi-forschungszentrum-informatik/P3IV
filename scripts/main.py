@@ -52,22 +52,26 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
     timestamps = [configurations['timestamp_begin'] + i * sampling_time for i in range(0, configurations['main']['NN'])]
 
     # Perform computation
-    for ts_now in timestamps:
+    for i, ts_now in enumerate(timestamps):
         # Print information
         Print2Console.p('s', ['='*72], style='magenta', bold=True)
         Print2Console.p('sf', ['Computing timestamp:', ts_now], first_col_w=38, style='magenta', bold=True)
         Print2Console.p('s', ['='*72], style='magenta', bold=True)
 
-        bindings.update_simulation_objects_motion(ground_truth_objects, ts_now)
+        if configurations['open_loop'] or i == 0:
+            bindings.update_simulation_objects_motion(ground_truth_objects, ts_now)
+        else:
+            Exception("implement closed-loop case")
+            pass
 
         # Compute the trajectory of vehicles
         for vehicle in ground_truth_objects:
             drive(vehicle, ground_truth_objects, laneletmap, configurations, ts_now)
 
             # Update vehicle data
-            for i in range(len(ground_truth_objects)):
-                if ground_truth_objects[i].v_id == vehicle.v_id:
-                    ground_truth_objects[i] = vehicle
+            for k in range(len(ground_truth_objects)):
+                if ground_truth_objects[k].v_id == vehicle.v_id:
+                    ground_truth_objects[k] = vehicle
 
     return ground_truth_objects
 
