@@ -55,7 +55,7 @@ class InteractionDatasetBindings(object):
     def update_simulation_objects_motion(self, ground_truth, timestamp):
 
         assert (isinstance(timestamp, int))
-        for o in ground_truth.vehicles():
+        for o in ground_truth.values():
 
             if len(o.timestamps) == 0:
                 o.timestamps.create_and_add(timestamp)
