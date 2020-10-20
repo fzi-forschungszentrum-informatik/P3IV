@@ -11,7 +11,6 @@ import shutil
 ###
 from mp_sim.configurations.test_cases import test_cases
 
-
 from util_simulation.output.consoleprint import Print2Console
 from util_simulation.output.utils import create_output_dir, create_output_path, save_settings
 from util_simulation.map.lanelet_map_reader import lanelet_map_reader
@@ -61,8 +60,13 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
         if configurations['open_loop'] or i == 0:
             bindings.update_simulation_objects_motion(ground_truth, ts_now)
         else:
-            Exception("implement closed-loop case")
-            pass
+            # closed-loop simulation
+            for v in ground_truth.values():
+                past_motion = v.timestamps.latest().motion
+                driven_motion = v.timestamps.latest().motion_plans[0].motion[0]
+                v.timestamps.create_and_add(ts_now)
+                v.timestamps.latest().motion = past_motion
+                v.timestamps.latest().motion.append(driven_motion)
 
         # Compute the trajectory of vehicles
         for vehicle in ground_truth.vehicles():
