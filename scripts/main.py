@@ -38,7 +38,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
     laneletmap = lanelet_map_reader(configurations["map"])
 
     # Get ground-truth object data
-    if configurations['source'''] == 'interaction_sim':
+    if configurations['source'] == 'interaction_sim':
         from mp_sim.bindings.interaction_dataset import InteractionDatasetBindings
         bindings = InteractionDatasetBindings(configurations, laneletmap)
         scene_model = bindings.get_scene_model(configurations["timestamp_begin"])
