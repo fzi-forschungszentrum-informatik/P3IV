@@ -1,4 +1,5 @@
 import warnings
+import numpy as np
 from util_simulation.vehicle.main import Vehicle
 from util_simulation.ground_truth.main import GroundTruth
 from mp_sim.modules import VehicleModules
@@ -42,7 +43,9 @@ class InteractionDatasetBindings(object):
 
             # fill initial values of KF
             motion = self._extract_frenet_motion(o.motion)
-            v.modules.localization.setup_localization(motion.frenet.position.mean[-1, 0], o.speed, 0.0)
+            l = motion.frenet.position.mean[-1, 0]
+            speed = np.linalg.norm(o.velocity)
+            v.modules.localization.setup_localization(l, speed, 0.0)
 
             if o.v_id != configurations['vehicle_of_interest']:
                 gt.append(v)
