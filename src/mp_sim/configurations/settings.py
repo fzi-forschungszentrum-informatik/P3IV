@@ -47,6 +47,6 @@ settings = {
         "override_max_deceleration": True,  # use the value specified here instead of the OSM file
         "max_deceleration": 9.0,
         "initialization_astar": False,
-        "solver": "ceres-solver",
+        "solver": "constant-velocity",
     }
 }
