@@ -45,6 +45,8 @@ def drive(vehicle, ground_truth, laneletmap, configurations, timestamp_now):
     #plot_planning(vehicle, current_time, lightsaber_base, settings)
 
     # Motion Planning --------------------------------------------------------------------------------------------------
+    timestampdata.decision_base.past4points = timestampdata.motion.frenet.position.mean[-4:, 0]
+    timestampdata.decision_base.current_spd = timestampdata.motion.frenet.velocity.mean[-1, 0]
     timestampdata.motion_plans = vehicle.modules.planner(timestampdata.decision_base, current_cartesian_pos)
     #plot_planning(vehicle, current_time, decision_base, settings)
 
