@@ -4,7 +4,7 @@ test_cases = {
         "open_loop": False,
         "map": 'DR_DEU_Merging_MT_extended',
         "timestamp_begin": 4400,
-        "timestamp_end": 6400,
+        "timestamp_end": 4400,
         "vehicle_of_interest": 1,
         "toLanelet": "30008",
     }
