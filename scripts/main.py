@@ -87,6 +87,9 @@ if __name__ == '__main__':
         test_case = sys.argv[1]
         configurations = load_configurations(output_path, test_case)
         run(configurations)
+        Print2Console.p('s', ['='*72], style='magenta', bold=True)
+        Print2Console.p('s', ['Simulation completed!'], style='magenta', bold=True)
+        Print2Console.p('s', ['='*72], style='magenta', bold=True)
     else:
         print 'Too low/many arguments. Specify a test case (see src/configurations/test_cases.py)'
         sys.exit(1)
