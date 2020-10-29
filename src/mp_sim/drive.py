@@ -31,7 +31,7 @@ def drive(vehicle, ground_truth):
     timestampdata.situation = vehicle.modules.prediction(timestampdata.scene)
 
     # Decision Making --------------------------------------------------------------------------------------------------
-    timestampdata.decision_base = vehicle.modules.decision(timestampdata.scene, timestampdata.situation, vehicle.objective.route)
+    timestampdata.decision_base = vehicle.modules.decision(timestampdata.scene, timestampdata.situation, vehicle.objective.toLanelet)
 
     # Motion Planning --------------------------------------------------------------------------------------------------
     timestampdata.decision_base.past4points = timestampdata.motion.frenet.position.mean[-4:, 0]
