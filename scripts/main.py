@@ -70,7 +70,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
 
         # Compute the trajectory of vehicles
         for vehicle in ground_truth.vehicles():
-            drive(vehicle, ground_truth, configurations['toLanelet'])
+            drive(vehicle, ground_truth)
 
             # plot results
             curr_save_dir = os.path.join(configurations['save_dir'], str(ts_now), str(vehicle.v_id))

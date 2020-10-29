@@ -28,7 +28,7 @@ class InteractionDatasetBindings(object):
             v.appearance.length = o.length
             v.appearance.width = o.width
 
-            # v.objective.route = ""
+            v.objective.route = configurations['toLanelet']
             # v.objective.set_speed = ""
 
             if o.v_id != configurations['vehicle_of_interest']:

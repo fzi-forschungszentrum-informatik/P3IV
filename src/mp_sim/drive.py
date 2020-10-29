@@ -2,7 +2,7 @@ from util_simulation.output.consoleprint import Print2Console
 import pprint
 
 
-def drive(vehicle, ground_truth, toLanelet):
+def drive(vehicle, ground_truth):
 
     Print2Console.p('s', ['-' * 72], style='cyan', bold=True, first_col_w=40)
     Print2Console.p('ss', ['Computing vehicle: ', vehicle.v_id], style='cyan', bold=True, first_col_w=40)
@@ -31,7 +31,7 @@ def drive(vehicle, ground_truth, toLanelet):
     timestampdata.situation = vehicle.modules.prediction(timestampdata.scene)
 
     # Decision Making --------------------------------------------------------------------------------------------------
-    timestampdata.decision_base = vehicle.modules.decision(timestampdata.scene, timestampdata.situation, toLanelet)
+    timestampdata.decision_base = vehicle.modules.decision(timestampdata.scene, timestampdata.situation, vehicle.objective.route)
 
     # Motion Planning --------------------------------------------------------------------------------------------------
     timestampdata.decision_base.past4points = timestampdata.motion.frenet.position.mean[-4:, 0]
