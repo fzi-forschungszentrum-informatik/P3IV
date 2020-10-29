@@ -24,13 +24,21 @@ class InteractionDatasetBindings(object):
 
         for o in object_list:
             v = Vehicle(o.v_id)
+
+            # fill appearance
             v.appearance.color = o.color
             v.appearance.length = o.length
             v.appearance.width = o.width
 
-            v.objective.toLanelet = configurations['toLanelet'][o.v_id]
+            # fill objective
+            try:
+                v.objective.toLanelet = configurations['toLanelet'][o.v_id]
+            except KeyError:
+                # make sure that 'toLanelet' is defined for vehicle-of-interest
+                assert v.v_id is not configurations['vehicle_of_interest']
             # v.objective.set_speed = ""
 
+            # fill perception
             if o.v_id != configurations['vehicle_of_interest']:
                 v.perception.sensor_fov = configurations['perception']['otherVehicle_sensor_fov']
                 v.perception.sensor_range = configurations['perception']['otherVehicle_sensor_range']
@@ -39,6 +47,7 @@ class InteractionDatasetBindings(object):
                 v.perception.sensor_range = configurations['perception']['egoVehicle_sensor_range']
             v.perception.sensor_noise = configurations['perception']['perception_noise']
 
+            # instantiate modules
             v.modules = VehicleModules(configurations, laneletmap, v)
 
             # fill initial values of KF
