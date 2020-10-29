@@ -67,18 +67,18 @@ class InteractionDatasetBindings(object):
     def update_simulation_objects_motion(self, ground_truth, timestamp):
 
         assert (isinstance(timestamp, int))
-        for o in ground_truth.values():
+        for v in ground_truth.values():
 
-            if len(o.timestamps) == 0:
-                o.timestamps.create_and_add(timestamp)
+            if len(v.timestamps) == 0:
+                v.timestamps.create_and_add(timestamp)
             # create a timestamp if it does not exist
-            elif o.timestamps.latest().timestamp != timestamp:
-                o.timestamps.create_and_add(timestamp)
+            elif v.timestamps.latest().timestamp != timestamp:
+                v.timestamps.create_and_add(timestamp)
             else:
                 warnings.warn("Timestamp is already present in Timestamps!")
 
-            motion = self.data_handler.update_scene_object_motion(timestamp, o.v_id)
-            o.timestamps.latest().motion = self._fill_frenet_motion(motion, o.objective.toLanelet)
+            motion = self.data_handler.update_scene_object_motion(timestamp, v.v_id)
+            v.timestamps.latest().motion = self._fill_frenet_motion(motion, v.objective.toLanelet)
 
         return ground_truth
 
