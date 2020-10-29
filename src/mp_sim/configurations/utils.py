@@ -26,7 +26,8 @@ def load_configurations(output_path, test_case_id):
     try:
         configurations = test_cases[test_case_id]
     except KeyError:
-        raise Exception("The test case is not defined")
+        msg = "The test case '" + test_case_id + "' is not found in src/configurations/test_cases.py"
+        raise Exception(msg)
 
     s = get_settings(output_path)
     configurations.update(s)
