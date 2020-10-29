@@ -1,5 +1,5 @@
 from __future__ import division
-
+import os
 import pickle
 import time
 from datetime import datetime
@@ -70,7 +70,13 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
 
         # Compute the trajectory of vehicles
         for vehicle in ground_truth.vehicles():
-            drive(vehicle, ground_truth, laneletmap, configurations, ts_now)
+            drive(vehicle, ground_truth, configurations['toLanelet'])
+
+            # plot results
+            curr_save_dir = os.path.join(configurations['save_dir'], str(ts_now), str(vehicle.v_id))
+            os.makedirs(curr_save_dir)
+            #plot_prediction(situation_model.objects, vehicle.vehicle_id, settings["Main"]["N"], settings["Main"]["dt"], curr_save_dir)
+            #plot_planning(vehicle, current_time, lightsaber_base, settings)
 
             # Update vehicle data
             ground_truth.update(vehicle)
