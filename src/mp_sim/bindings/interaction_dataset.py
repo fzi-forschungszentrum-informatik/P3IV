@@ -51,7 +51,7 @@ class InteractionDatasetBindings(object):
             v.modules = VehicleModules(configurations, laneletmap, v)
 
             # fill initial values of KF
-            motion = self._fill_frenet_motion(o.motion)
+            motion = self._fill_frenet_motion(o.motion, v.objective.toLanelet)
             l = motion.frenet.position.mean[-1, 0]
             speed = np.linalg.norm(o.velocity)
             v.modules.localization.setup_localization(l, speed, 0.0)
@@ -78,13 +78,17 @@ class InteractionDatasetBindings(object):
                 warnings.warn("Timestamp is already present in Timestamps!")
 
             motion = self.data_handler.update_scene_object_motion(timestamp, o.v_id)
-            o.timestamps.latest().motion = self._fill_frenet_motion(motion)
+            o.timestamps.latest().motion = self._fill_frenet_motion(motion, o.objective.toLanelet)
 
         return ground_truth
 
-    def _fill_frenet_motion(self, motion):
-        # we do not know 'toLanelet', i.e. where vehicles are heading
-        lanelet_path_wrapper = self.lanelet_sequence_analyzer.match(motion)
+    def _fill_frenet_motion(self, motion, toLanelet):
+        if toLanelet:
+            lanelet_path_wrapper = self.lanelet_sequence_analyzer.lanelets2destination(motion, toLanelet)
+        else:
+            # we do not know 'toLanelet', i.e. where vehicles are heading; may cause problems if centerline is
+            # short for Frenet->Cartesian transformation.
+            lanelet_path_wrapper = self.lanelet_sequence_analyzer.match(motion)
         centerline = lanelet_path_wrapper.centerline()
         c = CoordinateTransform(centerline)
         pos_frenet = c.xy2ld(motion.cartesian.position.mean)
