@@ -68,8 +68,8 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
                 v.timestamps.latest().motion = past_motion
                 v.timestamps.latest().motion.append(driven_motion)
 
-        # Compute the trajectory of vehicles
-        for vehicle in ground_truth.vehicles():
+        # Compute the trajectory of vehicles who have a 'toLanelet' in their **objective**!
+        for vehicle in [_v for _v in ground_truth.vehicles() if _v.objective.route]:
             drive(vehicle, ground_truth)
 
             # plot results
