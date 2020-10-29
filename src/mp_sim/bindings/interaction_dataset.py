@@ -42,7 +42,7 @@ class InteractionDatasetBindings(object):
             v.modules = VehicleModules(configurations, laneletmap, v)
 
             # fill initial values of KF
-            motion = self._extract_frenet_motion(o.motion)
+            motion = self._fill_frenet_motion(o.motion)
             l = motion.frenet.position.mean[-1, 0]
             speed = np.linalg.norm(o.velocity)
             v.modules.localization.setup_localization(l, speed, 0.0)
@@ -69,11 +69,12 @@ class InteractionDatasetBindings(object):
                 warnings.warn("Timestamp is already present in Timestamps!")
 
             motion = self.data_handler.update_scene_object_motion(timestamp, o.v_id)
-            o.timestamps.latest().motion = self._extract_frenet_motion(motion)
+            o.timestamps.latest().motion = self._fill_frenet_motion(motion)
 
         return ground_truth
 
-    def _extract_frenet_motion(self, motion):
+    def _fill_frenet_motion(self, motion):
+        # we do not know 'toLanelet', i.e. where vehicles are heading
         lanelet_path_wrapper = self.lanelet_sequence_analyzer.match(motion)
         centerline = lanelet_path_wrapper.centerline()
         c = CoordinateTransform(centerline)
