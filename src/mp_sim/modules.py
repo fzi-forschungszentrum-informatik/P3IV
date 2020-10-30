@@ -16,7 +16,7 @@ class VehicleModules(object):
         self.perception = Percept(laneletmap, vehicle.perception.sensor_fov, vehicle.perception.sensor_fov,
                                   vehicle.perception.sensor_noise, override_visibility=configurations['perception']['override_visibility'])
 
-        self.understanding = Understand(configurations["temporal"]["dt"], configurations["temporal"]["N"], laneletmap)
+        self.understanding = Understand(configurations["temporal"]["dt"], configurations["temporal"]["N"], laneletmap, toLanelet=vehicle.objective.toLanelet)
 
         self.prediction = Predict(configurations["temporal"]["dt"], configurations["temporal"]["N"], laneletmap)
 
