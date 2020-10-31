@@ -1,6 +1,6 @@
 settings = {
     "main": {
-        "travel_length": 0.1,  # defined in seconds
+        "travel_length": 0.2,  # defined in seconds
         "combinatorial_greedy_search": True,
         # False for IV'18 settings, True for ITSC'18 settings (note that this has an effect on initialization!)
         "provably_safe_planning": False,  # True for IV'18 settings, False for ITSC'18 settings
