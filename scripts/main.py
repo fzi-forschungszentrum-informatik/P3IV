@@ -63,7 +63,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
             # closed-loop simulation
             for v in ground_truth.values():
                 past_motion = v.timestamps.latest().motion
-                driven_motion = v.timestamps.latest().plan_optimal.motion[0]
+                driven_motion = v.timestamps.latest().plan_optimal.motion[4]  # the first three were already driven
                 v.timestamps.create_and_add(ts_now)
                 v.timestamps.latest().motion = past_motion
                 v.timestamps.latest().motion.append(driven_motion)
