@@ -30,7 +30,7 @@ def drive(vehicle, ground_truth):
     timestampdata.situation = vehicle.modules.prediction(timestampdata.scene)
 
     # Decision Making --------------------------------------------------------------------------------------------------
-    timestampdata.decision_base = vehicle.modules.decision(timestampdata.motion, timestampdata.scene, timestampdata.situation, vehicle.objective.toLanelet)
+    timestampdata.decision_base = vehicle.modules.decision(timestampdata.motion, timestampdata.scene, timestampdata.situation)
 
     # Motion Planning --------------------------------------------------------------------------------------------------
     timestampdata.motion_plans = vehicle.modules.planner(timestampdata.decision_base)
