@@ -30,12 +30,9 @@ def drive(vehicle, ground_truth):
     timestampdata.situation = vehicle.modules.prediction(timestampdata.scene)
 
     # Decision Making --------------------------------------------------------------------------------------------------
-    timestampdata.decision_base = vehicle.modules.decision(timestampdata.scene, timestampdata.situation, vehicle.objective.toLanelet)
+    timestampdata.decision_base = vehicle.modules.decision(timestampdata.motion, timestampdata.scene, timestampdata.situation, vehicle.objective.toLanelet)
 
     # Motion Planning --------------------------------------------------------------------------------------------------
-    timestampdata.decision_base.cartesian_positions = timestampdata.motion.cartesian.position.mean[-4:]
-    timestampdata.decision_base.frenet_positions = timestampdata.motion.frenet.position.mean[-4:]
-    timestampdata.decision_base.speed = timestampdata.motion.frenet.velocity.mean[-1, 0]
     timestampdata.motion_plans = vehicle.modules.planner(timestampdata.decision_base)
 
     # Pick the optimal action ------------------------------------------------------------------------------------------
