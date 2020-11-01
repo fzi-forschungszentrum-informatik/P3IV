@@ -16,8 +16,7 @@ def drive(vehicle, ground_truth):
     # todo: pass gaussian distr. & use 2D-localization
     position = timestampdata.motion.frenet.position.mean[-1, 0]
     speed = timestampdata.motion.frenet.velocity.mean[-1, 0]
-    localization_model = vehicle.modules.localization(position, speed)
-    timestampdata.localization = localization_model
+    timestampdata.localization = vehicle.modules.localization(position, speed)
 
     # Perception -------------------------------------------------------------------------------------------------------
     current_cartesian_pos = timestampdata.motion.cartesian.position.mean[-1]
