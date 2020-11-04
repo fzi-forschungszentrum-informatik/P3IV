@@ -91,6 +91,8 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
 if __name__ == '__main__':
 
     import argparse
+    import json
+
     parser = argparse.ArgumentParser(description='Planning simulation environment.')
     parser.add_argument("config", type=str, help="Test case (see mp_sim/src/mp_sim/configurations/test_cases.py) "
                                                  "or pickle file of simulation-results ")
@@ -110,7 +112,6 @@ if __name__ == '__main__':
         gt.dump(filename_pickle)
 
         # save configurations as well
-        import simplejson as json
         filename_json = os.path.join(output_path, "configurations.json")
         j = json.dumps(configurations, indent=4)
         f = open(filename_json, 'w')
@@ -120,9 +121,15 @@ if __name__ == '__main__':
     elif args.show:
         # load results
         output_path = sys.argv[1]
-        with open(str(output_path), "rb") as input_file:
+        path_pickle = os.path.join(output_path, "results.pickle")
+        with open(path_pickle, "rb") as input_file:
             gt = pickle.load(input_file)
         print gt
+
+        path_configurations = os.path.join(output_path, "configurations.json")
+        with open(path_configurations) as json_file:
+            configurations = json.load(json_file)
+        print configurations
 
     else:
         sys.exit(1)
