@@ -81,6 +81,10 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
             # Update vehicle data
             ground_truth.update(vehicle)
 
+    Print2Console.p('s', ['='*72], style='magenta', bold=True)
+    Print2Console.p('s', ['Simulation completed!'], style='magenta', bold=True)
+    Print2Console.p('s', ['='*72], style='magenta', bold=True)
+
     return ground_truth
 
 
