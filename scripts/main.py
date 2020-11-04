@@ -90,16 +90,39 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
 
 if __name__ == '__main__':
 
+    import argparse
+    parser = argparse.ArgumentParser(description='Planning simulation environment.')
+    parser.add_argument("config", type=str, help="Test case (see mp_sim/src/mp_sim/configurations/test_cases.py) "
+                                                 "or pickle file of simulation-results ")
+    parser.add_argument("-r", "--run", action="store_true", help="Run simulations for the config-file")
+    parser.add_argument("-s", "--show", action="store_true", help="Show results of the simulation-run")
+    args = parser.parse_args()
+
+    # create output dirs
     output_dir = create_output_dir()
     output_path = create_output_path(output_dir)
 
-    if len(sys.argv) == 2:
+    if args.run:
         test_case = sys.argv[1]
         configurations = load_configurations(output_path, test_case)
-        run(configurations)
-        Print2Console.p('s', ['='*72], style='magenta', bold=True)
-        Print2Console.p('s', ['Simulation completed!'], style='magenta', bold=True)
-        Print2Console.p('s', ['='*72], style='magenta', bold=True)
+        gt = run(configurations)
+        filename_pickle = os.path.join(output_path, "results.pickle")
+        gt.dump(filename_pickle)
+
+        # save configurations as well
+        import simplejson as json
+        filename_json = os.path.join(output_path, "configurations.json")
+        j = json.dumps(configurations, indent=4)
+        f = open(filename_json, 'w')
+        print >> f, j
+        f.close()
+
+    elif args.show:
+        # load results
+        output_path = sys.argv[1]
+        with open(str(output_path), "rb") as input_file:
+            gt = pickle.load(input_file)
+        print gt
+
     else:
-        print 'Too low/many arguments. Specify a test case (see src/configurations/test_cases.py)'
         sys.exit(1)
