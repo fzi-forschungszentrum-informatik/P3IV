@@ -131,5 +131,12 @@ if __name__ == '__main__':
             configurations = json.load(json_file)
         print configurations
 
+        from visualization.animations.animate_single import AnimateSingle
+        timestamp = '4400'
+        animate_single = AnimateSingle(gt, configurations, timestamp)
+        animate_single.show()
+        animate_single.animate()
+        print("Completed!")
+
     else:
         sys.exit(1)
