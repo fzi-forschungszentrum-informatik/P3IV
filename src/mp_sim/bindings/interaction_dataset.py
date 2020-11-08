@@ -12,7 +12,7 @@ from interaction_prediction_sim.interaction_data_handler import InteractionDataH
 class InteractionDatasetBindings(object):
     def __init__(self, instance_settings, laneletmap):
         track_dictionary = track_reader(instance_settings["map"])
-        self.data_handler = InteractionDataHandler(int(instance_settings["temporal"]["dt"]*1000), track_dictionary)
+        self.data_handler = InteractionDataHandler(int(instance_settings["temporal"]["dt"]), track_dictionary)
         self.lanelet_sequence_analyzer = LaneletSequenceAnalyzer(laneletmap)
 
     def get_scene_model(self, timestamp):
