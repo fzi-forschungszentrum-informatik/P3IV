@@ -42,7 +42,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
         from mp_sim.bindings.interaction_dataset import InteractionDatasetBindings
         bindings = InteractionDatasetBindings(configurations, laneletmap)
         scene_model = bindings.get_scene_model(configurations["timestamp_begin"])
-        ground_truth = bindings.create_simulation_objects(scene_model.tracked_objects.values(), laneletmap, configurations)
+        ground_truth = bindings.create_simulation_objects(scene_model.tracked_objects(), laneletmap, configurations)
 
     else:
         raise Exception("Specify ground truth object data!")
