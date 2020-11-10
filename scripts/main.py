@@ -132,6 +132,7 @@ if __name__ == '__main__':
         f = open(filename_json, 'w')
         print >> f, j
         f.close()
+        print("Completed!")
 
     elif args.show_single:
         from visualization.animations.animate_single import AnimateSingle
@@ -145,10 +146,9 @@ if __name__ == '__main__':
 
     elif args.show_multi:
         from visualization.animations.animate_multi import AnimateMulti
-        timestamp = str(args.show_single)
         gt, configurations = load_results(sys.argv[1])
 
-        animation = AnimateMulti(gt, configurations, timestamp)
+        animation = AnimateMulti(gt, configurations)
         animation.show()
         animation.animate()
         print("Completed!")
