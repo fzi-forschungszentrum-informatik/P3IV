@@ -18,5 +18,14 @@ test_cases = {
         "vehicle_of_interest": 1,
         "open_loop": True,
         "toLanelet": dict([(1, "30008")])
+    },
+    "DR_DEU_Roundabout_OL_01": {
+        "source": "interaction_sim",
+        "map": 'DR_DEU_Roundabout_OF_extended',
+        "timestamp_begin": 12400,
+        "timestamp_end": 15400,
+        "vehicle_of_interest": 14,
+        "open_loop": True,
+        "toLanelet": dict([(14, "30022")])
     }
 }
