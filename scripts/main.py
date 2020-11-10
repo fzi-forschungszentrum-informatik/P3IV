@@ -88,6 +88,17 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
     return ground_truth
 
 
+def load_results(output_path):
+    path_pickle = os.path.join(output_path, "results.pickle")
+    with open(path_pickle, "rb") as input_file:
+        gt = pickle.load(input_file)
+
+    path_configurations = os.path.join(output_path, "configurations.json")
+    with open(path_configurations) as json_file:
+        configurations = json.load(json_file)
+    return gt, configurations
+
+
 if __name__ == '__main__':
 
     import argparse
@@ -97,7 +108,11 @@ if __name__ == '__main__':
     parser.add_argument("config", type=str, help="Test case (see mp_sim/src/mp_sim/configurations/test_cases.py) "
                                                  "or pickle file of simulation-results ")
     parser.add_argument("-r", "--run", action="store_true", help="Run simulations for the config-file")
-    parser.add_argument("-s", "--show", action="store_true", help="Show results of the simulation-run")
+    parser.add_argument("-ss", "--show-single", action='store', metavar='', type=int,
+                        help="Show single-timestamp results of the simulation-run. Must be provided together with "
+                             "timestamp value, i.e. '--show-single=<integer>")
+    parser.add_argument("-sm", "--show-multi", action="store_true",
+                        help="Show all-timestamp results of the simulation-run")
     args = parser.parse_args()
 
     # create output dirs
@@ -118,24 +133,24 @@ if __name__ == '__main__':
         print >> f, j
         f.close()
 
-    elif args.show:
-        # load results
-        output_path = sys.argv[1]
-        path_pickle = os.path.join(output_path, "results.pickle")
-        with open(path_pickle, "rb") as input_file:
-            gt = pickle.load(input_file)
-        print gt
-
-        path_configurations = os.path.join(output_path, "configurations.json")
-        with open(path_configurations) as json_file:
-            configurations = json.load(json_file)
-        print configurations
-
+    elif args.show_single:
         from visualization.animations.animate_single import AnimateSingle
-        timestamp = '4400'
-        animate_single = AnimateSingle(gt, configurations, timestamp)
-        animate_single.show()
-        animate_single.animate()
+        timestamp = str(args.show_single)
+        gt, configurations = load_results(sys.argv[1])
+
+        animation = AnimateSingle(gt, configurations, timestamp)
+        animation.show()
+        animation.animate()
+        print("Completed!")
+
+    elif args.show_multi:
+        from visualization.animations.animate_multi import AnimateMulti
+        timestamp = str(args.show_single)
+        gt, configurations = load_results(sys.argv[1])
+
+        animation = AnimateMulti(gt, configurations, timestamp)
+        animation.show()
+        animation.animate()
         print("Completed!")
 
     else:
