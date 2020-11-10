@@ -1,4 +1,5 @@
 test_cases = {
+
     "DEU_Merging_CL_01": {
         "source": "interaction_sim",
         "map": 'DR_DEU_Merging_MT_extended',
@@ -15,6 +16,15 @@ test_cases = {
         "map": 'DR_DEU_Merging_MT_extended',
         "timestamp_begin": 4400,
         "timestamp_end": 8400,
+        "vehicle_of_interest": 1,
+        "open_loop": True,
+        "toLanelet": dict([(1, "30008")])
+    },
+    "DEU_Merging_OL_02": {
+        "source": "interaction_sim",
+        "map": 'DR_DEU_Merging_MT_extended',
+        "timestamp_begin": 6400,
+        "timestamp_end": 6700,
         "vehicle_of_interest": 1,
         "open_loop": True,
         "toLanelet": dict([(1, "30008")])
