@@ -14,12 +14,12 @@ test_cases = {
         "source": "interaction_sim",
         "map": 'DR_DEU_Merging_MT_extended',
         "timestamp_begin": 4400,
-        "timestamp_end": 5400,
+        "timestamp_end": 8400,
         "vehicle_of_interest": 1,
         "open_loop": True,
         "toLanelet": dict([(1, "30008")])
     },
-    "DR_DEU_Roundabout_OL_01": {
+    "DEU_Roundabout_OL_01": {
         "source": "interaction_sim",
         "map": 'DR_DEU_Roundabout_OF_extended',
         "timestamp_begin": 12400,
