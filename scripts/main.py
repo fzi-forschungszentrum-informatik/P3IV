@@ -47,8 +47,8 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
     else:
         raise Exception("Specify ground truth object data!")
 
-    sampling_time = int(configurations['temporal']['dt'])
-    timestamps = [configurations['timestamp_begin'] + i * sampling_time for i in range(0, configurations['main']['NN'])]
+    # Extract timestamps to be computed
+    timestamps = range(configurations['timestamp_begin'], configurations['timestamp_end'] + 1, configurations['temporal']['dt'])
 
     # Perform computation
     for i, ts_now in enumerate(timestamps):

@@ -13,10 +13,6 @@ def get_settings(output_path):
     N = int(settings['temporal']['horizon'] / (settings['temporal']['dt'] / 1000))
     settings['temporal']['N'] = N
 
-    # Extract timestamps to be computed
-    NN = int(settings['main']['travel_length']/ (settings['temporal']['dt'] / 1000))
-    settings['main']['NN'] = NN
-
     return settings
 
 
@@ -31,6 +27,7 @@ def load_configurations(output_path, test_case_id):
 
     s = get_settings(output_path)
     configurations.update(s)
+
     return configurations
 
 

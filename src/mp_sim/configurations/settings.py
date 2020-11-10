@@ -9,9 +9,9 @@ settings = {
     "temporal": {
         "horizon": 6,  # s
         "dt": 100,  # ms (step-width)
-        # "N": 50,  # int(horizon / dt)
         "N_pin_past": 4,
         "N_pin_future": 3,
+        # N is calculated automatically; int(horizon / dt)
     },
 
     "localization": {
