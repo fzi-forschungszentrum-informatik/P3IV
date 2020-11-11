@@ -1,6 +1,12 @@
 from util_simulation.output.consoleprint import Print2Console
 import pprint
 
+# configure logging of the module
+import os
+import logging
+logger = logging.getLogger(__file__.split(os.path.sep)[-2])
+logger.setLevel(logging.INFO)
+
 
 def drive(vehicle, ground_truth):
 
@@ -9,8 +15,8 @@ def drive(vehicle, ground_truth):
     Print2Console.p('s', ['-' * 72], style='cyan', bold=True, first_col_w=40)
 
     timestampdata = vehicle.timestamps.latest()
-    Print2Console.p('s', ['\nNodes for computation: '], style='blue', bold=False, first_col_w=40)
-    pprint.pprint(timestampdata.motion.cartesian.position.mean[-4:])
+    logger.debug('Nodes for computation: ')
+    logger.debug(timestampdata.motion.cartesian.position.mean[-4:])
 
     # Localization -----------------------------------------------------------------------------------------------------
     # todo: pass gaussian distr. & use 2D-localization

@@ -5,6 +5,7 @@ import time
 from datetime import datetime
 from pprint import pprint
 import sys
+import logging
 import traceback
 import itertools
 import shutil
@@ -120,6 +121,8 @@ if __name__ == '__main__':
     output_path = create_output_path(output_dir)
 
     if args.run:
+        # set default logger
+        logging.basicConfig(level=logging.INFO)
         test_case = sys.argv[1]
         configurations = load_configurations(output_path, test_case)
         gt = run(configurations)
