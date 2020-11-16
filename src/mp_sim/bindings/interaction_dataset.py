@@ -91,6 +91,6 @@ class InteractionDatasetBindings(object):
             lanelet_path_wrapper = self.lanelet_sequence_analyzer.match(motion)
         centerline = lanelet_path_wrapper.centerline()
         c = CoordinateTransform(centerline)
-        pos_frenet = c.xy2ld(motion.cartesian.position.mean)
+        pos_frenet = c.xy2ld(motion.cartesian.position.mean[-4:])
         motion.frenet(pos_frenet, dt=0.1)
         return motion
