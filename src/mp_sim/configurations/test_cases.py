@@ -33,9 +33,18 @@ test_cases = {
         "source": "interaction_sim",
         "map": 'DR_DEU_Roundabout_OF_extended',
         "timestamp_begin": 12400,
-        "timestamp_end": 15400,
+        "timestamp_end": 13500,
         "vehicle_of_interest": 14,
         "open_loop": True,
         "toLanelet": dict([(14, "30022")])
+    },
+    "DEU_Roundabout_OL_02": {
+        "source": "interaction_sim",
+        "map": 'DR_DEU_Roundabout_OF',
+        "timestamp_begin": 3200,
+        "timestamp_end": 15300,
+        "vehicle_of_interest": 12,
+        "open_loop": True,
+        "toLanelet": dict([(12, "30022")])
     }
 }
