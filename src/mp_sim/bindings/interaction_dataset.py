@@ -48,12 +48,6 @@ class InteractionDatasetBindings(object):
         # instantiate modules
         v.modules = VehicleModules(configurations, laneletmap, v)
 
-        # fill initial values of KF
-        motion = self._fill_frenet_motion(scene_object.motion, v.objective.toLanelet)
-        l = motion.frenet.position.mean[-1, 0]
-        speed = np.linalg.norm(scene_object.velocity)
-        v.modules.localization.setup_localization(l, speed, 0.0)
-
         return v
 
     def create_ground_truth(self, object_list, laneletmap, configurations):
