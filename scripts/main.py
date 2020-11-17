@@ -49,7 +49,9 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
         raise Exception("Specify ground truth object data!")
 
     # Extract timestamps to be computed
-    timestamps = range(configurations['timestamp_begin'], configurations['timestamp_end'] + 1, configurations['temporal']['dt'])
+    timestamps = range(configurations['timestamp_begin'],
+                       configurations['timestamp_end'] + 1,
+                       configurations['temporal']['dt'])
 
     # Perform computation
     for i, ts_now in enumerate(timestamps):
@@ -60,7 +62,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
 
         if configurations['open_loop'] or i == 0:
             # update ground truth objects
-            bindings.update_open_loop_simulation(ground_truth, ts_now)
+            bindings.update_open_loop_simulation(ground_truth, ts_now, laneletmap, configurations)
         else:
             # closed-loop simulation
             # (ground truth object list remains the same; no new entries)

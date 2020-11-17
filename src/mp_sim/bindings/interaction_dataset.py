@@ -68,9 +68,16 @@ class InteractionDatasetBindings(object):
 
         return gt
 
-    def update_open_loop_simulation(self, ground_truth, timestamp):
-        for v in ground_truth.values():
-            self.update_simulation_object_motion(v, timestamp)
+    def update_open_loop_simulation(self, ground_truth, timestamp, laneletmap, configurations):
+
+        current_scene_model = self.get_scene_model(timestamp)
+        for o in current_scene_model.tracked_objects():
+            if o.v_id in ground_truth.keys():
+                self.update_simulation_object_motion(ground_truth.get(o.v_id), timestamp)
+            else:
+                v = self.create_simulation_object(o, laneletmap, configurations)
+                self.update_simulation_object_motion(v, timestamp)
+                ground_truth.append(v)
 
     def update_simulation_object_motion(self, v, timestamp):
         """Update the values of GroundTruth-Vehicle from dataset.
