@@ -15,6 +15,8 @@ def drive(vehicle, ground_truth):
     Print2Console.p('s', ['-' * 72], style='cyan', bold=True, first_col_w=40)
 
     timestampdata = vehicle.timestamps.latest()
+    vehicle.modules.understanding.fill_frenet_components(timestampdata.motion)
+
     logger.debug('Nodes for computation: ')
     logger.debug(timestampdata.motion.cartesian.position.mean[-4:])
 
@@ -43,3 +45,4 @@ def drive(vehicle, ground_truth):
 
     # Pick the optimal action ------------------------------------------------------------------------------------------
     timestampdata.plan_optimal = vehicle.modules.action(timestampdata.motion, timestampdata.motion_plans)
+
