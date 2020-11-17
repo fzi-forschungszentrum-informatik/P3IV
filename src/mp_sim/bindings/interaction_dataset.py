@@ -15,7 +15,8 @@ class InteractionDatasetBindings(object):
     def get_scene_model(self, timestamp):
         return self.data_handler.fill_scene(timestamp)
 
-    def spawn_simulation_object(self, scene_object, laneletmap, configurations):
+    @staticmethod
+    def spawn_simulation_object(scene_object, laneletmap, configurations):
 
         v = Vehicle(scene_object.v_id)
 
