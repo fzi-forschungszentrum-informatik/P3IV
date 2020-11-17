@@ -19,7 +19,7 @@ class InteractionDatasetBindings(object):
     def get_scene_model(self, timestamp):
         return self.data_handler.fill_scene(timestamp)
 
-    def create_simulation_object(self, scene_object, laneletmap, configurations):
+    def spawn_simulation_object(self, scene_object, laneletmap, configurations):
 
         v = Vehicle(scene_object.v_id)
 
@@ -63,7 +63,7 @@ class InteractionDatasetBindings(object):
             Print2Console.p('ss', ['Create new vehicle with ID: %s' % str(o.v_id)], style='yellow')
             Print2Console.p('s', ['-'*72], style='yellow')
 
-            v = self.create_simulation_object(o, laneletmap, configurations)
+            v = self.spawn_simulation_object(o, laneletmap, configurations)
             gt.append(v)
 
         return gt
@@ -75,7 +75,7 @@ class InteractionDatasetBindings(object):
             if o.v_id in ground_truth.keys():
                 self.update_simulation_object_motion(ground_truth.get(o.v_id), timestamp)
             else:
-                v = self.create_simulation_object(o, laneletmap, configurations)
+                v = self.spawn_simulation_object(o, laneletmap, configurations)
                 self.update_simulation_object_motion(v, timestamp)
                 ground_truth.append(v)
 
