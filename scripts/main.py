@@ -59,9 +59,11 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
         Print2Console.p('s', ['='*72], style='magenta', bold=True)
 
         if configurations['open_loop'] or i == 0:
+            # update ground truth objects
             bindings.update_simulation_objects_motion(ground_truth, ts_now)
         else:
             # closed-loop simulation
+            # (ground truth object list remains the same; no new entries)
             for v in ground_truth.values():
                 past_motion = v.timestamps.latest().motion
                 driven_motion = v.timestamps.latest().plan_optimal.motion[4]  # the first three were already driven
