@@ -2,6 +2,7 @@ import warnings
 import numpy as np
 from util_simulation.vehicle.main import Vehicle
 from util_simulation.ground_truth.main import GroundTruth
+from util_simulation.output.consoleprint import Print2Console
 from mp_sim.modules import VehicleModules
 from understanding.lanelet_sequence_analyzer import LaneletSequenceAnalyzer
 from interpolated_distance.coordinate_transformation import CoordinateTransform
@@ -59,13 +60,11 @@ class InteractionDatasetBindings(object):
         gt = GroundTruth()
 
         for o in object_list:
-            v = self.create_simulation_object(o, laneletmap, configurations)
+            Print2Console.p('ss', ['Create new vehicle with ID: %s' % str(o.v_id)], style='yellow')
+            Print2Console.p('s', ['-'*72], style='yellow')
 
-            if v.v_id != configurations['vehicle_of_interest']:
-                gt.append(v)
-            else:
-                voi = v
-        gt.append(voi)
+            v = self.create_simulation_object(o, laneletmap, configurations)
+            gt.append(v)
 
         return gt
 
