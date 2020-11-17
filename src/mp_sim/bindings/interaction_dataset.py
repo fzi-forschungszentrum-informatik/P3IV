@@ -1,20 +1,16 @@
 import warnings
-import numpy as np
 from util_simulation.vehicle.main import Vehicle
 from util_simulation.ground_truth.main import GroundTruth
 from util_simulation.output.consoleprint import Print2Console
 from mp_sim.modules import VehicleModules
-from understanding.lanelet_sequence_analyzer import LaneletSequenceAnalyzer
-from interpolated_distance.coordinate_transformation import CoordinateTransform
 from interaction_prediction_sim.interaction_data_extractor import track_reader
 from interaction_prediction_sim.interaction_data_handler import InteractionDataHandler
 
 
 class InteractionDatasetBindings(object):
-    def __init__(self, instance_settings, laneletmap):
+    def __init__(self, instance_settings):
         track_dictionary = track_reader(instance_settings["map"])
         self.data_handler = InteractionDataHandler(int(instance_settings["temporal"]["dt"]), track_dictionary)
-        self.lanelet_sequence_analyzer = LaneletSequenceAnalyzer(laneletmap)
 
     def get_scene_model(self, timestamp):
         return self.data_handler.fill_scene(timestamp)
@@ -87,18 +83,5 @@ class InteractionDatasetBindings(object):
         else:
             warnings.warn("Timestamp is already present in Timestamps!")
 
-        motion = self.data_handler.update_scene_object_motion(timestamp, v.v_id)
-        v.timestamps.latest().motion = self._fill_frenet_motion(motion, v.objective.toLanelet)
+        v.timestamps.latest().motion = self.data_handler.update_scene_object_motion(timestamp, v.v_id)
 
-    def _fill_frenet_motion(self, motion, toLanelet):
-        if toLanelet:
-            lanelet_path_wrapper = self.lanelet_sequence_analyzer.lanelets2destination(motion, toLanelet)
-        else:
-            # we do not know 'toLanelet', i.e. where vehicles are heading; may cause problems if centerline is
-            # short for Frenet->Cartesian transformation.
-            lanelet_path_wrapper = self.lanelet_sequence_analyzer.match(motion)
-        centerline = lanelet_path_wrapper.centerline()
-        c = CoordinateTransform(centerline)
-        pos_frenet = c.xy2ld(motion.cartesian.position.mean[-4:])
-        motion.frenet(pos_frenet, dt=0.1)
-        return motion

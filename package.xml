@@ -30,7 +30,6 @@
   <depend>lanelet2_matching</depend>
   <depend>util_motion</depend>
   <depend>util_simulation</depend>
-  <depend>interpolated_distance</depend>
   <depend>polyvision</depend>
   <depend>localization</depend>
   <depend>understanding</depend>
