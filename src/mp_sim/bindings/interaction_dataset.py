@@ -70,20 +70,25 @@ class InteractionDatasetBindings(object):
         return gt
 
     def update_open_loop_simulation(self, ground_truth, timestamp):
-
-        assert (isinstance(timestamp, int))
         for v in ground_truth.values():
+            self.update_simulation_object_motion(v, timestamp)
 
-            if len(v.timestamps) == 0:
-                v.timestamps.create_and_add(timestamp)
-            # create a timestamp if it does not exist
-            elif v.timestamps.latest().timestamp != timestamp:
-                v.timestamps.create_and_add(timestamp)
-            else:
-                warnings.warn("Timestamp is already present in Timestamps!")
+    def update_simulation_object_motion(self, v, timestamp):
+        """Update the values of GroundTruth-Vehicle from dataset.
+        """
+        assert (isinstance(v, Vehicle))
+        assert (isinstance(timestamp, int))
 
-            motion = self.data_handler.update_scene_object_motion(timestamp, v.v_id)
-            v.timestamps.latest().motion = self._fill_frenet_motion(motion, v.objective.toLanelet)
+        if len(v.timestamps) == 0:
+            v.timestamps.create_and_add(timestamp)
+        # create a timestamp if it does not exist
+        elif v.timestamps.latest().timestamp != timestamp:
+            v.timestamps.create_and_add(timestamp)
+        else:
+            warnings.warn("Timestamp is already present in Timestamps!")
+
+        motion = self.data_handler.update_scene_object_motion(timestamp, v.v_id)
+        v.timestamps.latest().motion = self._fill_frenet_motion(motion, v.objective.toLanelet)
 
     def _fill_frenet_motion(self, motion, toLanelet):
         if toLanelet:
