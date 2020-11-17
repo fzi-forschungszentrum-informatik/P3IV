@@ -69,7 +69,7 @@ class InteractionDatasetBindings(object):
 
         return gt
 
-    def update_simulation_objects_motion(self, ground_truth, timestamp):
+    def update_open_loop_simulation(self, ground_truth, timestamp):
 
         assert (isinstance(timestamp, int))
         for v in ground_truth.values():
@@ -84,8 +84,6 @@ class InteractionDatasetBindings(object):
 
             motion = self.data_handler.update_scene_object_motion(timestamp, v.v_id)
             v.timestamps.latest().motion = self._fill_frenet_motion(motion, v.objective.toLanelet)
-
-        return ground_truth
 
     def _fill_frenet_motion(self, motion, toLanelet):
         if toLanelet:

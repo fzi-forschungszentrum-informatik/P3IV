@@ -60,7 +60,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
 
         if configurations['open_loop'] or i == 0:
             # update ground truth objects
-            bindings.update_simulation_objects_motion(ground_truth, ts_now)
+            bindings.update_open_loop_simulation(ground_truth, ts_now)
         else:
             # closed-loop simulation
             # (ground truth object list remains the same; no new entries)
