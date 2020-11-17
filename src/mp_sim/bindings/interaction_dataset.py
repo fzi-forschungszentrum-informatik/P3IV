@@ -18,45 +18,50 @@ class InteractionDatasetBindings(object):
     def get_scene_model(self, timestamp):
         return self.data_handler.fill_scene(timestamp)
 
-    def create_simulation_objects(self, object_list, laneletmap, configurations):
+    def create_simulation_object(self, scene_object, laneletmap, configurations):
 
+        v = Vehicle(scene_object.v_id)
+
+        # fill appearance
+        v.appearance.color = scene_object.color
+        v.appearance.length = scene_object.length
+        v.appearance.width = scene_object.width
+
+        # fill objective
+        try:
+            v.objective.toLanelet = configurations['toLanelet'][scene_object.v_id]
+        except KeyError:
+            # make sure that 'toLanelet' is defined for vehicle-of-interest
+            assert v.v_id is not configurations['vehicle_of_interest']
+        # v.objective.set_speed = ""
+
+        # fill perception
+        if scene_object.v_id != configurations['vehicle_of_interest']:
+            v.perception.sensor_fov = configurations['perception']['otherVehicle_sensor_fov']
+            v.perception.sensor_range = configurations['perception']['otherVehicle_sensor_range']
+        else:
+            v.perception.sensor_fov = configurations['perception']['egoVehicle_sensor_fov']
+            v.perception.sensor_range = configurations['perception']['egoVehicle_sensor_range']
+        v.perception.sensor_noise = configurations['perception']['perception_noise']
+
+        # instantiate modules
+        v.modules = VehicleModules(configurations, laneletmap, v)
+
+        # fill initial values of KF
+        motion = self._fill_frenet_motion(scene_object.motion, v.objective.toLanelet)
+        l = motion.frenet.position.mean[-1, 0]
+        speed = np.linalg.norm(scene_object.velocity)
+        v.modules.localization.setup_localization(l, speed, 0.0)
+
+        return v
+
+    def create_ground_truth(self, object_list, laneletmap, configurations):
         gt = GroundTruth()
 
         for o in object_list:
-            v = Vehicle(o.v_id)
+            v = self.create_simulation_object(o, laneletmap, configurations)
 
-            # fill appearance
-            v.appearance.color = o.color
-            v.appearance.length = o.length
-            v.appearance.width = o.width
-
-            # fill objective
-            try:
-                v.objective.toLanelet = configurations['toLanelet'][o.v_id]
-            except KeyError:
-                # make sure that 'toLanelet' is defined for vehicle-of-interest
-                assert v.v_id is not configurations['vehicle_of_interest']
-            # v.objective.set_speed = ""
-
-            # fill perception
-            if o.v_id != configurations['vehicle_of_interest']:
-                v.perception.sensor_fov = configurations['perception']['otherVehicle_sensor_fov']
-                v.perception.sensor_range = configurations['perception']['otherVehicle_sensor_range']
-            else:
-                v.perception.sensor_fov = configurations['perception']['egoVehicle_sensor_fov']
-                v.perception.sensor_range = configurations['perception']['egoVehicle_sensor_range']
-            v.perception.sensor_noise = configurations['perception']['perception_noise']
-
-            # instantiate modules
-            v.modules = VehicleModules(configurations, laneletmap, v)
-
-            # fill initial values of KF
-            motion = self._fill_frenet_motion(o.motion, v.objective.toLanelet)
-            l = motion.frenet.position.mean[-1, 0]
-            speed = np.linalg.norm(o.velocity)
-            v.modules.localization.setup_localization(l, speed, 0.0)
-
-            if o.v_id != configurations['vehicle_of_interest']:
+            if v.v_id != configurations['vehicle_of_interest']:
                 gt.append(v)
             else:
                 voi = v
