@@ -46,5 +46,50 @@ test_cases = {
         "vehicle_of_interest": 12,
         "open_loop": True,
         "toLanelet": dict([(12, "30022")])
+    },
+    "USA_Intersection_EP0_01": {
+        "source": "interaction_sim",
+        "map": 'DR_USA_Intersection_EP0',
+        "timestamp_begin": 8200,
+        "timestamp_end": 29200,
+        "vehicle_of_interest": 5,
+        "open_loop": True,
+        "toLanelet": dict([(5, "30013")])
+    },
+    "USA_Intersection_EP0_02": {
+        "source": "interaction_sim",
+        "map": 'DR_USA_Intersection_EP0',
+        "timestamp_begin": 31500,
+        "timestamp_end": 48000,
+        "vehicle_of_interest": 13,
+        "open_loop": True,
+        "toLanelet": dict([(13, "30047")])
+    },
+    "USA_Intersection_EP0_03": {
+        "source": "interaction_sim",
+        "map": 'DR_USA_Intersection_EP0',
+        "timestamp_begin": 55000,
+        "timestamp_end": 76500,
+        "vehicle_of_interest": 21,
+        "open_loop": True,
+        "toLanelet": dict([(21, "30029")])
+    },
+    "USA_Intersection_EP0_04": {
+        "source": "interaction_sim",
+        "map": 'DR_USA_Intersection_EP0',
+        "timestamp_begin": 87500,
+        "timestamp_end": 104000,
+        "vehicle_of_interest": 28,
+        "open_loop": True,
+        "toLanelet": dict([(28, "30012")])
+    },
+    "USA_Intersection_EP0_05": {
+        "source": "interaction_sim",
+        "map": 'DR_USA_Intersection_EP0',
+        "timestamp_begin": 176100,
+        "timestamp_end": 196000,
+        "vehicle_of_interest": 48,
+        "open_loop": True,
+        "toLanelet": dict([(48, "30047")])
     }
 }
