@@ -91,5 +91,23 @@ test_cases = {
         "vehicle_of_interest": 48,
         "open_loop": True,
         "toLanelet": dict([(48, "30047")])
+    },
+    "USA_Roundabout_FT_01": {
+        "source": "interaction_sim",
+        "map": 'DR_USA_Roundabout_FT',
+        "timestamp_begin": 25500,
+        "timestamp_end": 43400,
+        "vehicle_of_interest": 17,
+        "open_loop": True,
+        "toLanelet": dict([(17, "30007")])
+    },
+    "USA_Roundabout_FT_02": {
+        "source": "interaction_sim",
+        "map": 'DR_USA_Roundabout_FT',
+        "timestamp_begin": 28500,
+        "timestamp_end": 56000,
+        "vehicle_of_interest": 19,
+        "open_loop": True,
+        "toLanelet": dict([(19, "30017")])
     }
 }
