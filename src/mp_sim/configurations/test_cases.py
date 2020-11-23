@@ -86,6 +86,15 @@ test_cases = {
     "USA_Intersection_EP0_05": {
         "source": "interaction_sim",
         "map": 'DR_USA_Intersection_EP0',
+        "timestamp_begin": 182000,
+        "timestamp_end": 203000,
+        "vehicle_of_interest": 49,
+        "open_loop": True,
+        "toLanelet": dict([(49, "30055")])
+    },
+    "USA_Intersection_EP0_06": {
+        "source": "interaction_sim",
+        "map": 'DR_USA_Intersection_EP0',
         "timestamp_begin": 176100,
         "timestamp_end": 196000,
         "vehicle_of_interest": 48,
