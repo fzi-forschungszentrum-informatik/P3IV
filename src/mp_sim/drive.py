@@ -29,12 +29,12 @@ def drive(vehicle, ground_truth):
     # Perception -------------------------------------------------------------------------------------------------------
     current_cartesian_pos = timestampdata.motion.cartesian.position.mean[-1]
     current_yaw_angle = timestampdata.motion.yaw_angle[-1]
-    timestampdata.scene = vehicle.modules.perception(ground_truth, current_cartesian_pos, current_yaw_angle)
+    timestampdata.environment = vehicle.modules.perception(ground_truth, current_cartesian_pos, current_yaw_angle)
 
     # Understanding ----------------------------------------------------------------------------------------------------
-    vehicle.modules.understanding(timestampdata.scene, timestampdata.motion)
+    timestampdata.scene = vehicle.modules.understanding(timestampdata.environment, timestampdata.motion)
 
-    # Understanding and Prediction -------------------------------------------------------------------------------------
+    # Prediction--- ----------------------------------------------------------------------------------------------------
     timestampdata.situation = vehicle.modules.prediction(timestampdata.scene)
 
     # Decision Making --------------------------------------------------------------------------------------------------
