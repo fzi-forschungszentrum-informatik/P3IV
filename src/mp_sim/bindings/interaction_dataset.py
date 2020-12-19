@@ -13,7 +13,7 @@ class InteractionDatasetBindings(object):
         self.data_handler = InteractionDataHandler(int(instance_settings["temporal"]["dt"]), track_dictionary)
 
     def get_scene_model(self, timestamp):
-        return self.data_handler.fill_scene(timestamp)
+        return self.data_handler.fill_environment(timestamp)
 
     @staticmethod
     def spawn_simulation_object(scene_object, laneletmap, configurations):
