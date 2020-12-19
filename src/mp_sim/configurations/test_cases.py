@@ -118,5 +118,32 @@ test_cases = {
         "vehicle_of_interest": 19,
         "open_loop": True,
         "toLanelet": dict([(19, "30017")])
+    },
+    "USA_Intersection_EP0_80": {
+        "source": "interaction_sim",
+        "map": 'DR_USA_Intersection_EP0',
+        "timestamp_begin": 114600,
+        "timestamp_end": 114700,
+        "vehicle_of_interest": 32,
+        "open_loop": False,
+        "toLanelet": dict([(32, "30055")])
+    },
+    "USA_Intersection_EP0_81": {
+        "source": "interaction_sim",
+        "map": 'DR_USA_Intersection_EP0',
+        "timestamp_begin": 114600,
+        "timestamp_end": 128500,
+        "vehicle_of_interest": 32,
+        "open_loop": False,
+        "toLanelet": dict([(32, "30055")])
+    },
+    "DR_DEU_Roundabout_OF_82": {
+        "source": "interaction_sim",
+        "map": 'DR_DEU_Roundabout_OF',
+        "timestamp_begin": 66000,
+        "timestamp_end": 68500,
+        "vehicle_of_interest": 30,
+        "open_loop": False,
+        "toLanelet": dict([(30, "30022")])
     }
 }
