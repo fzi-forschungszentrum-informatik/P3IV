@@ -15,16 +15,12 @@ def drive(vehicle, ground_truth):
     Print2Console.p('s', ['-' * 72], style='cyan', bold=True, first_col_w=40)
 
     timestampdata = vehicle.timestamps.latest()
-    vehicle.modules.understanding.fill_frenet_components(timestampdata.motion)
 
     logger.debug('Nodes for computation: ')
     logger.debug(timestampdata.motion.cartesian.position.mean[-4:])
 
     # Localization -----------------------------------------------------------------------------------------------------
-    # todo: pass gaussian distr. & use 2D-localization
-    position = timestampdata.motion.frenet.position.mean[-1, 0]
-    speed = timestampdata.motion.frenet.velocity.mean[-1, 0]
-    timestampdata.localization = vehicle.modules.localization(position, speed)
+    timestampdata.localization = vehicle.modules.localization(timestampdata.motion.cartesian)
 
     # Perception -------------------------------------------------------------------------------------------------------
     timestampdata.environment = vehicle.modules.perception(ground_truth, timestampdata.motion.pose[-1])
