@@ -27,9 +27,7 @@ def drive(vehicle, ground_truth):
     timestampdata.localization = vehicle.modules.localization(position, speed)
 
     # Perception -------------------------------------------------------------------------------------------------------
-    current_cartesian_pos = timestampdata.motion.cartesian.position.mean[-1]
-    current_yaw_angle = timestampdata.motion.yaw_angle[-1]
-    timestampdata.environment = vehicle.modules.perception(ground_truth, current_cartesian_pos, current_yaw_angle)
+    timestampdata.environment = vehicle.modules.perception(ground_truth, timestampdata.motion.pose[-1])
 
     # Understanding ----------------------------------------------------------------------------------------------------
     timestampdata.scene = vehicle.modules.understanding(timestampdata.environment, timestampdata.motion)
