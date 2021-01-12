@@ -51,7 +51,7 @@ class InteractionDatasetBindings(object):
         gt = GroundTruth()
 
         for o in object_list:
-            Print2Console.p('ss', ['Create new vehicle with ID: %s' % str(o.v_id)], style='yellow')
+            Print2Console.p('ss', ['Spawn new vehicle with ID: %s' % str(o.v_id)], style='yellow')
             Print2Console.p('s', ['-'*72], style='yellow')
 
             v = self.spawn_simulation_object(o, laneletmap, configurations)
