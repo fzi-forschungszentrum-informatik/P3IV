@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
 from __future__ import division
 import os
 import pickle
 import time
+from pyfiglet import Figlet
 from datetime import datetime
 from pprint import pprint
 import sys
@@ -108,6 +110,10 @@ if __name__ == '__main__':
 
     import argparse
     import json
+    print Figlet(font='slant').renderText('P3IV')
+    print "Probabilistic Prediction and Planning for Intelligent Vehicles Simulator"
+    print "(c) FZI Forschungszentrum Informatik"
+    print "Author: Ömer Şahin Taş and Others \n\n"
 
     parser = argparse.ArgumentParser(description='Planning simulation environment.')
     parser.add_argument("config", type=str, help="Test case (see mp_sim/src/mp_sim/configurations/test_cases.py) "
