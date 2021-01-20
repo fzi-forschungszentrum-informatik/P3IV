@@ -13,7 +13,7 @@ class VehicleModules(object):
         self.localization = Localization(configurations["temporal"]["dt"], measurement_noise=configurations["localization"]["measurement_noise"],
                                          process_noise=configurations["localization"]["process_noise"])
 
-        self.perception = Percept(laneletmap, vehicle._v_id, vehicle.perception.sensor_fov, vehicle.perception.sensor_fov,
+        self.perception = Percept(laneletmap, vehicle._v_id, vehicle.perception.sensor_fov, vehicle.perception.sensor_range,
                                   vehicle.perception.sensor_noise, override_visibility=configurations['perception']['override_visibility'])
 
         self.understanding = Understand(configurations["temporal"]["dt"], configurations["temporal"]["N"], laneletmap, toLanelet=vehicle.objective.toLanelet)
