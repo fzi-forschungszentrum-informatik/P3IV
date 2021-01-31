@@ -16,9 +16,11 @@ class VehicleModules(object):
         self.perception = Percept(laneletmap, vehicle._v_id, vehicle.perception.sensor_fov, vehicle.perception.sensor_range,
                                   vehicle.perception.sensor_noise, override_visibility=configurations['perception']['override_visibility'])
 
-        self.understanding = Understand(configurations["temporal"]["dt"], configurations["temporal"]["N"], laneletmap, toLanelet=vehicle.objective.toLanelet)
+        self.understanding = Understand(
+            configurations["temporal"]["dt"], configurations["temporal"]["N"], laneletmap, toLanelet=vehicle.objective.toLanelet)
 
-        self.prediction = Predict(configurations["temporal"]["dt"], configurations["temporal"]["N"])
+        self.prediction = Predict(
+            configurations["temporal"]["dt"], configurations["temporal"]["N"])
 
         self.decision = Decide(vehicle.characteristics.max_acceleration,
                                vehicle.characteristics.max_deceleration,
@@ -33,4 +35,3 @@ class VehicleModules(object):
                             vehicle.characteristics.max_deceleration)
 
         self.action = Act()
-
