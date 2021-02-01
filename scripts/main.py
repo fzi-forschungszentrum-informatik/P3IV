@@ -29,12 +29,16 @@ from mp_sim.configurations.utils import load_configurations
 def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
 
     # Print system time
-    Print2Console.p('ss', ['Analysis start time:', time.ctime()], style='bright')
+    Print2Console.p('ss', ['Analysis start time:',
+                           time.ctime()], style='bright')
 
     # Print settings
-    Print2Console.p('s', ['='*72],                       style='magenta', bold=True)
-    Print2Console.p('s', ['Simulation configurations:'], style='magenta', bold=True)
-    Print2Console.p('s', ['='*72],                       style='magenta', bold=True)
+    Print2Console.p('s', ['='*72],
+                    style='magenta', bold=True)
+    Print2Console.p('s', ['Simulation configurations:'],
+                    style='magenta', bold=True)
+    Print2Console.p('s', ['='*72],
+                    style='magenta', bold=True)
     pprint(configurations)
 
     # Load lanelet2 map
@@ -44,8 +48,10 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
     if configurations['source'] == 'interaction_sim':
         from mp_sim.bindings.interaction_dataset import InteractionDatasetBindings
         bindings = InteractionDatasetBindings(configurations)
-        scene_model = bindings.get_scene_model(configurations["timestamp_begin"])
-        ground_truth = bindings.create_ground_truth(scene_model.tracked_objects(), laneletmap, configurations)
+        scene_model = bindings.get_scene_model(
+            configurations["timestamp_begin"])
+        ground_truth = bindings.create_ground_truth(
+            scene_model.tracked_objects(), laneletmap, configurations)
         assert (configurations['vehicle_of_interest'] in ground_truth.keys())
     else:
         raise Exception("Specify ground truth object data!")
@@ -59,18 +65,21 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
     for i, ts_now in enumerate(timestamps):
         # Print information
         Print2Console.p('s', ['='*72], style='magenta', bold=True)
-        Print2Console.p('sf', ['Computing timestamp:', ts_now], first_col_w=38, style='magenta', bold=True)
+        Print2Console.p('sf', ['Computing timestamp:', ts_now],
+                        first_col_w=38, style='magenta', bold=True)
         Print2Console.p('s', ['='*72], style='magenta', bold=True)
 
         if configurations['open_loop'] or i == 0:
             # update ground truth objects
-            bindings.update_open_loop_simulation(ground_truth, ts_now, laneletmap, configurations)
+            bindings.update_open_loop_simulation(
+                ground_truth, ts_now, laneletmap, configurations)
         else:
             # closed-loop simulation
             # (ground truth object list remains the same; no new entries)
             for v in ground_truth.values():
                 past_motion = v.timestamps.latest().motion
-                driven_motion = v.timestamps.latest().plan_optimal.motion[4]  # the first three were already driven
+                # the first three were already driven
+                driven_motion = v.timestamps.latest().plan_optimal.motion[4]
                 v.timestamps.create_and_add(ts_now)
                 v.timestamps.latest().motion = past_motion
                 v.timestamps.latest().motion.append(driven_motion)
@@ -80,7 +89,8 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
             drive(vehicle, ground_truth)
 
             # plot results
-            curr_save_dir = os.path.join(configurations['save_dir'], str(ts_now), str(vehicle.v_id))
+            curr_save_dir = os.path.join(
+                configurations['save_dir'], str(ts_now), str(vehicle.v_id))
             os.makedirs(curr_save_dir)
             #plot_prediction(situation_model.objects, vehicle.vehicle_id, settings["Main"]["N"], settings["Main"]["dt"], curr_save_dir)
             #plot_planning(vehicle, current_time, lightsaber_base, settings)
@@ -110,15 +120,18 @@ if __name__ == '__main__':
 
     import argparse
     import json
+    header = "Probabilistic Prediction and Planning for Intelligent Vehicles Simulator\n" + \
+        "(c) FZI Forschungszentrum Informatik\n" + \
+        "Author: Ömer Şahin Taş and Others \n\n"
     print Figlet(font='slant').renderText('P3IV')
-    print "Probabilistic Prediction and Planning for Intelligent Vehicles Simulator"
-    print "(c) FZI Forschungszentrum Informatik"
-    print "Author: Ömer Şahin Taş and Others \n\n"
+    print header
 
-    parser = argparse.ArgumentParser(description='Planning simulation environment.')
+    parser = argparse.ArgumentParser(
+        description='Planning simulation environment.')
     parser.add_argument("config", type=str, help="Test case (see mp_sim/src/mp_sim/configurations/test_cases.py) "
                                                  "or pickle file of simulation-results ")
-    parser.add_argument("-r", "--run", action="store_true", help="Run simulations for the config-file")
+    parser.add_argument("-r", "--run", action="store_true",
+                        help="Run simulations for the config-file")
     parser.add_argument("-ss", "--show-single", action='store', metavar='', type=int,
                         help="Show single-timestamp results of the simulation-run. Must be provided together with "
                              "timestamp value, i.e. '--show-single=<integer>")
