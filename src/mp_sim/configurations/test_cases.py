@@ -154,5 +154,5 @@ test_cases = {
         "vehicle_of_interest": 30,
         "open_loop": False,
         "toLanelet": dict([(30, "30022")])
-
+    }
 }
