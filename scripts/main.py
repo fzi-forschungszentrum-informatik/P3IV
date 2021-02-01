@@ -78,9 +78,9 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
             # (ground truth object list remains the same; no new entries)
             for v in ground_truth.values():
                 past_motion = v.timestamps.latest().motion
-                # plan_optimal.motion includes current motion. sum with additionally pinned in the future.
-                n_pin_total = 1 + configurations["temporal"]["N_pin_future"]
-                driven = v.timestamps.latest().plan_optimal.motion[n_pin_total]
+                # planned trajectory includes past three points and the current;
+                # therefore take the fourth element in the motion array.
+                driven = v.timestamps.latest().plan_optimal.motion[4]
                 v.timestamps.create_and_add(ts_now)
                 v.timestamps.latest().motion = past_motion
                 v.timestamps.latest().motion.append(driven)
