@@ -42,6 +42,7 @@ def drive(vehicle, ground_truth):
 
     # Motion Planning ---------------------------------------------------------
     timestampdata.motion_plans = vehicle.modules.planner(
+        timestampdata.motion, timestampdata.scene, timestampdata.situation,
         timestampdata.decision_base)
 
     # Pick the optimal action -------------------------------------------------
