@@ -3,13 +3,14 @@ settings = {
         "travel_length": 0.2,  # defined in seconds
         "combinatorial_greedy_search": True,
         # False for IV'18 settings, True for ITSC'18 settings (note that this has an effect on initialization!)
-        "provably_safe_planning": False,  # True for IV'18 settings, False for ITSC'18 settings
+        # True for IV'18 settings, False for ITSC'18 settings
+        "provably_safe_planning": False,
     },
 
     "temporal": {
         "horizon": 6,  # s
         "dt": 100,  # ms (step-width)
-        "N_pin_past": 4,
+        "N_pin_past": 4,  # including current; so there are 3 points in the past!
         "N_pin_future": 3,
         # N is calculated automatically; int(horizon / dt)
     },
@@ -44,7 +45,8 @@ settings = {
     "planning": {
         "distance2static_obs": 1.0,  # m
         "v2v_safety_dist": 6.0,  # m
-        "override_max_deceleration": True,  # use the value specified here instead of the OSM file
+        # use the value specified here instead of the OSM file
+        "override_max_deceleration": True,
         "max_deceleration": 9.0,
         "initialization_astar": False,
         "solver": "constant-velocity",
