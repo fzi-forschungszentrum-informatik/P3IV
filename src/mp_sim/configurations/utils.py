@@ -2,34 +2,34 @@ from __future__ import division
 from datetime import datetime
 
 
-def get_settings(output_path):
+def get_settings():
 
     from mp_sim.configurations.settings import settings
 
     settings['start_time'] = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-    settings['save_dir'] = str(output_path)  # will serve as save directory for figures
 
     # Number of timesteps (horizon is defined in seconds, not ms)
-    N = int(settings['temporal']['horizon'] / (settings['temporal']['dt'] / 1000))
+    N = int(settings['temporal']['horizon'] /
+            (settings['temporal']['dt'] / 1000))
     settings['temporal']['N'] = N
 
     return settings
 
 
-def load_configurations(output_path, test_case_id):
+def load_configurations(test_case_id):
 
     from mp_sim.configurations.test_cases import test_cases
     try:
         configurations = test_cases[test_case_id]
     except KeyError:
-        msg = "The test case '" + test_case_id + "' is not found in src/configurations/test_cases.py"
+        msg = "The test case '" + test_case_id + \
+            "' is not found in src/configurations/test_cases.py"
         raise Exception(msg)
 
-    s = get_settings(output_path)
+    s = get_settings()
     configurations.update(s)
 
     return configurations
-
 
 
 """
@@ -140,9 +140,3 @@ def test_runner(test_case_id, save_base):
         print dir(post_exec_module)
         post_exec_module.execute(*post_exec_args)
 """
-
-
-
-
-
-
