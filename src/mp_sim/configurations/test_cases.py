@@ -144,7 +144,8 @@ test_cases = {
         "timestamp_end": 68500,
         "vehicle_of_interest": 30,
         "open_loop": False,
-        "toLanelet": dict([(30, "30022")])
+        "toLanelet": dict([(30, "30022"),
+                           (29, "30028")])
     },
     "DEU_Roundabout_OF_83": {
         "source": "interaction_sim",
@@ -153,6 +154,7 @@ test_cases = {
         "timestamp_end": 68100,
         "vehicle_of_interest": 30,
         "open_loop": False,
-        "toLanelet": dict([(30, "30022")])
+        "toLanelet": dict([(30, "30022"),
+                           (29, "30028")])
     }
 }
