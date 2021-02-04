@@ -156,15 +156,17 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Planning simulation environment.')
     parser.add_argument("-r", "--run", action="store", type=SimulationTestCase,
-                        help="Run simulations for the config-file."
-                             "Usage: --run=<test_case>")
+                        help="Run simulations for the config-file. \
+                             \nUsage: --run=<test_case>")
     parser.add_argument("-ss", "--show-single", action='store', metavar='', type=TimestampKey,
-                        help="Show single-timestamp results of the simulation-run. Must be provided together with "
-                             "timestamp value, i.e. '--show-single=<integer>")
+                        help="Show single-timestamp results of the simulation-run.\
+                            Must be provided together with timestamp value. \
+                            Usage: '--show-single=<integer>")
     parser.add_argument("-sm", "--show-multi", action="store_true",
                         help="Show all-timestamp results of the simulation-run")
     parser.add_argument("-i", "--input", action="store", type=SimulationResultsDir,
-                        help="Show results from file. If not provided, the latest will be displayed. "
+                        help="Show results from file. If not provided, \
+                        the latest results from the output directory will be displayed. "
                              "Usage: --input=<path_to_file>")
     args = parser.parse_args()
 
@@ -201,10 +203,14 @@ if __name__ == '__main__':
         if args.input:
             gt, configurations = args.input
         else:
-            # no simulation results file is provided. load latest results
+            # no simulation results file is provided; load latest results
             gt, configurations = None, None
-            # todo!
-            pass
+            result_date_dir = "./../../../outputs"
+            latest_date = sorted(os.listdir(result_date_dir))[-1]
+            time_dir = os.path.join(result_date_dir, latest_date)
+            latest_time_dir = sorted(os.listdir(time_dir))[-1]
+            results_dir = os.path.join(time_dir, latest_time_dir)
+            gt, configurations = load_results(results_dir)
 
         if args.show_single:
             from visualization.animations.animate_single import AnimateSingle
