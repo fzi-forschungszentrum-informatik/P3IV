@@ -195,7 +195,7 @@ if __name__ == '__main__':
         f.close()
         print("Completed!")
 
-    else:
+    elif args.show_single or args.show_multi:
         # load results & visualize
         if args.input:
             gt, configurations = args.input
@@ -222,3 +222,5 @@ if __name__ == '__main__':
 
         else:
             sys.exit(1)
+    else:
+        parser.print_help()
