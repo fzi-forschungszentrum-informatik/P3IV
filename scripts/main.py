@@ -79,8 +79,9 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
             for v in ground_truth.values():
                 past_motion = v.timestamps.latest().motion
                 # planned trajectory includes past three points and the current;
-                # therefore take the fourth element in the motion array.
-                driven = v.timestamps.latest().plan_optimal.motion[4]
+                # Those extra three points are trimmed away in Plan().
+                # Therefore, take the first element in the motion array.
+                driven = v.timestamps.latest().plan_optimal.motion[1]
                 v.timestamps.create_and_add(ts_now)
                 v.timestamps.latest().motion = past_motion
                 v.timestamps.latest().motion.append(driven)
