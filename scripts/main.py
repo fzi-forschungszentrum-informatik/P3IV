@@ -127,29 +127,63 @@ if __name__ == '__main__':
     print Figlet(font='slant').renderText('P3IV')
     print header
 
+    def SimulationTestCase(test_case):
+        try:
+            configurations = load_configurations(str(test_case))
+        except:
+            raise argparse.ArgumentTypeError(
+                "Test-case invalid!\n \
+                    For valid test cases see 'mp_sim/src/mp_sim/configurations/test_cases.py'")
+        return configurations
+
+    def TimestampKey(timestamp):
+        if not timestamp:
+            raise argparse.ArgumentTypeError(
+                "Please provide a timestamp with '--show-single'!")
+        return int(timestamp)
+
+    def SimulationResultsDir(results_dir):
+        if not results_dir:
+            raise argparse.ArgumentTypeError(
+                "Please provide a valid output dir")
+        try:
+            gt, configurations = load_results(results_dir)
+        except:
+            raise argparse.ArgumentTypeError("Output file not found!")
+        return [gt, configurations]
+
     parser = argparse.ArgumentParser(
         description='Planning simulation environment.')
-    parser.add_argument("config", type=str, help="Test case (see mp_sim/src/mp_sim/configurations/test_cases.py) "
-                                                 "or pickle file of simulation-results ")
-    parser.add_argument("-r", "--run", action="store_true",
-                        help="Run simulations for the config-file")
-    parser.add_argument("-ss", "--show-single", action='store', metavar='', type=int,
+    parser.add_argument("-r", "--run", action="store", type=SimulationTestCase,
+                        help="Run simulations for the config-file."
+                             "Usage: --run=<test_case>")
+    parser.add_argument("-ss", "--show-single", action='store', metavar='', type=TimestampKey,
                         help="Show single-timestamp results of the simulation-run. Must be provided together with "
                              "timestamp value, i.e. '--show-single=<integer>")
     parser.add_argument("-sm", "--show-multi", action="store_true",
                         help="Show all-timestamp results of the simulation-run")
+    parser.add_argument("-i", "--input", action="store", type=SimulationResultsDir,
+                        help="Show results from file. If not provided, the latest will be displayed. "
+                             "Usage: --input=<path_to_file>")
     args = parser.parse_args()
 
-    # create output dirs
-    output_dir = create_output_dir()
-    output_path = create_output_path(output_dir)
-
     if args.run:
+
         # set default logger
         logging.basicConfig(level=logging.INFO)
-        test_case = sys.argv[1]
-        configurations = load_configurations(output_path, test_case)
+
+        # create output dirs
+        output_dir = create_output_dir()
+        output_path = create_output_path(output_dir)
+
+        # will serve as save directory for figures
+        configurations = args.run
+        configurations['save_dir'] = str(output_path)
+
+        # run simulation
         gt = run(configurations)
+
+        # save results
         filename_pickle = os.path.join(output_path, "results.pickle")
         gt.dump(filename_pickle)
 
@@ -161,24 +195,30 @@ if __name__ == '__main__':
         f.close()
         print("Completed!")
 
-    elif args.show_single:
-        from visualization.animations.animate_single import AnimateSingle
-        timestamp = str(args.show_single)
-        gt, configurations = load_results(sys.argv[1])
-
-        animation = AnimateSingle(gt, configurations, timestamp)
-        animation.show()
-        animation.animate()
-        print("Completed!")
-
-    elif args.show_multi:
-        from visualization.animations.animate_multi import AnimateMulti
-        gt, configurations = load_results(sys.argv[1])
-
-        animation = AnimateMulti(gt, configurations)
-        animation.show()
-        animation.animate()
-        print("Completed!")
-
     else:
-        sys.exit(1)
+        # load results & visualize
+        if args.input:
+            gt, configurations = args.input
+        else:
+            # no simulation results file is provided. load latest results
+            gt, configurations = None, None
+            # todo!
+            pass
+
+        if args.show_single:
+            from visualization.animations.animate_single import AnimateSingle
+            timestamp = str(args.show_single)
+            animation = AnimateSingle(gt, configurations, timestamp)
+            animation.show()
+            animation.animate()
+            print("Completed!")
+
+        elif args.show_multi:
+            from visualization.animations.animate_multi import AnimateMulti
+            animation = AnimateMulti(gt, configurations)
+            animation.show()
+            animation.animate()
+            print("Completed!")
+
+        else:
+            sys.exit(1)
