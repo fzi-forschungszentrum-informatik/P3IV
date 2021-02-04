@@ -210,6 +210,10 @@ if __name__ == '__main__':
             time_dir = os.path.join(result_date_dir, latest_date)
             latest_time_dir = sorted(os.listdir(time_dir))[-1]
             results_dir = os.path.join(time_dir, latest_time_dir)
+            Print2Console.p('s', ['Displaying results from:'], style='magenta')
+            Print2Console.p('s', [results_dir], style='magenta')
+            Print2Console.p('s', ["Press enter to continue"], style='magenta', bold=True)
+            raw_input("")
             gt, configurations = load_results(results_dir)
 
         if args.show_single:
