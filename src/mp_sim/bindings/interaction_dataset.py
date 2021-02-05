@@ -65,7 +65,7 @@ class InteractionDatasetBindings(object):
     def update_open_loop_simulation(self, ground_truth, timestamp, laneletmap, configurations):
 
         current_env_model = self.get_environment_model(timestamp)
-        for o in current_env_model.tracked_objects():
+        for o in current_env_model.objects():
             if o.v_id in ground_truth.keys():
                 self.update_simulation_object_motion(ground_truth.get(o.v_id), timestamp)
             else:
