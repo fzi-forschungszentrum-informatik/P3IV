@@ -20,6 +20,9 @@ class InteractionDatasetBindings(object):
 
         v = Vehicle(scene_object.v_id)
 
+        if scene_object.v_id == configurations['vehicle_of_interest']:
+            scene_object.color = "black"
+
         # fill appearance
         v.appearance.color = scene_object.color
         v.appearance.length = scene_object.length
