@@ -12,7 +12,7 @@ class InteractionDatasetBindings(object):
         track_dictionary = track_reader(instance_settings["map"])
         self.data_handler = InteractionDataHandler(int(instance_settings["temporal"]["dt"]), track_dictionary)
 
-    def get_scene_model(self, timestamp):
+    def get_environment_model(self, timestamp):
         return self.data_handler.fill_environment(timestamp)
 
     @staticmethod
@@ -64,8 +64,8 @@ class InteractionDatasetBindings(object):
 
     def update_open_loop_simulation(self, ground_truth, timestamp, laneletmap, configurations):
 
-        current_scene_model = self.get_scene_model(timestamp)
-        for o in current_scene_model.tracked_objects():
+        current_env_model = self.get_environment_model(timestamp)
+        for o in current_env_model.tracked_objects():
             if o.v_id in ground_truth.keys():
                 self.update_simulation_object_motion(ground_truth.get(o.v_id), timestamp)
             else:

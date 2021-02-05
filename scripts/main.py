@@ -48,10 +48,10 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
     if configurations['source'] == 'interaction_sim':
         from mp_sim.bindings.interaction_dataset import InteractionDatasetBindings
         bindings = InteractionDatasetBindings(configurations)
-        scene_model = bindings.get_scene_model(
+        environment_model = bindings.get_environment_model(
             configurations["timestamp_begin"])
         ground_truth = bindings.create_ground_truth(
-            scene_model.tracked_objects(), laneletmap, configurations)
+            environment_model.objects(), laneletmap, configurations)
         assert (configurations['vehicle_of_interest'] in ground_truth.keys())
     else:
         raise Exception("Specify ground truth object data!")
