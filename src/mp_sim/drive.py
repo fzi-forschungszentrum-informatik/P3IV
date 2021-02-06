@@ -34,7 +34,7 @@ def drive(vehicle, ground_truth):
         timestampdata.environment, timestampdata.motion)
 
     # Prediction--- -----------------------------------------------------------
-    timestampdata.situation = vehicle.modules.prediction(timestampdata.scene)
+    timestampdata.situation = vehicle.modules.prediction(timestampdata.timestamp, timestampdata.scene)
 
     # Decision Making ---------------------------------------------------------
     timestampdata.decision_base = vehicle.modules.decision(
