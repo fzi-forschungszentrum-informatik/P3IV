@@ -20,7 +20,7 @@ class VehicleModules(object):
             configurations["temporal"]["dt"], configurations["temporal"]["N"], laneletmap, toLanelet=vehicle.objective.toLanelet)
 
         self.prediction = Predict(
-            configurations["temporal"]["dt"], configurations["temporal"]["N"])
+            configurations["temporal"]["dt"], configurations["temporal"]["N"], configurations["map"], configurations["prediction"])
 
         self.decision = Decide(vehicle.characteristics.max_acceleration,
                                vehicle.characteristics.max_deceleration,

@@ -20,7 +20,8 @@ settings = {
         "process_noise": 0.5,
     },
 
-    "Prediction": {
+    "prediction": {
+        "set_ground_truh_values": True,
         "multi_modal": False,  # True for ITSC'18 settings, False for IV'18 settings
         "politeness_factor": 0.5,
         "deceleration_comfortable": -5.0,
