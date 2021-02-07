@@ -30,7 +30,7 @@ class InteractionDatasetBindings(object):
 
         # fill objective
         try:
-            v.objective.toLanelet = configurations['toLanelet'][scene_object.v_id]
+            v.objective.toLanelet = configurations['planning_meta'][scene_object.v_id][0]
         except KeyError:
             # make sure that 'toLanelet' is defined for vehicle-of-interest
             assert v.v_id is not configurations['vehicle_of_interest']

@@ -7,9 +7,9 @@ test_cases = {
         "timestamp_end": 4400,
         "vehicle_of_interest": 1,
         "open_loop": False,
-        "toLanelet": dict([(1, "30008"),  # closed-loop planning is performed only for vehicles that are defined here
-                           (2, "30008"),
-                           (3, "30008")])
+        "planning_meta": dict([(1, ("30008", "default")),  # closed-loop planning is performed only for vehicles that are defined here
+                               (2, ("30008", "constant-velocity")),  # dict keys are vehicle ids, and values are 'toLanelet' and 'planner_types'
+                               (3, ("30008", "constant-velocity"))])  # default reads the type from 'settings.py' file
     },
     "DEU_Merging_OL_01": {
         "source": "interaction_sim",
@@ -18,7 +18,7 @@ test_cases = {
         "timestamp_end": 8400,
         "vehicle_of_interest": 1,
         "open_loop": True,
-        "toLanelet": dict([(1, "30008")])
+        "planning_meta": dict([(1, ("30008", "default"))])
     },
     "DEU_Merging_OL_02": {
         "source": "interaction_sim",
@@ -27,7 +27,7 @@ test_cases = {
         "timestamp_end": 6700,
         "vehicle_of_interest": 1,
         "open_loop": True,
-        "toLanelet": dict([(1, "30008")])
+        "planning_meta": dict([(1, ("30008", "default"))])
     },
     "DEU_Roundabout_OL_01": {
         "source": "interaction_sim",
@@ -36,7 +36,7 @@ test_cases = {
         "timestamp_end": 17500,
         "vehicle_of_interest": 14,
         "open_loop": True,
-        "toLanelet": dict([(14, "30022")])
+        "planning_meta": dict([(14, ("30022", "default"))])
     },
     "DEU_Roundabout_OL_02": {
         "source": "interaction_sim",
@@ -45,7 +45,7 @@ test_cases = {
         "timestamp_end": 15300,
         "vehicle_of_interest": 12,
         "open_loop": True,
-        "toLanelet": dict([(12, "30022")])
+        "planning_meta": dict([(12, ("30022", "default"))])
     },
     "USA_Intersection_EP0_01": {
         "source": "interaction_sim",
@@ -54,7 +54,7 @@ test_cases = {
         "timestamp_end": 29200,
         "vehicle_of_interest": 5,
         "open_loop": True,
-        "toLanelet": dict([(5, "30013")])
+        "planning_meta": dict([(5, ("30013", "default"))])
     },
     "USA_Intersection_EP0_02": {
         "source": "interaction_sim",
@@ -63,7 +63,7 @@ test_cases = {
         "timestamp_end": 48000,
         "vehicle_of_interest": 13,
         "open_loop": True,
-        "toLanelet": dict([(13, "30047")])
+        "planning_meta": dict([(13, ("30047", "default"))])
     },
     "USA_Intersection_EP0_03": {
         "source": "interaction_sim",
@@ -72,7 +72,7 @@ test_cases = {
         "timestamp_end": 76500,
         "vehicle_of_interest": 21,
         "open_loop": True,
-        "toLanelet": dict([(21, "30029")])
+        "planning": dict([(21, ("30029", "default"))])
     },
     "USA_Intersection_EP0_04": {
         "source": "interaction_sim",
@@ -81,7 +81,7 @@ test_cases = {
         "timestamp_end": 104000,
         "vehicle_of_interest": 28,
         "open_loop": True,
-        "toLanelet": dict([(28, "30012")])
+        "planning_meta": dict([(28, ("30012", "default"))])
     },
     "USA_Intersection_EP0_05": {
         "source": "interaction_sim",
@@ -90,7 +90,7 @@ test_cases = {
         "timestamp_end": 203000,
         "vehicle_of_interest": 49,
         "open_loop": True,
-        "toLanelet": dict([(49, "30055")])
+        "planning_meta": dict([(49, ("30055", "default"))])
     },
     "USA_Intersection_EP0_06": {
         "source": "interaction_sim",
@@ -99,7 +99,7 @@ test_cases = {
         "timestamp_end": 196000,
         "vehicle_of_interest": 48,
         "open_loop": True,
-        "toLanelet": dict([(48, "30047")])
+        "planning_meta": dict([(48, ("30047", "default"))])
     },
     "USA_Roundabout_FT_01": {
         "source": "interaction_sim",
@@ -108,7 +108,7 @@ test_cases = {
         "timestamp_end": 43400,
         "vehicle_of_interest": 17,
         "open_loop": True,
-        "toLanelet": dict([(17, "30007")])
+        "planning_meta": dict([(17, ("30007", "default"))])
     },
     "USA_Roundabout_FT_02": {
         "source": "interaction_sim",
@@ -117,7 +117,7 @@ test_cases = {
         "timestamp_end": 56000,
         "vehicle_of_interest": 19,
         "open_loop": True,
-        "toLanelet": dict([(19, "30017")])
+        "planning_meta": dict([(19, ("30017", "default"))])
     },
     "USA_Intersection_EP0_80": {
         "source": "interaction_sim",
@@ -126,7 +126,7 @@ test_cases = {
         "timestamp_end": 114700,
         "vehicle_of_interest": 32,
         "open_loop": False,
-        "toLanelet": dict([(32, "30055")])
+        "planning_meta": dict([(32, ("30055", "default"))])
     },
     "USA_Intersection_EP0_81": {
         "source": "interaction_sim",
@@ -135,7 +135,7 @@ test_cases = {
         "timestamp_end": 128500,
         "vehicle_of_interest": 32,
         "open_loop": False,
-        "toLanelet": dict([(32, "30055")])
+        "planning_meta": dict([(32, ("30055", "default"))])
     },
     "DEU_Roundabout_OF_82": {
         "source": "interaction_sim",
@@ -144,8 +144,8 @@ test_cases = {
         "timestamp_end": 68500,
         "vehicle_of_interest": 30,
         "open_loop": False,
-        "toLanelet": dict([(30, "30022"),
-                           (29, "30028")])
+        "planning_meta": dict([(30, ("30022", "default")),
+                               (29, ("30028", "constant-velocity"))])
     },
     "DEU_Roundabout_OF_83": {
         "source": "interaction_sim",
@@ -154,7 +154,7 @@ test_cases = {
         "timestamp_end": 68100,
         "vehicle_of_interest": 30,
         "open_loop": False,
-        "toLanelet": dict([(30, "30022"),
-                           (29, "30028")])
+        "planning_meta": dict([(30, ("30022", "default")),
+                               (29, ("30028", "constant-velocity"))])
     }
 }

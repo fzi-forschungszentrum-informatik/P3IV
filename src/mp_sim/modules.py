@@ -32,6 +32,17 @@ class VehicleModules(object):
 
         self.planner = Plan(configurations,
                             vehicle.characteristics.max_acceleration,
-                            vehicle.characteristics.max_deceleration)
+                            vehicle.characteristics.max_deceleration,
+                            get_planner_type(configurations, vehicle))
 
         self.action = Act()
+
+
+def get_planner_type(configurations, vehicle):
+    if vehicle.v_id in configurations['planning_meta'].keys():
+        if configurations['planning_meta'][vehicle.v_id][1] == 'default':
+            return configurations["planning"]["solver"]
+        else:
+            return configurations['planning_meta'][vehicle.v_id][1]
+    else:
+        return "open-loop"
