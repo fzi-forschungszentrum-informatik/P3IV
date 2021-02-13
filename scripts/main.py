@@ -73,7 +73,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
             # update ground truth objects
             bindings.update_open_loop_simulation(
                 ground_truth, ts_now, laneletmap, configurations)
-        else:
+        elif configurations['simulation_type'] == "closed-loop":
             # closed-loop simulation
             # (ground truth object list remains the same; no new entries)
             for v in ground_truth.values():
@@ -85,6 +85,10 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
                 v.timestamps.create_and_add(ts_now)
                 v.timestamps.latest().motion = past_motion
                 v.timestamps.latest().motion.append(driven)
+        else:
+            msg = "'simulation_type' in configurations is wrong." + \
+                  "Choose between 'open-loop' / 'closed-loop' / 'semi-open-loop'"
+            raise Exception(msg)
 
         # Compute the trajectory of vehicles who have a 'toLanelet' in their **objective**!
         for vehicle in [_v for _v in ground_truth.vehicles() if _v.objective.toLanelet]:
