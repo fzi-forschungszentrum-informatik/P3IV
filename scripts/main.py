@@ -69,7 +69,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
                         first_col_w=38, style='magenta', bold=True)
         Print2Console.p('s', ['='*72], style='magenta', bold=True)
 
-        if configurations['open_loop'] or i == 0:
+        if configurations['simulation_type'] == "open-loop" or i == 0:
             # update ground truth objects
             bindings.update_open_loop_simulation(
                 ground_truth, ts_now, laneletmap, configurations)
