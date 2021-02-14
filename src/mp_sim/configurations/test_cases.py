@@ -39,7 +39,7 @@ test_cases = {
         "timestamp_begin": 12400,
         "timestamp_end": 17500,
         "vehicle_of_interest": 14,
-        "simulation_type": "open-loop",
+        "simulation_type": "semi-open-loop",
         "planning_meta": dict([(14, ("30022", "default"))])
     },
     "DEU_Roundabout_OL_02": {
