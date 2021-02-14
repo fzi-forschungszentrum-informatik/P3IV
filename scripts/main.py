@@ -228,7 +228,8 @@ if __name__ == '__main__':
             results_dir = os.path.join(time_dir, latest_time_dir)
             Print2Console.p('s', ['Displaying results from:'], style='magenta')
             Print2Console.p('s', [results_dir], style='magenta')
-            Print2Console.p('s', ["Press enter to continue"], style='magenta', bold=True)
+            Print2Console.p('s', ["Press enter to continue"],
+                            style='magenta', bold=True)
             raw_input("")
             gt, configurations = load_results(results_dir)
 

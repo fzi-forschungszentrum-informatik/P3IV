@@ -7,9 +7,13 @@ test_cases = {
         "timestamp_end": 4400,
         "vehicle_of_interest": 1,
         "simulation_type": "closed-loop",
-        "planning_meta": dict([(1, ("30008", "default")),  # closed-loop planning is performed only for vehicles that are defined here
-                               (2, ("30008", "constant-velocity")),  # dict keys are vehicle ids, and values are 'toLanelet' and 'planner_types'
-                               (3, ("30008", "constant-velocity"))])  # default reads the type from 'settings.py' file
+        # closed-loop planning is performed only for vehicles that are defined here
+        # dict keys are vehicle ids, and values are 'toLanelet' and 'planner_types'
+        # default reads the type from 'settings.py' file
+        "planning_meta": dict([(1, ("30008", "default")),
+
+                               (2, ("30008", "constant-velocity")),
+                               (3, ("30008", "constant-velocity"))])
     },
     "DEU_Merging_OL_01": {
         "source": "interaction_sim",
