@@ -73,6 +73,18 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
             # update ground truth objects
             bindings.update_open_loop_simulation(
                 ground_truth, ts_now, laneletmap, configurations)
+
+        elif configurations['simulation_type'] == "semi-open-loop":
+            # update ground truth objects
+            bindings.update_open_loop_simulation(
+                ground_truth, ts_now, laneletmap, configurations)
+
+            o = ground_truth[configurations['vehicle_of_interest']]
+            past_motion = o.timestamps.previous().motion
+            driven = o.timestamps.previous().plan_optimal.motion[1]
+            o.timestamps.latest().motion = past_motion
+            o.timestamps.latest().motion.append(driven)
+
         elif configurations['simulation_type'] == "closed-loop":
             # closed-loop simulation
             # (ground truth object list remains the same; no new entries)
