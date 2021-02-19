@@ -3,23 +3,22 @@ test_cases = {
     "DEU_Merging_CL_01": {
         "source": "interaction_sim",
         "map": 'DR_DEU_Merging_MT',
-        "timestamp_begin": 4400,
-        "timestamp_end": 4400,
+        "timestamp_begin": 4500,
+        "timestamp_end": 4500,
         "vehicle_of_interest": 1,
         "simulation_type": "closed-loop",
         # closed-loop planning is performed only for vehicles that are defined here
         # dict keys are vehicle ids, and values are 'toLanelet' and 'planner_types'
         # default reads the type from 'settings.py' file
         "planning_meta": dict([(1, ("30008", "default")),
-
                                (2, ("30008", "constant-velocity")),
                                (3, ("30008", "constant-velocity"))])
     },
     "DEU_Merging_OL_01": {
         "source": "interaction_sim",
         "map": 'DR_DEU_Merging_MT',
-        "timestamp_begin": 4400,
-        "timestamp_end": 8400,
+        "timestamp_begin": 4500,
+        "timestamp_end": 4500,
         "vehicle_of_interest": 1,
         "simulation_type": "open-loop",
         "planning_meta": dict([(1, ("30008", "default"))])
