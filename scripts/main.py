@@ -69,6 +69,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
                         first_col_w=38, style='magenta', bold=True)
         Print2Console.p('s', ['='*72], style='magenta', bold=True)
 
+        # update planned motion from previous solution or from dataset
         if configurations['simulation_type'] == "open-loop" or i == 0:
             # update ground truth objects
             bindings.update_open_loop_simulation(
