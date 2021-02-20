@@ -9,6 +9,7 @@ from pprint import pprint
 import sys
 import logging
 import traceback
+from termcolor import colored
 import itertools
 import shutil
 ###
@@ -105,17 +106,29 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
 
         # Compute the trajectory of vehicles who have a 'toLanelet' in their **objective**!
         for vehicle in [_v for _v in ground_truth.vehicles() if _v.objective.toLanelet]:
-            drive(vehicle, ground_truth)
+            try:
+                drive(vehicle, ground_truth)
 
-            # plot results
-            curr_save_dir = os.path.join(
-                configurations['save_dir'], str(ts_now), str(vehicle.v_id))
-            os.makedirs(curr_save_dir)
-            #plot_prediction(situation_model.objects, vehicle.vehicle_id, settings["Main"]["N"], settings["Main"]["dt"], curr_save_dir)
-            #plot_planning(vehicle, current_time, lightsaber_base, settings)
+                # plot results
+                curr_save_dir = os.path.join(
+                    configurations['save_dir'], str(ts_now), str(vehicle.v_id))
+                os.makedirs(curr_save_dir)
+                #plot_prediction(situation_model.objects, vehicle.vehicle_id, settings["Main"]["N"], settings["Main"]["dt"], curr_save_dir)
+                #plot_planning(vehicle, current_time, lightsaber_base, settings)
 
-            # Update vehicle data
-            ground_truth.update(vehicle)
+                # Update vehicle data
+                ground_truth.update(vehicle)
+            except:
+                traceback.print_exc()
+                msg = "Simulation terminated before timestamp " + str(configurations['timestamp_end'])
+                msg += "\nThere may be a problem in calculations. "
+                msg += "\nMaybe the vehicle has reached its destination?"
+                print colored(msg, 'red')
+                break
+        else:
+            continue
+        break
+
 
     Print2Console.p('s', ['='*72], style='magenta', bold=True)
     Print2Console.p('s', ['Simulation completed!'], style='magenta', bold=True)
