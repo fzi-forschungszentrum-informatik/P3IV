@@ -95,6 +95,7 @@ test_cases = {
         "simulation_type": "open-loop",
         "planning_meta": dict([(49, ("30055", "default"))])
     },
+    # Use with increased matching-tolerance; see 'match2Lanelet()' args.
     "USA_Intersection_EP0_06": {
         "source": "interaction_sim",
         "map": 'DR_USA_Intersection_EP0',
