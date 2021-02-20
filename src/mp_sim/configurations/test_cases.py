@@ -75,7 +75,7 @@ test_cases = {
         "timestamp_end": 76500,
         "vehicle_of_interest": 21,
         "simulation_type": "open-loop",
-        "planning": dict([(21, ("30029", "default"))])
+        "planning_meta": dict([(21, ("30029", "default"))])
     },
     "USA_Intersection_EP0_04": {
         "source": "interaction_sim",
