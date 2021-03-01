@@ -82,7 +82,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
                 ground_truth, ts_now, laneletmap, configurations)
 
             o = ground_truth[configurations['vehicle_of_interest']]
-            past_motion = o.timestamps.previous().motion
+            past_motion = o.timestamps.previous().motion[1:]
             driven = o.timestamps.previous().plan_optimal.motion[1]
             o.timestamps.latest().motion = past_motion
             o.timestamps.latest().motion.append(driven)
@@ -91,7 +91,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
             # closed-loop simulation
             # (ground truth object list remains the same; no new entries)
             for v in ground_truth.values():
-                past_motion = v.timestamps.latest().motion
+                past_motion = v.timestamps.latest().motion[1:]
                 # planned trajectory includes past three points and the current;
                 # Those extra three points are trimmed away in Plan().
                 # Therefore, take the first element in the motion array.
