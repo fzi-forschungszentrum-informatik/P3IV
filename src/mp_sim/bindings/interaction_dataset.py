@@ -4,16 +4,16 @@ from util_simulation.ground_truth.main import GroundTruth
 from util_simulation.output.consoleprint import Print2Console
 from mp_sim.modules import VehicleModules
 from interaction_prediction_sim.interaction_data_extractor import track_reader
-from interaction_prediction_sim.interaction_data_handler import InteractionDataHandler
+from interaction_prediction_sim.interaction_data_handler import InteractionDatasetHandler
 
 
 class InteractionDatasetBindings(object):
     def __init__(self, instance_settings):
         track_dictionary = track_reader(instance_settings["map"])
-        self.data_handler = InteractionDataHandler(int(instance_settings["temporal"]["dt"]), track_dictionary)
+        self.dataset_handler = InteractionDatasetHandler(int(instance_settings["temporal"]["dt"]), track_dictionary)
 
     def get_environment_model(self, timestamp):
-        return self.data_handler.fill_environment(timestamp)
+        return self.dataset_handler.fill_environment(timestamp)
 
     @staticmethod
     def spawn_simulation_object(scene_object, laneletmap, configurations):
@@ -63,8 +63,7 @@ class InteractionDatasetBindings(object):
         return gt
 
     def update_open_loop_simulation(self, ground_truth, timestamp, laneletmap, configurations):
-
-        current_env_model = self.get_environment_model(timestamp)
+        current_env_model = self.dataset_handler.fill_environment(timestamp)
         for o in current_env_model.objects():
             if o.v_id in ground_truth.keys():
                 self.update_simulation_object_motion(ground_truth.get(o.v_id), timestamp)
@@ -79,6 +78,12 @@ class InteractionDatasetBindings(object):
         assert (isinstance(v, Vehicle))
         assert (isinstance(timestamp, int))
 
+        # try to read data for this timestamp
+        timestamps_until_now = range(100, int(timestamp) + 1, 100)
+        motion = self.dataset_handler.update_scene_object_motion(timestamps_until_now, v.v_id)
+
+        #if motion is not None:
+
         if len(v.timestamps) == 0:
             v.timestamps.create_and_add(timestamp)
         # create a timestamp if it does not exist
@@ -87,5 +92,5 @@ class InteractionDatasetBindings(object):
         else:
             warnings.warn("Timestamp is already present in Timestamps!")
 
-        v.timestamps.latest().motion = self.data_handler.update_scene_object_motion(timestamp, v.v_id)
+        v.timestamps.latest().motion = motion
 
