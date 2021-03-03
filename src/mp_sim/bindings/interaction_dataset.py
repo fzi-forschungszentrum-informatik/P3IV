@@ -80,9 +80,7 @@ class InteractionDatasetBindings(object):
 
         # try to read data for this timestamp
         timestamps_until_now = range(100, int(timestamp) + 1, 100)
-        motion = self.dataset_handler.update_scene_object_motion(timestamps_until_now, v.v_id)
-
-        #if motion is not None:
+        motion = self.dataset_handler.get_motion_with_current_timestamp(timestamps_until_now, v.v_id)
 
         if len(v.timestamps) == 0:
             v.timestamps.create_and_add(timestamp)
