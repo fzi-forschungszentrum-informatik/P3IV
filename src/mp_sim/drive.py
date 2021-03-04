@@ -26,7 +26,7 @@ def drive(vehicle, ground_truth):
         timestampdata.motion.cartesian)
 
     # Perception --------------------------------------------------------------
-    timestampdata.environment = vehicle.modules.perception(
+    timestampdata.environment = vehicle.modules.perception(timestampdata.timestamp,
         ground_truth, timestampdata.motion.pose[-1])
 
     # Understanding -----------------------------------------------------------
@@ -42,8 +42,8 @@ def drive(vehicle, ground_truth):
 
     # Motion Planning ---------------------------------------------------------
     timestampdata.motion_plans = vehicle.modules.planner(
-        timestampdata.motion, timestampdata.scene, timestampdata.situation,
-        timestampdata.decision_base)
+        timestampdata.timestamp, timestampdata.motion, timestampdata.scene,
+        timestampdata.situation, timestampdata.decision_base)
 
     # Pick the optimal action -------------------------------------------------
     timestampdata.plan_optimal = vehicle.modules.action(
