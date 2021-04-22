@@ -17,9 +17,8 @@ from util_simulation.output.consoleprint import Print2Console
 from util_simulation.output.utils import create_output_dir, create_output_path, save_settings
 from util_simulation.map.lanelet_map_reader import lanelet_map_reader
 from util_simulation.vehicle.main import Vehicle
-from mp_sim.drive import drive
+from mp_sim.execute import drive
 from mp_sim.configurations.utils import load_configurations
-
 
 
 def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
@@ -43,7 +42,8 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
     # Get ground-truth object data
     if configurations['source'] == 'interaction_sim':
         from mp_sim.bindings import InteractionDatasetBindings
-        bindings = InteractionDatasetBindings(configurations["map"], configurations['temporal']['dt'])
+        bindings = InteractionDatasetBindings(
+            configurations["map"], configurations['temporal']['dt'])
         environment_model = bindings.get_environment_model(
             configurations["timestamp_begin"])
         ground_truth = bindings.create_ground_truth(
@@ -115,7 +115,8 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
                 ground_truth.update(vehicle)
             except:
                 traceback.print_exc()
-                msg = "Simulation terminated before timestamp " + str(configurations['timestamp_end'])
+                msg = "Simulation terminated before timestamp " + \
+                    str(configurations['timestamp_end'])
                 msg += "\nThere may be a problem in calculations. "
                 msg += "\nMaybe the vehicle has reached its destination?"
                 print colored(msg, 'red')
