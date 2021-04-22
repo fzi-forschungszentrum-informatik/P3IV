@@ -3,14 +3,14 @@ from util_simulation.vehicle.main import Vehicle
 from util_simulation.ground_truth.main import GroundTruth
 from util_simulation.output.consoleprint import Print2Console
 from mp_sim.modules import VehicleModules
-from interaction_prediction_sim.interaction_data_extractor import track_reader
-from interaction_prediction_sim.interaction_data_handler import InteractionDatasetHandler
+from track_reader import track_reader
+from data_converter import DataConverter
 
 
 class InteractionDatasetBindings(object):
     def __init__(self, instance_settings):
         track_dictionary = track_reader(instance_settings["map"])
-        self.dataset_handler = InteractionDatasetHandler(int(instance_settings["temporal"]["dt"]), track_dictionary)
+        self.dataset_handler = DataConverter(int(instance_settings["temporal"]["dt"]), track_dictionary)
 
     def get_environment_model(self, timestamp):
         return self.dataset_handler.fill_environment(timestamp)

@@ -47,7 +47,7 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
 
     # Get ground-truth object data
     if configurations['source'] == 'interaction_sim':
-        from mp_sim.bindings.interaction_dataset import InteractionDatasetBindings
+        from mp_sim.bindings import InteractionDatasetBindings
         bindings = InteractionDatasetBindings(configurations)
         environment_model = bindings.get_environment_model(
             configurations["timestamp_begin"])
