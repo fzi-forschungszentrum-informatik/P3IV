@@ -9,13 +9,16 @@ from data_converter import DataConverter
 
 
 class InteractionDatasetBindings(object):
-    def __init__(self, instance_settings):
-        track_dictionary = track_reader(instance_settings["map"])
-        self.dataset_handler = DataConverter(int(instance_settings["temporal"]["dt"]), track_dictionary)
+    def __init__(self, track_name, dt):
+        track_dictionary = track_reader(track_name)
+        self._dataset_handler = DataConverter(int(dt), track_dictionary)
 
     def get_environment_model(self, timestamp):
         e = EnvironmentModel()
-        return self.dataset_handler.fill_environment(e, timestamp)
+        return self._dataset_handler.fill_environment(e, timestamp)
+
+    def get_motion_with_current_timestamp(self, timestamps_until_now, v_id):
+        return self._dataset_handler.get_motion_with_current_timestamp(timestamps_until_now, v_id)
 
     @staticmethod
     def spawn_simulation_object(scene_object, laneletmap, configurations):
@@ -65,7 +68,7 @@ class InteractionDatasetBindings(object):
         return gt
 
     def update_open_loop_simulation(self, ground_truth, timestamp, laneletmap, configurations):
-        current_env_model = self.dataset_handler.fill_environment(timestamp)
+        current_env_model = self.get_environment_model(timestamp)
         for o in current_env_model.objects():
             if o.v_id in ground_truth.keys():
                 self.update_simulation_object_motion(ground_truth.get(o.v_id), timestamp)
@@ -82,7 +85,7 @@ class InteractionDatasetBindings(object):
 
         # try to read data for this timestamp
         timestamps_until_now = range(100, int(timestamp) + 1, 100)
-        motion = self.dataset_handler.get_motion_with_current_timestamp(timestamps_until_now, v.v_id)
+        motion = self.get_motion_with_current_timestamp(timestamps_until_now, v.v_id)
 
         if len(v.timestamps) == 0:
             v.timestamps.create_and_add(timestamp)
