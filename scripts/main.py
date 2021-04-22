@@ -21,7 +21,7 @@ from mp_sim.execute import drive
 from mp_sim.configurations.utils import load_configurations
 
 
-def run(configurations):
+def run(configurations, f_execute=drive):
 
     # Print system time
     Print2Console.p('ss', ['Analysis start time:',
@@ -102,7 +102,7 @@ def run(configurations):
         # Compute the trajectory of vehicles who have a 'toLanelet' in their **objective**!
         for vehicle in [_v for _v in ground_truth.vehicles() if _v.objective.toLanelet]:
             try:
-                drive(vehicle, ground_truth)
+                f_execute(vehicle, ground_truth)
 
                 # plot results
                 curr_save_dir = os.path.join(
