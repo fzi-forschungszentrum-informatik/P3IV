@@ -12,13 +12,13 @@ import traceback
 from termcolor import colored
 import itertools
 import shutil
-from mp_sim.configurations.test_cases import test_cases
 from util_simulation.output.consoleprint import Print2Console
 from util_simulation.output.utils import create_output_dir, create_output_path, save_settings
 from util_simulation.map.lanelet_map_reader import lanelet_map_reader
 from util_simulation.vehicle.main import Vehicle
-from mp_sim.execute import drive, predict
-from mp_sim.configurations.utils import load_configurations
+from p3iv.execute import drive, predict
+from p3iv.configurations.test_cases import test_cases
+from p3iv.configurations.utils import load_configurations
 
 
 def run(configurations, f_execute=drive):
@@ -41,7 +41,7 @@ def run(configurations, f_execute=drive):
 
     # Get ground-truth object data
     if configurations['source'] == 'interaction_sim':
-        from mp_sim.bindings import InteractionDatasetBindings
+        from p3iv.bindings import InteractionDatasetBindings
         bindings = InteractionDatasetBindings(
             configurations["map"], configurations['temporal']['dt'])
         environment_model = bindings.get_environment_model(
@@ -156,7 +156,7 @@ if __name__ == '__main__':
         except:
             raise argparse.ArgumentTypeError(
                 "Test-case invalid!\n \
-                    For valid test cases see 'mp_sim/src/mp_sim/configurations/test_cases.py'")
+                    For valid test cases see 'p3iv/src/p3iv/configurations/test_cases.py'")
         return configurations
 
     def PredictionCase(test_case):
@@ -171,7 +171,7 @@ if __name__ == '__main__':
         except:
             raise argparse.ArgumentTypeError(
                 "Test-case invalid!\n \
-                    For valid test cases see 'mp_sim/src/mp_sim/configurations/test_cases.py'")
+                    For valid test cases see 'p3iv/src/p3iv/configurations/test_cases.py'")
         return configurations
 
     def TimestampKey(timestamp):

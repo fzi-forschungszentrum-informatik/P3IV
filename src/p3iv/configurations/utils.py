@@ -4,7 +4,7 @@ from datetime import datetime
 
 def get_settings():
 
-    from mp_sim.configurations.settings import settings
+    from p3iv.configurations.settings import settings
 
     settings['start_time'] = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
@@ -18,7 +18,7 @@ def get_settings():
 
 def load_configurations(test_case_id):
 
-    from mp_sim.configurations.test_cases import test_cases
+    from p3iv.configurations.test_cases import test_cases
     try:
         configurations = test_cases[test_case_id]
     except KeyError:

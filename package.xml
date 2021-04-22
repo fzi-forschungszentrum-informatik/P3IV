@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>mp_sim</name>
+  <name>p3iv</name>
   <version>0.0.0</version>
-  <description>Main pkg for motion-planning-sim</description>
+  <description>Main pkg for Probabilistic Prediction and Planning for Intelligent Vehicles Simulator</description>
 
   <license>MRT</license>
   <maintainer email="sahin.tas@kit.edu">Sahin Tas</maintainer>

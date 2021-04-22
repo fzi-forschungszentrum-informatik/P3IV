@@ -1,4 +1,5 @@
 import warnings
+import traceback
 
 
 class VehicleModules(object):
@@ -11,7 +12,7 @@ class VehicleModules(object):
                                              measurement_noise=configurations["localization"]["measurement_noise"],
                                              process_noise=configurations["localization"]["process_noise"])
         except ImportError as e:
-            print(str(e))
+            print(str(traceback.format_exc()))
             self.localization = EmptyModule("Localization")
 
         # set perception
@@ -24,7 +25,7 @@ class VehicleModules(object):
                                       vehicle.perception.sensor_noise,
                                       override_visibility=configurations['perception']['override_visibility'])
         except ImportError as e:
-            print(str(e))
+            print(str(traceback.format_exc()))
             self.perception = EmptyModule("Perception")
 
         # set understanding
@@ -37,18 +38,19 @@ class VehicleModules(object):
                                             vehicle._v_id,
                                             toLanelet=vehicle.objective.toLanelet)
         except ImportError as e:
-            print(str(e))
+            print(str(traceback.format_exc()))
             self.understanding = EmptyModule("Understanding")
 
         # set prediction
         try:
             from prediction.main import Predict
             self.prediction = Predict(configurations["temporal"]["dt"],
-                                      configurations["temporal"]["N"],
-                                      configurations["map"],
-                                      configurations["prediction"])
+                                    configurations["temporal"]["N"],
+                                    configurations["map"],
+                                    configurations["prediction"])
+
         except ImportError as e:
-            print(str(e))
+            print(str(traceback.format_exc()))
             self.prediction = EmptyModule("Prediction")
 
         # set decision
@@ -62,7 +64,7 @@ class VehicleModules(object):
                                    configurations["temporal"]["N_pin_future"],
                                    configurations["decision_making"]["astar_initialization"])
         except ImportError as e:
-            print(str(e))
+            print(str(traceback.format_exc()))
             self.decision = EmptyModule("Decision")
 
         # set planner
@@ -73,7 +75,7 @@ class VehicleModules(object):
                                 vehicle.characteristics.max_deceleration,
                                 get_planner_type(configurations, vehicle))
         except ImportError as e:
-            print(str(e))
+            print(str(traceback.format_exc()))
             self.planner = EmptyModule("Planner")
 
         # set action
@@ -81,7 +83,7 @@ class VehicleModules(object):
             from action.main import Act
             self.action = Act()
         except ImportError as e:
-            print(str(e))
+            print(str(traceback.format_exc()))
             self.action = EmptyModule("Action")
 
 
