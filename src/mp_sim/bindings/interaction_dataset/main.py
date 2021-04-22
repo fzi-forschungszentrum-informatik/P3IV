@@ -2,6 +2,7 @@ import warnings
 from util_simulation.vehicle.main import Vehicle
 from util_simulation.ground_truth.main import GroundTruth
 from util_simulation.output.consoleprint import Print2Console
+from util_simulation.environment_model.main import EnvironmentModel
 from mp_sim.modules import VehicleModules
 from track_reader import track_reader
 from data_converter import DataConverter
@@ -13,7 +14,8 @@ class InteractionDatasetBindings(object):
         self.dataset_handler = DataConverter(int(instance_settings["temporal"]["dt"]), track_dictionary)
 
     def get_environment_model(self, timestamp):
-        return self.dataset_handler.fill_environment(timestamp)
+        e = EnvironmentModel()
+        return self.dataset_handler.fill_environment(e, timestamp)
 
     @staticmethod
     def spawn_simulation_object(scene_object, laneletmap, configurations):

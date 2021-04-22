@@ -2,7 +2,6 @@ from __future__ import division
 import numpy as np
 import warnings
 from matplotlib import colors as mcolors
-from util_simulation.environment_model.main import EnvironmentModel
 from external.dataset_types import Track
 from util_motion.motion import Motion
 
@@ -24,17 +23,24 @@ class DataConverter(object):
         self.dt = dt
         self.track_dictionary = track_dictionary
 
-    def fill_environment(self, timestamp):
-        assert (isinstance(timestamp, int))
+    def fill_environment(self, environment, timestamp):
+        """Fill environment model with data from the dataset.
 
-        e = EnvironmentModel()
+        Parameters
+        ----------
+        environment: EnvironmentModel
+            Environmnet model object to be filled.
+        timestamp: int
+            Integer that of current timestamp.
+        """
+        assert (isinstance(timestamp, int))
 
         timestamps_until_now = np.arange(100, int(timestamp) + 1, int(self.dt))
         for t_id, track in self.track_dictionary.items():
             motion = self.get_motion_with_current_timestamp(timestamps_until_now, t_id)
             if motion:
-                e.add_object(t_id, get_color(t_id), track.length, track.width, motion)
-        return e
+                environment.add_object(t_id, get_color(t_id), track.length, track.width, motion)
+        return environment
 
     def get_motion_with_current_timestamp(self, timestamps, t_id):
         """Read from dataset in Motion-format. Ensure that the last value in timestamps is included.

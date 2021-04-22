@@ -12,19 +12,14 @@ import traceback
 from termcolor import colored
 import itertools
 import shutil
-###
 from mp_sim.configurations.test_cases import test_cases
-
 from util_simulation.output.consoleprint import Print2Console
 from util_simulation.output.utils import create_output_dir, create_output_path, save_settings
 from util_simulation.map.lanelet_map_reader import lanelet_map_reader
 from util_simulation.vehicle.main import Vehicle
 from mp_sim.drive import drive
 from mp_sim.configurations.utils import load_configurations
-#from postprocessing.postprocessing_plots import do_post_plots
-#from sim_master.test_cases import test_cases
-#from map_data.main import main as get_map
-#from sim_master.vehicle.create_vehicle import create_objects
+
 
 
 def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
@@ -129,11 +124,9 @@ def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
             continue
         break
 
-
     Print2Console.p('s', ['='*72], style='magenta', bold=True)
     Print2Console.p('s', ['Simulation completed!'], style='magenta', bold=True)
     Print2Console.p('s', ['='*72], style='magenta', bold=True)
-
     return ground_truth
 
 
