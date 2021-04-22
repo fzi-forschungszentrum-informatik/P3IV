@@ -10,17 +10,28 @@ from action.main import Act
 class VehicleModules(object):
     def __init__(self, configurations, laneletmap, vehicle):
 
-        self.localization = Localization(configurations["temporal"]["dt"], measurement_noise=configurations["localization"]["measurement_noise"],
+        self.localization = Localization(configurations["temporal"]["dt"],
+                                         measurement_noise=configurations["localization"]["measurement_noise"],
                                          process_noise=configurations["localization"]["process_noise"])
 
-        self.perception = Percept(laneletmap, vehicle._v_id, vehicle.perception.sensor_fov, vehicle.perception.sensor_range,
-                                  vehicle.perception.sensor_noise, override_visibility=configurations['perception']['override_visibility'])
+        self.perception = Percept(laneletmap,
+                                  vehicle._v_id,
+                                  vehicle.perception.sensor_fov,
+                                  vehicle.perception.sensor_range,
+                                  vehicle.perception.sensor_noise,
+                                  override_visibility=configurations['perception']['override_visibility'])
 
-        self.understanding = Understand(
-            configurations["temporal"]["dt"], configurations["temporal"]["N"], laneletmap, vehicle._v_id, toLanelet=vehicle.objective.toLanelet)
+        self.understanding = Understand(configurations["temporal"]["dt"],
+                                        configurations["temporal"]
+                                        ["N"],
+                                        laneletmap,
+                                        vehicle._v_id,
+                                        toLanelet=vehicle.objective.toLanelet)
 
-        self.prediction = Predict(
-            configurations["temporal"]["dt"], configurations["temporal"]["N"], configurations["map"], configurations["prediction"])
+        self.prediction = Predict(configurations["temporal"]["dt"],
+                                  configurations["temporal"]["N"],
+                                  configurations["map"],
+                                  configurations["prediction"])
 
         self.decision = Decide(vehicle.characteristics.max_acceleration,
                                vehicle.characteristics.max_deceleration,
