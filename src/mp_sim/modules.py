@@ -1,3 +1,6 @@
+import warnings
+
+
 class VehicleModules(object):
     def __init__(self, configurations, laneletmap, vehicle):
 
@@ -9,6 +12,7 @@ class VehicleModules(object):
                                              process_noise=configurations["localization"]["process_noise"])
         except ImportError as e:
             print(str(e))
+            self.localization = EmptyModule("Localization")
 
         # set perception
         try:
@@ -21,6 +25,7 @@ class VehicleModules(object):
                                       override_visibility=configurations['perception']['override_visibility'])
         except ImportError as e:
             print(str(e))
+            self.perception = EmptyModule("Perception")
 
         # set understanding
         try:
@@ -33,6 +38,7 @@ class VehicleModules(object):
                                             toLanelet=vehicle.objective.toLanelet)
         except ImportError as e:
             print(str(e))
+            self.understanding = EmptyModule("Understanding")
 
         # set prediction
         try:
@@ -43,6 +49,7 @@ class VehicleModules(object):
                                       configurations["prediction"])
         except ImportError as e:
             print(str(e))
+            self.prediction = EmptyModule("Prediction")
 
         # set decision
         try:
@@ -56,6 +63,7 @@ class VehicleModules(object):
                                    configurations["decision_making"]["astar_initialization"])
         except ImportError as e:
             print(str(e))
+            self.decision = EmptyModule("Decision")
 
         # set planner
         try:
@@ -66,6 +74,7 @@ class VehicleModules(object):
                                 get_planner_type(configurations, vehicle))
         except ImportError as e:
             print(str(e))
+            self.planner = EmptyModule("Planner")
 
         # set action
         try:
@@ -73,6 +82,17 @@ class VehicleModules(object):
             self.action = Act()
         except ImportError as e:
             print(str(e))
+            self.action = EmptyModule("Action")
+
+
+class EmptyModule(object):
+    def __init__(self, module_name, *args, **kwargs):
+        self._module_name = module_name
+        pass
+
+    def __call__(self, *args, **kwargs):
+        warnings.warn(str(self._module_name) + " is not defined.")
+        return None
 
 
 def get_planner_type(configurations, vehicle):
