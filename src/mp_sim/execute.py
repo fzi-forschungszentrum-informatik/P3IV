@@ -16,56 +16,50 @@ def drive(vehicle, ground_truth):
     Print2Console.p('s', ['-' * 72], style='cyan', bold=True, first_col_w=40)
 
     # get the current timestampdata
-    timestampdata = vehicle.timestamps.latest()
+    tsd = vehicle.timestamps.latest()
 
     logger.debug('Nodes for computation: ')
-    logger.debug(timestampdata.motion.cartesian.position.mean[-4:])
+    logger.debug(tsd.motion.cartesian.position.mean[-4:])
 
     # Localization ------------------------------------------------------------
-    timestampdata.localization = vehicle.modules.localization(
-        timestampdata.motion.cartesian)
+    tsd.localization = vehicle.modules.localization(tsd.motion.cartesian)
 
     # Perception --------------------------------------------------------------
-    timestampdata.environment = vehicle.modules.perception(timestampdata.timestamp,
-                                                           ground_truth,
-                                                           timestampdata.motion.pose[-1])
+    tsd.environment = vehicle.modules.perception(
+        tsd.timestamp, ground_truth, tsd.motion.pose[-1])
 
     # Understanding -----------------------------------------------------------
-    timestampdata.scene = vehicle.modules.understanding(
-        timestampdata.environment)
+    tsd.scene = vehicle.modules.understanding(tsd.environment)
 
     # Prediction--- -----------------------------------------------------------
-    timestampdata.situation = vehicle.modules.prediction(
-        timestampdata.timestamp, timestampdata.scene)
+    tsd.situation = vehicle.modules.prediction(tsd.timestamp, tsd.scene)
 
     # Decision Making ---------------------------------------------------------
-    timestampdata.decision_base = vehicle.modules.decision(
-        timestampdata.motion, timestampdata.scene, timestampdata.situation)
+    tsd.decision_base = vehicle.modules.decision(
+        tsd.motion, tsd.scene, tsd.situation)
 
     # Motion Planning ---------------------------------------------------------
-    timestampdata.motion_plans = vehicle.modules.planner(
-        timestampdata.timestamp, timestampdata.motion, timestampdata.scene,
-        timestampdata.situation, timestampdata.decision_base)
+    tsd.motion_plans = vehicle.modules.planner(
+        tsd.timestamp, tsd.motion, tsd.scene, tsd.situation, tsd.decision_base)
 
     # Pick the optimal action -------------------------------------------------
-    timestampdata.plan_optimal = vehicle.modules.action(
-        timestampdata.motion, timestampdata.motion_plans)
+    tsd.plan_optimal = vehicle.modules.action(
+        tsd.motion, tsd.motion_plans)
 
 
 def predict(vehicle, ground_truth):
 
     # get the current timestampdata
-    timestampdata = vehicle.timestamps.latest()
+    tsd = vehicle.timestamps.latest()
 
     # Perception --------------------------------------------------------------
-    timestampdata.environment = vehicle.modules.perception(timestampdata.timestamp,
-                                                           ground_truth,
-                                                           timestampdata.motion.pose[-1])
+    tsd.environment = vehicle.modules.perception(
+        tsd.timestamp, ground_truth, tsd.motion.pose[-1])
 
     # Understanding -----------------------------------------------------------
-    timestampdata.scene = vehicle.modules.understanding(
-        timestampdata.environment)
+    tsd.scene = vehicle.modules.understanding(
+        tsd.environment)
 
     # Prediction--- -----------------------------------------------------------
-    timestampdata.situation = vehicle.modules.prediction(
-        timestampdata.timestamp, timestampdata.scene)
+    tsd.situation = vehicle.modules.prediction(
+        tsd.timestamp, tsd.scene)
