@@ -27,14 +27,16 @@ def drive(vehicle, ground_truth):
 
     # Perception --------------------------------------------------------------
     timestampdata.environment = vehicle.modules.perception(timestampdata.timestamp,
-        ground_truth, timestampdata.motion.pose[-1])
+                                                           ground_truth,
+                                                           timestampdata.motion.pose[-1])
 
     # Understanding -----------------------------------------------------------
     timestampdata.scene = vehicle.modules.understanding(
         timestampdata.environment)
 
     # Prediction--- -----------------------------------------------------------
-    timestampdata.situation = vehicle.modules.prediction(timestampdata.timestamp, timestampdata.scene)
+    timestampdata.situation = vehicle.modules.prediction(
+        timestampdata.timestamp, timestampdata.scene)
 
     # Decision Making ---------------------------------------------------------
     timestampdata.decision_base = vehicle.modules.decision(
@@ -48,3 +50,22 @@ def drive(vehicle, ground_truth):
     # Pick the optimal action -------------------------------------------------
     timestampdata.plan_optimal = vehicle.modules.action(
         timestampdata.motion, timestampdata.motion_plans)
+
+
+def predict(vehicle, ground_truth):
+
+    # get the current timestampdata
+    timestampdata = vehicle.timestamps.latest()
+
+    # Perception --------------------------------------------------------------
+    timestampdata.environment = vehicle.modules.perception(timestampdata.timestamp,
+                                                           ground_truth,
+                                                           timestampdata.motion.pose[-1])
+
+    # Understanding -----------------------------------------------------------
+    timestampdata.scene = vehicle.modules.understanding(
+        timestampdata.environment)
+
+    # Prediction--- -----------------------------------------------------------
+    timestampdata.situation = vehicle.modules.prediction(
+        timestampdata.timestamp, timestampdata.scene)
