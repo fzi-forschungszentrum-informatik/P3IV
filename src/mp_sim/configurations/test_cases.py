@@ -21,7 +21,7 @@ test_cases = {
         "timestamp_end": 4500,
         "vehicle_of_interest": 1,
         "simulation_type": "open-loop",
-        "planning_meta": dict([(1, ("30008", "default"))])
+        "planning_meta": dict([(1, ("30008", "mpcc"))])
     },
     "DEU_Merging_OL_02": {
         "source": "interaction_sim",
@@ -41,14 +41,23 @@ test_cases = {
         "simulation_type": "semi-open-loop",
         "planning_meta": dict([(14, ("30022", "default"))])
     },
+    "MB": {
+        "source": "interaction_sim",
+        "map": 'DR_DEU_Roundabout_OF',
+        "timestamp_begin": 143800,
+        "timestamp_end": 152100,
+        "vehicle_of_interest": 61,
+        "simulation_type": "open-loop",
+        "planning_meta": dict([(61, ("30022", "idm"))])
+    },
     "DEU_Roundabout_OL_02": {
         "source": "interaction_sim",
         "map": 'DR_DEU_Roundabout_OF',
         "timestamp_begin": 3200,
-        "timestamp_end": 15300,
+        "timestamp_end": 3200,
         "vehicle_of_interest": 12,
         "simulation_type": "open-loop",
-        "planning_meta": dict([(12, ("30022", "default"))])
+        "planning_meta": dict([(12, ("30022", "mpcc"))])
     },
     "USA_Intersection_EP0_01": {
         "source": "interaction_sim",
@@ -58,6 +67,15 @@ test_cases = {
         "vehicle_of_interest": 5,
         "simulation_type": "open-loop",
         "planning_meta": dict([(5, ("30013", "default"))])
+    },
+    "USA_Intersection_EP1_01": {
+        "source": "interaction_sim",
+        "map": 'DR_USA_Intersection_EP1',
+        "timestamp_begin": 3000,
+        "timestamp_end": 3000,
+        "vehicle_of_interest": 9,
+        "simulation_type": "open-loop",
+        "planning_meta": dict([(9, ("30044", "mpcc"))])
     },
     "USA_Intersection_EP0_02": {
         "source": "interaction_sim",
