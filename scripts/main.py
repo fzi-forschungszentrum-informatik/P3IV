@@ -17,7 +17,7 @@ from util_simulation.output.consoleprint import Print2Console
 from util_simulation.output.utils import create_output_dir, create_output_path, save_settings
 from util_simulation.map.lanelet_map_reader import lanelet_map_reader
 from util_simulation.vehicle.main import Vehicle
-from mp_sim.execute import drive
+from mp_sim.execute import drive, predict
 from mp_sim.configurations.utils import load_configurations
 
 
@@ -159,6 +159,21 @@ if __name__ == '__main__':
                     For valid test cases see 'mp_sim/src/mp_sim/configurations/test_cases.py'")
         return configurations
 
+    def PredictionCase(test_case):
+        try:
+            configurations = load_configurations(str(test_case))
+
+            # overwrite 'simulation type' and 'planner type' in prediction
+            configurations["simulation_type"] = "open-loop"
+            _v_id = configurations["vehicle_of_interest"]
+            configurations["planning_meta"][_v_id] = (
+                configurations["planning_meta"][_v_id][0], "default")
+        except:
+            raise argparse.ArgumentTypeError(
+                "Test-case invalid!\n \
+                    For valid test cases see 'mp_sim/src/mp_sim/configurations/test_cases.py'")
+        return configurations
+
     def TimestampKey(timestamp):
         if not timestamp:
             raise argparse.ArgumentTypeError(
@@ -180,6 +195,9 @@ if __name__ == '__main__':
     parser.add_argument("-r", "--run", action="store", type=SimulationTestCase,
                         help="Run simulations for the config-file. \
                              \nUsage: --run=<test_case>")
+    parser.add_argument("-p", "--predict", action="store", type=PredictionCase,
+                        help="Run prediction for the config-file. \
+                             \nUsage: --predict=<test_case>")
     parser.add_argument("-ss", "--show-single", action='store', metavar='', type=TimestampKey,
                         help="Show single-timestamp results of the simulation-run.\
                             Must be provided together with timestamp value. \
@@ -208,6 +226,33 @@ if __name__ == '__main__':
         # run simulation
         gt = run(configurations, f_execute=drive)
 
+        # save results
+        filename_pickle = os.path.join(output_path, "results.pickle")
+        gt.dump(filename_pickle)
+
+        # save configurations as well
+        filename_json = os.path.join(output_path, "configurations.json")
+        j = json.dumps(configurations, indent=4)
+        f = open(filename_json, 'w')
+        print >> f, j
+        f.close()
+        print("Completed!")
+
+    elif args.predict:
+
+        # set default logger
+        logging.basicConfig(level=logging.INFO)
+
+        # create output dirs
+        output_dir = create_output_dir()
+        output_path = create_output_path(output_dir)
+
+        # will serve as save directory for figures
+        configurations = args.predict
+        configurations['save_dir'] = str(output_path)
+
+        # run simulation
+        gt = run(configurations, f_execute=predict)
         # save results
         filename_pickle = os.path.join(output_path, "results.pickle")
         gt.dump(filename_pickle)
