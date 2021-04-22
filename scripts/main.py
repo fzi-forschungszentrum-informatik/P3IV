@@ -108,8 +108,6 @@ def run(configurations, f_execute=drive):
                 curr_save_dir = os.path.join(
                     configurations['save_dir'], str(ts_now), str(vehicle.v_id))
                 os.makedirs(curr_save_dir)
-                #plot_prediction(situation_model.objects, vehicle.vehicle_id, settings["Main"]["N"], settings["Main"]["dt"], curr_save_dir)
-                #plot_planning(vehicle, current_time, lightsaber_base, settings)
 
                 # Update vehicle data
                 ground_truth.update(vehicle)
