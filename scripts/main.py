@@ -206,7 +206,7 @@ if __name__ == '__main__':
         configurations['save_dir'] = str(output_path)
 
         # run simulation
-        gt = run(configurations)
+        gt = run(configurations, f_execute=drive)
 
         # save results
         filename_pickle = os.path.join(output_path, "results.pickle")
