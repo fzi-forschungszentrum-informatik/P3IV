@@ -21,7 +21,7 @@ from mp_sim.execute import drive
 from mp_sim.configurations.utils import load_configurations
 
 
-def run(configurations, instance_settings=None, subdir='', subdir_postfix=''):
+def run(configurations):
 
     # Print system time
     Print2Console.p('ss', ['Analysis start time:',
