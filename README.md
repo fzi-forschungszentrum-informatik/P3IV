@@ -1,9 +1,9 @@
-# MP SIM
+# P3IV
 
-Main pkg for motion-planning-sim
+Main pkg for Probabilistic Prediction and Planning for Intelligent Vehicles (P3IV) Simulator
 
-### [Doxygen documentation](http://mrt.pages.mrt.uni-karlsruhe.de/private/tas/simulation/mp_sim/doxygen/index.html)
-### [Coverage report](http://mrt.pages.mrt.uni-karlsruhe.de/private/tas/simulation/mp_sim/coverage/index.html)
+### [Doxygen documentation](http://mrt.pages.mrt.uni-karlsruhe.de/planning-simulation/p3iv/doxygen/index.html)
+### [Coverage report](http://mrt.pages.mrt.uni-karlsruhe.de/planning-simulation/p3iv/coverage/index.html)
 
 ## Usage
 
