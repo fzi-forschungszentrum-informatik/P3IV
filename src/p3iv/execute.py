@@ -29,7 +29,8 @@ def drive(vehicle, ground_truth):
         tsd.timestamp, ground_truth, tsd.motion.pose[-1])
 
     # Understanding -----------------------------------------------------------
-    tsd.scene = vehicle.modules.understanding(tsd.environment)
+    tsd.scene = vehicle.modules.understanding(tsd.environment.objects(
+        relative_to=None), tsd.environment.polyvision, tsd.environment.visible_areas)
 
     # Prediction--- -----------------------------------------------------------
     tsd.situation = vehicle.modules.prediction(tsd.timestamp, tsd.scene)
@@ -57,8 +58,8 @@ def predict(vehicle, ground_truth):
         tsd.timestamp, ground_truth, tsd.motion.pose[-1])
 
     # Understanding -----------------------------------------------------------
-    tsd.scene = vehicle.modules.understanding(
-        tsd.environment)
+    tsd.scene = vehicle.modules.understanding(tsd.environment.objects(
+        relative_to=None), tsd.environment.polyvision, tsd.environment.visible_areas)
 
     # Prediction--- -----------------------------------------------------------
     tsd.situation = vehicle.modules.prediction(
