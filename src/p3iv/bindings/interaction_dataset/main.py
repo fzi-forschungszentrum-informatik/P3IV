@@ -1,9 +1,9 @@
 import warnings
-from util_simulation.vehicle.main import Vehicle
-from util_simulation.ground_truth.main import GroundTruth
-from util_simulation.output.consoleprint import Print2Console
-from util_simulation.environment_model.main import EnvironmentModel
+from p3iv.types.vehicle import Vehicle
+from p3iv.types.ground_truth import GroundTruth
+from p3iv.types.environment_model import EnvironmentModel
 from p3iv.modules import VehicleModules
+from util_simulation.output.consoleprint import Print2Console
 from track_reader import track_reader
 from data_converter import DataConverter
 

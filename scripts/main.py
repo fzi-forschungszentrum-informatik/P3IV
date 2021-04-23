@@ -15,7 +15,7 @@ import shutil
 from util_simulation.output.consoleprint import Print2Console
 from util_simulation.output.utils import create_output_dir, create_output_path, save_settings
 from util_simulation.map.lanelet_map_reader import lanelet_map_reader
-from util_simulation.vehicle.main import Vehicle
+from p3iv.types.vehicle import Vehicle
 from p3iv.execute import drive, predict
 from p3iv.configurations.test_cases import test_cases
 from p3iv.configurations.utils import load_configurations
