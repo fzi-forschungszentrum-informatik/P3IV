@@ -29,7 +29,7 @@
   <depend>lanelet2_core</depend>
   <depend>lanelet2_matching</depend>
   <depend>util_motion</depend>
-  <depend>util_simulation</depend>
+  <depend>p3iv_utils</depend>
   <depend>polyvision</depend>
   <depend>localization</depend>
   <depend>understanding</depend>

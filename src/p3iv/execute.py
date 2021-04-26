@@ -1,4 +1,4 @@
-from util_simulation.output.consoleprint import Print2Console
+from p3iv_utils.consoleprint import Print2Console
 import pprint
 
 # configure logging of the module

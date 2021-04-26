@@ -12,9 +12,9 @@ import traceback
 from termcolor import colored
 import itertools
 import shutil
-from util_simulation.output.consoleprint import Print2Console
-from util_simulation.output.utils import create_output_dir, create_output_path, save_settings
-from util_simulation.map.lanelet_map_reader import lanelet_map_reader
+from p3iv_utils.consoleprint import Print2Console
+from p3iv_utils.ofstream import create_output_dir, create_output_path, save_settings
+from p3iv_utils.lanelet_map_reader import lanelet_map_reader
 from p3iv.types.vehicle import Vehicle
 from p3iv.execute import drive, predict
 from p3iv.configurations.test_cases import test_cases
@@ -37,7 +37,8 @@ def run(configurations, f_execute=drive):
     pprint(configurations)
 
     # Load lanelet2 map
-    laneletmap = lanelet_map_reader(configurations["map"])
+    laneletmap = lanelet_map_reader(
+        configurations["map"], catkin_ws_rel_dir="../../../INTERACTION-Dataset-DR-v1_0/maps")
 
     # Get ground-truth object data
     if configurations['source'] == 'interaction_sim':
