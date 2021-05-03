@@ -14,7 +14,7 @@ class ExistenceProbability(object):
 
     @existence_probability.setter
     def existence_probability(self, probability):
-        assert (0.0 <= probability <= 1.0)
+        assert 0.0 <= probability <= 1.0
         self._existence_probability = probability
 
 
@@ -33,6 +33,7 @@ class TrackedObject(VehicleAppearance, ExistenceProbability):
     current_lanelets : list
         Contains list of current Lanelets the object might be on
     """
+
     def __init__(self):
         super(TrackedObject, self).__init__()
         self._v_id = 0

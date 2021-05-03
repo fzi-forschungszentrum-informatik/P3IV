@@ -12,8 +12,8 @@ class Timestamps(object):
         return self._timestamps.values()
 
     def add(self, timestamp, timestamp_data):
-        assert (isinstance(timestamp, int))
-        assert (isinstance(timestamp_data, TimestampData))
+        assert isinstance(timestamp, int)
+        assert isinstance(timestamp_data, TimestampData)
         self._timestamps[str(timestamp)] = timestamp_data
 
     def create_and_add(self, timestamp):
@@ -36,13 +36,13 @@ class Timestamps(object):
 
 class TimestampData(object):
     def __init__(self, timestamp):
-        assert (isinstance(timestamp, int))
+        assert isinstance(timestamp, int)
         self.timestamp = timestamp
         self.motion = None
         self.localization = None  # LocalizationModel class
-        self.environment = None   # EnvironmentModel class
-        self.scene = None   # SceneModel class
-        self.situation = None   # SituationModel class
-        self.decision_base = None   # DecisionBase class
-        self.motion_plans = None   # MotionPlans class in local Frenet-Frame
+        self.environment = None  # EnvironmentModel class
+        self.scene = None  # SceneModel class
+        self.situation = None  # SituationModel class
+        self.decision_base = None  # DecisionBase class
+        self.motion_plans = None  # MotionPlans class in local Frenet-Frame
         self.plan_optimal = None  # optimal MotionPlan in global Frenet-frame

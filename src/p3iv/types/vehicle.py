@@ -23,7 +23,7 @@ class VehicleAppearance(object):
 
     @color.setter
     def color(self, color):
-        assert (isinstance(color, (unicode, str)))
+        assert isinstance(color, (unicode, str))
         self._color = color
 
     @property
@@ -32,7 +32,7 @@ class VehicleAppearance(object):
 
     @length.setter
     def length(self, length):
-        assert (isinstance(length, (int, float)))
+        assert isinstance(length, (int, float))
         self._length = length
 
     @property
@@ -41,7 +41,7 @@ class VehicleAppearance(object):
 
     @width.setter
     def width(self, width):
-        assert (isinstance(width, (int, float)))
+        assert isinstance(width, (int, float))
         self._width = width
 
 
@@ -123,5 +123,5 @@ class Vehicle(object):
 
     @v_id.setter
     def v_id(self, v_id):
-        assert (isinstance(v_id, (int, str)))
+        assert isinstance(v_id, (int, str))
         self._v_id = v_id

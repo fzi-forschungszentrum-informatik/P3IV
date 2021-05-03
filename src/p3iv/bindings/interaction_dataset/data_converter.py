@@ -17,8 +17,8 @@ class DatasetValueError(Exception):
 
 class DataConverter(object):
     def __init__(self, dt, track_dictionary):
-        assert (isinstance(dt, int))
-        assert (isinstance(track_dictionary.values()[0], Track))
+        assert isinstance(dt, int)
+        assert isinstance(track_dictionary.values()[0], Track)
 
         self.dt = dt
         self.track_dictionary = track_dictionary
@@ -33,7 +33,7 @@ class DataConverter(object):
         timestamp: int
             Integer that of current timestamp.
         """
-        assert (isinstance(timestamp, int))
+        assert isinstance(timestamp, int)
 
         timestamps_until_now = np.arange(100, int(timestamp) + 1, int(self.dt))
         for t_id, track in self.track_dictionary.items():
@@ -43,8 +43,7 @@ class DataConverter(object):
         return environment
 
     def get_motion_with_current_timestamp(self, timestamps, t_id):
-        """Read from dataset in Motion-format. Ensure that the last value in timestamps is included.
-        """
+        """Read from dataset in Motion-format. Ensure that the last value in timestamps is included."""
         assert isinstance(timestamps, (list, np.ndarray))
         assert isinstance(t_id, int)
 
@@ -56,8 +55,7 @@ class DataConverter(object):
             return None
 
     def get_motion(self, track_id, timestamps):
-        """Read from dataset in Motion-format. Try to extract all timestamps provided.
-        """
+        """Read from dataset in Motion-format. Try to extract all timestamps provided."""
         assert isinstance(track_id, int)
         assert isinstance(timestamps, (list, np.ndarray))
 
@@ -84,7 +82,7 @@ class DataConverter(object):
 
         data_available = data[i_begin:i_end, :]
         timestamps_available = timestamps[i_begin:i_end]
-        motion = self._create_motion_from_array(data_available, self.dt/1000.0)
+        motion = self._create_motion_from_array(data_available, self.dt / 1000.0)
         return timestamps_available, motion
 
     def read_track_at_timestamp(self, track_id, timestamp):
@@ -97,8 +95,8 @@ class DataConverter(object):
         """Read track data at provided timestamp.
         Protected, as it serves as a helper func.
         """
-        assert (isinstance(timestamp, int))
-        assert (isinstance(track, Track))
+        assert isinstance(timestamp, int)
+        assert isinstance(track, Track)
 
         if not (track.time_stamp_ms_first <= timestamp <= track.time_stamp_ms_last):
             raise DatasetValueError
@@ -114,8 +112,7 @@ class DataConverter(object):
 
     @staticmethod
     def _create_motion_from_array(data_arr, dt):
-        """Helper function to create Motion instance from motion-data-array.
-        """
+        """Helper function to create Motion instance from motion-data-array."""
         motion = Motion()
         motion.resize(len(data_arr))
         motion.cartesian.position.mean[:, 0] = data_arr[:, 1]

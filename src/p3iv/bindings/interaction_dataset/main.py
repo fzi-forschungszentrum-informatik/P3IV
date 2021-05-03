@@ -25,7 +25,7 @@ class InteractionDatasetBindings(object):
 
         v = Vehicle(scene_object.v_id)
 
-        if scene_object.v_id == configurations['vehicle_of_interest']:
+        if scene_object.v_id == configurations["vehicle_of_interest"]:
             scene_object.color = "black"
 
         # fill appearance
@@ -35,20 +35,20 @@ class InteractionDatasetBindings(object):
 
         # fill objective
         try:
-            v.objective.toLanelet = configurations['planning_meta'][scene_object.v_id][0]
+            v.objective.toLanelet = configurations["planning_meta"][scene_object.v_id][0]
         except KeyError:
             # make sure that 'toLanelet' is defined for vehicle-of-interest
-            assert v.v_id is not configurations['vehicle_of_interest']
+            assert v.v_id is not configurations["vehicle_of_interest"]
         # v.objective.set_speed = ""
 
         # fill perception
-        if scene_object.v_id != configurations['vehicle_of_interest']:
-            v.perception.sensor_fov = configurations['perception']['otherVehicle_sensor_fov']
-            v.perception.sensor_range = configurations['perception']['otherVehicle_sensor_range']
+        if scene_object.v_id != configurations["vehicle_of_interest"]:
+            v.perception.sensor_fov = configurations["perception"]["otherVehicle_sensor_fov"]
+            v.perception.sensor_range = configurations["perception"]["otherVehicle_sensor_range"]
         else:
-            v.perception.sensor_fov = configurations['perception']['egoVehicle_sensor_fov']
-            v.perception.sensor_range = configurations['perception']['egoVehicle_sensor_range']
-        v.perception.sensor_noise = configurations['perception']['perception_noise']
+            v.perception.sensor_fov = configurations["perception"]["egoVehicle_sensor_fov"]
+            v.perception.sensor_range = configurations["perception"]["egoVehicle_sensor_range"]
+        v.perception.sensor_noise = configurations["perception"]["perception_noise"]
 
         # instantiate modules
         v.modules = VehicleModules(configurations, laneletmap, v)
@@ -59,9 +59,8 @@ class InteractionDatasetBindings(object):
         gt = GroundTruth()
 
         for o in object_list:
-            Print2Console.p(
-                'ss', ['Spawn new vehicle with ID: %s' % str(o.v_id)], style='yellow')
-            Print2Console.p('s', ['-'*72], style='yellow')
+            Print2Console.p("ss", ["Spawn new vehicle with ID: %s" % str(o.v_id)], style="yellow")
+            Print2Console.p("s", ["-" * 72], style="yellow")
 
             v = self.spawn_simulation_object(o, laneletmap, configurations)
             gt.append(v)
@@ -72,23 +71,20 @@ class InteractionDatasetBindings(object):
         current_env_model = self.get_environment_model(timestamp)
         for o in current_env_model.objects():
             if o.v_id in ground_truth.keys():
-                self.update_simulation_object_motion(
-                    ground_truth.get(o.v_id), timestamp)
+                self.update_simulation_object_motion(ground_truth.get(o.v_id), timestamp)
             else:
                 v = self.spawn_simulation_object(o, laneletmap, configurations)
                 self.update_simulation_object_motion(v, timestamp)
                 ground_truth.append(v)
 
     def update_simulation_object_motion(self, v, timestamp):
-        """Update the values of GroundTruth-Vehicle from dataset.
-        """
-        assert (isinstance(v, Vehicle))
-        assert (isinstance(timestamp, int))
+        """Update the values of GroundTruth-Vehicle from dataset."""
+        assert isinstance(v, Vehicle)
+        assert isinstance(timestamp, int)
 
         # try to read data for this timestamp
         timestamps_until_now = range(100, int(timestamp) + 1, 100)
-        motion = self.get_motion_with_current_timestamp(
-            timestamps_until_now, v.v_id)
+        motion = self.get_motion_with_current_timestamp(timestamps_until_now, v.v_id)
 
         if len(v.timestamps) == 0:
             v.timestamps.create_and_add(timestamp)

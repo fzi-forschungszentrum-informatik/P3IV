@@ -27,15 +27,13 @@ class EnvironmentModel(object):
         self.laneletmap = laneletmap
 
     def __getstate__(self):
-        """Implement for dump in pickle. Lanelet2 and Polyvision are implemented in C++ and cannot be pickled.
-        """
-        delattr(self, 'laneletmap')
-        delattr(self, 'polyvision')
+        """Implement for dump in pickle. Lanelet2 and Polyvision are implemented in C++ and cannot be pickled."""
+        delattr(self, "laneletmap")
+        delattr(self, "polyvision")
         return self.__dict__
 
     def __setstate__(self, d):
-        """Implement for load in pickle.
-        """
+        """Implement for load in pickle."""
         self.__dict__ = d
 
     @property
@@ -56,10 +54,10 @@ class EnvironmentModel(object):
         tracked_object.existence_probability = 1.0
         return tracked_object
 
-    def objects(self, relative_to=''):
+    def objects(self, relative_to=""):
         if isinstance(relative_to, int):
             return [v for v in self._tracked_objects.values() if v.v_id != relative_to]
-        elif relative_to is '':
+        elif relative_to is "":
             return [v for v in self._tracked_objects.values() if v.v_id != self._vehicle_id]
         elif relative_to is None:
             return self._tracked_objects.values()
@@ -67,5 +65,5 @@ class EnvironmentModel(object):
             raise Exception("Case not implemented")
 
     def get_object(self, v_id):
-        assert (type(v_id) is int)
+        assert type(v_id) is int
         return self._tracked_objects[v_id]

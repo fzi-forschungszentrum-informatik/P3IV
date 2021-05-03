@@ -39,7 +39,7 @@ class KeyEnum:
 def read_tracks(filename):
 
     with open(filename) as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
+        csv_reader = csv.reader(csv_file, delimiter=",")
 
         track_dict = dict()
         track_id = None
@@ -48,24 +48,25 @@ def read_tracks(filename):
 
             if i == 0:
                 # check first line with key names
-                assert(row[KeyEnum.track_id] == Key.track_id)
-                assert(row[KeyEnum.frame_id] == Key.frame_id)
-                assert(row[KeyEnum.time_stamp_ms] == Key.time_stamp_ms)
-                assert(row[KeyEnum.agent_type] == Key.agent_type)
-                assert(row[KeyEnum.x] == Key.x)
-                assert(row[KeyEnum.y] == Key.y)
-                assert(row[KeyEnum.vx] == Key.vx)
-                assert(row[KeyEnum.vy] == Key.vy)
-                assert(row[KeyEnum.psi_rad] == Key.psi_rad)
-                assert(row[KeyEnum.length] == Key.length)
-                assert(row[KeyEnum.width] == Key.width)
+                assert row[KeyEnum.track_id] == Key.track_id
+                assert row[KeyEnum.frame_id] == Key.frame_id
+                assert row[KeyEnum.time_stamp_ms] == Key.time_stamp_ms
+                assert row[KeyEnum.agent_type] == Key.agent_type
+                assert row[KeyEnum.x] == Key.x
+                assert row[KeyEnum.y] == Key.y
+                assert row[KeyEnum.vx] == Key.vx
+                assert row[KeyEnum.vy] == Key.vy
+                assert row[KeyEnum.psi_rad] == Key.psi_rad
+                assert row[KeyEnum.length] == Key.length
+                assert row[KeyEnum.width] == Key.width
                 continue
 
             if int(row[KeyEnum.track_id]) != track_id:
                 # new track
                 track_id = int(row[KeyEnum.track_id])
-                assert(track_id not in track_dict.keys()), \
-                    "Line %i: Track id %i already in dict, track file not sorted properly" % (i+1, track_id)
+                assert (
+                    track_id not in track_dict.keys()
+                ), "Line %i: Track id %i already in dict, track file not sorted properly" % (i + 1, track_id)
                 track = Track(track_id)
                 track.agent_type = row[KeyEnum.agent_type]
                 track.length = float(row[KeyEnum.length])

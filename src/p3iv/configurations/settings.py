@@ -6,7 +6,6 @@ settings = {
         # True for IV'18 settings, False for ITSC'18 settings
         "provably_safe_planning": False,
     },
-
     "temporal": {
         "horizon": 6,  # s
         "dt": 100,  # ms (step-width)
@@ -14,12 +13,10 @@ settings = {
         "N_pin_future": 3,
         # N is calculated automatically; int(horizon / dt)
     },
-
     "localization": {
         "measurement_noise": 1.2,
         "process_noise": 0.5,
     },
-
     "prediction": {
         "set_ground_truh_values": True,
         "multi_modal": False,  # True for ITSC'18 settings, False for IV'18 settings
@@ -27,22 +24,19 @@ settings = {
         "deceleration_comfortable": -5.0,
         "deceleration_maximum": -8.0,
         "acceleration_maximum": 2.5,
-        "deceleration_comfortable_host": -3.0
+        "deceleration_comfortable_host": -3.0,
     },
-
     "perception": {
         "perception_noise": 0.8,
         "override_visibility": False,
         "egoVehicle_sensor_range": 40.0,
         "otherVehicle_sensor_range": 30.0,
         "egoVehicle_sensor_fov": 150,
-        "otherVehicle_sensor_fov": 130
+        "otherVehicle_sensor_fov": 130,
     },
-
     "decision_making": {
         "astar_initialization": False,
     },
-
     "planning": {
         "distance2static_obs": 1.0,  # m
         "v2v_safety_dist": 6.0,  # m
@@ -51,5 +45,5 @@ settings = {
         "max_deceleration": 9.0,
         "initialization_astar": False,
         "solver": "constant-velocity",
-    }
+    },
 }
