@@ -33,9 +33,8 @@ def run(configurations, f_execute=drive):
     pprint(configurations)
 
     # Load lanelet2 map
-    laneletmap = lanelet_map_reader(
-        configurations["map"], catkin_ws_rel_dir="../../../INTERACTION-Dataset-DR-v1_0/maps"
-    )
+    maps_dir = os.path.join(configurations["interaction_dataset_dir"], "maps")
+    laneletmap = lanelet_map_reader(configurations["map"], maps_dir=maps_dir)
 
     # Get ground-truth object data
     if configurations["source"] == "interaction_sim":
