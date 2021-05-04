@@ -7,4 +7,13 @@ Main pkg for Probabilistic Prediction and Planning for Intelligent Vehicles (P3I
 
 ## Usage
 
-TODO: Write usage instructions
+  * Ensure you have `INTERACTION-Dataset-DR-v1_1` in your workspace.
+  * Test-cases are inside `p3iv/src/p3iv/configurations/test_cases.py`
+  * Run the simulation by running `main.py` in `scripts/` and specifying a test-case.
+  * If you have any problem, get help with `python main.py --help`.
+
+```
+python main.py --predict=DEU_Roundabout_OL_01
+python main.py --run=DEU_Roundabout_OL_01
+
+```
