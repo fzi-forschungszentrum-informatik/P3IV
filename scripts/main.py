@@ -288,11 +288,11 @@ if __name__ == "__main__":
         else:
             # no simulation results file is provided; load latest results
             gt, configurations = None, None
-            result_date_dir = "./../../../outputs"
+            result_date_dir = "./../outputs"
             latest_date = sorted(os.listdir(result_date_dir))[-1]
             time_dir = os.path.join(result_date_dir, latest_date)
             latest_time_dir = sorted(os.listdir(time_dir))[-1]
-            results_dir = os.path.join(time_dir, latest_time_dir)
+            results_dir = os.path.realpath(os.path.join(time_dir, latest_time_dir))
             Print2Console.p("s", ["Displaying results from:"], style="magenta")
             Print2Console.p("s", [results_dir], style="magenta")
             Print2Console.p("s", ["Press enter to continue"], style="magenta", bold=True)
