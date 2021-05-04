@@ -1,0 +1,7 @@
+numpy
+scipy
+math
+matplotlib
+pyfiglet
+termcolor
+shapely
