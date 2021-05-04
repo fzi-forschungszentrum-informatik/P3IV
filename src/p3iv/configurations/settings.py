@@ -1,4 +1,10 @@
+import os
+
+ws_path = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../.."))
+ws_path = os.path.realpath(ws_path)
+
 settings = {
+    "interaction_dataset_dir": os.path.join(ws_path, "INTERACTION-Dataset-DR-v1_0"),
     "main": {
         "travel_length": 0.2,  # defined in seconds
         "combinatorial_greedy_search": True,
