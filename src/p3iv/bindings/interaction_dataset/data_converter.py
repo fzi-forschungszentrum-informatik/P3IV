@@ -60,52 +60,6 @@ class DataConverter(object):
 
         return state
 
-    def get_motion_with_current_timestamp(self, timestamp, t_id):
-        """Read from dataset in Motion-format. Ensure that the last value in timestamps is included."""
-        assert isinstance(timestamp, int)
-        assert isinstance(t_id, int)
-
-        # timestamps until now
-        timestamps = np.arange(100, int(timestamp) + 1, int(self.dt))
-
-        try:
-            timestamps_available, motion = self.get_motion(t_id, timestamps)
-            if timestamps[-1] in timestamps_available:
-                return motion
-        except DatasetValueError:
-            return None
-
-    def get_motion(self, track_id, timestamps):
-        """Read from dataset in Motion-format. Try to extract all timestamps provided."""
-        assert isinstance(track_id, int)
-        assert isinstance(timestamps, (list, np.ndarray))
-
-        if not track_id in self.track_dictionary:
-            raise DatasetValueError
-
-        track = self.track_dictionary[track_id]
-        data = np.empty([len(timestamps), 6])
-        i_begin = 0
-        i_available = 0
-        for i, ts in enumerate(timestamps):
-            try:
-                data[i, :] = self._read_track_at_timestamp(track, ts)
-                i_available += 1
-            except DatasetValueError:
-                if i == i_begin:
-                    i_begin += 1
-                pass
-
-        i_end = i_begin + i_available
-
-        if i_begin == len(timestamps):
-            raise DatasetValueError
-
-        data_available = data[i_begin:i_end, :]
-        timestamps_available = timestamps[i_begin:i_end]
-        motion = self._create_motion_from_array(data_available, self.dt / 1000.0)
-        return timestamps_available, motion
-
     def read_track_at_timestamp(self, track_id, timestamp):
         if not track_id in self.track_dictionary:
             return None
@@ -130,18 +84,6 @@ class DataConverter(object):
         data[4] = track.motion_states[timestamp].vx
         data[5] = track.motion_states[timestamp].vy
         return data
-
-    @staticmethod
-    def _create_motion_from_array(data_arr, dt):
-        """Helper function to create Motion instance from motion-data-array."""
-        motion = Motion()
-        motion.resize(len(data_arr))
-        motion.cartesian.position.mean[:, 0] = data_arr[:, 1]  # index 0 is timestamp
-        motion.cartesian.position.mean[:, 1] = data_arr[:, 2]
-        motion.yaw_angle = (np.degrees(data_arr[:, 3]) + 360.0) % 360.0
-        motion.cartesian.velocity.mean[:, 0] = data_arr[:, 4]
-        motion.cartesian.velocity.mean[:, 1] = data_arr[:, 5]
-        return motion
 
     @staticmethod
     def _create_state_from_array(data_arr):
