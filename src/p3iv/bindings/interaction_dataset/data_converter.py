@@ -35,17 +35,19 @@ class DataConverter(object):
         """
         assert isinstance(timestamp, int)
 
-        timestamps_until_now = np.arange(100, int(timestamp) + 1, int(self.dt))
         for t_id, track in self.track_dictionary.items():
-            motion = self.get_motion_with_current_timestamp(timestamps_until_now, t_id)
+            motion = self.get_motion_with_current_timestamp(timestamp, t_id)
             if motion:
                 environment.add_object(t_id, get_color(t_id), track.length, track.width, motion)
         return environment
 
-    def get_motion_with_current_timestamp(self, timestamps, t_id):
+    def get_motion_with_current_timestamp(self, timestamp, t_id):
         """Read from dataset in Motion-format. Ensure that the last value in timestamps is included."""
-        assert isinstance(timestamps, (list, np.ndarray))
+        assert isinstance(timestamp, int)
         assert isinstance(t_id, int)
+
+        # timestamps until now
+        timestamps = np.arange(100, int(timestamp) + 1, int(self.dt))
 
         try:
             timestamps_available, motion = self.get_motion(t_id, timestamps)
@@ -115,7 +117,7 @@ class DataConverter(object):
         """Helper function to create Motion instance from motion-data-array."""
         motion = Motion()
         motion.resize(len(data_arr))
-        motion.cartesian.position.mean[:, 0] = data_arr[:, 1]
+        motion.cartesian.position.mean[:, 0] = data_arr[:, 1]  # index 0 is timestamp
         motion.cartesian.position.mean[:, 1] = data_arr[:, 2]
         motion.yaw_angle = (np.degrees(data_arr[:, 3]) + 360.0) % 360.0
         motion.cartesian.velocity.mean[:, 0] = data_arr[:, 4]
