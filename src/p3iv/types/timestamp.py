@@ -35,14 +35,43 @@ class Timestamps(object):
 
 
 class TimestampData(object):
+    """
+    Information stored for a certaint timestamp.
+
+    Attributes
+    ----------
+    timestamp: int
+        Current timestamp represented as an integer.
+    state: VehicleState  # todo!
+        Current position and velocity information of a vehicle state.
+    localization: LocalizationModel
+        Current localization model
+    environment: EnvironmentModel
+        Current environment model obtained from perception. Containts tracked object list
+    scene: SceneModel
+        Current scene model. Contains map-matched tracked objects.
+    situation: SituationModel
+        Current situation model. Contains predictions and reachability information.
+    decision_base: DecisionBase
+        Current decision base that is used to set constraints for homotopic motion plans.
+    motion_plans: MotionPlans
+        Currnet motion plans.
+    plan_optimal: MotionPlan
+        Optimal motion plan to execute in current timestamp.
+    """
+
+    __slots__ = [
+        "timestamp",
+        "motion",
+        "localization",
+        "environment",
+        "scene",
+        "situation",
+        "decision_base",
+        "motion_plans",
+        "plan_optimal",
+    ]
+
     def __init__(self, timestamp):
         assert isinstance(timestamp, int)
         self.timestamp = timestamp
-        self.motion = None
-        self.localization = None  # LocalizationModel class
-        self.environment = None  # EnvironmentModel class
-        self.scene = None  # SceneModel class
-        self.situation = None  # SituationModel class
-        self.decision_base = None  # DecisionBase class
-        self.motion_plans = None  # MotionPlans class in local Frenet-Frame
-        self.plan_optimal = None  # optimal MotionPlan in global Frenet-frame

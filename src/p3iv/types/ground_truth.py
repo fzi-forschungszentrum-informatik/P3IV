@@ -27,5 +27,5 @@ class GroundTruth(dict):
         for v in self.vehicles():
             delattr(v, "modules")
         outfile = open(pickle_filename, "wb")
-        pickle.dump(self, outfile)
+        pickle.dump(self, outfile, -1)
         outfile.close()
