@@ -3,6 +3,7 @@ import numpy as np
 import warnings
 from matplotlib import colors as mcolors
 from external.dataset_types import Track
+from p3iv.types.state import VehicleState
 from util_motion.motion import Motion
 
 
@@ -40,6 +41,24 @@ class DataConverter(object):
             if motion:
                 environment.add_object(t_id, get_color(t_id), track.length, track.width, motion)
         return environment
+
+    def get_state(self, timestamp, track_id):
+        """Read from dataset in VehicleState-format. Extract only current timestamp state."""
+        assert isinstance(track_id, int)
+        assert isinstance(timestamp, int)
+
+        if not track_id in self.track_dictionary:
+            raise DatasetValueError
+
+        track = self.track_dictionary[track_id]
+        try:
+            data = self._read_track_at_timestamp(track, timestamp)
+            state = self._create_state_from_array(data)
+        except DatasetValueError:
+            state = None
+            pass
+
+        return state
 
     def get_motion_with_current_timestamp(self, timestamp, t_id):
         """Read from dataset in Motion-format. Ensure that the last value in timestamps is included."""
@@ -123,3 +142,12 @@ class DataConverter(object):
         motion.cartesian.velocity.mean[:, 0] = data_arr[:, 4]
         motion.cartesian.velocity.mean[:, 1] = data_arr[:, 5]
         return motion
+
+    @staticmethod
+    def _create_state_from_array(data_arr):
+        """Helper function to create VehicleState instance from motion-data-array."""
+        state = VehicleState()
+        state.position.mean = data_arr[1:3]  # index 0 is timestamp
+        state.yaw.mean = (np.degrees(data_arr[3]) + 360.0) % 360.0
+        state.velocity.mean = data_arr[4:6]
+        return state
