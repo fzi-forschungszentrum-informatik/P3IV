@@ -4,6 +4,17 @@ from util_motion.motion_sequence import MotionSequence
 
 
 class ExistenceProbability(object):
+    """
+    Existence probability of a detected vehicle.
+
+    Properties
+    ----------
+    existence_probability : float64
+        The probability that the vehicle really exists.
+    """
+
+    # Don't define slots for multiple inheritence of TrackedObject
+
     def __init__(self):
         super(ExistenceProbability, self).__init__()
         self._existence_probability = 1.0
