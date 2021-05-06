@@ -40,17 +40,17 @@ class EnvironmentModel(object):
     def tracked_objects(self):
         return self._tracked_objects
 
-    def add_object(self, v_id, color, length, width, motion):
-        self._tracked_objects[v_id] = self.create_object(v_id, color, length, width, motion)
+    def add_object(self, v_id, color, length, width, state):
+        self._tracked_objects[v_id] = self.create_object(v_id, color, length, width, state)
 
     @staticmethod
-    def create_object(v_id, color, length, width, motion):
+    def create_object(v_id, color, length, width, state):
         tracked_object = TrackedObject()
         tracked_object.v_id = v_id
         tracked_object.color = color
         tracked_object.length = length
         tracked_object.width = width
-        tracked_object.motion = motion
+        tracked_object.state = state
         tracked_object.existence_probability = 1.0
         return tracked_object
 

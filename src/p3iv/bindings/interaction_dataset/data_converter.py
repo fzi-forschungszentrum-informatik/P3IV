@@ -37,9 +37,9 @@ class DataConverter(object):
         assert isinstance(timestamp, int)
 
         for t_id, track in self.track_dictionary.items():
-            motion = self.get_motion_with_current_timestamp(timestamp, t_id)
-            if motion:
-                environment.add_object(t_id, get_color(t_id), track.length, track.width, motion)
+            state = self.get_state(timestamp, t_id)
+            if state:
+                environment.add_object(t_id, get_color(t_id), track.length, track.width, state)
         return environment
 
     def get_state(self, timestamp, track_id):

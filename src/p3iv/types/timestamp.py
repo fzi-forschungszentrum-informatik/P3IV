@@ -53,7 +53,7 @@ class TimestampData(object):
     ----------
     timestamp: int
         Current timestamp represented as an integer.
-    state: VehicleState  # todo!
+    state: VehicleState
         Current position and velocity information of a vehicle state.
     localization: LocalizationModel
         Current localization model
@@ -73,7 +73,7 @@ class TimestampData(object):
 
     __slots__ = [
         "timestamp",
-        "motion",
+        "state",
         "localization",
         "environment",
         "scene",

@@ -17,8 +17,8 @@ class InteractionDatasetBindings(object):
         e = EnvironmentModel()
         return self._dataset_handler.fill_environment(e, timestamp)
 
-    def get_motion_with_current_timestamp(self, timestamps_until_now, v_id):
-        return self._dataset_handler.get_motion_with_current_timestamp(timestamps_until_now, v_id)
+    def get_state(self, timestamp, v_id):
+        return self._dataset_handler.get_state(timestamp, v_id)
 
     @staticmethod
     def spawn_simulation_object(scene_object, laneletmap, configurations):
@@ -71,20 +71,19 @@ class InteractionDatasetBindings(object):
         current_env_model = self.get_environment_model(timestamp)
         for o in current_env_model.objects():
             if o.v_id in ground_truth.keys():
-                self.update_simulation_object_motion(ground_truth.get(o.v_id), timestamp)
+                self.update_simulation_object(ground_truth.get(o.v_id), timestamp)
             else:
                 v = self.spawn_simulation_object(o, laneletmap, configurations)
-                self.update_simulation_object_motion(v, timestamp)
+                self.update_simulation_object(v, timestamp)
                 ground_truth.append(v)
 
-    def update_simulation_object_motion(self, v, timestamp):
+    def update_simulation_object(self, v, timestamp):
         """Update the values of GroundTruth-Vehicle from dataset."""
         assert isinstance(v, Vehicle)
         assert isinstance(timestamp, int)
 
-        # try to read data for this timestamp
-        timestamps_until_now = range(100, int(timestamp) + 1, 100)
-        motion = self.get_motion_with_current_timestamp(timestamps_until_now, v.v_id)
+        # try to read state data for this timestamp
+        state = self.get_state(int(timestamp), v.v_id)
 
         if len(v.timestamps) == 0:
             v.timestamps.create_and_add(timestamp)
@@ -94,4 +93,4 @@ class InteractionDatasetBindings(object):
         else:
             warnings.warn("Timestamp is already present in Timestamps!")
 
-        v.timestamps.latest().motion = motion
+        v.timestamps.latest().state = state
