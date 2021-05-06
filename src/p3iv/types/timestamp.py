@@ -2,6 +2,17 @@ from collections import OrderedDict
 
 
 class Timestamps(object):
+    """
+    Container class to store timestamp data.
+
+    Attributes
+    ----------
+    _timestamps: OrderedDict()
+        Store TimestampData of individual timestamps
+    """
+
+    __slots__ = ["_timestamps"]
+
     def __init__(self):
         self._timestamps = OrderedDict()
 
