@@ -1,7 +1,6 @@
 from __future__ import division
 import numpy as np
 from p3iv.types.vehicle import VehicleAppearance
-from p3iv.types.state import VehicleState
 
 
 class ExistenceProbability(object):
@@ -30,7 +29,7 @@ class ExistenceProbability(object):
         self._existence_probability = probability
 
 
-class TrackedObject(VehicleAppearance, VehicleState, ExistenceProbability):
+class TrackedObject(VehicleAppearance, ExistenceProbability):
     """
     Contains information on a detected vehicle.
 
