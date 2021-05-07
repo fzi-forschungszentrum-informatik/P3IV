@@ -39,7 +39,9 @@ def run(configurations, f_execute=drive):
     if configurations["source"] == "interaction_sim":
         from p3iv_core.bindings import InteractionDatasetBindings
 
-        bindings = InteractionDatasetBindings(configurations["map"], configurations["interaction_dataset_dir"], configurations["temporal"]["dt"])
+        bindings = InteractionDatasetBindings(
+            configurations["map"], configurations["interaction_dataset_dir"], configurations["temporal"]["dt"]
+        )
         environment_model = bindings.get_environment_model(configurations["timestamp_begin"])
         ground_truth = bindings.create_ground_truth(environment_model.objects(), laneletmap, configurations)
         assert configurations["vehicle_of_interest"] in ground_truth.keys()
@@ -68,10 +70,10 @@ def run(configurations, f_execute=drive):
             bindings.update_open_loop_simulation(ground_truth, ts_now, laneletmap, configurations)
 
             o = ground_truth[configurations["vehicle_of_interest"]]
-            past_motion = o.timestamps.previous().motion[1:]
             driven = o.timestamps.previous().plan_optimal.motion[1]
-            o.timestamps.latest().motion = past_motion
-            o.timestamps.latest().motion.append(driven)
+            o.timestamps.latest().state.position.mean = driven.cartesian.position.mean
+            o.timestamps.latest().state.yaw.mean = driven.yaw_angle
+            o.timestamps.latest().state.velocity.mean = driven.cartesian.velocity.mean
 
         elif configurations["simulation_type"] == "closed-loop":
             # closed-loop simulation
@@ -83,8 +85,9 @@ def run(configurations, f_execute=drive):
                 # Therefore, take the first element in the motion array.
                 driven = v.timestamps.latest().plan_optimal.motion[1]
                 v.timestamps.create_and_add(ts_now)
-                v.timestamps.latest().motion = past_motion
-                v.timestamps.latest().motion.append(driven)
+                o.timestamps.latest().state.position.mean = driven.cartesian.position.mean
+                o.timestamps.latest().state.yaw.mean = driven.yaw_angle
+                o.timestamps.latest().state.velocity.mean = driven.cartesian.velocity.mean
         else:
             msg = (
                 "'simulation_type' in configurations is wrong."

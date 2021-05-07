@@ -36,13 +36,13 @@ def drive(vehicle, ground_truth):
     tsd.situation = vehicle.modules.prediction(tsd.timestamp, tsd.scene)
 
     # Decision Making
-    tsd.decision_base = vehicle.modules.decision(tsd.motion, tsd.scene, tsd.situation)
+    tsd.decision_base = vehicle.modules.decision(tsd.state, tsd.scene, tsd.situation)
 
     # Motion Planning
-    tsd.motion_plans = vehicle.modules.planner(tsd.timestamp, tsd.motion, tsd.scene, tsd.situation, tsd.decision_base)
+    tsd.motion_plans = vehicle.modules.planner(tsd.timestamp, tsd.state, tsd.scene, tsd.situation, tsd.decision_base)
 
     # Pick the optimal action
-    tsd.plan_optimal = vehicle.modules.action(tsd.motion, tsd.motion_plans)
+    tsd.plan_optimal = vehicle.modules.action(tsd.state, tsd.motion_plans)
 
 
 def predict(vehicle, ground_truth):
