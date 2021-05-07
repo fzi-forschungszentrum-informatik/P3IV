@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>p3iv</name>
+  <version>0.0.0</version>
+  <description>Meta pkg for Probabilistic Prediction and Planning for Intelligent Vehicles Simulator</description>
+
+  <license>BSD</license>
+  <maintainer email="sahin.tas@kit.edu">Sahin Tas</maintainer>
+  <author email="sahin.tas@kit.edu">Sahin Tas</author>
+  <url type="repository">https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/p3iv</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>p3iv_core</exec_depend>
+  <exec_depend>p3iv_types</exec_depend>
+  <exec_depend>p3iv_modules</exec_depend>
+  <exec_depend>p3iv_utils</exec_depend>
+  <exec_depend>p3iv_visualization</exec_depend>
+
+  <export>
+    <metapackage />
+  </export>
+</package>
