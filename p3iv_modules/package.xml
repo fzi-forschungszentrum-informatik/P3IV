@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>p3iv_modules</name>
+  <version>0.0.0</version>
+  <description>Modules of p3iv</description>
+
+  <license>MRT</license>
+  <maintainer email="sahin.tas@kit.edu">Sahin Tas</maintainer>
+  <author email="sahin.tas@kit.edu">Sahin Tas</author>
+  <url type="repository"></url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>mrt_cmake_modules</build_depend>
+  <test_depend>gtest</test_depend>
+
+  <depend>lanelet2_core</depend>
+  <depend>lanelet2_matching</depend>
+  <depend>util_motion</depend>
+  <depend>util_probability</depend>
+  <depend>p3iv_utils</depend>
+  <depend>polyvision</depend>
+  <depend>perception</depend>
+  <depend>localization</depend>
+  <depend>understanding</depend>
+  <depend>prediction</depend>
+  <depend>decision_making</depend>
+  <depend>planner</depend>
+  <depend>action</depend>
+  <depend>visualization</depend>
+
+  <export>
+    <rosdoc config="../rosdoc.yaml" />
+  </export>
+
+</package>
