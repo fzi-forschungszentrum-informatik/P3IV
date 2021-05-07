@@ -3,6 +3,10 @@ from p3iv_types.vehicle import Vehicle
 
 
 class GroundTruth(dict):
+    """
+    Ground truth data container for vehicles.py
+    """
+
     def __init__(self):
         super(GroundTruth, self).__init__()
 
