@@ -3,10 +3,10 @@ import numpy as np
 from util_probability.distributions import UnivariateNormalDistribution
 from util_probability.distributions import BivariateNormalDistribution
 
-# todo: rename as motion state
-class VehicleState(object):
+
+class MotionState(object):
     """
-    State information of a detected vehicle.
+    Motion state information of an object.
 
     Attributes
     ----------

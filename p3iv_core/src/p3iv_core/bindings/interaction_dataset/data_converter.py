@@ -3,7 +3,7 @@ import numpy as np
 import warnings
 from matplotlib import colors as mcolors
 from external.dataset_types import Track
-from p3iv_types.state import VehicleState
+from p3iv_types.state import MotionState
 
 
 def get_color(index):
@@ -86,8 +86,8 @@ class DataConverter(object):
 
     @staticmethod
     def _create_state_from_array(data_arr):
-        """Helper function to create VehicleState instance from motion-data-array."""
-        state = VehicleState()
+        """Helper function to create MotionState instance from motion-data-array."""
+        state = MotionState()
         state.position.mean = data_arr[1:3]  # index 0 is timestamp
         state.yaw.mean = (np.degrees(data_arr[3]) + 360.0) % 360.0
         state.velocity.mean = data_arr[4:6]
