@@ -1,7 +1,7 @@
 from __future__ import division
 import numpy as np
 from copy import deepcopy
-from understanding.types.external.p3iv_utils import VehicleAppearance
+from vehicle import VehicleAppearance
 
 
 class CrossingVOIRoute(object):
@@ -52,9 +52,6 @@ class SceneObject(VehicleAppearance):
         objects inside a SceneModel.
     """
 
-    # todo: inherit from VehicleAppereance
-    """
-    # todo: add slots
     __slots__ = [
         "__dict__",
         "_v_id",
@@ -65,7 +62,6 @@ class SceneObject(VehicleAppearance):
         "crossing_voi_route",
         "has_right_of_way",
     ]
-    """
 
     def __init__(self):
         super(SceneObject, self).__init__()
@@ -91,12 +87,14 @@ class SceneObject(VehicleAppearance):
         result = cls.__new__(cls)
         memo[id(self)] = result
 
-        for k, v in self.__dict__.items():
+        for k in cls.__slots__:
             if (k is "crossing_voi_route") or (k is "state"):
+                v = getattr(self, k)
                 setattr(result, k, deepcopy(v, memo))
             elif k is "laneletsequence_scenes":
                 setattr(result, k, [])
             else:
+                v = getattr(self, k)
                 setattr(result, k, v)
         return result
 
