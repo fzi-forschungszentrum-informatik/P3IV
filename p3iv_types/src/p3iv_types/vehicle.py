@@ -10,6 +10,9 @@ def get_color(index):
 
 
 class VehicleAppearance(object):
+
+    __slots__ = ["_color", "_length", "_width"]
+
     def __init__(self):
         super(VehicleAppearance, self).__init__()
 
