@@ -15,10 +15,10 @@ import shutil
 from p3iv_utils.consoleprint import Print2Console
 from p3iv_utils.ofstream import create_output_dir, create_output_path, save_settings
 from p3iv_utils.lanelet_map_reader import lanelet_map_reader
-from p3iv.types.vehicle import Vehicle
-from p3iv.execute import drive, predict
-from p3iv.configurations.test_cases import test_cases
-from p3iv.configurations.utils import load_configurations
+from p3iv_types.vehicle import Vehicle
+from p3iv_modules.execute import drive, predict
+from p3iv_core.configurations.test_cases import test_cases
+from p3iv_core.configurations.utils import load_configurations
 
 
 def run(configurations, f_execute=drive):
@@ -38,9 +38,11 @@ def run(configurations, f_execute=drive):
 
     # Get ground-truth object data
     if configurations["source"] == "interaction_sim":
-        from p3iv.bindings import InteractionDatasetBindings
+        from p3iv_core.bindings import InteractionDatasetBindings
 
-        bindings = InteractionDatasetBindings(configurations["map"], configurations["temporal"]["dt"])
+        bindings = InteractionDatasetBindings(
+            configurations["map"], configurations["interaction_dataset_dir"], configurations["temporal"]["dt"]
+        )
         environment_model = bindings.get_environment_model(configurations["timestamp_begin"])
         ground_truth = bindings.create_ground_truth(environment_model.objects(), laneletmap, configurations)
         assert configurations["vehicle_of_interest"] in ground_truth.keys()
@@ -69,10 +71,10 @@ def run(configurations, f_execute=drive):
             bindings.update_open_loop_simulation(ground_truth, ts_now, laneletmap, configurations)
 
             o = ground_truth[configurations["vehicle_of_interest"]]
-            past_motion = o.timestamps.previous().motion[1:]
             driven = o.timestamps.previous().plan_optimal.motion[1]
-            o.timestamps.latest().motion = past_motion
-            o.timestamps.latest().motion.append(driven)
+            o.timestamps.latest().state.position.mean = driven.cartesian.position.mean
+            o.timestamps.latest().state.yaw.mean = driven.yaw_angle
+            o.timestamps.latest().state.velocity.mean = driven.cartesian.velocity.mean
 
         elif configurations["simulation_type"] == "closed-loop":
             # closed-loop simulation
@@ -84,8 +86,9 @@ def run(configurations, f_execute=drive):
                 # Therefore, take the first element in the motion array.
                 driven = v.timestamps.latest().plan_optimal.motion[1]
                 v.timestamps.create_and_add(ts_now)
-                v.timestamps.latest().motion = past_motion
-                v.timestamps.latest().motion.append(driven)
+                o.timestamps.latest().state.position.mean = driven.cartesian.position.mean
+                o.timestamps.latest().state.yaw.mean = driven.yaw_angle
+                o.timestamps.latest().state.velocity.mean = driven.cartesian.velocity.mean
         else:
             msg = (
                 "'simulation_type' in configurations is wrong."
