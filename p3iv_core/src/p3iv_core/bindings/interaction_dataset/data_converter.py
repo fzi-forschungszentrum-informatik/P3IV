@@ -3,7 +3,7 @@ import numpy as np
 import warnings
 from matplotlib import colors as mcolors
 from external.dataset_types import Track
-from p3iv_types.state import MotionState
+from p3iv_types.motion_state import MotionState
 
 
 def get_color(index):
