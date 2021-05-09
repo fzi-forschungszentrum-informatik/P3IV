@@ -27,6 +27,16 @@ class SceneModel(object):
         Traffic rules to obey on this LaneletSequence
     """
 
+    __slots__ = [
+        "__dict__",
+        "_scene_objects",
+        "_vehicle_id",
+        "position",
+        "laneletsequence",
+        "visible_distances",
+        "traffic_rules",
+    ]
+
     def __init__(self, vehicle_id, position, laneletsequence=None, visible_distances=None):
         self._scene_objects = {}
         self._vehicle_id = vehicle_id

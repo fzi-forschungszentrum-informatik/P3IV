@@ -49,6 +49,9 @@ class VehicleAppearance(object):
 
 
 class VehicleRectangle(object):
+
+    __slots__ = []
+
     @classmethod
     def get_corners(cls, length, width, xy, theta):
         # create corner points ignoring the yaw angle of the percepted vehicle
@@ -78,6 +81,9 @@ class VehicleRectangle(object):
 
 
 class VehicleCharacteristics(object):
+
+    __slots__ = ["max_acceleration", "max_deceleration"]
+
     def __init__(self, max_acceleration=2.0, max_deceleration=-9.81):
         super(VehicleCharacteristics, self).__init__()
         self.max_acceleration = max_acceleration
@@ -85,6 +91,9 @@ class VehicleCharacteristics(object):
 
 
 class VehicleObjective(object):
+
+    __slots__ = ["_to_lanelet", "set_speed"]
+
     def __init__(self, set_speed=13.89):
         super(VehicleObjective, self).__init__()
         self._to_lanelet = None
@@ -100,6 +109,9 @@ class VehicleObjective(object):
 
 
 class VehiclePerception(object):
+
+    __slots__ = ["sensor_range", "sensor_fov", "sensor_noise"]
+
     def __init__(self, sensor_range=50, sensor_fov=120, sensor_noise=0.8):
         super(VehiclePerception, self).__init__()
         self.sensor_range = sensor_range  # in meters
@@ -108,6 +120,18 @@ class VehiclePerception(object):
 
 
 class Vehicle(object):
+
+    __slots__ = [
+        "modules",
+        "_v_id",
+        "timestamps",
+        "appearance",
+        "characteristics",
+        "objective",
+        "perception",
+        "_planner_type",
+    ]
+
     def __init__(self, v_id):
         super(Vehicle, self).__init__()
         self._v_id = v_id
@@ -117,8 +141,6 @@ class Vehicle(object):
         self.characteristics = VehicleCharacteristics()
         self.objective = VehicleObjective()
         self.perception = VehiclePerception()
-
-        self._planner_type = None
 
     @property
     def v_id(self):

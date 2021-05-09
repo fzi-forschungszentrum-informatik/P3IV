@@ -19,6 +19,8 @@ class EnvironmentModel(object):
         Lanelet2 of the environment
     """
 
+    __slots__ = ["__dict__", "_tracked_objects", "_vehicle_id", "polyvision", "visible_areas", "laneletmap"]
+
     def __init__(self, vehicle_id=None, visible_areas=None, polyvision=None, laneletmap=None):
         self._tracked_objects = {}
         self._vehicle_id = vehicle_id

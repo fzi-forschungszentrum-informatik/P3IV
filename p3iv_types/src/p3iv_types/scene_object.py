@@ -10,6 +10,8 @@ class CrossingVOIRoute(object):
     The 'begin' and 'end' points are calculated in the coordinates of VOI.
     """
 
+    __slots__ = ["_begin", "_end"]
+
     def __init__(self):
         self._begin = -np.inf
         self._end = np.inf
