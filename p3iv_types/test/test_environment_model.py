@@ -1,6 +1,6 @@
 import unittest
 import numpy as np
-from p3iv.types.environment_model import EnvironmentModel
+from p3iv_types.environment_model import EnvironmentModel
 from util_motion.motion import Motion
 
 
