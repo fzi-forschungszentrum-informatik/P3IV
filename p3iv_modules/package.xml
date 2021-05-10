@@ -26,7 +26,6 @@
   <depend>decision_making</depend>
   <depend>planner</depend>
   <depend>action</depend>
-  <depend>visualization</depend>
 
   <export>
     <rosdoc config="../rosdoc.yaml" />
