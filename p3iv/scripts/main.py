@@ -208,7 +208,7 @@ if __name__ == "__main__":
             print ("Completed!")
 
         elif args.show_multi:
-            from visualization.animations.animate_multi import AnimateMulti
+            from p3iv_visualization.animations.animate_multi import AnimateMulti
 
             animation = AnimateMulti(gt, configurations)
             animation.show()
