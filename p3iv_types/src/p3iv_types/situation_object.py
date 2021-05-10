@@ -13,13 +13,11 @@ class SituationObject(TrackedObject):
         Current maneuver hypothesis of the current timestep
     """
 
-    __slots__ = ["_maneuvers", "_crossing_voi_route"]
+    __slots__ = ["_maneuvers"]
 
     def __init__(self, *args, **kwargs):
         if type(args[0]) is SceneObject:
             self.id = args[0].id
-            warnings.warn("todo - crossing voi route of situation object --> do that for path options")
-            self.crossing_voi_route = args[0].crossing_voi_route
 
     # todo add init with... See prediction test cases! Make this more generic
 
@@ -43,11 +41,3 @@ class SituationObject(TrackedObject):
     @maneuvers.setter
     def maneuvers(self, maneuvers):
         self._maneuvers = maneuvers
-
-    @property
-    def crossing_voi_route(self):
-        return self._crossing_voi_route
-
-    @crossing_voi_route.setter
-    def crossing_voi_route(self, crossing_voi_route):
-        self._crossing_voi_route = crossing_voi_route
