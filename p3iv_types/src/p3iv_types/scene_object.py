@@ -1,4 +1,5 @@
 from __future__ import division
+import itertools
 import numpy as np
 from copy import deepcopy
 from vehicle import VehicleAppearance
@@ -55,8 +56,10 @@ class SceneObject(VehicleAppearance):
     """
 
     __slots__ = [
-        "__dict__",
-        "_v_id",
+        "_v_id",  # todo: consider inheritence and clearing these
+        "_color",
+        "existence_probability",
+        "state",
         "progress",
         "current_lanelets",
         "laneletsequences",
@@ -78,20 +81,29 @@ class SceneObject(VehicleAppearance):
         self.has_right_of_way = None
 
     def __getstate__(self):
-        if isinstance(self.current_lanelets, list):
-            self.current_lanelets = [ll.id for ll in list(self.current_lanelets)]
-        else:
-            self.current_lanelets = self.current_lanelets.id
-        return self.__dict__
+        self.current_lanelets = [ll.id for ll in list(self.current_lanelets)]
+        all_slots = itertools.chain.from_iterable(getattr(t, "__slots__", ()) for t in type(self).__mro__)
+        state = {attr: getattr(self, attr) for attr in all_slots if hasattr(self, attr)}
+        return state
+
+    def __setstate__(self, state):
+        """Implement for load in pickle."""
+        for k, v in state.iteritems():
+            setattr(self, k, v)
 
     def __deepcopy__(self, memo):
+        """
+        Modify __deepcopy__ as a workaround for pickling boost.python instances.
+        """
         cls = self.__class__
         result = cls.__new__(cls)
         memo[id(self)] = result
 
-        for k in cls.__slots__:
+        all_slots = itertools.chain.from_iterable(getattr(t, "__slots__", ()) for t in type(self).__mro__)
+        for k in all_slots:
             if (k is "crossing_voi_route") or (k is "state"):
                 v = getattr(self, k)
+                # deepcopy the ones, that will be modified while evaluating scene model of other vehicles
                 setattr(result, k, deepcopy(v, memo))
             elif k is "laneletsequence_scenes":
                 setattr(result, k, [])

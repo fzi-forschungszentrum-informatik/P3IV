@@ -1,5 +1,6 @@
 from __future__ import division
 import os
+import itertools
 import numpy as np
 from lanelet2.core import BasicPoint2d
 from scene_object import SceneObject
@@ -28,7 +29,6 @@ class SceneModel(object):
     """
 
     __slots__ = [
-        "__dict__",
         "_scene_objects",
         "_vehicle_id",
         "position",
@@ -47,16 +47,16 @@ class SceneModel(object):
 
     def __getstate__(self):
         """Implement for dump in pickle & (indirectly) deepcopy.
-        Note that Lanelet2 types cannot be pickled. Pass Lanelet-ids instead, if req.
+        Note that Lanelet2 types, such as 'position' cannot be pickled as they are boost-python instances.
         """
-        d = dict(self.__dict__)
-        if "position" in d:
-            del d["position"]
-        return d
+        all_slots = itertools.chain.from_iterable(getattr(t, "__slots__", ()) for t in type(self).__mro__)
+        state = {attr: getattr(self, attr) for attr in all_slots if hasattr(self, attr) and attr != "position"}
+        return state
 
-    def __setstate__(self, d):
+    def __setstate__(self, state):
         """Implement for load in pickle."""
-        self.__dict__ = d
+        for k, v in state.iteritems():
+            setattr(self, k, v)
 
     def add_object(
         self, object2add, relative_distance, crossing_begin=-np.inf, crossing_end=np.inf, has_right_of_way=None

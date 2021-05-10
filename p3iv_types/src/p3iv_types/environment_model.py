@@ -1,4 +1,5 @@
 from __future__ import division
+import itertools
 from p3iv_types.tracked_object import TrackedObject
 
 
@@ -19,7 +20,7 @@ class EnvironmentModel(object):
         Lanelet2 of the environment
     """
 
-    __slots__ = ["__dict__", "_tracked_objects", "_vehicle_id", "polyvision", "visible_areas", "laneletmap"]
+    __slots__ = ["_tracked_objects", "_vehicle_id", "polyvision", "visible_areas", "laneletmap"]
 
     def __init__(self, vehicle_id=None, visible_areas=None, polyvision=None, laneletmap=None):
         self._tracked_objects = {}
@@ -32,11 +33,15 @@ class EnvironmentModel(object):
         """Implement for dump in pickle. Lanelet2 and Polyvision are implemented in C++ and cannot be pickled."""
         delattr(self, "laneletmap")
         delattr(self, "polyvision")
-        return self.__dict__
 
-    def __setstate__(self, d):
+        all_slots = itertools.chain.from_iterable(getattr(t, "__slots__", ()) for t in type(self).__mro__)
+        state = {attr: getattr(self, attr) for attr in all_slots if hasattr(self, attr)}
+        return state
+
+    def __setstate__(self, state):
         """Implement for load in pickle."""
-        self.__dict__ = d
+        for k, v in state.iteritems():
+            setattr(self, k, v)
 
     @property
     def tracked_objects(self):
