@@ -122,25 +122,6 @@ class Animator(object):
             # if the vehicle is in current timestamp, use this data to set its position
             elif v_id in timestampdata.scene.scene_objects:
                 v = timestampdata.scene.get_object(v_id)
-                """
-                print "-------"
-                print "v_id: ", v_id, v.color
-                print v.current_lanelets
-
-                if v_id == 62:
-                    print timestampdata.timestamp
-                    print v_id, v.color
-                    print v.laneletsequences.new()
-                    for l in v.laneletsequences:
-                        print l.uuid
-                        #print "..."
-                    #print "----------"
-                    #for sc in v.laneletsequence_scenes:
-                    #    print sc.laneletsequence.uuid
-                    print "----------"
-                    for ul in v.laneletsequences.unique_directions():
-                        print ul.centerline()
-                """
                 x, y = v.state.position.mean
                 yaw = v.state.yaw.mean
                 self.p_ax1.update_vehicle_plot(v.id, x, y, yaw, set_facecolor=True)
@@ -176,42 +157,3 @@ class Animator(object):
             color="red",
             lw=3,
         )
-
-
-if __name__ == "__main__":
-    import sys
-    import time
-    import matplotlib.pyplot as plt
-    from visualization.io.postprocessing_input import request_input2visualize
-
-    directory = sys.argv[1]
-    settings, vehicles, map_data, _, combination_id, current_time, _ = request_input2visualize(directory)
-
-    dt = settings["Main"]["dt"]
-    N = settings["Main"]["N"]
-    N_pin_past = settings["Opt"]["ceres1d"]["N_pin_past"]
-    N_pin_future = settings["Opt"]["ceres1d"]["N_pin_future"]
-    map_image_name = settings["Map"]["road_data"]
-
-    egovehicle = [v for v in vehicles if "ego" in v.vehicle_id][0]
-
-    animator = Animator(
-        map_image_name, map_data, egovehicle.vehicle_id, egovehicle.properties.color, vehicles, settings["Main"]["dt"]
-    )
-
-    animator.init_spatiotemporal_plot(N, N_pin_past, N_pin_future)
-    animator.init_motion_profile(N, N_pin_past, N_pin_future)
-
-    visible_region = vehicles[-1].timestampdata[current_time].environment.visible_regions
-    vehicle_colors = vehicles[-1].timestampdata[current_time].decision_base.vehicle_colors
-    combination = vehicles[-1].timestampdata[current_time].decision_base.combinations[combination_id]
-
-    i = 10
-
-    start = time.time()
-    animator.update_ego(combination, vehicle_colors, visible_region, i=i)
-    animator.update_others(vehicles[:-1], current_time, i=i)
-    end = time.time()
-    print "It took %f to update the plot" % (end - start)
-
-    plt.show()

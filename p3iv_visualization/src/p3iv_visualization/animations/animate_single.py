@@ -88,13 +88,3 @@ class AnimateSingle(object):
     @staticmethod
     def show():
         plt.show()
-
-
-if __name__ == "__main__":
-    import sys
-
-    # directory = sys.argv[1]
-    # settings, vehicles, map_data, save_dir, combination_id, current_time, _ = request_input2visualize(directory)
-    # animate_single = AnimateSingle(map_data, save_dir, vehicles, settings, combination_id, current_time)
-    # animate_single.show()
-    pass
