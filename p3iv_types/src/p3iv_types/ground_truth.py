@@ -33,3 +33,5 @@ class GroundTruth(dict):
         outfile = open(pickle_filename, "wb")
         pickle.dump(self, outfile, -1)
         outfile.close()
+
+    # todo: cover other types of participants!

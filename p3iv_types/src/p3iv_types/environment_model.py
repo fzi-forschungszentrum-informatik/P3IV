@@ -1,6 +1,6 @@
 from __future__ import division
 import itertools
-from p3iv_types.tracked_object import TrackedObject
+from p3iv_types.vehicle import TrackedVehicle
 
 
 class EnvironmentModel(object):
@@ -52,7 +52,7 @@ class EnvironmentModel(object):
 
     @staticmethod
     def create_object(object_id, color, length, width, state):
-        tracked_object = TrackedObject()
+        tracked_object = TrackedVehicle()
         tracked_object.id = object_id
         tracked_object.color = color
         tracked_object.length = length

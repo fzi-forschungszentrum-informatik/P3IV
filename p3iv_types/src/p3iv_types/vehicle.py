@@ -1,33 +1,20 @@
 import numpy as np
-import random
-from matplotlib import colors as mcolors
+import itertools
 from timestamp import Timestamps
+from tracked_object import TrackedObject, ExistenceProbability
 
 
-def get_color(index):
-    colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
-    return colors.keys()[index]
+class VehicleAppearanceBase:
+    __slots__ = ["_length", "_width"]
 
 
-class VehicleAppearance(object):
-
-    __slots__ = ["_color", "_length", "_width"]
+class VehicleAppearance(object, VehicleAppearanceBase):
+    __slots__ = []
 
     def __init__(self):
         super(VehicleAppearance, self).__init__()
-
-        self._color = get_color(random.randint(0, 155))
         self._length = 0.0
         self._width = 0.0
-
-    @property
-    def color(self):
-        return self._color
-
-    @color.setter
-    def color(self, color):
-        assert isinstance(color, (unicode, str))
-        self._color = color
 
     @property
     def length(self):
@@ -49,7 +36,6 @@ class VehicleAppearance(object):
 
 
 class VehicleRectangle(object):
-
     __slots__ = []
 
     @classmethod
@@ -150,3 +136,34 @@ class Vehicle(object):
     def id(self, object_id):
         assert isinstance(object_id, (int, str))
         self._object_id = object_id
+
+
+class TrackedVehicle(ExistenceProbability, TrackedObject, VehicleAppearance):
+    """
+    Contains information on a detected vehicle.
+
+    Attributes
+    ---------
+    _object_id : int
+        Object id
+    _color : str
+        Object color
+    """
+
+    __slots__ = []
+
+    def __init__(self):
+        super(TrackedVehicle, self).__init__()
+
+    def __setattr__(self, name, value):
+        # modify setattr for multiple inheritence
+
+        # get all slots
+        all_slots = list(itertools.chain.from_iterable(getattr(t, "__slots__", ()) for t in type(self).__mro__))
+
+        # cast slots iterable to list
+        if name in all_slots:
+            object.__setattr__(self, name, value)
+        else:
+            # call property if name is not in slots
+            super(TrackedVehicle, self).__setattr__(name, value)

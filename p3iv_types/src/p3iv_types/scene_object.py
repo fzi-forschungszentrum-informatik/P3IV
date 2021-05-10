@@ -3,6 +3,7 @@ import itertools
 import numpy as np
 from copy import deepcopy
 from vehicle import VehicleAppearance
+from tracked_object import TrackedObject
 
 
 class CrossingVOIRoute(object):
@@ -36,7 +37,7 @@ class CrossingVOIRoute(object):
         self._end = end
 
 
-class SceneObject(VehicleAppearance):
+class SceneObject(TrackedObject, VehicleAppearance):
     """
     Contains information on a detected vehicle.
 
@@ -56,8 +57,6 @@ class SceneObject(VehicleAppearance):
     """
 
     __slots__ = [
-        "_object_id",  # todo: consider inheritence and clearing these
-        "_color",
         "existence_probability",
         "state",
         "progress",
@@ -70,9 +69,6 @@ class SceneObject(VehicleAppearance):
 
     def __init__(self):
         super(SceneObject, self).__init__()
-        self._object_id = 0
-        self._color = "black"  # override appearance
-
         self.progress = 0.0
         self.current_lanelets = []
         self.laneletsequences = []
@@ -111,12 +107,3 @@ class SceneObject(VehicleAppearance):
                 v = getattr(self, k)
                 setattr(result, k, v)
         return result
-
-    @property
-    def id(self):
-        return self._object_id
-
-    @id.setter
-    def id(self, object_id):
-        assert isinstance(object_id, int)
-        self._object_id = object_id

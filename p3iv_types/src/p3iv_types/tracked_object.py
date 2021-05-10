@@ -1,10 +1,15 @@
 from __future__ import division
-import itertools
+
 import numpy as np
-from p3iv_types.vehicle import VehicleAppearance
+import random
+from matplotlib import colors as mcolors
 
 
-class ExistenceProbability:
+class ExistenceProbabilityBase:
+    __slots__ = ["_existence_probability"]
+
+
+class ExistenceProbability(ExistenceProbabilityBase, object):
     """
     Abstract class to store existence probability of a detected object.
 
@@ -14,7 +19,7 @@ class ExistenceProbability:
         The probability that the object really exists.
     """
 
-    __slots__ = ()
+    __slots__ = []
 
     def __init__(self):
         super(ExistenceProbability, self).__init__()
@@ -30,7 +35,12 @@ class ExistenceProbability:
         self._existence_probability = probability
 
 
-class TrackedObject(VehicleAppearance, ExistenceProbability):
+def get_color(index):
+    colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
+    return colors.keys()[index]
+
+
+class TrackedObject(object):
     """
     Contains information on a detected object.
 
@@ -47,20 +57,7 @@ class TrackedObject(VehicleAppearance, ExistenceProbability):
     def __init__(self):
         super(TrackedObject, self).__init__()
         self._object_id = 0
-        self._color = "black"  # override appearance
-
-    def __setattr__(self, name, value):
-        # modify setattr for multiple inheritence
-
-        # get all slots
-        all_slots = itertools.chain.from_iterable(getattr(t, "__slots__", ()) for t in type(self).__mro__)
-
-        # cast slots iterable to list
-        if name in list(all_slots):
-            object.__setattr__(self, name, value)
-        else:
-            # call property if name is not in slots
-            super(TrackedObject, self).__setattr__(name, value)
+        self._color = get_color(random.randint(0, 155))
 
     @property
     def id(self):
@@ -70,3 +67,12 @@ class TrackedObject(VehicleAppearance, ExistenceProbability):
     def id(self, object_id):
         assert isinstance(object_id, int)
         self._object_id = object_id
+
+    @property
+    def color(self):
+        return self._color
+
+    @color.setter
+    def color(self, color):
+        assert isinstance(color, (unicode, str))
+        self._color = color
