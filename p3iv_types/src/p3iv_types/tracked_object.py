@@ -1,19 +1,20 @@
 from __future__ import division
+import itertools
 import numpy as np
 from p3iv_types.vehicle import VehicleAppearance
 
 
-class ExistenceProbability(object):
+class ExistenceProbability:
     """
-    Existence probability of a detected vehicle.
+    Abstract class to store existence probability of a detected object.
 
     Properties
     ----------
     existence_probability : float64
-        The probability that the vehicle really exists.
+        The probability that the object really exists.
     """
 
-    # Don't define slots for multiple inheritence of TrackedObject
+    __slots__ = ()
 
     def __init__(self):
         super(ExistenceProbability, self).__init__()
