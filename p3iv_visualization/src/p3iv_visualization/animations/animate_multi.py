@@ -27,7 +27,7 @@ class AnimateMulti(object):
 
         self.animator = Animator(
             lanelet_map_file,
-            self.egovehicle.v_id,
+            self.egovehicle.id,
             self.egovehicle.appearance.color,
             ground_truth.vehicles(),
             self.dt,

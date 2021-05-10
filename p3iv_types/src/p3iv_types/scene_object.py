@@ -56,7 +56,7 @@ class SceneObject(VehicleAppearance):
     """
 
     __slots__ = [
-        "_v_id",  # todo: consider inheritence and clearing these
+        "_object_id",  # todo: consider inheritence and clearing these
         "_color",
         "existence_probability",
         "state",
@@ -70,7 +70,7 @@ class SceneObject(VehicleAppearance):
 
     def __init__(self):
         super(SceneObject, self).__init__()
-        self._v_id = 0
+        self._object_id = 0
         self._color = "black"  # override appearance
 
         self.progress = 0.0
@@ -113,10 +113,10 @@ class SceneObject(VehicleAppearance):
         return result
 
     @property
-    def v_id(self):
-        return self._v_id
+    def id(self):
+        return self._object_id
 
-    @v_id.setter
-    def v_id(self, vehicle_id):
-        assert isinstance(vehicle_id, int)
-        self._v_id = vehicle_id
+    @id.setter
+    def id(self, object_id):
+        assert isinstance(object_id, int)
+        self._object_id = object_id

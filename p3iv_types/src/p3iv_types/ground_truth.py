@@ -12,13 +12,13 @@ class GroundTruth(dict):
 
     def append(self, vehicle):
         assert isinstance(vehicle, Vehicle)
-        assert vehicle.v_id not in self.keys()
-        self[vehicle.v_id] = vehicle
+        assert vehicle.id not in self.keys()
+        self[vehicle.id] = vehicle
 
     def update(self, vehicle):
         assert isinstance(vehicle, Vehicle)
-        assert vehicle.v_id in self.keys()
-        self[vehicle.v_id] = vehicle
+        assert vehicle.id in self.keys()
+        self[vehicle.id] = vehicle
 
     def vehicles(self):
         return self.values()

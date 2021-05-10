@@ -30,16 +30,16 @@ class SceneModel(object):
 
     __slots__ = [
         "_scene_objects",
-        "_vehicle_id",
+        "_object_id",
         "position",
         "laneletsequence",
         "visible_distances",
         "traffic_rules",
     ]
 
-    def __init__(self, vehicle_id, position, laneletsequence=None, visible_distances=None):
+    def __init__(self, object_id, position, laneletsequence=None, visible_distances=None):
         self._scene_objects = {}
-        self._vehicle_id = vehicle_id
+        self._object_id = object_id
         self.position = BasicPoint2d(position[0], position[1])
         self.laneletsequence = laneletsequence
         self.visible_distances = visible_distances
@@ -61,7 +61,7 @@ class SceneModel(object):
     def add_object(
         self, object2add, relative_distance, crossing_begin=-np.inf, crossing_end=np.inf, has_right_of_way=None
     ):
-        logger.debug("\x1b[33;21mAdd object into scene-model: %s\x1b[0m" % str(object2add.v_id))
+        logger.debug("\x1b[33;21mAdd object into scene-model: %s\x1b[0m" % str(object2add.id))
 
         # align frenet positions with relative position
         offset = object2add.progress - relative_distance
@@ -77,16 +77,16 @@ class SceneModel(object):
 
     def append_object(self, scene_object):
         assert isinstance(scene_object, SceneObject)
-        self._scene_objects[scene_object.v_id] = scene_object
+        self._scene_objects[scene_object.id] = scene_object
 
     @property
     def scene_objects(self):
         return self._scene_objects
 
     @staticmethod
-    def create_object(v_id, color, length, width, state):
+    def create_object(object_id, color, length, width, state):
         scene_object = SceneObject()
-        scene_object.v_id = v_id
+        scene_object.id = object_id
         scene_object.color = color
         scene_object.length = length
         scene_object.width = width
@@ -96,17 +96,17 @@ class SceneModel(object):
 
     def objects(self, relative_to=""):
         if isinstance(relative_to, int):
-            return [v for v in self._scene_objects.values() if v.v_id != relative_to]
+            return [v for v in self._scene_objects.values() if v.id != relative_to]
         elif relative_to is "":
-            return [v for v in self._scene_objects.values() if v.v_id != self._vehicle_id]
+            return [v for v in self._scene_objects.values() if v.id != self._object_id]
         elif relative_to is None:
             return self._scene_objects.values()
         else:
             raise Exception("Case not implemented")
 
-    def get_object(self, v_id):
-        assert type(v_id) is int
-        if v_id in self._scene_objects.keys():
-            return self._scene_objects[v_id]
+    def get_object(self, object_id):
+        assert type(object_id) is int
+        if object_id in self._scene_objects.keys():
+            return self._scene_objects[object_id]
         else:
             return None

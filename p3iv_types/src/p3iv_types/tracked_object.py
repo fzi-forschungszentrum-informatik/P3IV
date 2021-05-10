@@ -31,28 +31,41 @@ class ExistenceProbability(object):
 
 class TrackedObject(VehicleAppearance, ExistenceProbability):
     """
-    Contains information on a detected vehicle.
+    Contains information on a detected object.
 
     Attributes
     ---------
-    _v_id : int
-        Vehicle id
+    _object_id : int
+        Object id
     _color : str
-        Vehicle color
+        Object color
     """
 
-    __slots__ = ["_v_id", "_color"]
+    __slots__ = ["_object_id", "_color"]
 
     def __init__(self):
         super(TrackedObject, self).__init__()
-        self._v_id = 0
+        self._object_id = 0
         self._color = "black"  # override appearance
 
-    @property
-    def v_id(self):
-        return self._v_id
+    def __setattr__(self, name, value):
+        # modify setattr for multiple inheritence
 
-    @v_id.setter
-    def v_id(self, vehicle_id):
-        assert isinstance(vehicle_id, int)
-        self._v_id = vehicle_id
+        # get all slots
+        all_slots = itertools.chain.from_iterable(getattr(t, "__slots__", ()) for t in type(self).__mro__)
+
+        # cast slots iterable to list
+        if name in list(all_slots):
+            object.__setattr__(self, name, value)
+        else:
+            # call property if name is not in slots
+            super(TrackedObject, self).__setattr__(name, value)
+
+    @property
+    def id(self):
+        return self._object_id
+
+    @id.setter
+    def id(self, object_id):
+        assert isinstance(object_id, int)
+        self._object_id = object_id

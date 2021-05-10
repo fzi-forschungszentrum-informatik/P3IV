@@ -17,15 +17,15 @@ class InteractionDatasetBindings(object):
         e = EnvironmentModel()
         return self._dataset_handler.fill_environment(e, timestamp)
 
-    def get_state(self, timestamp, v_id):
-        return self._dataset_handler.get_state(timestamp, v_id)
+    def get_state(self, timestamp, object_id):
+        return self._dataset_handler.get_state(timestamp, object_id)
 
     @staticmethod
     def spawn_simulation_object(scene_object, laneletmap, configurations):
 
-        v = Vehicle(scene_object.v_id)
+        v = Vehicle(scene_object.id)
 
-        if scene_object.v_id == configurations["vehicle_of_interest"]:
+        if scene_object.id == configurations["vehicle_of_interest"]:
             scene_object.color = "black"
 
         # fill appearance
@@ -35,14 +35,14 @@ class InteractionDatasetBindings(object):
 
         # fill objective
         try:
-            v.objective.toLanelet = configurations["planning_meta"][scene_object.v_id][0]
+            v.objective.toLanelet = configurations["planning_meta"][scene_object.id][0]
         except KeyError:
             # make sure that 'toLanelet' is defined for vehicle-of-interest
-            assert v.v_id is not configurations["vehicle_of_interest"]
+            assert v.id is not configurations["vehicle_of_interest"]
         # v.objective.set_speed = ""
 
         # fill perception
-        if scene_object.v_id != configurations["vehicle_of_interest"]:
+        if scene_object.id != configurations["vehicle_of_interest"]:
             v.perception.sensor_fov = configurations["perception"]["otherVehicle_sensor_fov"]
             v.perception.sensor_range = configurations["perception"]["otherVehicle_sensor_range"]
         else:
@@ -59,7 +59,7 @@ class InteractionDatasetBindings(object):
         gt = GroundTruth()
 
         for o in object_list:
-            Print2Console.p("ss", ["Spawn new vehicle with ID: %s" % str(o.v_id)], style="yellow")
+            Print2Console.p("ss", ["Spawn new vehicle with ID: %s" % str(o.id)], style="yellow")
             Print2Console.p("s", ["-" * 72], style="yellow")
 
             v = self.spawn_simulation_object(o, laneletmap, configurations)
@@ -70,8 +70,8 @@ class InteractionDatasetBindings(object):
     def update_open_loop_simulation(self, ground_truth, timestamp, laneletmap, configurations):
         current_env_model = self.get_environment_model(timestamp)
         for o in current_env_model.objects():
-            if o.v_id in ground_truth.keys():
-                self.update_simulation_object(ground_truth.get(o.v_id), timestamp)
+            if o.id in ground_truth.keys():
+                self.update_simulation_object(ground_truth.get(o.id), timestamp)
             else:
                 v = self.spawn_simulation_object(o, laneletmap, configurations)
                 self.update_simulation_object(v, timestamp)
@@ -83,7 +83,7 @@ class InteractionDatasetBindings(object):
         assert isinstance(timestamp, int)
 
         # try to read state data for this timestamp
-        state = self.get_state(int(timestamp), v.v_id)
+        state = self.get_state(int(timestamp), v.id)
 
         if len(v.timestamps) == 0:
             v.timestamps.create_and_add(timestamp)

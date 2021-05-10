@@ -123,7 +123,7 @@ class Vehicle(object):
 
     __slots__ = [
         "modules",
-        "_v_id",
+        "_object_id",
         "timestamps",
         "appearance",
         "characteristics",
@@ -132,9 +132,9 @@ class Vehicle(object):
         "_planner_type",
     ]
 
-    def __init__(self, v_id):
+    def __init__(self, object_id):
         super(Vehicle, self).__init__()
-        self._v_id = v_id
+        self._object_id = object_id
 
         self.timestamps = Timestamps()
         self.appearance = VehicleAppearance()
@@ -143,10 +143,10 @@ class Vehicle(object):
         self.perception = VehiclePerception()
 
     @property
-    def v_id(self):
-        return self._v_id
+    def id(self):
+        return self._object_id
 
-    @v_id.setter
-    def v_id(self, v_id):
-        assert isinstance(v_id, (int, str))
-        self._v_id = v_id
+    @id.setter
+    def id(self, object_id):
+        assert isinstance(object_id, (int, str))
+        self._object_id = object_id

@@ -102,7 +102,7 @@ def run(configurations, f_execute=drive):
                 f_execute(vehicle, ground_truth)
 
                 # plot results
-                curr_save_dir = os.path.join(configurations["save_dir"], str(ts_now), str(vehicle.v_id))
+                curr_save_dir = os.path.join(configurations["save_dir"], str(ts_now), str(vehicle.id))
                 os.makedirs(curr_save_dir)
 
                 # Update vehicle data

@@ -24,7 +24,7 @@ class VehicleModules(object):
 
             self.perception = Percept(
                 laneletmap,
-                vehicle._v_id,
+                vehicle.id,
                 vehicle.perception.sensor_fov,
                 vehicle.perception.sensor_range,
                 vehicle.perception.sensor_noise,
@@ -42,7 +42,7 @@ class VehicleModules(object):
                 configurations["temporal"]["dt"],
                 configurations["temporal"]["N"],
                 laneletmap,
-                vehicle._v_id,
+                vehicle.id,
                 toLanelet=vehicle.objective.toLanelet,
             )
         except ImportError as e:
@@ -116,10 +116,10 @@ class EmptyModule(object):
 
 
 def get_planner_type(configurations, vehicle):
-    if vehicle.v_id in configurations["planning_meta"].keys():
-        if configurations["planning_meta"][vehicle.v_id][1] == "default":
+    if vehicle.id in configurations["planning_meta"].keys():
+        if configurations["planning_meta"][vehicle.id][1] == "default":
             return configurations["planning"]["solver"]
         else:
-            return configurations["planning_meta"][vehicle.v_id][1]
+            return configurations["planning_meta"][vehicle.id][1]
     else:
         return "open-loop"

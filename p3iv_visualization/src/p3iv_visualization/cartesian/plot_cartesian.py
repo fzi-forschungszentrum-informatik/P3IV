@@ -18,7 +18,7 @@ class PlotCartesian(object):
 
     def fill_vehicles(self, vehicles):
         for v in vehicles:
-            self.vehicles[v.v_id] = PlotVehicle(
+            self.vehicles[v.id] = PlotVehicle(
                 self.ax, v.appearance.color, car_width=v.appearance.width, car_length=v.appearance.length
             )
 

@@ -51,9 +51,9 @@ class EnvironmentModel(object):
         self._tracked_objects[v_id] = self.create_object(v_id, color, length, width, state)
 
     @staticmethod
-    def create_object(v_id, color, length, width, state):
+    def create_object(object_id, color, length, width, state):
         tracked_object = TrackedObject()
-        tracked_object.v_id = v_id
+        tracked_object.id = object_id
         tracked_object.color = color
         tracked_object.length = length
         tracked_object.width = width
@@ -63,14 +63,14 @@ class EnvironmentModel(object):
 
     def objects(self, relative_to=""):
         if isinstance(relative_to, int):
-            return [v for v in self._tracked_objects.values() if v.v_id != relative_to]
+            return [v for v in self._tracked_objects.values() if v.id != relative_to]
         elif relative_to is "":
-            return [v for v in self._tracked_objects.values() if v.v_id != self._vehicle_id]
+            return [v for v in self._tracked_objects.values() if v.id != self._vehicle_id]
         elif relative_to is None:
             return self._tracked_objects.values()
         else:
             raise Exception("Case not implemented")
 
-    def get_object(self, v_id):
-        assert type(v_id) is int
-        return self._tracked_objects[v_id]
+    def get_object(self, object_id):
+        assert type(object_id) is int
+        return self._tracked_objects[object_id]

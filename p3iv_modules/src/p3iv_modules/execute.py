@@ -12,7 +12,7 @@ logger.setLevel(logging.INFO)
 def drive(vehicle, ground_truth):
 
     Print2Console.p("s", ["-" * 72], style="cyan", bold=True, first_col_w=40)
-    Print2Console.p("ss", ["Computing vehicle: ", vehicle.v_id], style="cyan", bold=True, first_col_w=40)
+    Print2Console.p("ss", ["Computing vehicle: ", vehicle.id], style="cyan", bold=True, first_col_w=40)
     Print2Console.p("s", ["-" * 72], style="cyan", bold=True, first_col_w=40)
 
     # get the current timestampdata

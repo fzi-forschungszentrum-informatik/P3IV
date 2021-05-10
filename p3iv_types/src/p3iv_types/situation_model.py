@@ -8,18 +8,18 @@ class SituationModel(object):
 
         if scene_model:
             for s in scene_model.objects():
-                self._situation_objects[s.v_id] = SituationObject(s)
+                self._situation_objects[s.id] = SituationObject(s)
 
     @property
     def situation_objects(self):
         return self._situation_objects
 
-    def get_object(self, vehicle_id):
-        return self._situation_objects[vehicle_id]
+    def get_object(self, object_id):
+        return self._situation_objects[object_id]
 
     def objects(self):
         return self._situation_objects.values()
 
     def add(self, situation_object):
         assert isinstance(situation_object, SituationObject)
-        self._situation_objects[situation_object.v_id] = situation_object
+        self._situation_objects[situation_object.id] = situation_object

@@ -143,13 +143,13 @@ class Animator(object):
                 """
                 x, y = v.state.position.mean
                 yaw = v.state.yaw.mean
-                self.p_ax1.update_vehicle_plot(v.v_id, x, y, yaw, set_facecolor=True)
+                self.p_ax1.update_vehicle_plot(v.id, x, y, yaw, set_facecolor=True)
 
             elif v_id in timestampdata.environment.tracked_objects:
                 v = timestampdata.environment.get_object(v_id)
                 x, y = v.state.position.mean
                 yaw = v.state.yaw.mean
-                self.p_ax1.update_vehicle_plot(v.v_id, x, y, yaw, set_facecolor=False)
+                self.p_ax1.update_vehicle_plot(v.id, x, y, yaw, set_facecolor=False)
 
             # place the vehicle to nowhere
             else:
@@ -158,7 +158,7 @@ class Animator(object):
     def update_others_frenet(self, timestampdata, i):
         self.p_ax0_pov.clear_objects()
         for v in timestampdata.situation.objects():
-            c = timestampdata.scene.get_object(v.v_id).color
+            c = timestampdata.scene.get_object(v.id).color
             for m in v.maneuvers.hypotheses:
                 l_current = m.motion.frenet.position.mean[-1, 0]
                 self.p_ax0_pov.plot_object(m.motion.frenet.position, c, offset=l_current)
