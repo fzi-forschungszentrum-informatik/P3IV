@@ -13,37 +13,36 @@ logger.setLevel(logging.DEBUG)
 class SceneModel(object):
     """
     Contains information on route, visible regions, and objects in the scene mapped to relative coordinates.
+    For every route option there is a SceneModel.
 
     Attributes
     ----------
+    _object_id: int
+        ID of the object which a scene model is built
     _scene_objects: dict
-        dictionary of SceneObjects. Only objects in interaction with ego vehicle are appended to this list.
+        Dictionary of SceneObjects. Only objects in interaction with ego vehicle are appended to this list.
     position: BasicPoint2d
         Cartesian position of the ego-vehicle. Is used for calculating relative-distances on routing graph.
-    laneletsequence: PyLaneletSequence
-        LaneletSequence that the vehicle will follow. For ego-vehicle it contains Lanelets that the vehicle has driven.
-    visible areas: list
+    route_option: RouteOption
+        Route option for which as scene model is built
+    visible_distances: list
         a list that contains the Cartesian coordinates of visibility polygon
-    traffic_rules: TrafficRules
-        Traffic rules to obey on this LaneletSequence
     """
 
     __slots__ = [
-        "_scene_objects",
         "_object_id",
+        "_scene_objects",
         "position",
-        "laneletsequence",
+        "route_option",
         "visible_distances",
-        "traffic_rules",
     ]
 
-    def __init__(self, object_id, position, laneletsequence=None, visible_distances=None):
-        self._scene_objects = {}
+    def __init__(self, object_id, position, route_option, visible_distances=None):
         self._object_id = object_id
+        self._scene_objects = {}
         self.position = BasicPoint2d(position[0], position[1])
-        self.laneletsequence = laneletsequence
+        self.route_option = route_option
         self.visible_distances = visible_distances
-        self.traffic_rules = None
 
     def __getstate__(self):
         """Implement for dump in pickle & (indirectly) deepcopy.
@@ -58,21 +57,12 @@ class SceneModel(object):
         for k, v in state.iteritems():
             setattr(self, k, v)
 
-    def add_object(
-        self, object2add, relative_distance, crossing_begin=-np.inf, crossing_end=np.inf, has_right_of_way=None
-    ):
+    def add_object(self, object2add, relative_distance):
         logger.debug("\x1b[33;21mAdd object into scene-model: %s\x1b[0m" % str(object2add.id))
 
         # align frenet positions with relative position
         offset = object2add.progress - relative_distance
         object2add.progress -= offset
-
-        # crossing begin & end of the input are defined in the coordinate-frame of the object; make them relative to ego
-        object2add.crossing_voi_route.begin = object2add.progress + crossing_begin
-        object2add.crossing_voi_route.end = object2add.progress + crossing_end
-
-        object2add.has_right_of_way = has_right_of_way
-
         self.append_object(object2add)
 
     def append_object(self, scene_object):
