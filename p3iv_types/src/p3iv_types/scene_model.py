@@ -6,7 +6,7 @@ from lanelet2.core import BasicPoint2d
 from scene_object import SceneObject
 import logging
 
-logger = logging.getLogger(__file__.split(os.path.sep)[-3])
+logger = logging.getLogger(__file__.split(os.path.sep)[-1])
 logger.setLevel(logging.DEBUG)
 
 
