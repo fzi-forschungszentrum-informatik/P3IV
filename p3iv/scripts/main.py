@@ -42,8 +42,8 @@ if __name__ == "__main__":
         + "(c) FZI Forschungszentrum Informatik\n"
         + "Author: Ömer Şahin Taş and Others \n\n"
     )
-    print Figlet(font="slant").renderText("P3IV")
-    print header
+    print(Figlet(font="slant").renderText("P3IV"))
+    print(header)
 
     def SimulationTestCase(test_case):
         try:

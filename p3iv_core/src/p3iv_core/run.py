@@ -24,7 +24,7 @@ from p3iv_core.configurations.utils import load_configurations
 def run(configurations, f_execute=drive):
 
     # Print system time
-    Print2Console.p("ss", ["Analysis start time:", time.ctime()], style="bright")
+    Print2Console.p("ss", ["Simulation start time:", time.ctime()], style="bright")
 
     # Print settings
     Print2Console.p("s", ["=" * 72], style="magenta", bold=True)
