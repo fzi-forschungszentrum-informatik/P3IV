@@ -11,7 +11,9 @@ class SceneObject(TrackedObject, VehicleAppearance):
     Contains information on a detected vehicle.
 
     Attributes
-    ---------
+    ----------
+    state: MotionState
+        Current motion state of the scene object
     progress: Univariate normal distribution
         Current longitudinal position.
     current_lanelets : list
@@ -23,7 +25,6 @@ class SceneObject(TrackedObject, VehicleAppearance):
     """
 
     __slots__ = [
-        "existence_probability",
         "state",
         "progress",
         "current_lanelets",
