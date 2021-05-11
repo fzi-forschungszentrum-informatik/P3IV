@@ -58,7 +58,9 @@ class SceneModel(object):
             setattr(self, k, v)
 
     def add_object(self, object2add, relative_distance):
-        logger.debug("\x1b[33;21mAdd object into scene-model: %s\x1b[0m" % str(object2add.id))
+        logger.debug(
+            "\x1b[33;24mAdd object into scene-model #%s: %s\x1b[0m" % (str(self._object_id), str(object2add.id))
+        )
 
         # align frenet positions with relative position
         offset = object2add.progress - relative_distance
