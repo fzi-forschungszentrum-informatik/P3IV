@@ -22,15 +22,11 @@ class SceneObject(TrackedObject, VehicleAppearance):
         Route options the vehicle may pick in the future
     route_scenes: List
         List of SceneModel for every route option
+    has_right_of_way: Bool
+        If the object for which a scene model is built has right of way over the observer.
     """
 
-    __slots__ = [
-        "state",
-        "progress",
-        "current_lanelets",
-        "route_options",
-        "route_scenes",
-    ]
+    __slots__ = ["state", "progress", "current_lanelets", "route_options", "route_scenes", "has_right_of_way"]
 
     def __init__(self):
         super(SceneObject, self).__init__()
@@ -38,6 +34,7 @@ class SceneObject(TrackedObject, VehicleAppearance):
         self.current_lanelets = []
         self.route_options = []
         self.route_scenes = []
+        self.has_right_of_way = None
 
     def __getstate__(self):
         self.current_lanelets = [ll.id for ll in list(self.current_lanelets)]
