@@ -7,7 +7,7 @@ from scene_object import SceneObject
 import logging
 
 logger = logging.getLogger(__file__.split(os.path.sep)[-1])
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 class SceneModel(object):
