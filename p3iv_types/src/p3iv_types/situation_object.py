@@ -3,6 +3,7 @@ import warnings
 import itertools
 from p3iv_types.scene_object import SceneObject
 from p3iv_types.tracked_object import TrackedObject
+# from p3iv_types.vehicle import TrackedVehicle
 
 
 class SituationObject(TrackedObject):
@@ -17,9 +18,17 @@ class SituationObject(TrackedObject):
 
     def __init__(self, *args, **kwargs):
         if type(args[0]) is SceneObject:
-            self.id = args[0].id
-
-    # todo add init with... See prediction test cases! Make this more generic
+            all_slots = list(itertools.chain.from_iterable(getattr(t, "__slots__", ()) for t in type(self).__mro__))
+            for attr in all_slots:
+                if hasattr(args[0], attr):
+                    setattr(self, attr, getattr(args[0], attr))
+        else:
+            self._maneuvers = None
+            self._object_id = args[0]
+            self._color = args[1]
+            self._existence_probability = args[3]
+            # self._length = args[4]
+            # self._width = args[5]
 
     def __setattr__(self, name, value):
         # modify setattr for multiple inheritence
