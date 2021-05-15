@@ -40,7 +40,7 @@ def get_color(index):
     return colors.keys()[index]
 
 
-class TrackedObject(object):
+class TrackedObject(ExistenceProbability):
     """
     Contains information on a detected object.
 

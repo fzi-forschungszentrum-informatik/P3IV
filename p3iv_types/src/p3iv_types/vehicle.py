@@ -138,7 +138,7 @@ class Vehicle(object):
         self._object_id = object_id
 
 
-class TrackedVehicle(ExistenceProbability, TrackedObject, VehicleAppearance):
+class TrackedVehicle(TrackedObject, VehicleAppearance):
     """
     Contains information on a detected vehicle.
 
