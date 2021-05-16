@@ -151,7 +151,7 @@ if __name__ == "__main__":
         f = open(filename_json, "w")
         print >> f, j
         f.close()
-        print ("Completed!")
+        print("Completed!")
 
     elif args.predict:
 
@@ -178,7 +178,7 @@ if __name__ == "__main__":
         f = open(filename_json, "w")
         print >> f, j
         f.close()
-        print ("Completed!")
+        print("Completed!")
 
     elif args.show_single or args.show_multi:
         # load results & visualize
@@ -205,7 +205,7 @@ if __name__ == "__main__":
             animation = AnimateSingle(gt, configurations, timestamp)
             animation.show()
             animation.animate()
-            print ("Completed!")
+            print("Completed!")
 
         elif args.show_multi:
             from p3iv_visualization.animations.animate_multi import AnimateMulti
@@ -213,7 +213,7 @@ if __name__ == "__main__":
             animation = AnimateMulti(gt, configurations)
             animation.show()
             animation.animate()
-            print ("Completed!")
+            print("Completed!")
 
         else:
             sys.exit(1)
