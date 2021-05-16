@@ -5,8 +5,9 @@ from p3iv_types.vehicle import TrackedVehicle
 
 class EnvironmentModel(object):
     """
-    Contains information on traffic rules, visible regions,the laneletmap and information on lanelets
-    that are already driven and those that lead to goal lanelet, including the driven ones.
+    Contains information on detected vehicles and visible regions.
+    A broader (dynamic) implementation should cover dynamic map information as well.
+    I.e. the environment model should contain map information and revise the static map information.
 
     Attributes
     ----------
@@ -20,18 +21,16 @@ class EnvironmentModel(object):
         Lanelet2 of the environment
     """
 
-    __slots__ = ["_tracked_objects", "_vehicle_id", "polyvision", "visible_areas", "laneletmap"]
+    __slots__ = ["_tracked_objects", "_vehicle_id", "polyvision", "visible_areas"]
 
-    def __init__(self, vehicle_id=None, visible_areas=None, polyvision=None, laneletmap=None):
+    def __init__(self, vehicle_id=None, visible_areas=None, polyvision=None):
         self._tracked_objects = {}
         self._vehicle_id = vehicle_id
         self.polyvision = polyvision
         self.visible_areas = visible_areas
-        self.laneletmap = laneletmap
 
     def __getstate__(self):
-        """Implement for dump in pickle. Lanelet2 and Polyvision are implemented in C++ and cannot be pickled."""
-        delattr(self, "laneletmap")
+        """Implement for dump in pickle. Polyvision is implemented in C++ and cannot be pickled."""
         delattr(self, "polyvision")
 
         all_slots = itertools.chain.from_iterable(getattr(t, "__slots__", ()) for t in type(self).__mro__)
