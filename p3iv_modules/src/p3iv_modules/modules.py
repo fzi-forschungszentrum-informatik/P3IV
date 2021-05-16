@@ -23,16 +23,26 @@ class VehicleModules(object):
 
         # set perception
         try:
-            from perception.main import Percept
+            planner_type = get_planner_type(configurations, vehicle)
+            try:
+                # try to import limited visibility perception -- considers visible fields
+                # will fail, if cgal is not installed
+                from p3iv_modules.perception.limited import Percept
+
+            except ImportError:
+                # fallback to perfect perception
+                from p3iv_modules.perception.perfect import Percept
 
             self.perception = Percept(
-                laneletmap,
                 vehicle.id,
+                laneletmap,
                 vehicle.perception.sensor_fov,
                 vehicle.perception.sensor_range,
                 vehicle.perception.sensor_noise,
-                override_visibility=configurations["perception"]["override_visibility"],
             )
+
+            assert isinstance(self.perception, interfaces.PerceptInterface)
+
         except ImportError as e:
             print(str(traceback.format_exc()))
             self.perception = EmptyModule("Perception")
