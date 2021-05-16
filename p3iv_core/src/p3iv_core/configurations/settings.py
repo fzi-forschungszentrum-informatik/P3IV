@@ -50,6 +50,6 @@ settings = {
         "override_max_deceleration": True,
         "max_deceleration": 9.0,
         "initialization_astar": False,
-        "solver": "constant-velocity",
+        "type": "constant_velocity",
     },
 }

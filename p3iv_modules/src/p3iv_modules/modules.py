@@ -1,5 +1,8 @@
+from __future__ import absolute_import
 import warnings
 import traceback
+import importlib
+import p3iv_modules.interfaces as interfaces
 
 
 class VehicleModules(object):
@@ -83,14 +86,20 @@ class VehicleModules(object):
 
         # set planner
         try:
-            from planner.main import Plan
-
-            self.planner = Plan(
+            planner_type = get_planner_type(configurations, vehicle)
+            try:
+                # seach in p3iv_modules: if the package is an example pkg, it will be imported
+                planner = getattr(importlib.import_module("p3iv_modules.planner." + planner_type), "Planner")
+            except ImportError:
+                # search externally
+                planner = getattr(importlib.import_module("planner_" + planner_type), "Planner")
+            self.planner = planner(
                 configurations,
                 vehicle.characteristics.max_acceleration,
                 vehicle.characteristics.max_deceleration,
-                get_planner_type(configurations, vehicle),
             )
+            assert isinstance(self.planner, interfaces.PlannerInterface)
+
         except ImportError as e:
             print(str(traceback.format_exc()))
             self.planner = EmptyModule("Planner")
@@ -118,8 +127,8 @@ class EmptyModule(object):
 def get_planner_type(configurations, vehicle):
     if vehicle.id in configurations["planning_meta"].keys():
         if configurations["planning_meta"][vehicle.id][1] == "default":
-            return configurations["planning"]["solver"]
+            return configurations["planning"]["type"]
         else:
             return configurations["planning_meta"][vehicle.id][1]
     else:
-        return "open-loop"
+        return configurations["planning"]["type"]
