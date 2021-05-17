@@ -10,7 +10,6 @@ class VehicleModules(object):
 
         # set perception
         try:
-            planner_type = get_planner_type(configurations, vehicle)
             try:
                 # try to import limited visibility perception -- considers visible fields
                 # will fail, if cgal is not installed
