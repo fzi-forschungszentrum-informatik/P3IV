@@ -1,5 +1,5 @@
 #!/bin/sh
-pip install requirements.txt
+pip install -r requirements.txt
 cd ..
 git clone https://gitlab.mrt.uni-karlsruhe.de/pub/mrt_cmake_modules.git
 git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/understanding.git

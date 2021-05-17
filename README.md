@@ -29,3 +29,6 @@ catkin config --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo # build in release 
 ```
 
 Ensure you have cloned all the dependencies into your workspace. You can execute `install.sh` for this. You may need to make it executable with `chmod +x install.sh` first. 
+
+If you want to use drone data, make sure that you have copied it into your workspace. For interaction-dataset, the default version is `v1_0`. You can modify this by revising the entry `interaction_dataset_dir` in (`settings.py`)[p3iv/p3iv_core/src/p3iv_core/configurations/settings.py].
+
