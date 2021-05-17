@@ -27,9 +27,6 @@ def drive(vehicle, ground_truth):
     logger.debug("Nodes for computation: ")
     logger.debug(tsd.state.position.mean)
 
-    # Localization
-    tsd.localization = vehicle.modules.localization(tsd.state)
-
     # Perception
     tsd.environment = vehicle.modules.perception(
         tsd.timestamp, ground_truth, tsd.state.pose

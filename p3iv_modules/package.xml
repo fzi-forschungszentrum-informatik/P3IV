@@ -20,7 +20,6 @@
   <depend>p3iv_utils</depend>
   <depend>polyvision</depend>
   <depend>perception</depend>
-  <depend>localization</depend>
   <depend>understanding</depend>
   <depend>prediction</depend>
   <depend>decision_making</depend>

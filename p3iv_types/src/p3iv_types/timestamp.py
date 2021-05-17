@@ -55,8 +55,6 @@ class TimestampData(object):
         Current timestamp represented as an integer.
     state: VehicleState
         Current position and velocity information of a vehicle state.
-    localization: LocalizationModel
-        Current localization model
     environment: EnvironmentModel
         Current environment model obtained from perception. Containts tracked object list
     scene: SceneModel
@@ -74,7 +72,6 @@ class TimestampData(object):
     __slots__ = [
         "timestamp",
         "state",
-        "localization",
         "environment",
         "scene",
         "situation",

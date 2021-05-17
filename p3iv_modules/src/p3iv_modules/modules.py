@@ -8,19 +8,6 @@ import p3iv_modules.interfaces as interfaces
 class VehicleModules(object):
     def __init__(self, configurations, laneletmap, vehicle):
 
-        # set localization
-        try:
-            from localization.main import Localization
-
-            self.localization = Localization(
-                configurations["temporal"]["dt"],
-                measurement_noise=configurations["localization"]["measurement_noise"],
-                process_noise=configurations["localization"]["process_noise"],
-            )
-        except ImportError as e:
-            print(str(traceback.format_exc()))
-            self.localization = EmptyModule("Localization")
-
         # set perception
         try:
             planner_type = get_planner_type(configurations, vehicle)
