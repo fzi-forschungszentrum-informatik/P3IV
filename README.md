@@ -28,13 +28,4 @@ catkin init
 catkin config --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo # build in release mode (or whatever you prefer)
 ```
 
-```
-git clone https://gitlab.mrt.uni-karlsruhe.de/pub/mrt_cmake_modules.git
-git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/understanding.git
-git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/polygon_geometry.git
-git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/prediction.git
-git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/util_probability.git
-git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/util_motion.git
-git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/decision_making.git
-git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/planner.git
-```
+Ensure you have cloned all the dependencies into your workspace. You can execute `install.sh` for this. You may need to make it executable with `chmod +x install.sh` first. 

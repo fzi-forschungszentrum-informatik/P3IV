@@ -1,5 +1,6 @@
 #!/bin/sh
 pip install requirements.txt
+cd ..
 git clone https://gitlab.mrt.uni-karlsruhe.de/pub/mrt_cmake_modules.git
 git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/understanding.git
 git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/polygon_geometry.git
