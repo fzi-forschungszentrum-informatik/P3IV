@@ -99,10 +99,13 @@ class VehicleModules(object):
             planner_type = get_planner_type(configurations, vehicle)
             try:
                 # seach in p3iv_modules: if the package is an example pkg, it will be imported
-                planner = getattr(importlib.import_module("p3iv_modules.planner." + planner_type), "Planner")
+                module_path = "p3iv_modules.planner." + planner_type
+                planner = getattr(importlib.import_module(module_path), "Planner")
             except ImportError:
                 # search externally
-                planner = getattr(importlib.import_module("planner_" + planner_type), "Planner")
+                module_path = "planner_" + planner_type
+                planner = getattr(importlib.import_module(module_path), "Planner")
+
             self.planner = planner(
                 configurations,
                 vehicle.characteristics.max_acceleration,
@@ -116,9 +119,9 @@ class VehicleModules(object):
 
         # set action
         try:
-            from action.main import Act
-
+            Act = getattr(importlib.import_module("p3iv_modules.action.act"), "Act")
             self.action = Act()
+
         except ImportError as e:
             print(str(traceback.format_exc()))
             self.action = EmptyModule("Action")

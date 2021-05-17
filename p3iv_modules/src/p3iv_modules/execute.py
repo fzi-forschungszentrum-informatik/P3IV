@@ -12,7 +12,13 @@ logger.setLevel(logging.INFO)
 def drive(vehicle, ground_truth):
 
     Print2Console.p("s", ["-" * 72], style="cyan", bold=True, first_col_w=40)
-    Print2Console.p("ss", ["Computing vehicle: ", vehicle.id], style="cyan", bold=True, first_col_w=40)
+    Print2Console.p(
+        "ss",
+        ["Computing vehicle: ", vehicle.id],
+        style="cyan",
+        bold=True,
+        first_col_w=40,
+    )
     Print2Console.p("s", ["-" * 72], style="cyan", bold=True, first_col_w=40)
 
     # get the current timestampdata
@@ -25,11 +31,15 @@ def drive(vehicle, ground_truth):
     tsd.localization = vehicle.modules.localization(tsd.state)
 
     # Perception
-    tsd.environment = vehicle.modules.perception(tsd.timestamp, ground_truth, tsd.state.pose)
+    tsd.environment = vehicle.modules.perception(
+        tsd.timestamp, ground_truth, tsd.state.pose
+    )
 
     # Understanding
     tsd.scene = vehicle.modules.understanding(
-        tsd.environment.objects(relative_to=None), tsd.environment.polyvision, tsd.environment.visible_areas
+        tsd.environment.objects(relative_to=None),
+        tsd.environment.polyvision,
+        tsd.environment.visible_areas,
     )
 
     # Prediction
@@ -39,10 +49,12 @@ def drive(vehicle, ground_truth):
     tsd.decision_base = vehicle.modules.decision(tsd.state, tsd.scene, tsd.situation)
 
     # Motion Planning
-    tsd.motion_plans = vehicle.modules.planner(tsd.timestamp, tsd.state, tsd.scene, tsd.situation, tsd.decision_base)
+    tsd.motion_plans = vehicle.modules.planner(
+        tsd.timestamp, tsd.state, tsd.scene, tsd.situation, tsd.decision_base
+    )
 
     # Pick the optimal action
-    tsd.plan_optimal = vehicle.modules.action(tsd.state, tsd.motion_plans)
+    tsd.plan_optimal = vehicle.modules.action(tsd.motion_plans)
 
 
 def predict(vehicle, ground_truth):
@@ -51,11 +63,15 @@ def predict(vehicle, ground_truth):
     tsd = vehicle.timestamps.latest()
 
     # Perception
-    tsd.environment = vehicle.modules.perception(tsd.timestamp, ground_truth, tsd.motion.pose[-1])
+    tsd.environment = vehicle.modules.perception(
+        tsd.timestamp, ground_truth, tsd.motion.pose[-1]
+    )
 
     # Understanding
     tsd.scene = vehicle.modules.understanding(
-        tsd.environment.objects(relative_to=None), tsd.environment.polyvision, tsd.environment.visible_areas
+        tsd.environment.objects(relative_to=None),
+        tsd.environment.polyvision,
+        tsd.environment.visible_areas,
     )
 
     # Prediction
