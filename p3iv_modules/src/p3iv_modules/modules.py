@@ -65,17 +65,18 @@ class VehicleModules(object):
 
         # set decision
         try:
-            from decision_making.main import Decide
+            try:
+                # search externally
+                # todo! define in settings.
+                raise ImportError
+            except ImportError:
+                # search in p3iv_modules as fallback
+                module_path = "p3iv_modules.decision.decision_making"
+                Decide = getattr(importlib.import_module(module_path), "Decide")
 
-            self.decision = Decide(
-                vehicle.characteristics.max_acceleration,
-                vehicle.characteristics.max_deceleration,
-                vehicle.objective.set_speed,
-                configurations["temporal"]["dt"],
-                configurations["temporal"]["N"],
-                configurations["temporal"]["N_pin_future"],
-                configurations["decision_making"]["astar_initialization"],
-            )
+            self.decision = Decide()
+
+            assert isinstance(self.decision, interfaces.DecisionMakingInterface)
         except ImportError as e:
             print(str(traceback.format_exc()))
             self.decision = EmptyModule("Decision")
@@ -85,7 +86,7 @@ class VehicleModules(object):
             planner_type = get_planner_type(configurations, vehicle)
             try:
                 # search externally
-                module_path = "planner_" + planner_type
+                module_path = "planner_" + planner_type + ".planner"
                 Planner = getattr(importlib.import_module(module_path), "Planner")
             except ImportError:
                 # search in p3iv_modules as fallback
