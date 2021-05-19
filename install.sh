@@ -7,5 +7,4 @@ git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/polygon_geomet
 git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/prediction.git
 git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/util_probability.git
 git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/util_motion.git
-git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/decision_making.git
 git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/planner.git

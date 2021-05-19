@@ -21,7 +21,6 @@
   <depend>polyvision</depend>
   <depend>understanding</depend>
   <depend>prediction</depend>
-  <depend>decision_making</depend>
   <depend>planner</depend>
 
   <export>
