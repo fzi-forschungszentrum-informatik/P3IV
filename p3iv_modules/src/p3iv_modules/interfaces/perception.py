@@ -32,5 +32,8 @@ class PerceptInterface(object):
 
     @staticmethod
     def type_check(timestamp, ground_truth):
+        """
+        Utility type check function.
+        """
         assert isinstance(timestamp, int)
         assert isinstance(ground_truth, p3iv_types.GroundTruth)

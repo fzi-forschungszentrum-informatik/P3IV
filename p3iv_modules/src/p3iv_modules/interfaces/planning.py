@@ -38,6 +38,9 @@ class PlannerInterface(object):
 
     @staticmethod
     def type_check(timestamp, motion_state, scene_model, situation_model, decision_base):
+        """
+        Utility type check function.
+        """
         assert isinstance(timestamp, int)
         assert isinstance(motion_state, p3iv_types.MotionState)
         assert isinstance(scene_model, p3iv_types.SceneModel)
