@@ -40,6 +40,7 @@ settings = {
         "otherVehicle_sensor_fov": 130,
     },
     "decision_making": {
+        "pkg_name": None,
         "astar_initialization": False,
     },
     "planning": {

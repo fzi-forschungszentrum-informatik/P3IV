@@ -67,8 +67,8 @@ class VehicleModules(object):
         try:
             try:
                 # search externally
-                # todo! define in settings.
-                raise ImportError
+                module_path = configurations["prediction"]["module_name"] + "decide"
+                Decide = getattr(importlib.import_module(module_path), "Decide")
             except ImportError:
                 # search in p3iv_modules as fallback
                 module_path = "p3iv_modules.decision.decision_making"
