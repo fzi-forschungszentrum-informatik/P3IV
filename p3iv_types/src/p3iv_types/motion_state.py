@@ -50,6 +50,8 @@ class MotionStateArray(object):
         Velocity array
     """
 
+    __slots__ = ["position", "yaw", "velocity"]
+
     def __init__(self, dt=0.1, position=None):
         """
         Args:
