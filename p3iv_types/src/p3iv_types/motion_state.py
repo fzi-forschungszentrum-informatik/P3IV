@@ -10,12 +10,12 @@ class MotionState(object):
 
     Attributes
     ----------
-    position: Bivariate normal distribution
+    position: BivariateNormalDistribution
         Current Cartesian position.
-    yaw: Univariate normal distribution
+    yaw: UnivariateNormalDistribution
         Current yaw angle.
-    velocity: Bivariate normal distribution
-        Current speed.
+    velocity: BivariateNormalDistribution
+        Current velocity.
     """
 
     __slots__ = ["position", "yaw", "velocity"]
