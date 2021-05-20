@@ -1,12 +1,12 @@
 test_cases = {
     "EvalCh6.4_Planner_Model_Parameter_Tree_Search": {  # evaluate planner for multiple timesteps
         "source": "interaction_sim",
-        "map": 'DR_DEU_Roundabout_OF',
+        "map": "DR_DEU_Roundabout_OF",
         "timestamp_begin": 146000,
         "timestamp_end": 152000,
         "vehicle_of_interest": 61,
-        "simulation_type": "semi-open-loop",
-        "planning_meta": dict([(61, ("30022", "ipft_py"))])
+        "simulation_type": "open-loop",
+        "planning_meta": dict([(61, ("30022", "ipft_py"))]),
     },
     "DEU_Merging_CL_01": {
         "source": "interaction_sim",
@@ -19,8 +19,7 @@ test_cases = {
         # dict keys are vehicle ids, and values are 'toLanelet' and 'planner_types'
         # default reads the type from 'settings.py' file
         "planning_meta": dict(
-            [(1, ("30008", "default")), (2, ("30008", "constant-velocity")),
-             (3, ("30008", "constant-velocity"))]
+            [(1, ("30008", "default")), (2, ("30008", "constant-velocity")), (3, ("30008", "constant-velocity"))]
         ),
     },
     "DEU_Merging_OL_01": {
