@@ -1,12 +1,10 @@
 import numpy as np
-from util_motion.motion import Motion
-
-# from solution_details import SolutionDetails
+from p3iv_types.motion_state import MotionStateArray
 
 
 class MotionPlan(object):
     def __init__(self):
-        self.motion = Motion()
+        self.motion = MotionStateArray()
         self.details = dict()
         self.cost = None
 
