@@ -1,10 +1,7 @@
 from __future__ import division
 import unittest
 import numpy as np
-from util_motion.motion import Motion
 from p3iv_utils.coordinate_transformation import CoordinateTransform
-
-# from util_motion.visualization.visualization import Visualizer
 from util_probability.distributions import BivariateNormalDistributionSequence
 from p3iv_visualization.motion.plot_array2d import PlotArray2D
 from p3iv_visualization.motion.plot_motion_components import PlotMotionComponents

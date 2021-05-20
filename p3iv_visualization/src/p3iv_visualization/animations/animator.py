@@ -3,7 +3,7 @@ from p3iv_visualization.cartesian.plot_cartesian import PlotCartesian
 from p3iv_visualization.spatiotemporal.utils.plot_utils import PlotUtils
 from p3iv_visualization.spatiotemporal.utils.plot_ego_motion import PlotEgoMotion
 from p3iv_visualization.spatiotemporal.utils.plot_other_vehicles import PlotOtherVehicles
-from util_motion.visualization.plot_motion_sequence import PlotMotionSequence
+from p3iv_visualization.motion.plot_motion_components import PlotMotionComponents
 from animation_frame import AnimationFrame
 
 
@@ -43,7 +43,7 @@ class Animator(object):
         self.p_ax1.set_vehicle_plots()
         self.timestamp_text = self.ax1.text(0.65, 0.04, "", transform=self.ax1.transAxes, fontsize=8)
 
-        self.p_ax234 = PlotMotionSequence(self.ax2, self.ax3, self.ax4)
+        self.p_ax234 = PlotMotionComponents(self.ax2, self.ax3, self.ax4)
 
     def init_spatiotemporal_plot(self, N, N_pin_past, N_pin_future):
         self.n_pin_past = N_pin_past
@@ -106,7 +106,13 @@ class Animator(object):
 
         # Motion Profile Diagram
         # motion_future contains the current pos. hence 'index4pin2free' is  'i+1'
-        self.p_ax234.update_profile(motion_profile.frenet, index4pin2free=i + 1, magnitude_flag=magnitude_flag)
+        self.p_ax234.update_profile(
+            motion_profile.frenet.velocity.mean,
+            motion_profile.frenet.acceleration.mean,
+            motion_profile.frenet.jerk.mean,
+            index4pin2free=i + 1,
+            magnitude_flag=magnitude_flag,
+        )
         self.p_ax234.update_time_highlighter(self.dt * i)
 
     def update_others_cartesian(self, timestampdata, i):

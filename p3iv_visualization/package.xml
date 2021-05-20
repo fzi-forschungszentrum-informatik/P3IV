@@ -14,7 +14,7 @@
 
 
   <depend>lanelet2_core</depend>
-  <depend>util_motion</depend>
+  <depend>p3iv_utils</depend>
 
   <export>
     <rosdoc config="../rosdoc.yaml" />
