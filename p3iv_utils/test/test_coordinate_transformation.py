@@ -64,7 +64,7 @@ class Visualizer(object):
         self.ax_frenet.text(p_f[0, 0], p_f[0, 1] - 0.1, "({:.2f}. {:.2f})".format(p_f[0, 0], p_f[0, 1]))
 
 
-class MotionLinearCenterlineTest(unittest.TestCase):
+class MotionLinearCenterlineTestVisualization(unittest.TestCase):
     def test(self):
         centerline = np.zeros([10, 2])
         centerline[:, 0] = np.arange(10)
@@ -79,7 +79,7 @@ class MotionLinearCenterlineTest(unittest.TestCase):
         v(self.pos_cartesian, self.pos_frenet)
 
 
-class MotionNonlinearCenterlineTest(unittest.TestCase):
+class MotionNonlinearCenterlineTestVisualization(unittest.TestCase):
     def test(self):
         self.centerline = np.zeros([10, 2])
         self.centerline[:, 0] = np.arange(0, 10)
@@ -94,6 +94,40 @@ class MotionNonlinearCenterlineTest(unittest.TestCase):
         print(self.pos_frenet)
 
         v(self.pos_cartesian, self.pos_frenet, plot_norm_flag=True)
+
+
+class Cartesian2ArcConversion(unittest.TestCase):
+    def test_one(self):
+
+        centerline = np.zeros([10, 2])
+        centerline[:, 0] = np.arange(10)
+        centerline[:, 1] = np.arange(10) * 0.5
+        c = CoordinateTransform(centerline)
+
+        pos_cartesian = np.array([[1, 0], [2, 2], [3, 3], [5, 3]])
+        pos_frenet = c.xy2ld(pos_cartesian)
+
+        gt = np.array(
+            [[0.89442719, -0.4472136], [2.68328157, 0.89442719], [4.02492236, 1.34164079], [5.81377674, 0.4472136]]
+        )
+
+        self.assertAlmostEquals(np.sum(pos_frenet - gt), 0.0)
+
+    def test_two(self):
+
+        centerline = np.zeros([10, 2])
+        centerline[:, 0] = np.arange(0, 10)
+        centerline[:, 1] = 2 * centerline[:, 0] ** (1 / 2.4)
+        c = CoordinateTransform(centerline)
+
+        pos_cartesian = np.array([[0.75, 2.2], [2, 3], [4, 3.5], [7, 4.5]])
+        pos_frenet = c.xy2ld(pos_cartesian)
+
+        gt = np.array(
+            [[1.6546903, 1.63232962], [3.13049517, 1.78885438], [5.14295635, 1.34164079], [8.27345152, 0.89442719]]
+        )
+
+        self.assertLess(np.sum(pos_frenet - gt), 1e-6)
 
 
 if __name__ == "__main__":
