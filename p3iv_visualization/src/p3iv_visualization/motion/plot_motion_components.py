@@ -1,5 +1,5 @@
 import numpy as np
-from plot_motion_array2d import PlotArray2D
+from p3iv_visualization.motion.plot_array2d import PlotArray2D
 
 
 class PlotMotionComponents(object):
