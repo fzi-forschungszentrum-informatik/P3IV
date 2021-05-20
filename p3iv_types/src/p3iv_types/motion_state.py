@@ -3,6 +3,7 @@ import numpy as np
 from util_probability.distributions import UnivariateNormalDistribution, BivariateNormalDistribution
 from util_probability.distributions import UnivariateNormalDistributionSequence, BivariateNormalDistributionSequence
 from p3iv_utils.finite_differences import finite_differences
+from p3iv_utils.helper_functions import get_yaw_angle
 
 
 class MotionState(object):
@@ -86,7 +87,7 @@ class MotionStateArray(object):
         self.resize(len(position))
         if isinstance(position, BivariateNormalDistributionSequence):
             v, a, j = finite_differences(position.mean(), dt, difference_type=difference_type)
-            self.position = position.mean()
+            self.position = position
 
         elif isinstance(position, np.ndarray):
             v, a, j = finite_differences(position, dt, difference_type=difference_type)
@@ -98,14 +99,9 @@ class MotionStateArray(object):
 
         if v.size == 0:
             v = np.zeros([len(position), 2])
-        if a.size == 0:
-            a = np.zeros([len(position), 2])
-        if j.size == 0:
-            j = np.zeros([len(position), 2])
 
         self.velocity.mean = v
-        # todo@Sahin
-        self.yaw.mean = a
+        self.yaw.mean = get_yaw_angle(self.position.mean)
 
     def __getitem__(self, item):
         m = MotionStateArray(dt=self.dt)
@@ -119,8 +115,11 @@ class MotionStateArray(object):
         return len(self.position)
 
     def __repr__(self):
-        repr = "position : \n" + self.position.__repr__()
-        return repr
+        pos_repr = "Position : \n" + self.position.__repr__() + "\n"
+        yaw_repr = "Yaw : \n" + self.yaw.__repr__() + "\n"
+        vel_repr = "Velocity : \n" + self.velocity.__repr__() + "\n"
+        final = "-" * 79 + "\n"
+        return pos_repr + yaw_repr + vel_repr + final
 
     """
     todo
@@ -155,3 +154,18 @@ class MotionStateArray(object):
         self.position.append(other.position)
         self.yaw.append(other.yaw)
         self.velocity.append(other.velocity)
+
+
+if __name__ == "__main__":
+    pos = np.array([[1, 0], [2, 2], [3, 3], [4, 4]])
+    m = MotionStateArray()
+    m(pos, dt=0.1)
+    print(m)
+    print(m.position)
+    print(m[1])
+    print(m[:2])
+    m1 = m
+    m2 = m
+    m.append(m1)
+    # print(m1 + m2)
+    # print(m1 - m2)
