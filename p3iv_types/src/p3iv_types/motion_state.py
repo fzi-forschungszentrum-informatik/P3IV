@@ -157,6 +157,10 @@ class MotionStateArray(object):
         self.yaw.append(other.yaw)
         self.velocity.append(other.velocity)
 
+    @property
+    def speed(self):
+        return np.linalg.norm(self.velocity.mean, axis=1)
+
 
 if __name__ == "__main__":
     pos = np.array([[1, 0], [2, 2], [3, 3], [4, 4]])
