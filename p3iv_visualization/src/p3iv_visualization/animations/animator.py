@@ -1,10 +1,11 @@
+from __future__ import absolute_import
 import numpy as np
 from p3iv_visualization.cartesian.plot_cartesian import PlotCartesian
 from p3iv_visualization.spatiotemporal.utils.plot_utils import PlotUtils
 from p3iv_visualization.spatiotemporal.utils.plot_ego_motion import PlotEgoMotion
 from p3iv_visualization.spatiotemporal.utils.plot_other_vehicles import PlotOtherVehicles
 from p3iv_visualization.motion.plot_motion_components import PlotMotionComponents
-from animation_frame import AnimationFrame
+from p3iv_visualization.animations.animation_frame import AnimationFrame
 
 
 class Animator(object):
