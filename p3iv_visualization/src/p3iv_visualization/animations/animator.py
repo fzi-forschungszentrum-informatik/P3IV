@@ -65,13 +65,6 @@ class Animator(object):
         self.p_ax234.set_labels()
 
     def update_ego(self, timestampdata, i, magnitude_flag=False):
-        """
-        timestampdata = v.timestamps.get(current_time)
-        x, y = timestampdata.plan_optimal.motion.cartesian.position.mean[i_current]
-        yaw = timestampdata.plan_optimal.motion.yaw_angle[i_current]
-        self.p_ax1.update_vehicle_plot(v.v_id, x, y, yaw)
-        """
-
         # The plots on ax0 are 'static'
         motion_profile = timestampdata.plan_optimal.motion
 
