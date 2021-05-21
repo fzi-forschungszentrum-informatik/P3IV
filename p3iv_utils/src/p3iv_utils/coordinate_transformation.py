@@ -113,14 +113,6 @@ class CoordinateTransform(object):
 
 
 if __name__ == "__main__":
-
-    def convert_cartesian_to_point3d(cartesian_coordinate_array):
-
-        points = []
-        for i, xy in enumerate(cartesian_coordinate_array):
-            points.append(lanelet2.core.Point3d(i, xy[0], xy[1], 0.0))
-        print points
-
     centerline = np.zeros([10, 2])
     centerline[:, 0] = np.arange(10)
     centerline[:, 1] = np.arange(10)
@@ -131,7 +123,7 @@ if __name__ == "__main__":
     ld_0 = c.xy2ld(xy_0)
     xy_1 = [4.0, 8.0]
     ld_1 = c.xy2ld(xy_1)
-    print ("ld_0 : ")
-    print (ld_0)
-    print ("ld_1 : ")
-    print (ld_1)
+    print("ld_0 : ")
+    print(ld_0)
+    print("ld_1 : ")
+    print(ld_1)
