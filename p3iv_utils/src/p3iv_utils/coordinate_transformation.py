@@ -90,7 +90,7 @@ class CoordinateTransform(object):
         offset_l, offset_d = self.xy2ld(cartesian_position)
         ld_array = np.empty([len(longitudinal_position_arr), 2])
         ld_array[:, 0] = longitudinal_position_arr + offset_l
-        ld_array[:, 1] = np.linspace(offset_d, 0.0, len(x))
+        ld_array[:, 1] = np.linspace(offset_d, 0.0, len(longitudinal_position_arr))
         return self.ld2xy(ld_array)
 
     @staticmethod
