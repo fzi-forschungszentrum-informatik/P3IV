@@ -6,15 +6,18 @@ from p3iv_utils.coordinate_transformation import CoordinateTransform
 
 
 class Visualizer(object):
-    def __init__(self, c_cartesian, c_frenet):
+    def __init__(self, c_cartesian, c_frenet, show=False):
         self.c_cartesian = c_cartesian
 
         self.fig = plt.figure(figsize=(7, 8))
         self.ax_cartesian = self.fig.add_subplot(2, 1, 1)
         self.ax_frenet = self.fig.add_subplot(2, 1, 2)
 
-        self.ax_cartesian.plot(c_cartesian[:, 0], c_cartesian[:, 1])
-        self.ax_frenet.plot(c_frenet[:, 0], c_frenet[:, 1])
+        if show:
+            self.ax_cartesian.plot(c_cartesian[:, 0], c_cartesian[:, 1])
+            self.ax_frenet.plot(c_frenet[:, 0], c_frenet[:, 1])
+        else:
+            plt.close()
 
     def __call__(self, pos_cartesian, pos_frenet, plot_norm_flag=False, show=False):
         self.ax_cartesian.plot(pos_cartesian[:, 0], pos_cartesian[:, 1], "ro")
@@ -37,6 +40,8 @@ class Visualizer(object):
         plt.tight_layout()
         if show:
             plt.show()
+        else:
+            plt.close()
 
     def plot_normal(self, origin, vec):
         n = np.zeros(vec.shape)
