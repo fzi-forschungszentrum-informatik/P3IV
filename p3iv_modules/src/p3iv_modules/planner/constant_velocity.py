@@ -1,8 +1,8 @@
 from __future__ import division
 import numpy as np
 from p3iv_modules.interfaces.planning import PlannerInterface
-from p3iv_types.motion_plans import MotionPlans
-from utils import get_MotionPlan_from_1D
+from p3iv_types.motion_plans import MotionPlan, MotionPlans
+from p3iv_utils.coordinate_transformation import CoordinateTransform
 
 
 class Planner(PlannerInterface):
@@ -13,6 +13,7 @@ class Planner(PlannerInterface):
         self.timestamp = 0
 
         # store intermediate stuff for convenience
+        self._coordinate_transform = None
         self._state = None
         self._progress = None
 
@@ -35,6 +36,7 @@ class Planner(PlannerInterface):
 
     def setDrivingCorridor(self, corridor):
         self._corridor_centerline = corridor.center
+        self._coordinate_transform = CoordinateTransform(self._corridor_centerline)
 
     def setMotionState(self, state, progress):
         self._state = state
@@ -47,9 +49,11 @@ class Planner(PlannerInterface):
             new_pos = current_pos + self._state.speed * self.dt
             profile = np.append(profile, new_pos)
             current_pos = new_pos
-
         frenet_l = np.append(self._progress, profile)
 
-        mp = get_MotionPlan_from_1D(self._corridor_centerline, self._state.position.mean, frenet_l, self.dt)
+        xy = self._coordinate_transform.expand(self._state.position.mean, frenet_l)
+        mp = MotionPlan()
+        mp.motion(xy, dt=self.dt)
+
         assert len(mp.motion) == self.n + 1  # 1-> current state
         return mp
