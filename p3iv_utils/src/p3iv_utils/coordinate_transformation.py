@@ -2,7 +2,6 @@ import numpy as np
 import lanelet2.geometry
 from lanelet2.core import BasicPoint2d, LaneletSequence
 from lanelet2.geometry import ArcCoordinates
-from functools import wraps
 
 
 class CoordinateTransform(object):
@@ -54,7 +53,7 @@ class CoordinateTransform(object):
         output_coordinates = np.empty((len(input_coordinates), 2))
         for i in range(len(input_coordinates)):
             frenet = lanelet2.geometry.toArcCoordinates(
-                self._centerline, self.convert2basicPoint2d(input_coordinates[i])
+                self._centerline, self._convert2basicPoint2d(input_coordinates[i])
             )
             output_coordinates[i] = np.asarray([frenet.length, frenet.distance])
         return output_coordinates
@@ -67,19 +66,25 @@ class CoordinateTransform(object):
         output_coordinates = np.empty((len(input_coordinates), 2))
         for i in range(len(input_coordinates)):
             cartesian = lanelet2.geometry.fromArcCoordinates(
-                self._centerline, self.convert2arcCoordinates(input_coordinates[i])
+                self._centerline, self._convert2arcCoordinates(input_coordinates[i])
             )
             output_coordinates[i] = np.asarray([cartesian.x, cartesian.y])
         return output_coordinates
 
     @staticmethod
-    def convert2basicPoint2d(input_coordinates):
+    def _convert2basicPoint2d(input_coordinates):
+        """
+        Typecasting for Lanelet2.
+        """
         cartesian = lanelet2.core.BasicPoint2d()
         cartesian.x, cartesian.y = input_coordinates
         return cartesian
 
     @staticmethod
-    def convert2arcCoordinates(input_coordinates):
+    def _convert2arcCoordinates(input_coordinates):
+        """
+        Typecasting for Lanelet2.
+        """
         frenet = lanelet2.geometry.ArcCoordinates()
         frenet.length, frenet.distance = input_coordinates
         return frenet
