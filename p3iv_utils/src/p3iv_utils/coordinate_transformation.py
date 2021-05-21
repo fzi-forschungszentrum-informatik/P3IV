@@ -71,6 +71,28 @@ class CoordinateTransform(object):
             output_coordinates[i] = np.asarray([cartesian.x, cartesian.y])
         return output_coordinates
 
+    def expand(self, cartesian_position, longitudinal_position_arr):
+
+        """
+        Given a motion profile in arc-length-coordinates, expand the dimension and transform it to Cartesian.
+
+        Arguments
+        ---------
+        cartesian_position: np.ndarray
+            Initial Cartesian coordinates [x, y]
+        longitudinal_position_arr: np.ndarray
+            Logitudinal position array
+        """
+
+        # typecast if list
+        longitudinal_position_arr = np.asarray(longitudinal_position_arr)
+
+        offset_l, offset_d = self.xy2ld(cartesian_position)
+        ld_array = np.empty([len(longitudinal_position_arr), 2])
+        ld_array[:, 0] = longitudinal_position_arr + offset_l
+        ld_array[:, 1] = np.linspace(offset_d, 0.0, len(x))
+        return self.ld2xy(ld_array)
+
     @staticmethod
     def _convert2basicPoint2d(input_coordinates):
         """
