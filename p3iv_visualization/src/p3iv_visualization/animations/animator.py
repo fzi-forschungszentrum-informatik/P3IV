@@ -6,6 +6,7 @@ from p3iv_visualization.spatiotemporal.utils.plot_ego_motion import PlotEgoMotio
 from p3iv_visualization.spatiotemporal.utils.plot_other_vehicles import PlotOtherVehicles
 from p3iv_visualization.motion.plot_motion_components import PlotMotionComponents
 from p3iv_visualization.animations.animation_frame import AnimationFrame
+from p3iv_utils.coordinate_transformation import CoordinateTransform
 
 
 class Animator(object):
@@ -66,14 +67,14 @@ class Animator(object):
 
     def update_ego(self, timestampdata, i, magnitude_flag=False):
         # The plots on ax0 are 'static'
-        motion_profile = timestampdata.plan_optimal.motion
 
         # Path-time Diagram
-        l_current = motion_profile.frenet.position.mean[-1, 0]
-        l_current = 0.0
+        c = CoordinateTransform(timestampdata.decision_base.corridor.center)
+        ld = c.xy2ld(timestampdata.plan_optimal.motion.position.mean)
 
         # because l_current is subtrachted as offset, static axis limits can be attained
-        self.p_ax0_pem.update_motion_profile(motion_profile, offset=l_current)
+        longitudinal_pos = ld[:, 0] - ld[0, 0]
+        self.p_ax0_pem.update_motion_profile(longitudinal_pos)
         # self.p_ax0_pem.update_stop_positions(motion_future, self.n_pin_future + 1)  # m. future contains the curr. pos
         # self.p_ax0_pem.update_initial_position(timestampdata.motion[-1])
         # self.p_ax0_pem.delete_motion_limits()
@@ -83,8 +84,8 @@ class Animator(object):
         self.p_ax0_pem.update_timelighter(i * self.dt)
 
         # Cartesian-Motion Diagram
-        x, y = timestampdata.plan_optimal.motion.cartesian.position.mean[i]
-        yaw = timestampdata.plan_optimal.motion.yaw_angle[i]
+        x, y = timestampdata.plan_optimal.motion.position.mean[i]
+        yaw = timestampdata.plan_optimal.motion.yaw.mean[i]
         visible_region = None  # timestampdata.environment.visible_areas
 
         self.p_ax1.update_vehicle_plot(
@@ -94,19 +95,21 @@ class Animator(object):
             yaw,
             visible_region,
             zoom=self.frame.zoom,
-            motion_past=motion_profile.cartesian.position.mean[: i + 1],
-            motion_future=motion_profile.cartesian.position.mean[i:],
+            motion_past=timestampdata.plan_optimal.motion.position.mean[: i + 1],
+            motion_future=timestampdata.plan_optimal.motion.position.mean[i:],
         )
 
         # Motion Profile Diagram
         # motion_future contains the current pos. hence 'index4pin2free' is  'i+1'
+        # todo! acceleration & jerk
         self.p_ax234.update_profile(
-            motion_profile.frenet.velocity.mean,
-            motion_profile.frenet.acceleration.mean,
-            motion_profile.frenet.jerk.mean,
+            timestampdata.plan_optimal.motion.velocity.mean,
+            timestampdata.plan_optimal.motion.velocity.mean,
+            timestampdata.plan_optimal.motion.velocity.mean,
             index4pin2free=i + 1,
             magnitude_flag=magnitude_flag,
         )
+
         self.p_ax234.update_time_highlighter(self.dt * i)
 
     def update_others_cartesian(self, timestampdata, i):
@@ -141,8 +144,10 @@ class Animator(object):
         for v in timestampdata.situation.objects():
             c = timestampdata.scene.get_object(v.id).color
             for m in v.maneuvers.hypotheses:
-                l_current = m.motion.frenet.position.mean[-1, 0]
-                self.p_ax0_pov.plot_object(m.motion.frenet.position, c, offset=l_current)
+                pass
+                # todo!
+                # l_current = m.motion.frenet.position.mean[-1, 0]
+                # self.p_ax0_pov.plot_object(m.motion.frenet.position, c, offset=l_current)
 
     def update_timestamp_text(self, timestamp):
         assert isinstance(timestamp, int)

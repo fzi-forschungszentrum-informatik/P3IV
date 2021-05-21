@@ -21,9 +21,9 @@ class PlotEgoMotion(object):
         self.time_range = dt * np.arange(N + 1)
         (self.lines_line2d_motion_profile,) = self.ax.plot([], [], "o-", linewidth=linewidth, color=self.color, ms=ms)
 
-    def update_motion_profile(self, motion_profile, offset=0.0):
-        assert len(self.time_range) == len(motion_profile)
-        self.lines_line2d_motion_profile.set_data(self.time_range, motion_profile.frenet.position.mean[:, 0] - offset)
+    def update_motion_profile(self, longitudinal_pos, offset=0.0):
+        assert len(self.time_range) == len(longitudinal_pos)
+        self.lines_line2d_motion_profile.set_data(self.time_range, longitudinal_pos)
 
     def plot_motion_limits(self, motion_executed):
 
