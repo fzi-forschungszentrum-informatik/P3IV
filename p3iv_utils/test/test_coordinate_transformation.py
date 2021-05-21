@@ -98,6 +98,21 @@ class MotionNonlinearCenterlineTestVisualization(unittest.TestCase):
 
 class Cartesian2ArcConversion(unittest.TestCase):
     def test_one(self):
+        centerline = np.zeros([10, 2])
+        centerline[:, 0] = np.arange(10)
+        centerline[:, 1] = np.arange(10)
+
+        c = CoordinateTransform(centerline)
+
+        xy_0 = [4.0, 0.0]
+        ld_0 = c.xy2ld(xy_0)
+        self.assertAlmostEquals(np.sum(ld_0 - np.array([2.82842712, -2.82842712])), 0.0)
+
+        xy_1 = [4.0, 8.0]
+        ld_1 = c.xy2ld(xy_1)
+        self.assertAlmostEquals(np.sum(ld_1 - np.array([8.48528137, 2.82842712])), 0.0)
+
+    def test_two(self):
 
         centerline = np.zeros([10, 2])
         centerline[:, 0] = np.arange(10)
@@ -113,7 +128,7 @@ class Cartesian2ArcConversion(unittest.TestCase):
 
         self.assertAlmostEquals(np.sum(pos_frenet - gt), 0.0)
 
-    def test_two(self):
+    def test_three(self):
 
         centerline = np.zeros([10, 2])
         centerline[:, 0] = np.arange(0, 10)

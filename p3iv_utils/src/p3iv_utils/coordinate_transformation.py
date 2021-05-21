@@ -110,20 +110,3 @@ class CoordinateTransform(object):
         frenet = lanelet2.geometry.ArcCoordinates()
         frenet.length, frenet.distance = input_coordinates
         return frenet
-
-
-if __name__ == "__main__":
-    centerline = np.zeros([10, 2])
-    centerline[:, 0] = np.arange(10)
-    centerline[:, 1] = np.arange(10)
-
-    c = CoordinateTransform(centerline)
-
-    xy_0 = [4.0, 0.0]
-    ld_0 = c.xy2ld(xy_0)
-    xy_1 = [4.0, 8.0]
-    ld_1 = c.xy2ld(xy_1)
-    print("ld_0 : ")
-    print(ld_0)
-    print("ld_1 : ")
-    print(ld_1)
