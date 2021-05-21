@@ -72,9 +72,9 @@ def run(configurations, f_execute=drive):
 
             o = ground_truth[configurations["vehicle_of_interest"]]
             driven = o.timestamps.previous().plan_optimal.motion[1]
-            o.timestamps.latest().state.position.mean = driven.cartesian.position.mean
-            o.timestamps.latest().state.yaw.mean = driven.yaw_angle
-            o.timestamps.latest().state.velocity.mean = driven.cartesian.velocity.mean
+            o.timestamps.latest().state.position.mean = driven.position.mean
+            o.timestamps.latest().state.yaw.mean = driven.yaw.mean
+            o.timestamps.latest().state.velocity.mean = driven.velocity.mean
 
         elif configurations["simulation_type"] == "closed-loop":
             # closed-loop simulation
@@ -86,9 +86,9 @@ def run(configurations, f_execute=drive):
                 # Therefore, take the first element in the motion array.
                 driven = v.timestamps.latest().plan_optimal.motion[1]
                 v.timestamps.create_and_add(ts_now)
-                o.timestamps.latest().state.position.mean = driven.cartesian.position.mean
-                o.timestamps.latest().state.yaw.mean = driven.yaw_angle
-                o.timestamps.latest().state.velocity.mean = driven.cartesian.velocity.mean
+                o.timestamps.latest().state.position.mean = driven.position.mean
+                o.timestamps.latest().state.yaw.mean = driven.yaw.mean
+                o.timestamps.latest().state.velocity.mean = driven.velocity.mean
         else:
             msg = (
                 "'simulation_type' in configurations is wrong."
