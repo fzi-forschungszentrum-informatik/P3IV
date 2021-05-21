@@ -160,18 +160,3 @@ class MotionStateArray(object):
     @property
     def speed(self):
         return np.linalg.norm(self.velocity.mean, axis=1)
-
-
-if __name__ == "__main__":
-    pos = np.array([[1, 0], [2, 2], [3, 3], [4, 4]])
-    m = MotionStateArray()
-    m(pos, dt=0.1)
-    print(m)
-    print(m.position)
-    print(m[1])
-    print(m[:2])
-    m1 = m
-    m2 = m
-    m.append(m1)
-    # print(m1 + m2)
-    # print(m1 - m2)
