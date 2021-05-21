@@ -10,7 +10,7 @@ class TestVehicleCorners(unittest.TestCase):
         for theta in np.linspace(-420, 420, 100):
             VehicleRectangle.get_corners(3.2, 1.6, xy, theta)
 
-    def test_corners_w_plot(self):
+    def test_corners_w_plot(self, show=False):
         xy = np.array([3, 3])
 
         fig = plt.figure()
@@ -22,7 +22,11 @@ class TestVehicleCorners(unittest.TestCase):
             c = VehicleRectangle.get_corners(3.2, 1.6, xy, theta)
             for c_ in c:
                 plt.scatter(c_[0], c_[1], color="red", marker="o")
-        plt.show()
+
+        if show:
+            plt.show()
+        else:
+            plt.close()
 
 
 if __name__ == "__main__":

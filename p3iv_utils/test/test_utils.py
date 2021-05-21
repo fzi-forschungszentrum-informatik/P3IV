@@ -24,7 +24,7 @@ class TestLaneletMapReader(unittest.TestCase):
 
 
 class TestIDM(unittest.TestCase):
-    def test_dim(self):
+    def test_dim(self, show=False):
 
         # Some testing
         dt = 0.5  # in s
@@ -65,7 +65,10 @@ class TestIDM(unittest.TestCase):
         plt.plot(l_mio, label="mio")
         plt.plot(pos_ego, label="ego")
         plt.legend()
-        # plt.show()
+        if show:
+            plt.show()
+        else:
+            plt.close()
 
 
 if __name__ == "__main__":
