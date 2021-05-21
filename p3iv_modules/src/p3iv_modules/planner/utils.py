@@ -17,8 +17,7 @@ def get_MotionPlan_from_1D(centerline, cartesian_positions, frenet_l_array, dt, 
     xy_s, ld_array = convert_Frenet2Cartesian(centerline, cartesian_positions, ld_array)
 
     mp = MotionPlan()
-    mp.motion.cartesian(xy_s, dt=dt)
-    mp.motion.frenet(ld_array, dt=dt)
+    mp.motion(xy_s, dt=dt)
     return mp
 
 
