@@ -13,7 +13,6 @@
   <build_depend>mrt_cmake_modules</build_depend>
   <test_depend>gtest</test_depend>
 
-  <depend>util_motion</depend>
   <depend>util_probability</depend>
 
   <export>
