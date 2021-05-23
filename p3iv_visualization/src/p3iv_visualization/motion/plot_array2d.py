@@ -81,6 +81,19 @@ class PlotArray2D(object):
         self.ax.set_ylim(lim_min, lim_max)
         self.ax.set_yticks(np.arange(lim_min, lim_max, increment))
 
+    def _update_motion_array(self, ax_pinn, ax_free, data, index4pin2free=0, magnitude_flag=True):
+
+        if index4pin2free > 0:
+            data_pinn = data[:index4pin2free]
+            data_free = data[index4pin2free - 1 :]
+
+            ax_pinn.set_data(self.t[:index4pin2free], data_pinn[:, 0])
+            ax_free.set_data(self.t[index4pin2free - 1 :], data_free[:, 0])
+
+        else:
+            # data_pinn is equal to data
+            ax_pinn.set_data(self.t, data[:, 0])
+
 
 if __name__ == "__main__":
     import matplotlib.pyplot as plt
