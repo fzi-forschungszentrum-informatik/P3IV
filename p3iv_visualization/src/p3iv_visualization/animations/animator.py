@@ -45,7 +45,14 @@ class Animator(object):
         self.p_ax1.set_vehicle_plots()
         self.timestamp_text = self.ax1.text(0.65, 0.04, "", transform=self.ax1.transAxes, fontsize=8)
 
-        self.p_ax234 = PlotMotionComponents(self.ax2, self.ax3, self.ax4)
+        self.p_ax234 = PlotMotionComponents(
+            self.ax2,
+            self.ax3,
+            self.ax4,
+            ax0_label="Velocity $(m/s)$",
+            ax1_label="Speed $(m/s)$",  # todo: change this to acceleration
+            ax2_label="",  # todo: change this to steering angle
+        )
 
     def init_spatiotemporal_plot(self, N, N_pin_past, N_pin_future):
         self.n_pin_past = N_pin_past
@@ -101,11 +108,10 @@ class Animator(object):
 
         # Motion Profile Diagram
         # motion_future contains the current pos. hence 'index4pin2free' is  'i+1'
-        # todo! acceleration & jerk
         self.p_ax234.update_profile(
             timestampdata.plan_optimal.motion.velocity.mean,
-            timestampdata.plan_optimal.motion.velocity.mean,
-            timestampdata.plan_optimal.motion.velocity.mean,
+            timestampdata.plan_optimal.motion.speed,  # todo: change this to acceleration
+            # timestampdata.plan_optimal.motion.velocity.mean,  # todo: change this to steering angle
             index4pin2free=i + 1,
             magnitude_flag=magnitude_flag,
         )
