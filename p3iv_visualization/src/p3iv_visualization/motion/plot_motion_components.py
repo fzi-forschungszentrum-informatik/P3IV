@@ -3,10 +3,18 @@ from p3iv_visualization.motion.plot_array2d import PlotArray2D
 
 
 class PlotMotionComponents(object):
-    def __init__(self, ax0, ax1, ax2):
-        self.p_ax0 = PlotArray2D(ax0, y_label="Velocity $(m/s)$")
-        self.p_ax1 = PlotArray2D(ax1, y_label="Acceleration $(m/s^2)$")
-        self.p_ax2 = PlotArray2D(ax2, y_label="Jerk $(m/s^3)$")
+    def __init__(
+        self,
+        ax0,
+        ax1,
+        ax2,
+        ax0_label="Velocity $(m/s)$",
+        ax1_label="Acceleration $(m/s^2)$",
+        ax2_label="Jerk $(m/s^3)$",
+    ):
+        self.p_ax0 = PlotArray2D(ax0, y_label=ax0_label)
+        self.p_ax1 = PlotArray2D(ax1, y_label=ax1_label)
+        self.p_ax2 = PlotArray2D(ax2, y_label=ax2_label)
 
         self.lines_axvline_0 = ax0.axvline(x=-1, linewidth=0.5, color="r")
         self.lines_axvline_1 = ax1.axvline(x=-1, linewidth=0.5, color="r")
