@@ -27,7 +27,7 @@ class PlotArray2D(object):
 
     def update_motion_array1d(self, motion_array1d, index4pin2free=0, magnitude_flag=True):
 
-        self._update_motion_array(self.ax_x_pinn, self.ax_x_free, motion_array1d, index4pin2free=index4pin2free)
+        self._update_motion_array(self.ax_m_pinn, self.ax_m_free, motion_array1d, index4pin2free=index4pin2free)
 
     def update_motion_array2d(self, motion_array2d, index4pin2free=0, magnitude_flag=True):
 
