@@ -95,6 +95,9 @@ class VehicleModules(object):
                 Planner = getattr(importlib.import_module(module_path), "Planner")
 
             self.planner = Planner(
+                vehicle.id,
+                vehicle.appearance.width,
+                vehicle.appearance.length,
                 configurations,
                 vehicle.characteristics.max_acceleration,
                 vehicle.characteristics.max_deceleration,

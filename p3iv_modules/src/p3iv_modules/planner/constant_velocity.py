@@ -6,8 +6,11 @@ from p3iv_utils.coordinate_transformation import CoordinateTransform
 
 
 class Planner(PlannerInterface):
-    def __init__(self, configurations, *args, **kwargs):
-        super(Planner, self).__init__(configurations, *args, **kwargs)
+    def __init__(self, ego_id, ego_width, ego_length, configurations, *args, **kwargs):
+        super(Planner, self).__init__(ego_id, ego_width, ego_length, configurations, *args, **kwargs)
+        self._id = ego_id
+        self._width = ego_width
+        self._length = ego_length
         self.dt = configurations["temporal"]["dt"] / 1000
         self.n = configurations["temporal"]["N"]
         self.timestamp = 0

@@ -6,7 +6,7 @@ class PlannerInterface(object):
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
-    def __init__(self, configurations, max_acceleration, max_deceleration, *args, **kwargs):
+    def __init__(self, v_id, v_width, v_length, configurations, max_acceleration, max_deceleration, *args, **kwargs):
         pass
 
     @abc.abstractmethod
