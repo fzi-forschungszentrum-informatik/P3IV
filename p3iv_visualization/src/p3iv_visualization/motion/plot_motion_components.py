@@ -46,9 +46,8 @@ class PlotMotionComponents(object):
         :param magnitude_flag: show magnitude line as well (boolean)
         :return:
         """
-        self.p_ax0.update_motion_array2d(ax0_data, index4pin2free=index4pin2free, magnitude_flag=magnitude_flag)
-        self.p_ax1.update_motion_array2d(ax1_data, index4pin2free=index4pin2free, magnitude_flag=magnitude_flag)
-        self.p_ax2.update_motion_array2d(ax2_data, index4pin2free=index4pin2free, magnitude_flag=magnitude_flag)
+        for ax, data in zip([self.p_ax0, self.p_ax1, self.p_ax2], [ax0_data, ax1_data, ax2_data]):
+            ax.update_motion_array2d(data, index4pin2free=index4pin2free, magnitude_flag=magnitude_flag)
 
     def update_time_highlighter(self, t):
         self.lines_axvline_0.set_xdata(t)
