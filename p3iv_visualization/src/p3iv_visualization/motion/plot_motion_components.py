@@ -37,7 +37,7 @@ class PlotMotionComponents(object):
         # but this is not necessary: set_ticks is False in ax.set_x_axis(set_ticks=False)
         # plt.setp(ax0.get_xticklabels() + ax1.get_xticklabels(), visible=False)
 
-    def update_profile(self, ax0_data, ax1_data, ax2_data, index4pin2free=0, magnitude_flag=False):
+    def update_profile(self, ax0_data=None, ax1_data=None, ax2_data=None, index4pin2free=0, magnitude_flag=False):
         """
         Parameters
         -----------
@@ -47,7 +47,8 @@ class PlotMotionComponents(object):
         :return:
         """
         for ax, data in zip([self.p_ax0, self.p_ax1, self.p_ax2], [ax0_data, ax1_data, ax2_data]):
-            ax.update_motion_array2d(data, index4pin2free=index4pin2free, magnitude_flag=magnitude_flag)
+            if data is not None:
+                ax.update_motion_array2d(data, index4pin2free=index4pin2free, magnitude_flag=magnitude_flag)
 
     def update_time_highlighter(self, t):
         self.lines_axvline_0.set_xdata(t)
