@@ -20,7 +20,7 @@ def generate_position_velocity_acc_array(
 
     # generate acceleration step profile for horizon
     h_motion = np.arange(0, (n_actions) * dt_motion, dt_motion)
-    acc_func = interp1d(dt_motion, action_sequence, kind="zero")
+    acc_func = interp1d(h_motion, action_sequence, kind="zero")
 
     t_sim = np.arange(0, horizon, dt_sim)
     acc = acc_func(t_sim)
