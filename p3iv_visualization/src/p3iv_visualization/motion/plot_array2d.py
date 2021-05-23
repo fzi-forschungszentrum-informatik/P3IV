@@ -2,7 +2,7 @@ import numpy as np
 
 
 class PlotArray2D(object):
-    def __init__(self, ax, y_label, x_label="Time $(s)$", label_lon="Longitudinal motion", label_lat="Lateral motion"):
+    def __init__(self, ax, y_label, x_label="Time $(s)$", label_x="x-component", label_y="y-component"):
         self.ax = ax
         self.ax.set_xlabel(x_label)
         self.ax.set_ylabel(y_label)
@@ -15,9 +15,9 @@ class PlotArray2D(object):
         # Set up the elements we want to animate
         # <lineobject>.set_data() does not support packing 2D arrays as y value
         # Therefore, we define separate line objects for each component
-        (self.ax_x_pinn,) = self.ax.plot([], [], "o-", label=label_lon, color=self.color_x)
+        (self.ax_x_pinn,) = self.ax.plot([], [], "o-", label=label_x, color=self.color_x)
         (self.ax_x_free,) = self.ax.plot([], [], "o-", color=self.color_x, alpha=0.25)
-        (self.ax_y_pinn,) = self.ax.plot([], [], "o-", label=label_lat, color=self.color_y)
+        (self.ax_y_pinn,) = self.ax.plot([], [], "o-", label=label_y, color=self.color_y)
         (self.ax_y_free,) = self.ax.plot([], [], "o-", color=self.color_y, alpha=0.25)
         (self.ax_m_pinn,) = self.ax.plot([], [], "o-", color=self.color_m)
         (self.ax_m_free,) = self.ax.plot([], [], "o-", color=self.color_m, alpha=0.25)
