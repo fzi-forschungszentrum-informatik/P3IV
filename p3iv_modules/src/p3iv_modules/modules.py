@@ -102,6 +102,9 @@ class VehicleModules(object):
 
         except ImportError as e:
             print(str(traceback.format_exc()))
+            msg = "Is the planner " + str(planner_type) + " in your workspace?"
+            msg += "\nIs your ws is built & sourced?"
+            print(colored(msg, "red"))
             self.planner = EmptyModule("Planner")
 
         # set action
