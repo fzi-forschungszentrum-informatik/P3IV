@@ -50,9 +50,7 @@ class PlotArray2D(object):
                 self.ax_m_pinn.set_data(self.t, magnitude)
 
         else:
-            """
-            the last magnitude line remains on the plot,
-            if this block is not coded"""
+            # the last magnitude line remains on the plot, if this block is deleted!
             self.ax_m_free.set_data([], [])
             self.ax_m_pinn.set_data([], [])
 
