@@ -27,19 +27,8 @@ class PlotArray2D(object):
 
     def update_motion_array2d(self, motion_array2d, index4pin2free=0, magnitude_flag=True):
 
-        if index4pin2free > 0:
-            data_pinn = motion_array2d[:index4pin2free]
-            data_free = motion_array2d[index4pin2free - 1 :]
-
-            self.ax_x_pinn.set_data(self.t[:index4pin2free], data_pinn[:, 0])
-            self.ax_y_pinn.set_data(self.t[:index4pin2free], data_pinn[:, 1])
-            self.ax_x_free.set_data(self.t[index4pin2free - 1 :], data_free[:, 0])
-            self.ax_y_free.set_data(self.t[index4pin2free - 1 :], data_free[:, 1])
-
-        else:
-            data_pinn = motion_array2d
-            self.ax_x_pinn.set_data(self.t, data_pinn[:, 0])
-            self.ax_y_pinn.set_data(self.t, data_pinn[:, 1])
+        self._update_motion_array(self.ax_x_pinn, self.ax_x_free, motion_array2d[:, 0], index4pin2free=index4pin2free)
+        self._update_motion_array(self.ax_y_pinn, self.ax_y_free, motion_array2d[:, 1], index4pin2free=index4pin2free)
 
         if magnitude_flag:
             magnitude = np.linalg.norm(motion_array2d, axis=1)
@@ -81,18 +70,18 @@ class PlotArray2D(object):
         self.ax.set_ylim(lim_min, lim_max)
         self.ax.set_yticks(np.arange(lim_min, lim_max, increment))
 
-    def _update_motion_array(self, ax_pinn, ax_free, data, index4pin2free=0, magnitude_flag=True):
+    def _update_motion_array(self, ax_pinn, ax_free, data, index4pin2free=0):
 
         if index4pin2free > 0:
             data_pinn = data[:index4pin2free]
             data_free = data[index4pin2free - 1 :]
 
-            ax_pinn.set_data(self.t[:index4pin2free], data_pinn[:, 0])
-            ax_free.set_data(self.t[index4pin2free - 1 :], data_free[:, 0])
+            ax_pinn.set_data(self.t[:index4pin2free], data_pinn)
+            ax_free.set_data(self.t[index4pin2free - 1 :], data_free)
 
         else:
             # data_pinn is equal to data
-            ax_pinn.set_data(self.t, data[:, 0])
+            ax_pinn.set_data(self.t, data)
 
 
 if __name__ == "__main__":
