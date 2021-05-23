@@ -3,6 +3,7 @@ import warnings
 import traceback
 import importlib
 import p3iv_modules.interfaces as interfaces
+from termcolor import colored
 
 
 class VehicleModules(object):
