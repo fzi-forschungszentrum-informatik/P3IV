@@ -27,12 +27,7 @@ class PlotLanelet2Map(object):
         self.ax.set_xlabel("Easting $(m)$")
         self.ax.set_ylabel("Northing $(m)$")
 
-        if "extended" in str(laneletmap)[-12:]:
-            scene_laneletmap_file = str(laneletmap)[:-13] + ".osm"
-            scene_laneletmap = get_laneletmap(scene_laneletmap_file)
-            x_min, x_max, y_min, y_max = self._get_map_bounds(scene_laneletmap)
-        else:
-            x_min, x_max, y_min, y_max = self._get_map_bounds(self.laneletmap)
+        x_min, x_max, y_min, y_max = self._get_map_bounds(self.laneletmap)
 
         th = 10.0
         self.ax.set_xlim([x_min - th, x_max + th])
