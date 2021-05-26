@@ -1,5 +1,7 @@
 #pragma once
-#include "util_probability/distributions.hpp"
+#include "util_probability/bivariate_distribution.hpp"
+#include "util_probability/sequence_distribution.hpp"
+#include "util_probability/univariate_distribution.hpp"
 
 namespace p3iv_types {
 
@@ -17,6 +19,21 @@ struct MotionState {
     BivariateNormalDistribution<double> position;
     UnivariateNormalDistribution<double> yaw;
     BivariateNormalDistribution<double> velocity;
+};
+
+
+template <int Dim>
+struct MotionStateArray {
+
+    MotionStateArray() {
+        position = BivariateNormalDistributionSequence<double, Dim>();
+        yaw = UnivariateNormalDistributionSequence<double, Dim>();
+        velocity = BivariateNormalDistributionSequence<double, Dim>();
+    }
+
+    BivariateNormalDistributionSequence<double, Dim> position;
+    UnivariateNormalDistributionSequence<double, Dim> yaw;
+    BivariateNormalDistributionSequence<double, Dim> velocity;
 };
 
 
