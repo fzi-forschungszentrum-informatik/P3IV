@@ -43,7 +43,6 @@ TEST(TypesCPP, MotionStateArray) { // NOLINT
     LOG(INFO) << "MotionStateArray initialized.";
 }
 
-} // namespace p3iv_types
 
 int main(int argc, char** argv) {
     google::InitGoogleLogging(argv[0]); // NOLINT
@@ -55,3 +54,4 @@ int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+} // namespace p3iv_types
