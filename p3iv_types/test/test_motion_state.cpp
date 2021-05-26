@@ -1,10 +1,3 @@
-// google test docs
-// wiki page: https://code.google.com/p/googletest/w/list
-// primer: https://code.google.com/p/googletest/wiki/V1_7_Primer
-// FAQ: https://code.google.com/p/googletest/wiki/FAQ
-// advanced guide: https://code.google.com/p/googletest/wiki/V1_7_AdvancedGuide
-// samples: https://code.google.com/p/googletest/wiki/V1_7_Samples
-//
 #include <algorithm>
 #include <map>
 #include <vector>
