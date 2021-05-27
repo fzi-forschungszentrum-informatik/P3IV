@@ -86,6 +86,10 @@ struct VectorPoint2d {
         }
     }
 
+    explicit VectorPoint2d(const std::vector<Point2d<T>>& v) {
+        v_ = v;
+    }
+
     std::vector<double> x() {
         return getValues<T>(v_, 0);
     }
