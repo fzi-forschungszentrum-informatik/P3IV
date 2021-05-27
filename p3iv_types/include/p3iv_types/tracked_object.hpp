@@ -12,8 +12,10 @@ struct TrackedObject {
 struct TrackedVehicle : TrackedObject {
     TrackedVehicle(const int& id, const double& w, const double& l) : TrackedObject(id), width(w), length(l) {
     }
-    const double width;
-    const double length;
+    // length and width might be updated upon better measurements or inference
+    // therefore, do not define them as 'const'
+    double length;
+    double width;
 };
 
 
