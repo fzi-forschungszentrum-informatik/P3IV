@@ -4,7 +4,9 @@ namespace p3iv_types {
 struct TrackedObject {
     TrackedObject(const int& ObjectId) : id{ObjectId} {
     }
-    const int id{-1};
+    int id{-1};
+    // todo!
+    // const int id{-1};
     double existenceProbability{1.0};
 };
 
