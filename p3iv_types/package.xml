@@ -13,7 +13,7 @@
   <build_depend>mrt_cmake_modules</build_depend>
   <test_depend>gtest</test_depend>
 
-  <depend>pybind</depend>
+  <depend>pybind11-dev</depend>
   <depend>util_probability</depend>
 
   <export>

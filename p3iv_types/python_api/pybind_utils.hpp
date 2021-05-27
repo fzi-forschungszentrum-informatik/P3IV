@@ -9,10 +9,10 @@
 namespace py = pybind11;
 
 namespace p3iv_types {
-namespace python_converters {
+namespace pybind_utils {
 
 template <typename T>
-std::vector<T> numpyArray2Vector(const py::array_t<T>& arr) {
+std::vector<T> pyArray2Vector(const py::array_t<T>& arr) {
     // check dimensions first
     if (arr.ndim() != 1) {
         throw std::invalid_argument(
@@ -30,12 +30,13 @@ std::vector<T> numpyArray2Vector(const py::array_t<T>& arr) {
 }
 
 template <typename T>
-py::array_t<T> vector2NumpyArray(const std::vector<T>& vec) {
+py::array_t<T> vector2pyArray(const std::vector<T>& vec) {
     py::array_t<T> output(vec.size(), vec.data());
     return output;
 }
 
-internal::VectorPoint2d<double> numpyArray2VectorPoint2d(const py::array_t<double>& arr) {
+
+internal::VectorPoint2d<double> pyArray2VectorPoint2d(const py::array_t<double>& arr) {
     // check dimensions first
     if (arr.ndim() != 2) {
         throw std::invalid_argument(
@@ -54,18 +55,14 @@ internal::VectorPoint2d<double> numpyArray2VectorPoint2d(const py::array_t<doubl
     std::vector<internal::Point2d<double>> vec;
     vec.reserve(numberOfPoints);
     for (size_t i = 0; i < numberOfPoints; i++) {
-        vec.emplace_back(numpyArray2Point2d(rawArray));
+        internal::Point2d<double> p = {rawArray(i, 0), rawArray(i, 1)};
+        vec.emplace_back(p);
     }
 
     internal::VectorPoint2d<double> v(vec);
     return v;
 }
 
-inline internal::Point2d<double> numpyArray2Point2d(const py::array_t<double>& pointarray) {
-    internal::Point2d<double> p;
-    p(0) = pointarray.at(0);
-    p(1) = pointarray.at(1);
-    return p;
-}
-} // namespace python_converters
+
+} // namespace pybind_utils
 } // namespace p3iv_types
