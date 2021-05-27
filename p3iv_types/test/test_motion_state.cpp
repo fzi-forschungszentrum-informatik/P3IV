@@ -9,6 +9,7 @@ namespace p3iv_types {
 
 TEST(TypesCPP, MotionState) { // NOLINT
     MotionState m{};
+    // set double values
     m.position.setMean(6.0, 8.0);
     m.position.setCovariance(9.0, 0.0, 0.0, 16.0);
     m.yaw.setMean(0.0);
@@ -20,12 +21,13 @@ TEST(TypesCPP, MotionState) { // NOLINT
 }
 
 TEST(TypesCPP, MotionStateArray) { // NOLINT
-    MotionStateArray<3> m{};
+    MotionStateArray m{};
     std::vector<double> posMean(6, 2.0);
     std::vector<double> posCovariance(12, 0.0);
     std::vector<double> yawMean(3, 0.0);
     std::vector<double> yawCovariance(3, 0.0);
 
+    // set vectors
     m.position.setMean(posMean);
     m.position.setCovariance(posCovariance);
 

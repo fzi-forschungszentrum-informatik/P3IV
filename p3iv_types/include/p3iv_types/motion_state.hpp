@@ -22,18 +22,17 @@ struct MotionState {
 };
 
 
-template <int Dim>
 struct MotionStateArray {
 
     MotionStateArray() {
-        position = BivariateNormalDistributionSequence<double, Dim>();
-        yaw = UnivariateNormalDistributionSequence<double, Dim>();
-        velocity = BivariateNormalDistributionSequence<double, Dim>();
+        position = BivariateNormalDistributionSequence<double>();
+        yaw = UnivariateNormalDistributionSequence<double>();
+        velocity = BivariateNormalDistributionSequence<double>();
     }
 
-    BivariateNormalDistributionSequence<double, Dim> position;
-    UnivariateNormalDistributionSequence<double, Dim> yaw;
-    BivariateNormalDistributionSequence<double, Dim> velocity;
+    BivariateNormalDistributionSequence<double> position;
+    UnivariateNormalDistributionSequence<double> yaw;
+    BivariateNormalDistributionSequence<double> velocity;
 };
 
 
