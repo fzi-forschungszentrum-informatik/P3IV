@@ -7,11 +7,12 @@
 
 namespace p3iv_types {
 
-TEST(TypesCPP, TrackedObject) { // NOLINT
+
+TEST(TypesCPP, TrackedObjectCtor) { // NOLINT
     TrackedObject t(10);
 }
 
-TEST(TypesCPP, TrackedVehicle) { // NOLINT
+TEST(TypesCPP, TrackedVehicleCtor) { // NOLINT
     TrackedVehicle t(10, 2.7, 3.5);
 }
 
