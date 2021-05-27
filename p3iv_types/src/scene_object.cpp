@@ -18,9 +18,5 @@ SceneObject::SceneObject(const int id,
           hasRightOfWay(hasRightOfWay) {
 }
 
-void SceneObject::setMotionState(const MotionState& motionState) {
-    state = motionState;
-}
-
 
 } // namespace p3iv_types

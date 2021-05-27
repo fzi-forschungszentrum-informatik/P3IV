@@ -46,7 +46,10 @@ TEST(SceneObject, SceneObjectSetMotionState) {
     double width = 2.3;
     double length = 3.6;
     SceneObject sceneObject(agentId, width, length);
-    sceneObject.setMotionState(m);
+    sceneObject.state = m;
+    ASSERT_EQ(sceneObject.state.position.mean()[0], 6.0);
+    ASSERT_EQ(sceneObject.state.position.mean()[1], 8.0);
+    ASSERT_EQ(sceneObject.state.yaw.mean()[0], 0.0);
 }
 
 
