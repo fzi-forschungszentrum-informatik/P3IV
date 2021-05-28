@@ -13,7 +13,7 @@ def variant2(lanelet_map_path, lanelet_map_name):
     # Option 2: with background imagery
     fig, ax = plt.subplots(1, 1)
     imagery_file = lanelet_map_name + ".png"
-    imagery_file_path = os.path.join(path_this_file, "../../src/visualization/res/", imagery_file)
+    imagery_file_path = os.path.join(path_this_file, "../../../p3iv_utils/res/maps/lanelet2", imagery_file)
     imagery = [imagery_file_path, 932, 1067, 942, 1036]
     PlotLanelet2Map(ax, lanelet_map_path, imagery_data=imagery)
     plt.show()
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     path_this_file = os.path.dirname(os.path.realpath(__file__))
     lanelet_map_name = "DR_DEU_Roundabout_OF"
     lanelet_map_file = lanelet_map_name + ".osm"
-    lanelet_map_path = os.path.join(path_this_file, "../../src/visualization/res/", lanelet_map_file)
+    lanelet_map_path = os.path.join(path_this_file, "../../../p3iv_utils/res/maps/lanelet2", lanelet_map_file)
 
     variant1(lanelet_map_path)
     variant2(lanelet_map_path, lanelet_map_name)
