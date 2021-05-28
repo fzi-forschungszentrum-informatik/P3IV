@@ -69,8 +69,9 @@ class PlotLanelet2Map(object):
                 type_dict = dict(color="white", linewidth=1, zorder=1, dashes=[5, 10])
             elif ls.attributes["type"] == "stop_line":
                 type_dict = dict(color="white", linewidth=3, zorder=1)
-            # elif ls.attributes["type"] == "virtual":
-            #    type_dict = dict(color="blue", linewidth=1, zorder=1, dashes=[2, 5])
+            elif ls.attributes["type"] == "virtual":
+                continue
+                # type_dict = dict(color="blue", linewidth=1, zorder=1, dashes=[2, 5])
             elif ls.attributes["type"] == "road_border":
                 type_dict = dict(color="black", linewidth=1, zorder=1)
             elif ls.attributes["type"] == "guard_rail":
