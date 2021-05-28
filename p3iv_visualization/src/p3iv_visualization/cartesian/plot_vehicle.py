@@ -7,7 +7,7 @@ from matplotlib.collections import PatchCollection
 
 
 class PlotVehicle(object):
-    def __init__(self, ax, color, car_width=2.3, car_length=5.8):
+    def __init__(self, ax, vehicle_id, color, car_width=2.3, car_length=5.8):
         self.ax = ax
         self.color = color
 
@@ -18,6 +18,7 @@ class PlotVehicle(object):
         self.ax.lines_line2d_stop_pos = None
 
         self.rectangle_patch = None
+        self.id_text = self.ax.text(0, 0, "ID" + str(vehicle_id), zorder=5)
         self.rectangle_width = car_length  # the corner. that is rotated in the Rectangle-Patch is the Rear-Right corner
         self.rectangle_height = car_width
         self._d = ((self.rectangle_width / 2) ** 2 + (self.rectangle_height / 2) ** 2) ** 0.5
@@ -88,6 +89,8 @@ class PlotVehicle(object):
         else:
             self.rectangle_patch.set_alpha(0.2)
 
+        self.id_text.set_position([x_center + 2, y_center + 2])
+
     def set_uncertainty_ellipse(self):
         self.uncertainty_ellipse = UncertaintyEllipse(self.color)
         self.ax.add_patch(self.uncertainty_ellipse.e)
@@ -149,7 +152,7 @@ if __name__ == "__main__":
     path_file = os.path.dirname(os.path.realpath(__file__))
     path_img = os.path.join(path_file, "../res/car.png")
 
-    v1 = PlotVehicle(ax, "blue")
+    v1 = PlotVehicle(ax, 0, "blue")
     v1.create_track()
     v1.set_car_image(path_img)
     v1.set_car_patch()
