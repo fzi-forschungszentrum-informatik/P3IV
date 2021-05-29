@@ -18,7 +18,7 @@ class PlotVehicle(object):
         self.ax.lines_line2d_stop_pos = None
 
         self.rectangle_patch = None
-        self.id_text = self.ax.text(0, 0, "ID" + str(vehicle_id), zorder=5)
+        self.id_text = self.ax.text(0, 0, "ID" + str(vehicle_id), zorder=2.8)
         self.rectangle_width = car_length  # the corner. that is rotated in the Rectangle-Patch is the Rear-Right corner
         self.rectangle_height = car_width
         self._d = ((self.rectangle_width / 2) ** 2 + (self.rectangle_height / 2) ** 2) ** 0.5
