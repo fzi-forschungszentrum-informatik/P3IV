@@ -3,8 +3,12 @@ from animator import Animator
 import os
 import sys
 import time
+import logging
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+
+
+logging.getLogger("matplotlib.font_manager").disabled = True
 
 
 class AnimateMulti(object):

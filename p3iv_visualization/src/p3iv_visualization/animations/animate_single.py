@@ -2,8 +2,12 @@ from __future__ import division
 import os
 from animator import Animator
 import time
+import logging
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+
+
+logging.getLogger("matplotlib.font_manager").disabled = True
 
 
 class AnimateSingle(object):
