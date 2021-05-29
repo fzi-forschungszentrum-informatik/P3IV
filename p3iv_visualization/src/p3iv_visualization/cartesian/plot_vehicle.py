@@ -12,7 +12,11 @@ class PlotVehicle(object):
         self.color = color
 
         self.axesimage = None
-        self.uncertainty_ellipse = None  # matplotlib.patches.Ellipse
+        self.uncertainty_ellipse_68 = None  # matplotlib.patches.Ellipse, 68%
+        self.uncertainty_ellipse_95 = None  # matplotlib.patches.Ellipse, 95%
+        self.uncertainty_ellipse_99 = None  # matplotlib.patches.Ellipse, 99.7%
+        self.uncertainty_ellipses = []
+
         self.ax.lines_line2d_track = None
         self.ax.lines_line2d_plan = None
         self.ax.lines_line2d_stop_pos = None
@@ -92,12 +96,23 @@ class PlotVehicle(object):
         self.id_text.set_position([x_center + 2, y_center + 2])
 
     def set_uncertainty_ellipse(self):
-        self.uncertainty_ellipse = UncertaintyEllipse(self.color)
-        self.ax.add_patch(self.uncertainty_ellipse.e)
+        self.uncertainty_ellipse_68 = UncertaintyEllipse(self.color)
+        self.ax.add_patch(self.uncertainty_ellipse_68.e)
+        self.uncertainty_ellipse_95 = UncertaintyEllipse(self.color)
+        self.ax.add_patch(self.uncertainty_ellipse_95.e)
+        self.uncertainty_ellipse_99 = UncertaintyEllipse(self.color)
+        self.ax.add_patch(self.uncertainty_ellipse_99.e)
+        self.uncertainty_ellipses = [
+            self.uncertainty_ellipse_68,
+            self.uncertainty_ellipse_95,
+            self.uncertainty_ellipse_99,
+        ]
 
-    def update_uncertainty_ellipse(self, x, y, heading, ellipse_width, ellipse_height):
-        self.uncertainty_ellipse.update_transformation(x, y, heading)
-        self.uncertainty_ellipse.update_uncertainty(ellipse_width, ellipse_height)
+    def update_uncertainty_ellipse(self, x, y, heading, uncertainty_ellipses):
+        for i in range(int(len(uncertainty_ellipses) / 2)):
+            ellipse_inner_width, ellipse_inner_height = uncertainty_ellipses[2 * i : 2 * (i + 1)]
+            self.uncertainty_ellipses[i].update_transformation(x, y, heading)
+            self.uncertainty_ellipses[i].update_uncertainty(ellipse_inner_width, ellipse_inner_height)
 
     def set_visible_area(self):
         """Define the patch of the sensor scan area"""
@@ -168,7 +183,7 @@ if __name__ == "__main__":
     v1.update_track(motion_past, motion_future)
     v1.update_car_image(current_x, current_y, 120)
     v1.update_car_patch_center(current_x, current_y, 120)
-    v1.update_uncertainty_ellipse(current_x, current_y, 120, 14, 6)
+    v1.update_uncertainty_ellipse(current_x, current_y, 120, [14, 6])
 
     visible_region_polys = [np.array([[0.0, 5.0], [10.0, 5.0], [15.0, 10.0], [15.0, 15.0], [0.0, 5.0]])]
     v1.update_visible_area(visible_region_polys)
