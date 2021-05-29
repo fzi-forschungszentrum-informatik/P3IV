@@ -108,19 +108,8 @@ class Percept(PerceptInterface):
             polyvision=self._visibility_model.polyvision,
         )
         # environment_model.visible_areas2plot = self._visibility_model2plot.visible_areas
-        for po in percepted_objects:
-            environment_model.add_object(
-                po.id, po.appearance.color, po.appearance.length, po.appearance.width, po.timestamps.latest().state
-            )
 
-        environment_model.add_object(
-            ground_truth[self._ego_v_id].id,
-            ground_truth[self._ego_v_id].appearance.color,
-            ground_truth[self._ego_v_id].appearance.length,
-            ground_truth[self._ego_v_id].appearance.width,
-            ground_truth[self._ego_v_id].timestamps.latest().state,
-        )
-
+        PerfectPerception.fill_environment_model(self._ego_v_id, environment_model, ground_truth, percepted_objects)
         return environment_model
 
     @staticmethod
