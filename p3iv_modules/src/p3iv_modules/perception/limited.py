@@ -70,7 +70,17 @@ class VisibilityModel(object):
 
 
 class Percept(PerceptInterface):
-    def __init__(self, ego_v_id, laneletmap, sensor_fov, sensor_range, sensor_noise):
+    def __init__(
+        self,
+        ego_v_id,
+        perception_sigma_x,
+        perception_sigma_y,
+        perception_cross_corr,
+        laneletmap,
+        sensor_fov,
+        sensor_range,
+        sensor_noise,
+    ):
         self._ego_v_id = ego_v_id
         self._laneletmap = laneletmap
         fovs = [(sensor_fov, sensor_range)]

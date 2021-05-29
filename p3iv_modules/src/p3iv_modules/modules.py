@@ -22,6 +22,9 @@ class VehicleModules(object):
 
             self.perception = Percept(
                 vehicle.id,
+                configurations["perception"]["sigma_longitudinal"],
+                configurations["perception"]["sigma_lateral"],
+                configurations["perception"]["cross_correlation"],
                 laneletmap,
                 vehicle.perception.sensor_fov,
                 vehicle.perception.sensor_range,
