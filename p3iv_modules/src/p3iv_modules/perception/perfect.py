@@ -12,21 +12,24 @@ class Percept(PerceptInterface):
         all_vehicles = self._percept_all_vehicles(gt_list)
 
         environment_model = EnvironmentModel(vehicle_id=self._ego_v_id)
-        for po in all_vehicles:
+        self.fill_environment_model(self._ego_v_id, environment_model, ground_truth, all_vehicles)
+        return environment_model
+
+    @staticmethod
+    def fill_environment_model(ego_id, environment_model, ground_truth, percepted_objects):
+        for po in percepted_objects:
             environment_model.add_object(
                 po.id, po.appearance.color, po.appearance.length, po.appearance.width, po.timestamps.latest().state
             )
 
         # add the vehicle itself into EnvironmentModel
         environment_model.add_object(
-            ground_truth[self._ego_v_id].id,
-            ground_truth[self._ego_v_id].appearance.color,
-            ground_truth[self._ego_v_id].appearance.length,
-            ground_truth[self._ego_v_id].appearance.width,
-            ground_truth[self._ego_v_id].timestamps.latest().state,
+            ground_truth[ego_id].id,
+            ground_truth[ego_id].appearance.color,
+            ground_truth[ego_id].appearance.length,
+            ground_truth[ego_id].appearance.width,
+            ground_truth[ego_id].timestamps.latest().state,
         )
-
-        return environment_model
 
     def _percept_all_vehicles(self, ground_truth):
         """Percept all vehicles except the ego-vehicle"""
