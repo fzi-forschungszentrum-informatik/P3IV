@@ -6,9 +6,10 @@ from p3iv_visualization.cartesian.plot_vehicle import PlotVehicle
 
 
 class PlotCartesian(object):
-    def __init__(self, ax, lanelet_map_file, center_vehicle_id=None, imagery_data=None):
+    def __init__(self, ax, lanelet_map_file, center_vehicle_id=None, imagery_data=None, plot_uncertainty_ellipse=True):
         self.ax = ax
         self.center_vehicle_id = center_vehicle_id
+        self.uncertainty = plot_uncertainty_ellipse
         self.map_plot = PlotLanelet2Map(self.ax, lanelet_map_file, imagery_data=imagery_data)
         self.vehicles = OrderedDict()
 
@@ -37,12 +38,16 @@ class PlotCartesian(object):
             else:
                 pv.set_car_patch()
 
+            if self.uncertainty:
+                pv.set_uncertainty_ellipse()
+
     def update_vehicle_plot(
         self,
         vehicle_id,
         x,
         y,
         yaw,
+        uncertainty_ellipses=None,  # np.asarray([ellipse_inner_width, ellipse_inner_height])
         visible_region=None,
         motion_past=None,
         motion_future=None,
@@ -64,3 +69,6 @@ class PlotCartesian(object):
 
         else:
             pv.update_car_patch_center(x, y, yaw, set_facecolor=set_facecolor)
+
+        if self.uncertainty and uncertainty_ellipses is not None:
+            pv.update_uncertainty_ellipse(x, y, yaw, uncertainty_ellipses)
