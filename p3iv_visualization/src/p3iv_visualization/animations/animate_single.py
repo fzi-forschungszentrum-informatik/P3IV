@@ -26,12 +26,12 @@ class AnimateSingle(object):
         self.timestamp2show = timestamp2show
         map_filename = configurations["map"] + ".osm"
         lanelet_map_file = os.path.abspath(
-            os.path.join(configurations["save_dir"], "../../../src/INTERACTION-Dataset-DR-v1_0/maps", map_filename)
+            os.path.join(configurations["save_dir"], configurations["interaction_dataset_dir"], "maps", map_filename)
         )
 
         self.animator = Animator(
             lanelet_map_file,
-            self.egovehicle.v_id,
+            self.egovehicle.id,
             self.egovehicle.appearance.color,
             ground_truth.vehicles(),
             self.dt,
@@ -59,8 +59,6 @@ class AnimateSingle(object):
     def animation_index_counter(self):
         """increment the frame index counter"""
         # increment the counter
-        self.i_anim = (self.i_anim + 1) % (self.n + 1)
-
         i_anim_new = self.i_anim + 1
         if i_anim_new // (self.n + 1) > 0:
             self.animator.frame.save_figure_flag = False

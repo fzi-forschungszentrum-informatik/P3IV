@@ -199,7 +199,7 @@ if __name__ == "__main__":
             gt, configurations = load_results(results_dir)
 
         if args.show_single:
-            from visualization.animations.animate_single import AnimateSingle
+            from p3iv_visualization.animations.animate_single import AnimateSingle
 
             timestamp = str(args.show_single)
             animation = AnimateSingle(gt, configurations, timestamp)
