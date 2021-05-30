@@ -36,6 +36,7 @@ class AnimateMulti(object):
             ground_truth.vehicles(),
             self.dt,
             imagery_data=imagery_data,
+            header="P3IV Simulator: Multi Timestamp",
         )
 
         self.animator.init_spatiotemporal_plot(self.n, n_pin_past, n_pin_future)
@@ -61,8 +62,11 @@ class AnimateMulti(object):
         increment the frame index counter
         """
         # increment the counter
-        self.i_anim = (self.i_anim + 1) % len(self.egovehicle.timestamps)
-        # raw_input("enter")
+        i_anim_new = self.i_anim + 1
+        if i_anim_new // len(self.egovehicle.timestamps) > 0:
+            self.animator.frame.save_figure_flag = False
+
+        self.i_anim = i_anim_new % len(self.egovehicle.timestamps)
 
     def animate(self, *args, **kwargs):
         """

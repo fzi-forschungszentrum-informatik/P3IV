@@ -36,7 +36,7 @@ class AnimateSingle(object):
             ground_truth.vehicles(),
             self.dt,
             imagery_data=imagery_data,
-            header="Motion Planning Simulator: Single Timestamp",
+            header="P3IV Simulator: Single Timestamp",
         )
 
         self.animator.init_spatiotemporal_plot(self.n, n_pin_past, n_pin_future)
@@ -60,6 +60,12 @@ class AnimateSingle(object):
         """increment the frame index counter"""
         # increment the counter
         self.i_anim = (self.i_anim + 1) % (self.n + 1)
+
+        i_anim_new = self.i_anim + 1
+        if i_anim_new // (self.n + 1) > 0:
+            self.animator.frame.save_figure_flag = False
+
+        self.i_anim = i_anim_new % (self.n + 1)
 
     def animate(self, *args, **kwargs):
         """
@@ -87,7 +93,8 @@ class AnimateSingle(object):
             self.animation_index_counter()
 
         if self.animator.frame.save_figure_flag:
-            self.animator.frame.save_animation_instance(self.save_dir, self.i_anim)
+            save_dir = self.save_dir + "/" + self.timestamp2show
+            self.animator.frame.save_animation_instance(save_dir, self.i_anim)
 
     @staticmethod
     def show():

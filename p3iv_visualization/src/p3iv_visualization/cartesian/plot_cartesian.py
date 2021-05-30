@@ -59,7 +59,6 @@ class PlotCartesian(object):
         pv = self.vehicles[vehicle_id]
 
         if vehicle_id == self.center_vehicle_id:
-            print speed
             pv.center_vehicle_in_plot(x, y, zoom)
             pv.update_car_image(x, y, yaw)
 

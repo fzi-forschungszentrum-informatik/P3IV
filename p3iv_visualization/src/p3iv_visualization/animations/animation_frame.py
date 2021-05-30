@@ -11,7 +11,7 @@ class AnimationFrame(object):
 
         self.pause_flag = False
         self.magnitude_flag = False
-        self.save_figure_flag = False
+        self.save_figure_flag = True
         self.zoom = 30
 
         self.fig = None
@@ -196,11 +196,9 @@ class AnimationFrame(object):
 
     def save_animation_instance(self, save_dir, i_anim):
         if self.save_figure_flag:
-
-            save_file_name = save_dir + self.header + " step_" + str(i_anim) + ".svg"
+            save_file_name = save_dir + "/step_" + str(i_anim) + ".svg"
             print ("The figure is being saved to:\n" + save_file_name)
             self.fig.savefig(save_file_name, format="svg", dpi=self.fig.dpi)
-            self.save_figure_flag = False
 
 
 if __name__ == "__main__":
