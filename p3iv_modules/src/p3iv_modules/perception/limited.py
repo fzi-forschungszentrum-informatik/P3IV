@@ -73,9 +73,9 @@ class Percept(PerceptInterface):
     def __init__(
         self,
         ego_v_id,
-        perception_sigma_x,
-        perception_sigma_y,
-        perception_cross_corr,
+        pos_sigma_x,
+        pos_sigma_y,
+        pos_cross_corr,
         laneletmap,
         sensor_fov,
         sensor_range,

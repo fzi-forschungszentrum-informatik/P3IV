@@ -4,7 +4,7 @@ from p3iv_types.environment_model import EnvironmentModel
 
 
 class Percept(PerceptInterface):
-    def __init__(self, ego_v_id, perception_sigma_x, perception_sigma_y, perception_cross_corr, *args, **kwargs):
+    def __init__(self, ego_v_id, pos_sigma_x, pos_sigma_y, pos_cross_corr, *args, **kwargs):
         self._ego_v_id = ego_v_id
 
     def __call__(self, timestamp, ground_truth, *args, **kwargs):

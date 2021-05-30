@@ -34,9 +34,9 @@ settings = {
     },
     "perception": {
         "perception_noise": 0.8,
-        "sigma_longitudinal": 2,
-        "sigma_lateral": 0.5,
-        "cross_correlation": 0.0,
+        "position_sigma_longitudinal": 2,
+        "position_sigma_lateral": 0.5,
+        "position_cross_correlation": 0.0,
         "egoVehicle_sensor_range": 40.0,
         "otherVehicle_sensor_range": 30.0,
         "egoVehicle_sensor_fov": 150,
