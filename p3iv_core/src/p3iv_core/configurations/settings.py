@@ -20,9 +20,12 @@ settings = {
         # N is calculated automatically; int(horizon / dt)
     },
     "localization": {
-        "sigma_longitudinal": 1,
-        "sigma_lateral": 0.2,
-        "cross_correlation": 0.0,
+        "position_sigma_longitudinal": 2,
+        "position_sigma_lateral": 0.5,
+        "position_cross_correlation": 0.0,
+        "velocity_sigma_longitudinal": 1,
+        "velocity_sigma_lateral": 0.2,
+        "velocity_cross_correlation": 0.0,
     },
     "prediction": {
         "set_ground_truh_values": False,
@@ -38,6 +41,9 @@ settings = {
         "position_sigma_longitudinal": 2,
         "position_sigma_lateral": 0.5,
         "position_cross_correlation": 0.0,
+        "velocity_sigma_longitudinal": 1,
+        "velocity_sigma_lateral": 0.2,
+        "velocity_cross_correlation": 0.0,
         "egoVehicle_sensor_range": 40.0,
         "otherVehicle_sensor_range": 30.0,
         "egoVehicle_sensor_fov": 150,

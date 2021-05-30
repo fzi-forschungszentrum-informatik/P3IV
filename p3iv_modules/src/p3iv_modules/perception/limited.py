@@ -73,23 +73,60 @@ class Percept(PerceptInterface):
     def __init__(
         self,
         ego_v_id,
-        pos_sigma_x,
-        pos_sigma_y,
-        pos_cross_corr,
+        per_pos_sigma_x,
+        per_pos_sigma_y,
+        per_pos_cross_corr,
+        per_vel_sigma_x,
+        per_vel_sigma_y,
+        per_vel_cross_corr,
+        loc_pos_sigma_x,
+        loc_pos_sigma_y,
+        loc_pos_cross_corr,
+        loc_vel_sigma_x,
+        loc_vel_sigma_y,
+        loc_vel_cross_corr,
         laneletmap,
         sensor_fov,
         sensor_range,
         sensor_noise,
     ):
+        """
+        Parameters
+        ----------
+        Check PerceptInterface abstract class
+        """
+
         self._ego_v_id = ego_v_id
 
         # position covariance matrix for percepted objects
-        self.pos_cov = np.asarray(
+        self.per_pos_cov = np.asarray(
             [
-                [pos_sigma_x ** 2, pos_cross_corr * pos_sigma_x * pos_sigma_y],
-                [pos_cross_corr * pos_sigma_x * pos_sigma_y, pos_sigma_y * pos_sigma_y],
+                [per_pos_sigma_x ** 2, per_pos_cross_corr * per_pos_sigma_x * per_pos_sigma_y],
+                [per_pos_cross_corr * per_pos_sigma_x * per_pos_sigma_y, per_pos_sigma_y ** 2],
             ]
         )
+        # velocity covariance matrix for percepted objects
+        self.per_vel_cov = np.asarray(
+            [
+                [per_vel_sigma_x ** 2, per_vel_cross_corr * per_vel_sigma_x * per_vel_sigma_y],
+                [per_vel_cross_corr * per_vel_sigma_x * per_vel_sigma_y, per_vel_sigma_y ** 2],
+            ]
+        )
+        # position covariance matrix for localization - ego vehicle
+        self.loc_pos_cov = np.asarray(
+            [
+                [loc_pos_sigma_x ** 2, loc_pos_cross_corr * loc_pos_sigma_x * loc_pos_sigma_y],
+                [loc_pos_cross_corr * loc_pos_sigma_x * loc_pos_sigma_y, loc_pos_sigma_y ** 2],
+            ]
+        )
+        # position covariance matrix for localization - ego vehicle
+        self.loc_vel_cov = np.asarray(
+            [
+                [loc_vel_sigma_x ** 2, loc_vel_cross_corr * loc_vel_sigma_x * loc_vel_sigma_y],
+                [loc_vel_cross_corr * loc_vel_sigma_x * loc_vel_sigma_y, loc_vel_sigma_y ** 2],
+            ]
+        )
+
         self._laneletmap = laneletmap
         fovs = [(sensor_fov, sensor_range)]
         self._visibility_model = VisibilityModel(fovs)
@@ -118,7 +155,14 @@ class Percept(PerceptInterface):
         # environment_model.visible_areas2plot = self._visibility_model2plot.visible_areas
 
         PerfectPerception.fill_environment_model(
-            self._ego_v_id, environment_model, ground_truth, percepted_objects, self.pos_cov
+            self._ego_v_id,
+            environment_model,
+            ground_truth,
+            percepted_objects,
+            self.per_pos_cov,
+            self.per_vel_cov,
+            self.loc_pos_cov,
+            self.loc_vel_cov,
         )
         return environment_model
 
