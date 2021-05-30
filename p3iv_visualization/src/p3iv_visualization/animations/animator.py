@@ -93,6 +93,7 @@ class Animator(object):
         # Cartesian-Motion Diagram
         x, y = timestampdata.plan_optimal.motion.position.mean[i]
         yaw = timestampdata.plan_optimal.motion.yaw.mean[i]
+        speed = timestampdata.plan_optimal.motion.speed[i]
         visible_region = None  # timestampdata.environment.visible_areas
         uncertainty_ellipse = None  # v.state.position[2:]
 
@@ -101,6 +102,7 @@ class Animator(object):
             x,
             y,
             yaw,
+            speed,
             visible_region,
             zoom=self.frame.zoom,
             motion_past=timestampdata.plan_optimal.motion.position.mean[: i + 1],
@@ -134,27 +136,29 @@ class Animator(object):
                 v = timestampdata.scene.get_object(v_id)
                 x, y = v.state.position.mean
                 yaw = v.state.yaw.mean
+                speed = v.state.speed
                 uncertainty_ellipses = np.hstack(
                     [v.state.position.range(1)[3:], v.state.position.range(2)[3:], v.state.position.range(3)[3:]]
                 )
                 self.p_ax1.update_vehicle_plot(
-                    v.id, x, y, yaw, set_facecolor=True, uncertainty_ellipses=uncertainty_ellipses
+                    v.id, x, y, yaw, speed, set_facecolor=True, uncertainty_ellipses=uncertainty_ellipses
                 )
 
             elif v_id in timestampdata.environment.tracked_objects:
                 v = timestampdata.environment.get_object(v_id)
                 x, y = v.state.position.mean
                 yaw = v.state.yaw.mean
+                speed = v.state.speed
                 uncertainty_ellipses = np.hstack(
                     [v.state.position.range(1)[3:], v.state.position.range(2)[3:], v.state.position.range(3)[3:]]
                 )
                 self.p_ax1.update_vehicle_plot(
-                    v.id, x, y, yaw, set_facecolor=False, uncertainty_ellipses=uncertainty_ellipses
+                    v.id, x, y, yaw, speed, set_facecolor=False, uncertainty_ellipses=uncertainty_ellipses
                 )
 
             # place the vehicle to nowhere
             else:
-                self.p_ax1.update_vehicle_plot(v_id, 0.0, 0.0, 0.0, uncertainty_ellipses=np.zeros(6))
+                self.p_ax1.update_vehicle_plot(v_id, 0.0, 0.0, 0.0, 0.0, uncertainty_ellipses=np.zeros(6))
 
     def update_others_frenet(self, timestampdata, i):
         self.p_ax0_pov.clear_objects()

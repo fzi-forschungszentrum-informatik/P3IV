@@ -22,7 +22,8 @@ class PlotVehicle(object):
         self.ax.lines_line2d_stop_pos = None
 
         self.rectangle_patch = None
-        self.id_text = self.ax.text(0, 0, "ID" + str(vehicle_id), zorder=2.8)
+        self.id_text = self.ax.text(0.0, 0.0, "ID" + str(vehicle_id), horizontalalignment="center", zorder=2.8)
+        self.speed_text = self.ax.text(0.0, 0.0, "")
         self.rectangle_width = car_length  # the corner. that is rotated in the Rectangle-Patch is the Rear-Right corner
         self.rectangle_height = car_width
         self._d = ((self.rectangle_width / 2) ** 2 + (self.rectangle_height / 2) ** 2) ** 0.5
@@ -79,6 +80,11 @@ class PlotVehicle(object):
         self.rectangle_patch.set_xy((x_, y_))  # this is the left-bottom point
         self.rectangle_patch.angle = angle
 
+    def update_speed_info_text(self, x_center, y_center, speed):
+        self.speed_text.set_position([x_center + 3, y_center + 1])
+        txt = "v=" + "{:.2f}".format(speed)
+        self.id_text.set_text(txt)
+
     def update_car_patch_center(self, x_center, y_center, heading, set_facecolor=True):
 
         hr = np.deg2rad(heading)
@@ -93,7 +99,7 @@ class PlotVehicle(object):
         else:
             self.rectangle_patch.set_alpha(0.2)
 
-        self.id_text.set_position([x_center + 2, y_center + 2])
+        self.id_text.set_position([x_center + 3, y_center + 2])
 
     def set_uncertainty_ellipse(self):
         self.uncertainty_ellipse_68 = UncertaintyEllipse(self.color)
@@ -182,6 +188,7 @@ if __name__ == "__main__":
 
     v1.update_track(motion_past, motion_future)
     v1.update_car_image(current_x, current_y, 120)
+    v1.update_speed_info_text(current_x, current_y, 10)
     v1.update_car_patch_center(current_x, current_y, 120)
     v1.update_uncertainty_ellipse(current_x, current_y, 120, [14, 6])
 

@@ -105,11 +105,3 @@ class AnimateMulti(object):
     @staticmethod
     def show():
         plt.show()
-
-
-if __name__ == "__main__":
-    directory = sys.argv[1]
-    settings, vehicles, map_data, save_dir, combination_id, current_time, _ = request_input2visualize(directory)
-
-    animate_multi = AnimateMulti(map_data, save_dir, vehicles, settings, combination_id)
-    animate_multi.show()

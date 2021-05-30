@@ -47,6 +47,7 @@ class PlotCartesian(object):
         x,
         y,
         yaw,
+        speed,
         uncertainty_ellipses=None,  # np.asarray([ellipse_inner_width, ellipse_inner_height])
         visible_region=None,
         motion_past=None,
@@ -58,6 +59,7 @@ class PlotCartesian(object):
         pv = self.vehicles[vehicle_id]
 
         if vehicle_id == self.center_vehicle_id:
+            print speed
             pv.center_vehicle_in_plot(x, y, zoom)
             pv.update_car_image(x, y, yaw)
 
@@ -72,3 +74,5 @@ class PlotCartesian(object):
 
         if self.uncertainty and uncertainty_ellipses is not None:
             pv.update_uncertainty_ellipse(x, y, yaw, uncertainty_ellipses)
+
+        pv.update_speed_info_text(x, y, speed)
