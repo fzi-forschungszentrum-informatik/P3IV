@@ -30,10 +30,10 @@ class VehicleModules(object):
                 configurations["perception"]["velocity_cross_correlation"],
                 configurations["localization"]["position_sigma_longitudinal"],
                 configurations["localization"]["position_sigma_lateral"],
-                configurations["localization"]["position_cross_correlation"],          
+                configurations["localization"]["position_cross_correlation"],
                 configurations["localization"]["velocity_sigma_longitudinal"],
                 configurations["localization"]["velocity_sigma_lateral"],
-                configurations["localization"]["velocity_cross_correlation"],                            
+                configurations["localization"]["velocity_cross_correlation"],
                 laneletmap,
                 vehicle.perception.sensor_fov,
                 vehicle.perception.sensor_range,
@@ -113,6 +113,7 @@ class VehicleModules(object):
                 configurations,
                 vehicle.characteristics.max_acceleration,
                 vehicle.characteristics.max_deceleration,
+                laneletmap,
             )
             assert isinstance(self.planner, interfaces.PlannerInterface)
 
