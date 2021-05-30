@@ -82,6 +82,14 @@ class Percept(PerceptInterface):
         sensor_noise,
     ):
         self._ego_v_id = ego_v_id
+
+        # position covariance matrix for percepted objects
+        self.pos_cov = np.asarray(
+            [
+                [pos_sigma_x ** 2, pos_cross_corr * pos_sigma_x * pos_sigma_y],
+                [pos_cross_corr * pos_sigma_x * pos_sigma_y, pos_sigma_y * pos_sigma_y],
+            ]
+        )
         self._laneletmap = laneletmap
         fovs = [(sensor_fov, sensor_range)]
         self._visibility_model = VisibilityModel(fovs)
@@ -109,7 +117,9 @@ class Percept(PerceptInterface):
         )
         # environment_model.visible_areas2plot = self._visibility_model2plot.visible_areas
 
-        PerfectPerception.fill_environment_model(self._ego_v_id, environment_model, ground_truth, percepted_objects)
+        PerfectPerception.fill_environment_model(
+            self._ego_v_id, environment_model, ground_truth, percepted_objects, self.pos_cov
+        )
         return environment_model
 
     @staticmethod

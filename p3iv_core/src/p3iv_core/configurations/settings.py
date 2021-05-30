@@ -20,8 +20,9 @@ settings = {
         # N is calculated automatically; int(horizon / dt)
     },
     "localization": {
-        "measurement_noise": 1.2,
-        "process_noise": 0.5,
+        "sigma_longitudinal": 1,
+        "sigma_lateral": 0.2,
+        "cross_correlation": 0.0,
     },
     "prediction": {
         "set_ground_truh_values": False,
