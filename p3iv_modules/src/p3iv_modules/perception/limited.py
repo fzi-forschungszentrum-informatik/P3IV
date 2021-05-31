@@ -119,7 +119,7 @@ class Percept(PerceptInterface):
                 [loc_pos_cross_corr * loc_pos_sigma_x * loc_pos_sigma_y, loc_pos_sigma_y ** 2],
             ]
         )
-        # position covariance matrix for localization - ego vehicle
+        # velocity covariance matrix for localization - ego vehicle
         self.loc_vel_cov = np.asarray(
             [
                 [loc_vel_sigma_x ** 2, loc_vel_cross_corr * loc_vel_sigma_x * loc_vel_sigma_y],
