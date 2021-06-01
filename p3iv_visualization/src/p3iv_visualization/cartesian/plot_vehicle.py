@@ -7,9 +7,10 @@ from matplotlib.collections import PatchCollection
 
 
 class PlotVehicle(object):
-    def __init__(self, ax, vehicle_id, color, car_width=2.3, car_length=5.8):
+    def __init__(self, ax, vehicle_id, color, car_width=2.3, car_length=5.8, alpha=1.0):
         self.ax = ax
         self.color = color
+        self.alpha = alpha
 
         self.axesimage = None
         self.uncertainty_ellipse_68 = None  # matplotlib.patches.Ellipse, 68%
@@ -69,7 +70,7 @@ class PlotVehicle(object):
             height=self.rectangle_height,
             facecolor=self.color,
             edgecolor=self.color,
-            alpha=1.0,
+            alpha=self.alpha,
         )
         self.ax.add_patch(self.rectangle_patch)
 
