@@ -84,7 +84,7 @@ class PlotVehicle(object):
     def update_speed_info_text(self, x_center, y_center, speed):
         self.speed_text.set_position([x_center + 3, y_center + 1])
         txt = "v=" + "{:.2f}".format(speed)
-        self.id_text.set_text(txt)
+        self.speed_text.set_text(txt)
 
     def update_car_patch_center(self, x_center, y_center, heading, set_facecolor=True):
 
@@ -100,7 +100,7 @@ class PlotVehicle(object):
         else:
             self.rectangle_patch.set_alpha(0.2)
 
-        self.id_text.set_position([x_center + 3, y_center + 2])
+        self.id_text.set_position([x_center + 3, y_center + 3])
 
     def set_uncertainty_ellipse(self):
         self.uncertainty_ellipse_68 = UncertaintyEllipse(self.color)
