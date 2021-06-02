@@ -47,35 +47,37 @@ class VehicleModules(object):
             self.perception = EmptyModule("Perception")
 
         # set understanding
-        try:
-            from understanding.main import Understand
+        # try:
+        from understanding.main import Understand
 
-            self.understanding = Understand(
-                configurations["temporal"]["dt"],
-                configurations["temporal"]["N"],
-                laneletmap,
-                vehicle.id,
-                toLanelet=vehicle.objective.toLanelet,
-            )
+        self.understanding = Understand(
+            configurations["temporal"]["dt"],
+            configurations["temporal"]["N"],
+            laneletmap,
+            vehicle.id,
+            toLanelet=vehicle.objective.toLanelet,
+        )
+        """
         except ImportError as e:
             print(str(traceback.format_exc()))
             self.understanding = EmptyModule("Understanding")
-
+        """
         # set prediction
-        try:
-            from prediction.main import Predict
+        # try:
+        from prediction.main import Predict
 
-            self.prediction = Predict(
-                configurations["temporal"]["dt"],
-                configurations["temporal"]["N"],
-                configurations["map"],
-                configurations["prediction"],
-            )
+        self.prediction = Predict(
+            configurations["temporal"]["dt"],
+            configurations["temporal"]["N"],
+            configurations["map"],
+            configurations["prediction"],
+        )
 
+        """
         except ImportError as e:
             print(str(traceback.format_exc()))
             self.prediction = EmptyModule("Prediction")
-
+        """
         # set decision
         try:
             try:
