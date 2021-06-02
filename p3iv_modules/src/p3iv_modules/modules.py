@@ -79,12 +79,12 @@ class VehicleModules(object):
         # set decision
         try:
             try:
-                # search externally
-                module_path = str(configurations["decision_making"]["pkg_name"]) + "decide"
-                Decide = getattr(importlib.import_module(module_path), "Decide")
-            except ImportError:
                 # search in p3iv_modules as fallback
                 module_path = "p3iv_modules.decision.decision_making"
+                Decide = getattr(importlib.import_module(module_path), "Decide")
+            except ImportError:
+                # search externally
+                module_path = str(configurations["decision_making"]["pkg_name"]) + "decide"
                 Decide = getattr(importlib.import_module(module_path), "Decide")
 
             self.decision = Decide()
@@ -98,12 +98,12 @@ class VehicleModules(object):
         try:
             planner_type = get_planner_type(configurations, vehicle)
             try:
-                # search externally
-                module_path = "planner_" + planner_type + ".planner"
+                # search in internal modules (p3iv_modules) first
+                module_path = "p3iv_modules.planner." + planner_type
                 Planner = getattr(importlib.import_module(module_path), "Planner")
             except ImportError:
-                # search in p3iv_modules as fallback
-                module_path = "p3iv_modules.planner." + planner_type
+                # search externally
+                module_path = "planner_" + planner_type + ".planner"
                 Planner = getattr(importlib.import_module(module_path), "Planner")
 
             self.planner = Planner(
