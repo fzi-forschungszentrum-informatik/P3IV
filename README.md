@@ -24,7 +24,7 @@ Some important features of P3IV are listed and explained below:
   * Inherently supports advanced the map data library Lanelet2: utilization of HD offline maps, routing functionalities, intersection calculations
   * Inherently supports real world drone datasets, such as INTERACTION Dataset
   * Contains modular visualization functions that can be easily combined in application-specific plots
-  * Released under the BSD 3-Clause license
+  * Released under the BSD 3-Clause license.
 
 ## What is P3IV not?
 
@@ -51,13 +51,13 @@ Other required dependencies are
 
 ### Optional Dependencies
 
-P3IV can imitate perception modules of an autonomous vehicle and can perform visible area calculations. The best way to perform these calculations is to use Computational Geometry and Algebra Library ((CGAL)[https://www.cgal.org/]). However, CGAL has a restrictive license. Therefore, the perception module based on CGAL of the simulation environment is optional. If CMake doesn't find CGAL installed on your system, the simulation framework will fallback to matplotlib's patch-based visibility operations. This may in some cases show suboptimal performance and hence _full visibility_ can be activated from simulation settings. 
+P3IV can imitate perception modules of an autonomous vehicle and can perform visible area calculations. The best way to perform these calculations is to use Computational Geometry and Algebra Library [CGAL](https://www.cgal.org/). However, CGAL has a restrictive license. Therefore, the perception module based on CGAL of the simulation environment is optional. If CMake doesn't find CGAL installed on your system, the simulation framework will fallback to matplotlib's patch-based visibility operations. This may in some cases show suboptimal performance and hence _full visibility_ can be activated from simulation settings. 
 
 A CGAL version > 5.0.3 is needed. Note that, CGAL is header-only library since v.5.0
 
-Another optional dependency is the source of information: because drone datasets are copyrighted, they are not provided with this dataset and must be obtained separately. If you want to use some drone dataset, make sure that you have copied it into your workspace. For interaction-dataset, the default version is `v1_0`. You can modify this by revising the entry `interaction_dataset_dir` in (`settings.py`)[p3iv/p3iv_core/src/p3iv_core/configurations/settings.py].
+Another optional dependency is the source of information: because drone datasets are copyrighted, they are not provided with this dataset and must be obtained separately. If you want to use some drone dataset, make sure that you have copied it into your workspace. For interaction-dataset, the default version is `v1_0`. You can modify this by revising the entry `interaction_dataset_dir` in [`settings.py`](https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/p3iv/p3iv_core/src/p3iv_core/configurations/settings.py).
 
-Python implementations in P3IV are formatted with (black)[https://github.com/psf/black] and C++ implementations are formatted with (clang-format)[https://clang.llvm.org/docs/ClangFormatStyleOptions.html]. To match line widths of black with clang-format, the default line width is increased to 120. If prefer to continue formatting with these, you may get black and clang format on your system.
+Python implementations in P3IV are formatted with [black](https://github.com/psf/black) and C++ implementations are formatted with [clang-format](https://clang.llvm.org/docs/ClangFormatStyleOptions.html). To match line widths of black with clang-format, the default line width is increased to 120. If prefer to continue formatting with these, you may get black and clang format on your system.
 
 ### Recommended Build
 
@@ -158,7 +158,7 @@ Upon execution, the simulation framework starts sequentially executing the proce
 
 The simulation framework is aimed to have a modular structure and to work with flexibly with various ROS packages and modules. Catkin package layout and CMake meets this requirement perfectly. Nevertheless, for these different modules to work with each other, interfaces or messages must be predefined.
 
-Indicated in the Section  [_"What P3IV is not?"_](## What is P3IV not?) we do not define messages with timestamps. But for modules to operate with each other, we define interfaces as metaclasses and some data types. The interfaces are placed inside `p3iv/p3iv_modules/src/p3iv_modules/interfaces/` and the data types are placed inside `p3iv/p3iv_types/`. A check on whether instantiated modules follow the interfaces is done in class `VehicleModules`, located inside `p3iv_modules/src/p3iv_modules/modules.py`. A user is free to modify and extend these data types and interfaces.
+Indicated in the Section  [_"What P3IV is not?"_](##What-is-P3IV-not?) we do not define messages with timestamps. But for modules to operate with each other, we define interfaces as metaclasses and some data types. The interfaces are placed inside `p3iv/p3iv_modules/src/p3iv_modules/interfaces/` and the data types are placed inside `p3iv/p3iv_types/`. A check on whether instantiated modules follow the interfaces is done in class `VehicleModules`, located inside `p3iv_modules/src/p3iv_modules/modules.py`. A user is free to modify and extend these data types and interfaces.
 
 ## FAQ
 
