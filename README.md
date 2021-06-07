@@ -32,6 +32,8 @@ If you consider to use P3IV for your research, you should be aware of what this 
 
 First, if you plan to do large scale integration tests, rather than developing entirely new algorithms for research, you should rather consider to use Deepdrive, CARLA, LGSVL, Carmaker, Coincarsim (...). This simulation environment is not aimed for Hardware-in-the-loop testing or testing with commercially available sensor models. It further doesn't provide any photorealistic environment. Its focus is processing chain, after environment perception.
 
+Real time simulation frameworks, share information among its modules and components typically with timestamped messages (cf. ROS messages). Upon processing these messages must be extrapolated and aligned in time. Because such operations are rather engineering tasks and do not bring any further value to the developed algorithm, we _freeze_ the time while processing. Processing time of individual modules can be measured in a stand-alone basis. If you plan to do integration tests while covering processing delays and jitters, you should use another simulation framework.  
+
 P3IV has been developed with a focus on vehicle to vehicle interactions. Therefore, we do not support cyclists or pedestrians yet. But the modular structure of the framework allows such an extension, and we plan to integrate cyclists and pedestrians.
 
 ## Installation
@@ -54,6 +56,8 @@ P3IV can imitate perception modules of an autonomous vehicle and can perform vis
 A CGAL version > 5.0.3 is needed. Note that, CGAL is header-only library since v.5.0
 
 Another optional dependency is the source of information: because drone datasets are copyrighted, they are not provided with this dataset and must be obtained separately. If you want to use some drone dataset, make sure that you have copied it into your workspace. For interaction-dataset, the default version is `v1_0`. You can modify this by revising the entry `interaction_dataset_dir` in (`settings.py`)[p3iv/p3iv_core/src/p3iv_core/configurations/settings.py].
+
+Python implementations in P3IV are formatted with (black)[https://github.com/psf/black] and C++ implementations are formatted with (clang-format)[https://clang.llvm.org/docs/ClangFormatStyleOptions.html]. To match line widths of black with clang-format, the default line width is increased to 120. If prefer to continue formatting with these, you may get black and clang format on your system.
 
 ### Recommended Build
 
@@ -147,10 +151,14 @@ Independent of the defined configurations in these two files, every module writt
 
 The simulation framework runs staring from `timestamp_begin` defined in `test_cases.py` and finishes at `timestamp_end` defined in the same file. It sequentially executes the modules and returns the output. If the `simulation_type` is closed-loop, it updates its current position based on the planned value. An open-loop usage requires presence of a dataset, as it reads data from such a source to update for the next timestamp.
 
+Upon execution, the simulation framework starts sequentially executing the processing pipeline defined in `p3iv/p3iv_modules/src/p3iv_modules/execute.py` from `p3iv/p3iv_core/src/p3iv_core/run.py/#L102`, where the argument `f_execute` is passed from `p3iv/p3iv/scripts/main.py`. Remember that the instantiation of the modules are defined in `p3iv/p3iv_modules/src/p3iv_modules/modules.py`.
+
 
 ### Overview on the data types and modules
 
+The simulation framework is aimed to have a modular structure and to work with flexibly with various ROS packages and modules. Catkin package layout and CMake meets this requirement perfectly. Nevertheless, for these different modules to work with each other, interfaces or messages must be predefined.
 
+Indicated in the Section  [_"What P3IV is not?"_](## What is P3IV not?) we do not define messages with timestamps. But for modules to operate with each other, we define interfaces as metaclasses and some data types. The interfaces are placed inside `p3iv/p3iv_modules/src/p3iv_modules/interfaces/` and the data types are placed inside `p3iv/p3iv_types/`. A check on whether instantiated modules follow the interfaces is done in class `VehicleModules`, located inside `p3iv_modules/src/p3iv_modules/modules.py`. A user is free to modify and extend these data types and interfaces.
 
 ## FAQ
 
@@ -160,7 +168,33 @@ You can find answers to frequently asked questions below.
    * Please ensure that you have built and sourced your workspace in the terminal you run the simulation environment. In case, refer search for keywords _ros catkin workspace source_ on the internet.
  * For which type of application would you recommend p3iv most?
    * This is up to you. No matter if you are developing Dynamic Bayesian networks for prediction or model based planning methods such as mpc-planner, you can use this simulation framework. But if you do reinforcement learning, you may prefer to limit your use to some utility functions.
- 
+ * How can I set up this simulation framework in VS Code?
+    * It's always a good idea to run some Python code in an IDE: adding breakpoints to unclear places helps to reveal the types and to understand the processing. You may add the lines below to your `launch.json` file.
+        ```
+        "configurations": [
+            {
+                "name": "DEU_Roundabout_OL_01",
+                "type": "python",
+                "request": "launch",
+                "program": "${workspaceFolder}/src/p3iv/p3iv/scripts/main.py",
+                "cwd": "${workspaceFolder}/src/p3iv/p3iv/scripts",
+                "args": [
+                    "DEU_Roundabout_OL_01",
+                    "--run"
+                ],
+                "console": "internalConsole"
+            }
+        ]
+        ```
+    * If you want to modify line width of black, you may add the lines below to your `settings.json` file.
+        ```
+        "python.formatting.provider": "black",
+        "python.formatting.blackPath": "<BLACK_INSTALL_DIR>/bin/black",
+        "python.formatting.blackArgs": [
+            "--line-length",
+            "120"
+        ]
+        ```
 
 ## Citation
 
