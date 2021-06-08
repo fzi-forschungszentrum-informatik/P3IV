@@ -58,5 +58,7 @@ class Planner(PlannerInterface):
         mp = MotionPlan()
         mp.motion(xy, dt=self.dt)
 
+        PlannerInterface.overwrite_with_current_state(mp, self._state)
+
         assert len(mp.motion) == self.n + 1  # 1-> current state
         return mp
