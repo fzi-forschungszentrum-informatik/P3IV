@@ -1,8 +1,17 @@
 from __future__ import division, absolute_import, print_function
-import numpy as np
 import uuid
+import numpy as np
+from enum import Enum
 from copy import deepcopy
 from p3iv_types.motion_state import MotionStateArray
+
+
+class ManeuverIntentions(Enum):
+    """Intention of object to host"""
+
+    follow = 0
+    lead = 1
+    unclear = 2
 
 
 class ManeuverProbability(object):
