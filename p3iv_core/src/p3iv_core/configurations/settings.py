@@ -28,13 +28,13 @@ settings = {
         "velocity_cross_correlation": 0.0,
     },
     "prediction": {
-        "set_ground_truh_values": False,
         "multi_modal": False,  # True for ITSC'18 settings, False for IV'18 settings
         "politeness_factor": 0.5,
         "deceleration_comfortable": -5.0,
         "deceleration_maximum": -8.0,
         "acceleration_maximum": 2.5,
         "deceleration_comfortable_host": -3.0,
+        "type": "pseudo",
     },
     "perception": {
         "perception_noise": 0.8,

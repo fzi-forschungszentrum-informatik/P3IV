@@ -62,22 +62,36 @@ class VehicleModules(object):
             print(str(traceback.format_exc()))
             self.understanding = EmptyModule("Understanding")
         """
+
         # set prediction
-        # try:
-        from prediction.main import Predict
+        try:
+            prediction_type = configurations["prediction"]["type"]
+            # try:
+            # search in internal modules (p3iv_modules) first
+            module_path = "p3iv_modules.prediction." + prediction_type
+            Prediction = getattr(importlib.import_module(module_path), "Prediction")
+            """
+            except ImportError:
+                # search externally
+                module_path = "prediction_" + prediction_type + ".prediction"
+                Prediction = getattr(importlib.import_module(module_path), "Prediction")
+            """
+            self.prediction = Prediction(
+                configurations["temporal"]["dt"],
+                configurations["temporal"]["N"],
+                configurations["map"],
+                configurations["prediction"],
+                configurations["interaction_dataset_dir"],
+            )
+            assert isinstance(self.prediction, interfaces.PredictInterface)
 
-        self.prediction = Predict(
-            configurations["temporal"]["dt"],
-            configurations["temporal"]["N"],
-            configurations["map"],
-            configurations["prediction"],
-        )
-
-        """
         except ImportError as e:
             print(str(traceback.format_exc()))
+            msg = "Is the prediction pkg " + str(prediction_type) + " in your workspace?"
+            msg += "\nIs your ws is built & sourced?"
+            print(colored(msg, "red"))
             self.prediction = EmptyModule("Prediction")
-        """
+
         # set decision
         try:
             try:
@@ -121,7 +135,7 @@ class VehicleModules(object):
 
         except ImportError as e:
             print(str(traceback.format_exc()))
-            msg = "Is the planner " + str(planner_type) + " in your workspace?"
+            msg = "Is the planner pkg " + str(planner_type) + " in your workspace?"
             msg += "\nIs your ws is built & sourced?"
             print(colored(msg, "red"))
             self.planner = EmptyModule("Planner")
