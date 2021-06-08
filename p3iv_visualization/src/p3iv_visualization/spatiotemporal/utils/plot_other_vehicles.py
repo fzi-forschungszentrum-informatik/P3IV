@@ -1,6 +1,7 @@
+from __future__ import division
+import numpy as np
+from util_probability.distributions import UnivariateNormalDistributionSequence
 from util_probability.visualization.plot_truncated_gaussian_distribution import plot_distribution_confidence as p
-
-# todo! Clear dep util_probability!
 
 
 class PlotOtherVehicles(object):
@@ -9,14 +10,13 @@ class PlotOtherVehicles(object):
         self.dt = dt
         self.ax_other_vehicles = []
 
-    def plot_objects(self, combination, vehicle_colors):
-
-        for i in range(len(combination.vehicles)):
-            uncertain_motion = combination.vehicles[i]
-            self.plot_object(uncertain_motion, vehicle_colors[i])
-
-    def plot_object(self, uncertain_motion, color, weight=1.0, **kwargs):
-        plots = p(self.ax, uncertain_motion, color, self.dt, weight=weight, **kwargs)
+    def plot_object(self, motion_array, progress_array, color, weight=1.0, **kwargs):
+        d = UnivariateNormalDistributionSequence()
+        d.resize(len(progress_array))
+        d.mean = progress_array[:, 0]
+        d.covariance = np.ones(len(progress_array)) * 2.0  # todo@sahin: replace this line with the one below
+        # d.covariance = self.get_longitudinal_covariance(motion_array, progress_array)
+        plots = p(self.ax, d, color, self.dt, weight=weight, **kwargs)
         self.ax_other_vehicles.extend(plots)
 
     def clear_objects(self):
@@ -27,3 +27,10 @@ class PlotOtherVehicles(object):
                 except ValueError:
                     # ValueError: list.remove(x): x not in list
                     pass
+
+    @staticmethod
+    def get_longitudinal_covariance(motion_array, progress_array):
+        covariance = np.empty(len(progress_array))
+        for i in range(len(motion_array.position)):
+            covariance[i] = motion_array.position.covariance[i][0, 0]
+        return covariance
