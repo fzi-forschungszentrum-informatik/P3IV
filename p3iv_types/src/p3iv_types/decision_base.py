@@ -36,4 +36,6 @@ class DecisionBase(object):
         pass
 
     def set_driving_corridor(self, laneletsequence, *args):
-        self.corridor(laneletsequence.bound_left(), laneletsequence.centerline(), laneletsequence.bound_right())
+        self.corridor(
+            laneletsequence.bound_left(), laneletsequence.centerline(smooth=True), laneletsequence.bound_right()
+        )
