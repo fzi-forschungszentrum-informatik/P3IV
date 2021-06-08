@@ -158,7 +158,11 @@ Upon execution, the simulation framework starts sequentially executing the proce
 
 The simulation framework is aimed to have a modular structure and to work with flexibly with various ROS packages and modules. Catkin package layout and CMake meets this requirement perfectly. Nevertheless, for these different modules to work with each other, interfaces or messages must be predefined.
 
-Indicated in the Section  [_"What P3IV is not?"_](##What-is-P3IV-not?) we do not define messages with timestamps. But for modules to operate with each other, we define interfaces as metaclasses and some data types. The interfaces are placed inside `p3iv/p3iv_modules/src/p3iv_modules/interfaces/` and the data types are placed inside `p3iv/p3iv_types/`. A check on whether instantiated modules follow the interfaces is done in class `VehicleModules`, located inside `p3iv_modules/src/p3iv_modules/modules.py`. A user is free to modify and extend these data types and interfaces.
+Indicated in the Section  [_"What P3IV is not?"_](##What-is-P3IV-not?) we do not define messages with timestamps. But for modules to operate with each other, we define interfaces as metaclasses and some data types. The interfaces are placed inside `p3iv/p3iv_modules/src/p3iv_modules/interfaces/` and the data types are placed inside `p3iv/p3iv_types/`. A check on whether instantiated modules follow the interfaces is done in class `VehicleModules`, located inside `p3iv_modules/src/p3iv_modules/modules.py`. A user is free to modify and extend these data types and interfaces. Note that some modules may have modified `__init__.py` files, as in the case of `p3iv/p3iv_modules/src/p3iv_modules/interfaces/`.
+
+While importing external modules, the simulation environment requires to follow a package name scheme. This scheme is implemented in `p3iv_modules/src/p3iv_modules/modules.py`. That is, a planner package in the workspace, besides inheriting from the metaclass interface, must have a name starting with `planner_`, whereas a prediction package's name must start with `prediction_` prefixes. Which module to use as a planner is controlled from `settings.py` file.
+
+
 
 ## FAQ
 
