@@ -28,9 +28,7 @@ def drive(vehicle, ground_truth):
     logger.debug(tsd.state.position.mean)
 
     # Perception
-    tsd.environment = vehicle.modules.perception(
-        tsd.timestamp, ground_truth, tsd.state.pose
-    )
+    tsd.environment = vehicle.modules.perception(tsd.timestamp, ground_truth, tsd.state.pose)
 
     # Understanding
     tsd.scene = vehicle.modules.understanding(
@@ -46,9 +44,7 @@ def drive(vehicle, ground_truth):
     tsd.decision_base = vehicle.modules.decision(tsd.state, tsd.scene, tsd.situation)
 
     # Motion Planning
-    tsd.motion_plans = vehicle.modules.planner(
-        tsd.timestamp, tsd.state, tsd.scene, tsd.situation, tsd.decision_base
-    )
+    tsd.motion_plans = vehicle.modules.planner(tsd.timestamp, tsd.state, tsd.scene, tsd.situation, tsd.decision_base)
 
     # Pick the optimal action
     tsd.plan_optimal = vehicle.modules.action(tsd.motion_plans)
@@ -60,9 +56,7 @@ def predict(vehicle, ground_truth):
     tsd = vehicle.timestamps.latest()
 
     # Perception
-    tsd.environment = vehicle.modules.perception(
-        tsd.timestamp, ground_truth, tsd.motion.pose[-1]
-    )
+    tsd.environment = vehicle.modules.perception(tsd.timestamp, ground_truth, tsd.motion.pose[-1])
 
     # Understanding
     tsd.scene = vehicle.modules.understanding(
