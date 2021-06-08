@@ -130,7 +130,7 @@ class Percept(PerceptInterface):
         self._laneletmap = laneletmap
         fovs = [(sensor_fov, sensor_range)]
         self._visibility_model = VisibilityModel(fovs)
-        # self._visibility_model2plot = VisibilityModel(fovs)
+        self._visibility_model2plot = VisibilityModel(fovs)
 
         self._polygons_static = self._get_static_obstacle_polygons(laneletmap)
         # self._measurement_model = ImperfectMeasurement(self.ego_id, self.ego_route, self.roads, sensor_range, perception_noise)
@@ -141,7 +141,7 @@ class Percept(PerceptInterface):
         gt_list = PerfectPerception.get_ground_truth_timestamp(timestamp, ground_truth)
 
         obstacle_polygons = self._get_dynamic_obstacle_polygons(gt_list) + self._polygons_static
-        # self._visibility_model2plot(current_cartesian_pos, current_yaw_angle, obstacle_polygons)
+        self._visibility_model2plot(current_cartesian_pos, current_yaw_angle, obstacle_polygons)
         warnings.warn("implement static and dynamic object polygons")
         obstacle_polygons = []
         self._visibility_model(current_cartesian_pos, current_yaw_angle, obstacle_polygons)
@@ -149,7 +149,7 @@ class Percept(PerceptInterface):
 
         environment_model = EnvironmentModel(
             vehicle_id=self._ego_v_id,
-            visible_areas=self._visibility_model.visible_areas,
+            visible_areas=self._visibility_model2plot.visible_areas,
             polyvision=self._visibility_model.polyvision,
         )
         # environment_model.visible_areas2plot = self._visibility_model2plot.visible_areas
