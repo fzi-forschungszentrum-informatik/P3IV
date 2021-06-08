@@ -94,7 +94,7 @@ class Animator(object):
         x, y = timestampdata.plan_optimal.motion.position.mean[i]
         yaw = timestampdata.plan_optimal.motion.yaw.mean[i]
         speed = timestampdata.plan_optimal.motion.speed[i]
-        visible_region = None  # timestampdata.environment.visible_areas
+        visible_region = timestampdata.environment.visible_areas
         uncertainty_ellipse = None  # v.state.position[2:]
 
         self.p_ax1.update_vehicle_plot(
@@ -103,7 +103,7 @@ class Animator(object):
             y,
             yaw,
             speed,
-            visible_region,
+            visible_region=visible_region,
             zoom=self.frame.zoom,
             motion_past=timestampdata.plan_optimal.motion.position.mean[: i + 1],
             motion_future=timestampdata.plan_optimal.motion.position.mean[i:],
