@@ -19,7 +19,7 @@ class VehicleRectangle(object):
         left_front = cls.rotate(left_front_pre, xy, theta)
         right_front = cls.rotate(right_front_pre, xy, theta)
 
-        return np.asarray([left_rear, left_front, right_front, right_rear])
+        return np.asarray([left_rear, left_front, right_front, right_rear]).reshape(4, 2)
 
     @staticmethod
     def rotate(point, origin, angle):  # rotates point around origin
