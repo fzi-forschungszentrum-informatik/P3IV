@@ -20,7 +20,6 @@
   <depend>polyvision</depend>
   <depend>understanding</depend>
   <depend>prediction</depend>
-  <depend>planner</depend>
 
   <export>
     <rosdoc config="../rosdoc.yaml" />
