@@ -184,7 +184,7 @@ class Percept(PerceptInterface):
                     v.appearance.length,
                     v.appearance.width,
                     v.timestamps.latest().state.position.mean,
-                    v.timestamps.latest().state.yaw.mean,
+                    v.timestamps.latest().state.yaw.mean + 90,
                 )
                 corner_points.append(c)
         return corner_points
