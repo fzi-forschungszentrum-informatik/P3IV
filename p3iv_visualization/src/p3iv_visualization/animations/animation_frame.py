@@ -196,9 +196,9 @@ class AnimationFrame(object):
 
     def save_animation_instance(self, save_dir, i_anim):
         if self.save_figure_flag:
-            save_file_name = save_dir + "/step_" + str(i_anim) + ".svg"
+            save_file_name = "step_{:03}.png".format(i_anim)
             print ("The figure is being saved to:\n" + save_file_name)
-            self.fig.savefig(save_file_name, format="svg", dpi=self.fig.dpi)
+            self.fig.savefig(save_dir + save_file_name, format="png", dpi=self.fig.dpi)
 
 
 if __name__ == "__main__":
