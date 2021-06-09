@@ -111,7 +111,7 @@ python main.py --show-single=<TIMESTAMP_VALUE>
 ``` 
 or
 ```
-python main.py --show-multiple
+python main.py --show-multi
 ``` 
 These commands will start animations on the outcomes of planned trajectories. The first command will animate the planning results for a single timestamp <TIMESTAMP_VALUE> by iterating over individual timesteps, whereas the latter will iterate over all the timestamps at which planning is performed and will animate these.
 
@@ -197,8 +197,9 @@ You can find answers to frequently asked questions below.
         "python.formatting.blackArgs": [
             "--line-length",
             "120"
-        ]
-        ```
+        ]        ```
+* Is it possible to create videos from results?
+  * Yes, the animation figures are named during saving in such a way that, they can be used to create a video file. For this, ensure that you have installed ``ffmpeg` on your computer and then change to the outputs directory you want to create a video. Execute the command `ffmpeg -r 5 -i step_%03d.png -c:v libx264 -vf fps=25 -pix_fmt yuv420p out.mp4`.
 
 ## Citation
 
