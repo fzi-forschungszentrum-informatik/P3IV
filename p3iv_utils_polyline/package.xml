@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>p3iv_utils_polyline</name>
+  <version>0.0.0</version>
+  <description>Feature interpolation among polyline segments</description>
+
+  <license>BSD</license>
+  <maintainer email="sahin.tas@kit.edu">Sahin Tas</maintainer>
+  <author email="sahin.tas@kit.edu">Sahin Tas</author>
+  <url type="repository">https://gitlab.mrt.uni-karlsruhe.de/tas/interpolated_polyline</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>mrt_cmake_modules</build_depend>
+  <test_depend>gtest</test_depend>
+  <!--
+    Documentation for dependencies:
+    <build_depend>            Build-time dependency required to build
+                              this package, e.g. boost, opencv.
+    <build_export_depend>     Exported build-time dependency required to
+                              build packages that depend on this package,
+                              e.g. boost, opencv.
+    <exec_depend>             Execution dependency required to run this
+                              package, e.g. boost, opencv.
+    <depend>                  Build-time, exported build-time and execution
+                              dependency. This is a bundled synonym for
+                              <build_depend>, <build_export_depend> and
+                              <exec_depend>.
+  -->
+  
+  <depend>libgoogle-glog-dev</depend>
+  <depend>pybind11-dev</depend>
+
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+  </export>
+</package>
