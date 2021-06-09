@@ -17,7 +17,7 @@
   <depend>lanelet2_matching</depend>
   <depend>util_probability</depend>
   <depend>p3iv_utils</depend>
-  <depend>polyvision</depend>
+  <depend>p3iv_utils_polyvision</depend>
   <depend>understanding</depend>
   <depend>prediction</depend>
 
