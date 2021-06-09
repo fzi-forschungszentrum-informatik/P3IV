@@ -15,6 +15,7 @@
   <exec_depend>p3iv_types</exec_depend>
   <exec_depend>p3iv_modules</exec_depend>
   <exec_depend>p3iv_utils</exec_depend>
+  <exec_depend>p3iv_utils_polyvision</exec_depend>
   <exec_depend>p3iv_visualization</exec_depend>
 
   <export>

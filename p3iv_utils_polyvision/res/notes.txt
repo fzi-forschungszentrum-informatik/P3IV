@@ -1,0 +1,2 @@
+Notes:
+ * Radius factor is =1, if the center of the circle and the wedge coincide.
