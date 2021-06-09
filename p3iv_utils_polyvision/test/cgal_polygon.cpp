@@ -7,10 +7,10 @@
 #include <CGAL/Polygon_set_2.h>
 #include <CGAL/Polygon_with_holes_2.h>
 #include <CGAL/intersections.h>
-#include "cgal_debug_utils..hpp"
 #include "cgal_utils.hpp"
 #include "polyvision_cgal.hpp"
 #include "gtest/gtest.h"
+#include "internal/cgal_debug_utils.hpp"
 
 using namespace polyvision;
 

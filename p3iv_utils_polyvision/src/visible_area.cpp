@@ -4,8 +4,8 @@
 #include <CGAL/Arr_walk_along_line_point_location.h>
 #include <CGAL/Bbox_2.h>
 #include <CGAL/Triangular_expansion_visibility_2.h>
-#include "cgal_debug_utils..hpp"
 #include "cgal_utils.hpp"
+#include "internal/cgal_debug_utils.hpp"
 
 #ifndef DEBUG
 #define DEBUG 0
@@ -60,8 +60,8 @@ Arrangement_2 polygon_with_holes2arrangement_2(const Polygon_with_holes_2& polyw
 
 bool VisibleArea::getVisibilityBorder(const std::vector<Point_2>& line, Point_2& intersection) const {
     CGALUtils cgalUtils;
-    for (size_t i = 0; i < line.size() - 1; i++){
-        Segment_2 segment(line.at(i), line.at(i+1));
+    for (size_t i = 0; i < line.size() - 1; i++) {
+        Segment_2 segment(line.at(i), line.at(i + 1));
         if (cgalUtils.segmentIntersectsPolygon(this->fieldsOfView, segment, intersection)) {
             return true;
         }
@@ -108,7 +108,7 @@ bool VisibleArea::checkInside(const Point_2& point) const {
             isInside = false;
             continue;
         }
-        if (isInside){
+        if (isInside) {
             break;
         }
     }
