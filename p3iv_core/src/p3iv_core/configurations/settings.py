@@ -5,13 +5,6 @@ ws_path = os.path.realpath(ws_path)
 
 settings = {
     "interaction_dataset_dir": os.path.join(ws_path, "INTERACTION-Dataset-DR-v1_0"),
-    "main": {
-        "travel_length": 0.2,  # defined in seconds
-        "combinatorial_greedy_search": True,
-        # False for IV'18 settings, True for ITSC'18 settings (note that this has an effect on initialization!)
-        # True for IV'18 settings, False for ITSC'18 settings
-        "provably_safe_planning": False,
-    },
     "temporal": {
         "horizon": 6,  # s
         "dt": 100,  # ms (step-width)
@@ -28,7 +21,7 @@ settings = {
         "velocity_cross_correlation": 0.0,
     },
     "prediction": {
-        "multi_modal": False,  # True for ITSC'18 settings, False for IV'18 settings
+        "multi_modal": False,
         "politeness_factor": 0.5,
         "deceleration_comfortable": -5.0,
         "deceleration_maximum": -8.0,
@@ -56,7 +49,6 @@ settings = {
     "planning": {
         "distance2static_obs": 1.0,  # m
         "v2v_safety_dist": 6.0,  # m
-        # use the value specified here instead of the OSM file
         "override_max_deceleration": True,
         "max_deceleration": 9.0,
         "initialization_astar": False,
