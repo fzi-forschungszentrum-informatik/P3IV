@@ -44,7 +44,6 @@ class MapImagery(object):
             print(map_name + " not found!")
 
     def get_extend(self):
-        # todo: get_extend is called multiple times!
         l_x = self.background_image.shape[0]
         l_y = self.background_image.shape[1]
         r = l_y / l_x  # r > 1

@@ -88,22 +88,3 @@ class PlotArray2D(object):
             # the last magnitude line remains on the plot, if this block is deleted!
             self.ax_m_free.set_data([], [])
             self.ax_m_pinn.set_data([], [])
-
-
-if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-
-    fig, ax = plt.subplots(1, 1)
-    p = PlotArray2D(ax, "Timesteps")
-
-    timesteps_ = np.arange(12) * 0.5
-    p.initialize(timesteps_)
-    p.set_x_axis()
-    p.set_y_axis(-2, 20, increment=3)
-
-    motion_array2d = np.zeros(24).reshape(-1, 2)
-    motion_array2d[:, 0] = 5 * np.ones(12) + np.arange(12)
-    motion_array2d[:, 1] = 4 * np.ones(12)
-    p.update_motion_array2d(motion_array2d, index4pin2free=5)
-
-    plt.show()

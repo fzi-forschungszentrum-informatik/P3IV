@@ -23,18 +23,3 @@ class UncertaintyEllipse(object):
     def update_uncertainty(self, width, height):
         self.e.width = width
         self.e.height = height
-
-
-if __name__ == "__main__":
-    import matplotlib.pyplot as plt
-
-    fig, ax = plt.subplots(1, 1)
-    ax.set_xlim(-20, 20)
-    ax.set_ylim(-20, 20)
-
-    ellipse = UncertaintyEllipse("blue")
-    ax.add_patch(ellipse.e)
-    ellipse.update_transformation(3, 4, 45)
-    ellipse.update_transformation(-3, 0, 22.5)
-    ellipse.update_uncertainty(20, 8)
-    plt.show()
