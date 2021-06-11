@@ -122,7 +122,7 @@ Researchers frequently have to adapt the simulation setting to match the needs o
 
 ### Layout of the packages
 
-In a catkin package any python module or subpackage a sourced environment can find is located below `<PACKAGE_NAME>/src/<PACKAGE_NAME>`. After build, modules can be imported as `from <PACKAGE_NAME> import <MODULE_NAME>.
+P3IV works in a [catkin workspace](https://wiki.ros.org/catkin) and follows the catkin package layout. In a catkin package any python module or subpackage a sourced environment can find is located below `<PACKAGE_NAME>/src/<PACKAGE_NAME>`. After build, modules can be imported as `from <PACKAGE_NAME> import <MODULE_NAME>.
 
 Packages have test cases for coverage and CI testing. These tests are located inside `<PACKAGE_NAME>/test/` directory. Even though, these tests are implemented for testing, they can serve as exemplary use of functions and types. 
 
@@ -162,8 +162,17 @@ Indicated in the Section  [_"What P3IV is not?"_](##What-is-P3IV-not?) we do not
 
 While importing external modules, the simulation environment requires to follow a package name scheme. This scheme is implemented in `p3iv_modules/src/p3iv_modules/modules.py`. That is, a planner package in the workspace, besides inheriting from the metaclass interface, must have a name starting with `planner_`, whereas a prediction package's name must start with `prediction_` prefixes. Which module to use as a planner is controlled from `settings.py` file.
 
+## Utility Functions
 
+P3IV contains utility functions that are frequently used for motion prediction and planning. These functions do not have any dependency to other packages and can be used off-the-shelf. These are located inside the package `p3iv_utils`. Among others, utility functions implemented consist of
+ * Driver models
+ * Finite difference calculations
+ * Lanelet2 map reader function
+ * Color-print function for console prints
+ * Vehicle rectangle function
+ * Functions to calculate extrema motion
 
+Apart from the package `p3iv_utils`, there are additional packages whose name start with `p3iv_utils_` prefix. They also serve for utility functionalities and have a readme file describing their functionalities.
 ## FAQ
 
 You can find answers to frequently asked questions below.
