@@ -77,14 +77,8 @@ class Understand(SceneUnderstandingInterface):
         for e in tracked_vehicles:
 
             # match lanelets
-            x, y, phi = e.state.pose
-            o = lanelet2_matching.Object2d()
-            o.pose = lanelet2_matching.Pose2d(x, y, np.radians(phi))
-            tolerance = 0.0
-            matches_all = lanelet2_matching.getDeterministicMatches(self._laneletmap, o, tolerance)
-            matches = lanelet2_matching.removeNonRuleCompliantMatches(matches_all, self._traffic_rules)
             current_lanelets = []
-            for m in matches:
+            for m in self.match2Lanelet(self._laneletmap, self._traffic_rules, e.state.pose):
                 current_lanelets.append(m.lanelet)
 
             # create instances of SceneObject
@@ -117,3 +111,13 @@ class Understand(SceneUnderstandingInterface):
 
         print(time.time() - ts)
         return scene_model
+
+    @staticmethod
+    def match2Lanelet(laneletmap, traffic_rules, pose, tolerance=0.0):
+        """Use Lanelet2 matching module for matching poses to lanelets"""
+        x, y, phi = pose
+        o = lanelet2_matching.Object2d()
+        o.pose = lanelet2_matching.Pose2d(x, y, np.radians(phi))
+        matches_all = lanelet2_matching.getDeterministicMatches(laneletmap, o, tolerance)
+        matches = lanelet2_matching.removeNonRuleCompliantMatches(matches_all, traffic_rules)
+        return matches
