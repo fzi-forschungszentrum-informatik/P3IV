@@ -50,7 +50,7 @@ if __name__ == "__main__":
             configurations = load_configurations(str(test_case))
         except:
             raise argparse.ArgumentTypeError(
-                "Test-case invalid!\n \
+                "Test-case and/or configurations are invalid!\n \
                     For valid test cases see 'p3iv/src/p3iv/configurations/test_cases.py'"
             )
         return configurations
