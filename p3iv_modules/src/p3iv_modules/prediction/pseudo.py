@@ -41,15 +41,15 @@ class Prediction(PredictInterface):
     def predict_scene_object(self, timestamp, scene_object):
         """Create a SituationObject filled with ground-truth-prediction."""
         situation_object = SituationObject(scene_object)
-        xys, yaws = self.predict_pose(timestamp, situation_object.id)
+        xys, yaws = self.read_pose(timestamp, situation_object.id)
         rso = self.get_maneuver_path(scene_object, situation_object, xys, yaws)
         xys, yaws = self.fix_zeros(xys, yaws, rso.route_option.laneletsequence.centerline(), self._dt)
         self.create_maneuvers(scene_object, situation_object, rso)
         self.set_motion_components(situation_object.maneuvers.hypotheses[0], xys, yaws, scene_object.progress)
         return situation_object
 
-    def predict_pose(self, timestamp, vehicle_id):
-        """Predict poses as numpy array"""
+    def read_pose(self, timestamp, vehicle_id):
+        """Read poses from dataset as numpy array"""
 
         for t_id in self.track_dictionary.keys():
 
