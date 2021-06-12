@@ -12,6 +12,7 @@ from p3iv_types.situation_object import SituationObject
 from p3iv_types.maneuvers import ManeuverHypothesis
 from p3iv_modules.interfaces import PredictInterface
 from p3iv_types.situation_model import SituationModel
+from p3iv_types.scene_model import RouteOption
 
 
 logger = logging.getLogger(__file__.split(os.path.sep)[-2])
@@ -42,7 +43,15 @@ class Prediction(PredictInterface):
         """Create a SituationObject filled with ground-truth-prediction."""
         situation_object = SituationObject(scene_object)
         xys, yaws = self.read_pose(timestamp, situation_object.id)
-        rso = self.get_maneuver_path(scene_object, situation_object, xys, yaws)
+
+        try:
+            # if SceneModel(s) are extracted for SceneObjects in understanding module
+            rso = self.get_maneuver_path(scene_object, situation_object, xys, yaws)
+        except AssertionError:
+            # Routes will be extracted for SceneObjects with the help of lanelet matcher
+            # rso = self.create_maneuver_path(scene_object, situation_object, xys, yaws)
+            pass
+
         xys, yaws = self.fix_zeros(xys, yaws, rso.route_option.laneletsequence.centerline(), self._dt)
         self.create_maneuvers(scene_object, situation_object, rso)
         self.set_motion_components(situation_object.maneuvers.hypotheses[0], xys, yaws, scene_object.progress)
@@ -113,6 +122,9 @@ class Prediction(PredictInterface):
             else:
                 break
         return rso
+
+    def create_maneuver_path(self, scene_object, situation_object, xys, yaws):
+        pass
 
     def create_maneuvers(self, scene_object, situation_object, pso):
         """
