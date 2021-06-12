@@ -5,12 +5,14 @@ import numpy as np
 import warnings
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
+import lanelet2
 from p3iv_core.bindings.interaction_dataset.track_reader import track_reader
 from p3iv_core.bindings.interaction_dataset.data_converter import DataConverter
 from p3iv_utils.coordinate_transformation import CoordinateTransform
 from p3iv_types.situation_object import SituationObject
 from p3iv_types.maneuvers import ManeuverHypothesis
 from p3iv_modules.interfaces import PredictInterface
+from p3iv_modules.understanding.basic import Understand
 from p3iv_types.situation_model import SituationModel
 from p3iv_types.scene_model import RouteOption
 
@@ -24,12 +26,17 @@ class Prediction(PredictInterface):
     This class reads the true Cartesian values from the dataset and returns these as predicted motion.
     """
 
-    def __init__(self, dt, N, map_name, prediction_configs, interaction_dataset_dir, *args, **kwargs):
+    def __init__(self, dt, N, map_name, prediction_configs, interaction_dataset_dir, laneletmap, *args, **kwargs):
         assert dt > 1
         self._dt = dt
         self._N = N
         self.track_dictionary = track_reader(map_name, interaction_dataset_dir)
         self.dataset_handler = DataConverter(int(self._dt), self.track_dictionary)
+        self._laneletmap = laneletmap
+        self._traffic_rules = lanelet2.traffic_rules.create(
+            lanelet2.traffic_rules.Locations.Germany, lanelet2.traffic_rules.Participants.Vehicle
+        )
+        self._routing_graph = lanelet2.routing.RoutingGraph(laneletmap, self._traffic_rules)
 
     def __call__(self, timestamp, scene_model):
         situation_model = SituationModel()
@@ -49,8 +56,7 @@ class Prediction(PredictInterface):
             rso = self.get_maneuver_path(scene_object, situation_object, pose_array)
         except AssertionError:
             # Routes will be extracted for SceneObjects with the help of lanelet matcher
-            # rso = self.create_maneuver_path(scene_object, situation_object, pose_array)
-            pass
+            rso = self.create_maneuver_path(scene_object, situation_object, pose_array)
 
         pose_array = self.fix_zeros(pose_array, rso.route_option.laneletsequence.centerline(), self._dt)
         self.create_maneuvers(scene_object, situation_object, rso)
@@ -121,7 +127,26 @@ class Prediction(PredictInterface):
         return rso
 
     def create_maneuver_path(self, scene_object, situation_object, pose_array):
-        pass
+
+        i = 1
+        llt_matches = []
+        while i < len(pose_array):
+            current_matches = Understand.match2Lanelet(self._laneletmap, self._traffic_rules, pose_array[i])
+            if len(llt_matches) == 0 or current_matches != llt_matches[-1]:
+                llt_matches.append(current_matches)
+            i += 1
+
+        for j in range(0, len(llt_matches) - 1):
+            reachable_ids = self._allLaneletsConnectedWithCurrentLanelets(llt_matches[j])
+            for m in llt_matches[j + 1]:
+                if m.id not in reachable_ids:
+                    llt_matches[j + 1].pop(m.id)
+
+        print "llt_matches"
+
+        print llt_matches
+        route_lanelets = [llt_m.lanelet for llt_m in llt_matches]
+        return RouteOption(route_lanelets)
 
     def create_maneuvers(self, scene_object, situation_object, pso):
         """
@@ -151,6 +176,15 @@ class Prediction(PredictInterface):
         pos_arc = c.xy2ld(maneuver_hypothesis.motion.position.mean)
         pos_arc[:, 0] += progress
         maneuver_hypothesis.progress = pos_arc
+
+    def _allLaneletsConnectedWithCurrentLanelets(self, current_lanelets):
+        """Get all lanelets connected to the current lanelet."""
+        reachable_ids = set([c.id for c in current_lanelets])
+        for cll in current_lanelets:
+            for fl in self._routing_graph.following(cll):
+                reachable_ids.add(fl.id)
+
+        return list(reachable_ids)
 
 
 class PolygonCalculation(object):
