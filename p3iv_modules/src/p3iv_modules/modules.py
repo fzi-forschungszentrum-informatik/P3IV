@@ -63,6 +63,34 @@ class VehicleModules(object):
             self.understanding = EmptyModule("Understanding")
         """
 
+        # set understanding
+        try:
+            understanding_type = configurations["understanding"]["type"]
+            try:
+                # search in internal modules (p3iv_modules) first
+                module_path = "p3iv_modules.understanding." + understanding_type
+                Understand = getattr(importlib.import_module(module_path), "Understand")
+            except ImportError:
+                # search externally
+                module_path = "understanding_" + understanding_type + ".main"
+                Prediction = getattr(importlib.import_module(module_path), "Understand")
+
+            self.understanding = Understand(
+                configurations["temporal"]["dt"],
+                configurations["temporal"]["N"],
+                laneletmap,
+                vehicle.id,
+                toLanelet=vehicle.objective.toLanelet,
+            )
+            assert isinstance(self.understanding, interfaces.SceneUnderstandingInterface)
+
+        except ImportError as e:
+            print(str(traceback.format_exc()))
+            msg = "Is the understaning pkg '" + str(understanding_type) + "' in your workspace?"
+            msg += "\nIs your ws is built & sourced?"
+            print(colored(msg, "red"))
+            self.understanding = EmptyModule("Understand")
+
         # set prediction
         try:
             prediction_type = configurations["prediction"]["type"]
@@ -87,7 +115,7 @@ class VehicleModules(object):
 
         except ImportError as e:
             print(str(traceback.format_exc()))
-            msg = "Is the prediction pkg " + str(prediction_type) + " in your workspace?"
+            msg = "Is the prediction pkg '" + str(prediction_type) + "' in your workspace?"
             msg += "\nIs your ws is built & sourced?"
             print(colored(msg, "red"))
             self.prediction = EmptyModule("Prediction")
@@ -135,7 +163,7 @@ class VehicleModules(object):
 
         except ImportError as e:
             print(str(traceback.format_exc()))
-            msg = "Is the planner pkg " + str(planner_type) + " in your workspace?"
+            msg = "Is the planner pkg '" + str(planner_type) + "' in your workspace?"
             msg += "\nIs your ws is built & sourced?"
             print(colored(msg, "red"))
             self.planner = EmptyModule("Planner")

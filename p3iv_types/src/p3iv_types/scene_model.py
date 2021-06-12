@@ -1,6 +1,7 @@
 from __future__ import division
 import os
 import itertools
+import uuid
 import numpy as np
 from lanelet2.core import BasicPoint2d
 from scene_object import SceneObject
@@ -8,6 +9,52 @@ import logging
 
 logger = logging.getLogger(__file__.split(os.path.sep)[-1])
 logger.setLevel(logging.INFO)
+
+
+class PyLaneletSequence(object):
+    """A Python wrapper class for LaneletSequence"""
+
+    def __init__(self, lanelets):
+        self._lanelets = lanelets
+
+    def __getstate__(self):
+        """
+        Implement for dump in pickle; Lanelet2 is implemented in C++ and cannot be pickled.
+        Pass Lanelet-ids instead.
+        """
+        # self.centerline()  # calculate these values if not calculated yet
+        # self.bound_right()
+        # self.bound_left()
+        self._lanelets = [ll.id for ll in self.lanelets]
+        all_slots = itertools.chain.from_iterable(getattr(t, "__slots__", ()) for t in type(self).__mro__)
+        state = {attr: getattr(self, attr) for attr in all_slots if hasattr(self, attr)}
+        return state
+
+    @property
+    def lanelets(self):
+        return self._lanelets
+
+
+class RouteOption(object):
+
+    """
+    Attributes
+    ----------
+    uuid: uuid4
+        A unique ID for the route option
+    laneletsequence: PyLaneletSequence
+        LaneletSequence that the vehicle will follow. For ego-vehicle it contains Lanelets that the vehicle has driven.
+    """
+
+    __slots__ = ["uuid", "laneletsequence"]
+
+    def __init__(self, laneletsequence_lanelets):
+        self.uuid = uuid.uuid4()
+        self.laneletsequence = PyLaneletSequence(laneletsequence_lanelets)
+
+    @property
+    def lanelets(self):
+        return self.laneletsequence.lanelets
 
 
 class SceneModel(object):
