@@ -20,15 +20,6 @@ settings = {
         "velocity_sigma_lateral": 0.2,
         "velocity_cross_correlation": 0.0,
     },
-    "prediction": {
-        "multi_modal": False,
-        "politeness_factor": 0.5,
-        "deceleration_comfortable": -5.0,
-        "deceleration_maximum": -8.0,
-        "acceleration_maximum": 2.5,
-        "deceleration_comfortable_host": -3.0,
-        "type": "pseudo",
-    },
     "perception": {
         "perception_noise": 0.8,
         "position_sigma_longitudinal": 2,
@@ -41,6 +32,18 @@ settings = {
         "otherVehicle_sensor_range": 30.0,
         "egoVehicle_sensor_fov": 150,
         "otherVehicle_sensor_fov": 130,
+    },
+    "understanding": {
+        "type": "basic",
+    },
+    "prediction": {
+        "multi_modal": False,
+        "politeness_factor": 0.5,
+        "deceleration_comfortable": -5.0,
+        "deceleration_maximum": -8.0,
+        "acceleration_maximum": 2.5,
+        "deceleration_comfortable_host": -3.0,
+        "type": "pseudo",
     },
     "decision_making": {
         "pkg_name": None,
