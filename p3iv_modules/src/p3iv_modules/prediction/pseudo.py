@@ -42,19 +42,19 @@ class Prediction(PredictInterface):
     def predict_scene_object(self, timestamp, scene_object):
         """Create a SituationObject filled with ground-truth-prediction."""
         situation_object = SituationObject(scene_object)
-        xys, yaws = self.read_pose(timestamp, situation_object.id)
+        pose_array = self.read_pose(timestamp, situation_object.id)
 
         try:
             # if SceneModel(s) are extracted for SceneObjects in understanding module
-            rso = self.get_maneuver_path(scene_object, situation_object, xys, yaws)
+            rso = self.get_maneuver_path(scene_object, situation_object, pose_array)
         except AssertionError:
             # Routes will be extracted for SceneObjects with the help of lanelet matcher
-            # rso = self.create_maneuver_path(scene_object, situation_object, xys, yaws)
+            # rso = self.create_maneuver_path(scene_object, situation_object, pose_array)
             pass
 
-        xys, yaws = self.fix_zeros(xys, yaws, rso.route_option.laneletsequence.centerline(), self._dt)
+        pose_array = self.fix_zeros(pose_array, rso.route_option.laneletsequence.centerline(), self._dt)
         self.create_maneuvers(scene_object, situation_object, rso)
-        self.set_motion_components(situation_object.maneuvers.hypotheses[0], xys, yaws, scene_object.progress)
+        self.set_motion_components(situation_object.maneuvers.hypotheses[0], pose_array, scene_object.progress)
         return situation_object
 
     def read_pose(self, timestamp, vehicle_id):
@@ -63,52 +63,49 @@ class Prediction(PredictInterface):
         for t_id in self.track_dictionary.keys():
 
             if t_id == vehicle_id:
-                xys = np.zeros([(self._N + 1), 2])
-                yaws = np.zeros([(self._N + 1)])
+                pose_array = np.zeros([(self._N + 1), 3])
 
                 timestamps_until_horizon = np.arange(timestamp, timestamp + self._N * self._dt + 1, self._dt)
                 for i, ts in enumerate(timestamps_until_horizon):
                     try:
                         data = self.dataset_handler.read_track_at_timestamp(t_id, ts)
-                        xys[i] = data[1:3]
-                        yaws[i] = data[3]
+                        pose_array[i] = data[1:4]
                     # data is not available for the full horizon
                     except Exception as e:
                         # print e
                         break
                 break
-        return xys, yaws
+        return pose_array
 
     @staticmethod
-    def fix_zeros(xys, yaws, centerline, dt):
+    def fix_zeros(pose_array, centerline, dt):
         """
         Replace zeros with either extrapolated values or if the reference centerline ends,
         with the latest available value"""
-        assert len(xys) == len(yaws)
 
         c = CoordinateTransform(centerline)
-        for i, xy in enumerate(xys):
-            if np.sum(xy) == 0:
+        for i, pose in enumerate(pose_array):
+            if np.sum(pose[:2]) == 0:
                 # assert (i > 1)
-                displacement = xys[i - 1] - xys[i - 2]
+                displacement = pose_array[i - 1][:2] - pose_array[i - 2][:2]
                 speed = np.linalg.norm(displacement) / (dt / 1000)
-                arc_pos = c.xy2ld(xys[i - 1])[0] + speed * dt / 1000
+                arc_pos = c.xy2ld(pose_array[i - 1][:2])[0] + speed * dt / 1000
                 try:
                     # if arc_pos is longer than centerline, IndexError will be raised
-                    xys[i] = c.ld2xy([arc_pos, 0])
-                    yaws[i] = np.degrees(np.arctan2(displacement[1], displacement[0]))
+                    x, y = c.ld2xy([arc_pos, 0])
+                    yaw = np.degrees(np.arctan2(displacement[1], displacement[0]))
+                    pose_array[i] = np.asarray([x, y, yaw])
                 except IndexError:
-                    xys[i] = xys[i - 1]
-                    yaws[i] = yaws[i - 1]
-        return xys, yaws
+                    pose_array[i] = pose_array[i - 1]
+        return pose_array
 
-    def get_maneuver_path(self, scene_object, situation_object, xys, yaws):
+    def get_maneuver_path(self, scene_object, situation_object, pose_array):
         """Among many route options, pick the one that matches with the ground-truth."""
 
         assert len(scene_object.route_scenes) > 0
 
-        for non_zero_length, xy in enumerate(xys):
-            if np.sum(xy) == 0:
+        for non_zero_length, pose in enumerate(pose_array):
+            if np.sum(pose) == 0:
                 break
 
         for rso in scene_object.route_scenes:
@@ -116,14 +113,14 @@ class Prediction(PredictInterface):
             pc = PolygonCalculation(
                 rso.route_option.laneletsequence.bound_right(), rso.route_option.laneletsequence.bound_left()
             )
-            for xy in xys[:non_zero_length]:
+            for xy in pose_array[:non_zero_length, :2]:
                 if not pc(xy):
                     break
             else:
                 break
         return rso
 
-    def create_maneuver_path(self, scene_object, situation_object, xys, yaws):
+    def create_maneuver_path(self, scene_object, situation_object, pose_array):
         pass
 
     def create_maneuvers(self, scene_object, situation_object, pso):
@@ -147,10 +144,10 @@ class Prediction(PredictInterface):
         hypotheses[0].probability.maneuver = 1.0
         situation_object.maneuvers.add(hypotheses)
 
-    def set_motion_components(self, maneuver_hypothesis, xys, yaws, progress):
+    def set_motion_components(self, maneuver_hypothesis, pose_array, progress):
         """Calculate velocity etc. in Cartesian frame & Frenet motion"""
         c = CoordinateTransform(maneuver_hypothesis.path.centerline())
-        maneuver_hypothesis.motion(xys, dt=self._dt)
+        maneuver_hypothesis.motion(pose_array[:, :2], dt=self._dt)
         pos_arc = c.xy2ld(maneuver_hypothesis.motion.position.mean)
         pos_arc[:, 0] += progress
         maneuver_hypothesis.progress = pos_arc
