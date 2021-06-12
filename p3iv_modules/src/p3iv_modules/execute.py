@@ -31,11 +31,7 @@ def drive(vehicle, ground_truth):
     tsd.environment = vehicle.modules.perception(tsd.timestamp, ground_truth, tsd.state.pose)
 
     # Understanding
-    tsd.scene = vehicle.modules.understanding(
-        tsd.environment.objects(relative_to=None),
-        tsd.environment.polyvision,
-        tsd.environment.visible_areas,
-    )
+    tsd.scene = vehicle.modules.understanding(tsd.environment.objects(relative_to=None), tsd.environment.polyvision)
 
     # Prediction
     tsd.situation = vehicle.modules.prediction(tsd.timestamp, tsd.scene)
