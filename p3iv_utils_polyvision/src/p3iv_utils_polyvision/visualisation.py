@@ -8,7 +8,7 @@ from matplotlib.patches import Polygon, PathPatch
 from matplotlib.path import Path
 from matplotlib.collections import PatchCollection
 
-from p3iv_utils_polyvision import VisibleArea
+from p3iv_utils_polyvision_pyapi import VisibleArea
 
 precision = 6
 

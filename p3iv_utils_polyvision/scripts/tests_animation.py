@@ -1,4 +1,4 @@
-from __future__ import division
+from __future__ import division, absolute_import
 import numpy as np
 import math
 
@@ -7,7 +7,7 @@ from matplotlib.transforms import Affine2D
 from matplotlib.patches import Polygon, PathPatch
 from matplotlib.path import Path
 from matplotlib.collections import PatchCollection
-from p3iv_utils_polyvision.pypolyvision import VisibleArea, checkInside
+from p3iv_utils_polyvision_pyapi.pypolyvision import VisibleArea, checkInside
 from p3iv_utils_polyvision.fov_wedge import generateFoVWedge
 
 precision = 6
@@ -466,11 +466,11 @@ def testAnimation3():
 
 def testAnimation4():
     # initialization car
-    fov1 = generateFoVWedge(40, 10, 0.7, 20, 0)
-    fov2 = generateFoVWedge(140, 4, 0.9, 20, 180)
-    fov3 = generateFoVWedge(25, 7, 0.7, 10, -30)
-    fov4 = generateFoVWedge(25, 7, 0.7, 10, 30)
-    fov5 = generateFoVWedge(40, 7, 0.7, 20, 180)
+    fov1 = generateFoVWedge(40, 10, directionAngle=20)
+    fov2 = generateFoVWedge(140, 4, directionAngle=20)
+    fov3 = generateFoVWedge(25, 7, directionAngle=10)
+    fov4 = generateFoVWedge(25, 7, directionAngle=10)
+    fov5 = generateFoVWedge(40, 7, directionAngle=20)
     fov = [fov1, fov2, fov3, fov4, fov5]
     car = Car(fov, np.array([0, 0]), 0)
 
