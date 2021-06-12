@@ -5,8 +5,8 @@ from p3iv_modules.perception.perfect import Percept as PerfectPerception
 from p3iv_modules.interfaces.perception import PerceptInterface
 from p3iv_types.environment_model import EnvironmentModel
 from p3iv_utils.vehicle_rectangle import VehicleRectangle
-from polyvision.fov_wedge import generateFoVWedge
-from polyvision_pyapi.pypolyvision import VisibleArea, checkInside
+from p3iv_utils_polyvision.fov_wedge import generateFoVWedge
+from p3iv_utils_polyvision_pyapi.pypolyvision import VisibleArea, checkInside
 
 
 class VisibilityModel(object):
