@@ -1,4 +1,5 @@
 from __future__ import division
+import os
 from functools import partial
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
@@ -198,7 +199,7 @@ class AnimationFrame(object):
         if self.save_figure_flag:
             save_file_name = "step_{:03}.png".format(i_anim)
             print ("The figure is being saved to:\n" + save_file_name)
-            self.fig.savefig(save_dir + save_file_name, format="png", dpi=self.fig.dpi)
+            self.fig.savefig(os.path.join(save_dir, save_file_name), format="png", dpi=self.fig.dpi)
 
 
 if __name__ == "__main__":
