@@ -16,15 +16,18 @@ class PyLaneletSequence(object):
 
     def __init__(self, lanelets):
         self._lanelets = lanelets
+        self._centerline = np.array([]).reshape(-1, 2)
+        self._bound_left = np.array([]).reshape(-1, 2)
+        self._bound_right = np.array([]).reshape(-1, 2)
 
     def __getstate__(self):
         """
         Implement for dump in pickle; Lanelet2 is implemented in C++ and cannot be pickled.
         Pass Lanelet-ids instead.
         """
-        # self.centerline()  # calculate these values if not calculated yet
-        # self.bound_right()
-        # self.bound_left()
+        self.centerline()
+        self.bound_right()
+        self.bound_left()
         self._lanelets = [ll.id for ll in self.lanelets]
         all_slots = itertools.chain.from_iterable(getattr(t, "__slots__", ()) for t in type(self).__mro__)
         state = {attr: getattr(self, attr) for attr in all_slots if hasattr(self, attr)}
@@ -33,6 +36,38 @@ class PyLaneletSequence(object):
     @property
     def lanelets(self):
         return self._lanelets
+
+    def centerline(self, smooth=False):
+        """Get Cartesian coordinates of centerline. Options 'smooth' smoothens zig-zags.
+        But, smoothing may sacrifice speed!
+        """
+        if len(self._centerline) < 1:
+            centerline = np.array([self._lanelets[0].centerline[0].x, self._lanelets[0].centerline[0].y])
+            for ll in self._lanelets:
+                # prevent repeated entries
+                for i in range(1, len(ll.centerline)):
+                    centerline = np.vstack([centerline, [ll.centerline[i].x, ll.centerline[i].y]])
+            self._centerline = centerline
+
+        return self._centerline
+
+    def bound_left(self):
+        """Get the left corridor bound of the laneletsequence."""
+        if len(self._bound_left) < 1:
+            boundary = np.array([]).reshape(-1, 2)
+            for ll in self._lanelets:
+                boundary = np.vstack([boundary, [[pt.x, pt.y] for pt in ll.leftBound]])
+            self._bound_left = boundary
+        return self._bound_left
+
+    def bound_right(self):
+        """Get the right corridor bound of the laneletsequence."""
+        if len(self._bound_right) < 1:
+            boundary = np.array([]).reshape(-1, 2)
+            for ll in self._lanelets:
+                boundary = np.vstack([boundary, [[pt.x, pt.y] for pt in ll.rightBound]])
+            self._bound_right = boundary
+        return self._bound_right
 
 
 class RouteOption(object):
