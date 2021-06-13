@@ -115,7 +115,9 @@ class Understand(SceneUnderstandingInterface):
         for s in scene_objects:
             for curr_llt in s.current_lanelets:
                 if curr_llt.id in route_option.laneletsequence.ids():
-                    scene_model.add_object(s, 0.0)
+                    # calculate Euclidean distance between vehicles
+                    v2v_distance = np.linalg.norm(ego_v.state.position.mean - s.state.position.mean)
+                    scene_model.add_object(s, v2v_distance)
                     break
 
         return scene_model
