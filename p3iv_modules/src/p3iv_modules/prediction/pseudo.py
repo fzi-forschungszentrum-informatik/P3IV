@@ -14,7 +14,7 @@ from p3iv_types.maneuvers import ManeuverHypothesis
 from p3iv_modules.interfaces import PredictInterface
 from p3iv_modules.understanding.basic import Understand
 from p3iv_types.situation_model import SituationModel
-from p3iv_types.scene_model import RouteOption
+from p3iv_types.scene_model import RouteOption, SceneModel
 
 
 logger = logging.getLogger(__file__.split(os.path.sep)[-2])
@@ -128,38 +128,57 @@ class Prediction(PredictInterface):
 
     def create_maneuver_path(self, scene_object, situation_object, pose_array):
 
-        i = 1
-        llt_matches = []
+        # find unique lanelet matches
+        i = 0
+        llt_matches_list = []
         while i < len(pose_array):
             current_matches = Understand.match2Lanelet(self._laneletmap, self._traffic_rules, pose_array[i])
-            if len(llt_matches) == 0 or current_matches != llt_matches[-1]:
-                llt_matches.append(current_matches)
+            if len(llt_matches_list) == 0 or not lanelet_matches_equal(current_matches, llt_matches_list[-1]):
+                llt_matches_list.append(current_matches)
             i += 1
 
-        for j in range(0, len(llt_matches) - 1):
-            reachable_ids = self._allLaneletsConnectedWithCurrentLanelets(llt_matches[j])
-            for m in llt_matches[j + 1]:
-                if m.id not in reachable_ids:
-                    llt_matches[j + 1].pop(m.id)
+        # convert the list of lanelet-matches to a list of matched lanelets
+        matched_llts = []
+        for llt_matches in llt_matches_list:
+            if len(llt_matches) != 0:
+                matched_llts.append([llms.lanelet for llms in llt_matches])
 
-        print "llt_matches"
+        # remove not-connected matches from the list
+        for j in range(1, len(matched_llts) - 1):
+            current_llt_ids = [cllt.id for cllt in matched_llts[j]]
+            following_ids = self._allLaneletsConnectedWithCurrentLaneletsFollowing(matched_llts[j], current_llt_ids)
+            for m in matched_llts[j + 1]:
+                if m.id not in following_ids:
+                    matched_llts[j + 1].remove(m)
 
-        print llt_matches
-        route_lanelets = [llt_m.lanelet for llt_m in llt_matches]
-        return RouteOption(route_lanelets)
+            current_llt_ids = [cllt.id for cllt in matched_llts[j]]
+            previous_ids = self._allLaneletsConnectedWithCurrentLaneletsPrevious(matched_llts[j], current_llt_ids)
+            for m in matched_llts[j - 1]:
+                if m.id not in previous_ids:
+                    matched_llts[j - 1].remove(m)
+
+        try:
+            lanelet2sequence = self._routing_graph.getRoute(matched_llts[0][0], matched_llts[-1][0]).shortestPath()
+            route_lanelets = [llt for llt in lanelet2sequence]
+        except:
+            route_lanelets = [llt_m[0] for llt_m in matched_llts]
+        route_option = RouteOption(route_lanelets)
+        rso = SceneModel(scene_object.id, scene_object.state.position.mean, route_option)
+        return rso
 
     def create_maneuvers(self, scene_object, situation_object, pso):
         """
         Create a single ManeuverHypothesis that matches the ground-truth trajectory.
         Add the ManeuverHypothesis in situation_object.
         """
+        speed_limit = [self._traffic_rules.speedLimit(pso.route_option.laneletsequence.lanelets[0]).speedLimit]
 
         hypotheses = [
             ManeuverHypothesis(
                 scene_object.state,
                 scene_object.progress,
                 pso.route_option.laneletsequence,
-                pso.route_option.traffic_rules.speed_limits,
+                speed_limit,
                 self._dt,
                 self._N,
                 self._dt * self._N * 1000,
@@ -177,14 +196,27 @@ class Prediction(PredictInterface):
         pos_arc[:, 0] += progress
         maneuver_hypothesis.progress = pos_arc
 
-    def _allLaneletsConnectedWithCurrentLanelets(self, current_lanelets):
+    def _allLaneletsConnectedWithCurrentLaneletsFollowing(self, current_llts, current_llt_ids):
         """Get all lanelets connected to the current lanelet."""
-        reachable_ids = set([c.id for c in current_lanelets])
-        for cll in current_lanelets:
-            for fl in self._routing_graph.following(cll):
+        reachable_ids = set(current_llt_ids)
+        for cllt in current_llts:
+            for fl in self._routing_graph.following(cllt):
                 reachable_ids.add(fl.id)
-
         return list(reachable_ids)
+
+    def _allLaneletsConnectedWithCurrentLaneletsPrevious(self, current_llts, current_llt_ids):
+        """Get all lanelets connected to the current lanelet."""
+        reachable_ids = set(current_llt_ids)
+        for cllt in current_llts:
+            for fl in self._routing_graph.previous(cllt):
+                reachable_ids.add(fl.id)
+        return list(reachable_ids)
+
+
+def lanelet_matches_equal(match1, match2):
+    match1_ids = [m.lanelet.id for m in match1]
+    match2_ids = [m.lanelet.id for m in match2]
+    return match1_ids == match2_ids
 
 
 class PolygonCalculation(object):
