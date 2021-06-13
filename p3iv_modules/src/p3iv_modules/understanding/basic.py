@@ -7,7 +7,6 @@ import warnings
 import os
 import logging
 import traceback
-import time
 from termcolor import colored
 from p3iv_types.scene_model import RouteOption, SceneModel
 from p3iv_utils.coordinate_transformation import CoordinateTransform
@@ -70,7 +69,6 @@ class Understand(SceneUnderstandingInterface):
         tracked_vehicles: list
             List of TrackedObjects in environment model
         """
-        ts = time.time()
 
         # match tracked_vehicles to lanelets
         scene_objects = []
@@ -113,10 +111,13 @@ class Understand(SceneUnderstandingInterface):
 
         scene_model = SceneModel(ego_v.id, ego_v.state.position.mean, route_option)
 
+        # add only vehicles to the scene model, whose current lanelets are on ego route
         for s in scene_objects:
-            scene_model.add_object(s, 0.0)
+            for curr_llt in s.current_lanelets:
+                if curr_llt.id in route_option.laneletsequence.ids():
+                    scene_model.add_object(s, 0.0)
+                    break
 
-        print(time.time() - ts)
         return scene_model
 
     @staticmethod
