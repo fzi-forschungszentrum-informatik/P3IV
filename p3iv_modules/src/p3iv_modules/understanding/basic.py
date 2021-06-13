@@ -102,6 +102,9 @@ class Understand(SceneUnderstandingInterface):
 
         for current_llt in ego_v.current_lanelets:
             try:
+                # it's not the initial calculation and current lanelet id is in laneletsequence-memory
+                if self._route_memory is not None and current_llt.id not in self._route_memory.laneletsequence.ids():
+                    continue
                 route_to_destination = self._routing_graph.getRoute(
                     current_llt, self._laneletmap.laneletLayer[self._toLanelet]
                 )
