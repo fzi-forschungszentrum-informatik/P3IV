@@ -177,8 +177,7 @@ class SceneModel(object):
         )
 
         # align frenet positions with relative position
-        offset = object2add.progress - relative_distance
-        object2add.progress -= offset
+        object2add.progress = relative_distance
         self.append_object(object2add)
 
     def append_object(self, scene_object):
