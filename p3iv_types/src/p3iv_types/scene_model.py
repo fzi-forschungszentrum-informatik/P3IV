@@ -16,6 +16,7 @@ class PyLaneletSequence(object):
 
     def __init__(self, lanelets):
         self._lanelets = lanelets
+        self._ids = None
         self._centerline = np.array([]).reshape(-1, 2)
         self._bound_left = np.array([]).reshape(-1, 2)
         self._bound_right = np.array([]).reshape(-1, 2)
@@ -68,6 +69,12 @@ class PyLaneletSequence(object):
                 boundary = np.vstack([boundary, [[pt.x, pt.y] for pt in ll.rightBound]])
             self._bound_right = boundary
         return self._bound_right
+
+    def ids(self):
+        """Return IDs of Lanelets in the sequence as a list."""
+        if self._ids is None:
+            self._ids = [ll.id for ll in self._lanelets]
+        return self._ids
 
 
 class RouteOption(object):
