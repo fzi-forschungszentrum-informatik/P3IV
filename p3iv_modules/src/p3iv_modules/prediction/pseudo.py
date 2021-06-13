@@ -193,7 +193,8 @@ class Prediction(PredictInterface):
         c = CoordinateTransform(maneuver_hypothesis.path.centerline())
         maneuver_hypothesis.motion(pose_array[:, :2], dt=self._dt)
         pos_arc = c.xy2ld(maneuver_hypothesis.motion.position.mean)
-        pos_arc[:, 0] += progress
+        offset = pos_arc[0, 0] - progress
+        pos_arc[:, 0] -= offset
         maneuver_hypothesis.progress = pos_arc
 
     def _allLaneletsConnectedWithCurrentLaneletsFollowing(self, current_llts, current_llt_ids):
