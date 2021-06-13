@@ -45,6 +45,9 @@ class Understand(SceneUnderstandingInterface):
     _toLanelet: int
         'Lanelet-ID' to which the ego-vehicle is driving. If it is not provided, past tracks including current lanelet
         is taken as reference centerline.
+    _route_memory: RouteOption
+        RouteOption instance calculated in the timestamp before. Stored as memory to compensate misleading lanelet
+        matches in the current timestamp
     """
 
     def __init__(self, dt, N, laneletmap, ego_vehicle_id, toLanelet=None):
@@ -58,6 +61,7 @@ class Understand(SceneUnderstandingInterface):
         self._routing_graph = lanelet2.routing.RoutingGraph(laneletmap, self._traffic_rules)
         self._id = ego_vehicle_id
         self._toLanelet = toLanelet
+        self._route_memory = None
 
     def __call__(self, tracked_vehicles, *args, **kwargs):
         """
@@ -108,6 +112,11 @@ class Understand(SceneUnderstandingInterface):
             except AttributeError:
                 # if 'toLanelet' is not reachable, lanelet2.python will return 'route_to_destination' as None
                 continue
+        assert (
+            route_option,
+            "Lanelet matcher has performed poorly and route option could no be calculated",
+        )
+        self._route_memory = route_option
 
         scene_model = SceneModel(ego_v.id, ego_v.state.position.mean, route_option)
 
