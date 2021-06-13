@@ -158,10 +158,20 @@ class Prediction(PredictInterface):
                     matched_llts[j - 1].remove(m)
 
         try:
+            # use routing graph
             lanelet2sequence = self._routing_graph.getRoute(matched_llts[0][0], matched_llts[-1][0]).shortestPath()
             route_lanelets = [llt for llt in lanelet2sequence]
         except:
-            route_lanelets = [llt_m[0] for llt_m in matched_llts]
+            # use lanelet matches - eleminate subsequently occuring multiple same lanelet matches
+            # e.g. [30032, 30016, 30016, 30016, 30017, 30017, 30017, 30036, ...]
+            route_lanelets = []
+            latest_llt_id = None
+            for llt_matches in matched_llts:
+                llt_m = llt_matches[0]
+                if llt_m.id != latest_llt_id:
+                    route_lanelets.append(llt_m)
+                    latest_llt_id = llt_m.id
+
         route_option = RouteOption(route_lanelets)
         rso = SceneModel(scene_object.id, scene_object.state.position.mean, route_option)
         return rso
