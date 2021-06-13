@@ -91,6 +91,13 @@ class Understand(SceneUnderstandingInterface):
             else:
                 scene_objects.append(s)
 
+        # increase tolerance if no match is found
+        if len(ego_v.current_lanelets) == 0:
+            current_lanelets = []
+            for m in self.match2Lanelet(self._laneletmap, self._traffic_rules, e.state.pose, tolerance=1.0):
+                current_lanelets.append(m.lanelet)
+            ego_v.current_lanelets = current_lanelets
+
         for current_llt in ego_v.current_lanelets:
             try:
                 route_to_destination = self._routing_graph.getRoute(
