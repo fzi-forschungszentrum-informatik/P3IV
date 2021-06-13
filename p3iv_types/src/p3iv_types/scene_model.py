@@ -4,6 +4,7 @@ import itertools
 import uuid
 import numpy as np
 from lanelet2.core import BasicPoint2d
+from scipy.interpolate import UnivariateSpline
 from scene_object import SceneObject
 import logging
 
@@ -15,6 +16,7 @@ class PyLaneletSequence(object):
     """A Python wrapper class for LaneletSequence"""
 
     def __init__(self, lanelets):
+        self._smooth = False
         self._lanelets = lanelets
         self._ids = None
         self._centerline = np.array([]).reshape(-1, 2)
@@ -39,7 +41,8 @@ class PyLaneletSequence(object):
         return self._lanelets
 
     def centerline(self, smooth=False):
-        """Get Cartesian coordinates of centerline. Options 'smooth' smoothens zig-zags.
+        """
+        Get Cartesian coordinates of centerline. Options 'smooth' smoothens zig-zags.
         But, smoothing may sacrifice speed!
         """
         if len(self._centerline) < 1:
@@ -49,6 +52,12 @@ class PyLaneletSequence(object):
                 for i in range(1, len(ll.centerline)):
                     centerline = np.vstack([centerline, [ll.centerline[i].x, ll.centerline[i].y]])
             self._centerline = centerline
+
+        # if smooth centerline is requested and internally stored one is not smooth
+        # (once 'smooth' is set 'True', will always yield smooth centerlines)
+        if smooth and not self._smooth:
+            self._centerline = self.smooth_centerline(self._centerline)
+            self._smooth = True
 
         return self._centerline
 
@@ -75,6 +84,22 @@ class PyLaneletSequence(object):
         if self._ids is None:
             self._ids = [ll.id for ll in self._lanelets]
         return self._ids
+
+    @staticmethod
+    def smooth_centerline(centerline, resolution=100):
+        """Takes Cartesian coordinates of centerline and smoothens them."""
+        distances = np.linalg.norm(np.diff(centerline, axis=0), axis=1)
+        distances = np.append(np.array([0]), distances)  # insert 0 to match lengths
+        progress = np.cumsum(distances)
+
+        spline_x = UnivariateSpline(progress, centerline[:, 0], k=5)
+        spline_y = UnivariateSpline(progress, centerline[:, 1], k=5)
+        spline_x.set_smoothing_factor(0.75)
+        spline_y.set_smoothing_factor(0.75)
+        ps = np.linspace(progress[0], progress[-1], resolution)
+        xs = spline_x(ps)
+        ys = spline_y(ps)
+        return np.asarray(zip(xs, ys))
 
 
 class RouteOption(object):
