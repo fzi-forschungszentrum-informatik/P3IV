@@ -47,23 +47,6 @@ class VehicleModules(object):
             self.perception = EmptyModule("Perception")
 
         # set understanding
-        # try:
-        from understanding.main import Understand
-
-        self.understanding = Understand(
-            configurations["temporal"]["dt"],
-            configurations["temporal"]["N"],
-            laneletmap,
-            vehicle.id,
-            toLanelet=vehicle.objective.toLanelet,
-        )
-        """
-        except ImportError as e:
-            print(str(traceback.format_exc()))
-            self.understanding = EmptyModule("Understanding")
-        """
-
-        # set understanding
         try:
             understanding_type = configurations["understanding"]["type"]
             try:
@@ -74,7 +57,7 @@ class VehicleModules(object):
                 # search externally
                 # todo: module_path = "understanding_" + understanding_type + ".main"
                 module_path = "understanding" + understanding_type + ".main"
-                Prediction = getattr(importlib.import_module(module_path), "Understand")
+                Understand = getattr(importlib.import_module(module_path), "Understand")
 
             self.understanding = Understand(
                 configurations["temporal"]["dt"],
