@@ -34,7 +34,7 @@ settings = {
         "otherVehicle_sensor_fov": 130,
     },
     "understanding": {
-        "type": "basic",
+        "type": "",
     },
     "prediction": {
         "multi_modal": False,
