@@ -6,7 +6,7 @@ test_cases = {
         "timestamp_end": 152000,
         "vehicle_of_interest": 61,
         "simulation_type": "open-loop",
-        "planning_meta": dict([(61, ("30022", "ipft_py"))]),
+        "planning_meta": dict([(61, ("30022", "constant_velocity"))]),
     },
     "DEU_Merging_CL_01": {
         "source": "interaction_sim",
@@ -19,7 +19,7 @@ test_cases = {
         # dict keys are vehicle ids, and values are 'toLanelet' and 'planner_types'
         # default reads the type from 'settings.py' file
         "planning_meta": dict(
-            [(1, ("30008", "default")), (2, ("30008", "constant-velocity")), (3, ("30008", "constant_velocity"))]
+            [(1, ("30008", "default")), (2, ("30008", "constant_velocity")), (3, ("30008", "constant_velocity"))]
         ),
     },
     "DEU_Merging_OL_01": {
