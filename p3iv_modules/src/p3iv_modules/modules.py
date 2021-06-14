@@ -70,9 +70,10 @@ class VehicleModules(object):
                 # search in internal modules (p3iv_modules) first
                 module_path = "p3iv_modules.understanding." + understanding_type
                 Understand = getattr(importlib.import_module(module_path), "Understand")
-            except ImportError:
+            except (ImportError, KeyError):
                 # search externally
-                module_path = "understanding_" + understanding_type + ".main"
+                # todo: module_path = "understanding_" + understanding_type + ".main"
+                module_path = "understanding" + understanding_type + ".main"
                 Prediction = getattr(importlib.import_module(module_path), "Understand")
 
             self.understanding = Understand(
