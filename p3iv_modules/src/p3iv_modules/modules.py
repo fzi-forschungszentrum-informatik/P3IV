@@ -65,6 +65,7 @@ class VehicleModules(object):
                 laneletmap,
                 vehicle.id,
                 toLanelet=vehicle.objective.toLanelet,
+                save_dir=configurations["save_dir"],
             )
             assert isinstance(self.understanding, interfaces.SceneUnderstandingInterface)
 

@@ -50,7 +50,7 @@ class Understand(SceneUnderstandingInterface):
         matches in the current timestamp
     """
 
-    def __init__(self, dt, N, laneletmap, ego_vehicle_id, toLanelet=None):
+    def __init__(self, dt, N, laneletmap, ego_vehicle_id, toLanelet=None, *args, **kwargs):
         assert dt > 1
         self.dt = dt / 1000
         self.horizon = N * self.dt
