@@ -55,8 +55,8 @@ class VehicleModules(object):
                 Understand = getattr(importlib.import_module(module_path), "Understand")
             except (ImportError, KeyError):
                 # search externally
-                # todo: module_path = "understanding_" + understanding_type + ".main"
-                module_path = "understanding" + understanding_type + ".main"
+                # todo: module_path = "understanding_" + understanding_type + ".understand"
+                module_path = "understanding" + understanding_type + ".understand"
                 Understand = getattr(importlib.import_module(module_path), "Understand")
 
             self.understanding = Understand(
