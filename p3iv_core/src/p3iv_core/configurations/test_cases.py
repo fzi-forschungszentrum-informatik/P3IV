@@ -19,7 +19,7 @@ test_cases = {
         # dict keys are vehicle ids, and values are 'toLanelet' and 'planner_types'
         # default reads the type from 'settings.py' file
         "planning_meta": dict(
-            [(1, ("30008", "default")), (2, ("30008", "constant-velocity")), (3, ("30008", "constant-velocity"))]
+            [(1, ("30008", "default")), (2, ("30008", "constant-velocity")), (3, ("30008", "constant_velocity"))]
         ),
     },
     "DEU_Merging_OL_01": {
@@ -174,7 +174,7 @@ test_cases = {
         "timestamp_end": 68500,
         "vehicle_of_interest": 30,
         "simulation_type": "closed-loop",
-        "planning_meta": dict([(30, ("30022", "default")), (29, ("30028", "constant-velocity"))]),
+        "planning_meta": dict([(30, ("30022", "default")), (29, ("30028", "constant_velocity"))]),
     },
     "DEU_Roundabout_OF_83": {
         "source": "interaction_sim",
@@ -183,6 +183,6 @@ test_cases = {
         "timestamp_end": 68100,
         "vehicle_of_interest": 30,
         "simulation_type": "closed-loop",
-        "planning_meta": dict([(30, ("30022", "default")), (29, ("30028", "constant-velocity"))]),
+        "planning_meta": dict([(30, ("30022", "default")), (29, ("30028", "constant_velocity"))]),
     },
 }
