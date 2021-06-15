@@ -1,7 +1,7 @@
 # This file is part of the Interpolated Polyline (https://github.com/...),
 # copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
 
-from __future__ import division, absolute_import
+
 import numpy as np  # original numpy
 import warnings
 from p3iv_utils_polyline.interpolated_polyline_segment import InterpolatedPolylineSegment

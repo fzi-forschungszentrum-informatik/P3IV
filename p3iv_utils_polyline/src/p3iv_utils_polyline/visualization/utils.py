@@ -1,7 +1,7 @@
 # This file is part of the Interpolated Polyline (https://github.com/...),
 # copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
 
-from __future__ import division
+
 import numpy as np
 import time
 from matplotlib import pyplot as plt
@@ -18,9 +18,9 @@ def create_mesh(r, offset=2.0, K=1):
     min_y, max_y = np.min(r[:, 1]), np.max(r[:, 1])
 
     print("min_x, max_x")
-    print(min_x, max_x)
+    print((min_x, max_x))
     print("min_y, max_y")
-    print(min_y, max_y)
+    print((min_y, max_y))
 
     x_val = np.linspace(min_x - offset, max_x + offset, 10 * K)
     y_val = np.linspace(min_y - offset, max_y + offset, 10 * K)
@@ -46,8 +46,8 @@ def distance_and_gradient_of_mesh(mesh_x, mesh_y, polyline_obj, distance_bound=1
     t_end = time.time()
 
     nr_entries = row * column
-    print("Duration of calculating {} distance entries".format(nr_entries))
-    print(t_end - t_start)
+    print(("Duration of calculating {} distance entries".format(nr_entries)))
+    print((t_end - t_start))
     return mesh_z, mesh_t
 
 
@@ -55,8 +55,8 @@ def plot_meshgrid(ax, mesh_x, mesh_y, mesh_z, K=1):
 
     # Get the highest value of the function
     upper_bound = np.ceil(max([max(abs(element)) for element in mesh_z]))
-    print("upper bound {}".format(upper_bound))
-    print("-upper bound {}".format(-upper_bound))
+    print(("upper bound {}".format(upper_bound)))
+    print(("-upper bound {}".format(-upper_bound)))
 
     # Define the number of levels of contour-map
     levels = np.linspace(-upper_bound, upper_bound, 50)

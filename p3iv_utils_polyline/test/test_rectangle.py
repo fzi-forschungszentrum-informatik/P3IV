@@ -1,7 +1,7 @@
 # This file is part of the Interpolated Polyline (https://github.com/...),
 # copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
 
-from __future__ import absolute_import
+
 from p3iv_utils_polyline.interpolated_polyline import InterpolatedPolyline
 from p3iv_utils_polyline.visualization.plot_distance_contours import main as plot_distance_contours
 import unittest

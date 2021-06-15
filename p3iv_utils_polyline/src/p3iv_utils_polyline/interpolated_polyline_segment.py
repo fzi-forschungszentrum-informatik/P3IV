@@ -2,7 +2,7 @@
 # copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
 
 
-from __future__ import division
+
 import numpy as np
 import warnings
 
