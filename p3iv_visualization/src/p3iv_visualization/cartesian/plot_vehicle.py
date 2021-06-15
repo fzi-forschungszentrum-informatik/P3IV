@@ -86,7 +86,7 @@ class PlotVehicle(object):
         txt = "v=" + "{:.2f}".format(speed)
         self.speed_text.set_text(txt)
 
-    def update_car_patch_center(self, x_center, y_center, heading, set_facecolor=True):
+    def update_car_patch_center(self, x_center, y_center, heading, set_facecolor=True, set_edges=False):
 
         hr = np.deg2rad(heading)
         x_rr = x_center - self._d * np.cos(self._alpha + hr)
@@ -98,7 +98,12 @@ class PlotVehicle(object):
         if set_facecolor:
             self.rectangle_patch.set_alpha(1.0)
         else:
-            self.rectangle_patch.set_alpha(0.2)
+            if set_edges:
+                self.rectangle_patch.set_alpha(1.0)
+                self.rectangle_patch.set_facecolor("none")
+                self.rectangle_patch.set_edgecolor(self.color)
+            else:
+                self.rectangle_patch.set_alpha(0.2)
 
         self.id_text.set_position([x_center + 3, y_center + 3])
 
