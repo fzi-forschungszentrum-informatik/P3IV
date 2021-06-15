@@ -18,8 +18,7 @@
   <depend>util_probability</depend>
   <depend>p3iv_utils</depend>
   <depend>p3iv_utils_polyvision</depend>
-  <depend>understanding</depend>
-  <depend>prediction</depend>
+
 
   <export>
     <rosdoc config="../rosdoc.yaml" />
