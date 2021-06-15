@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 import numpy as np
 from p3iv_types.decision_base import DecisionBase
 from p3iv_modules.interfaces import DecisionMakingInterface

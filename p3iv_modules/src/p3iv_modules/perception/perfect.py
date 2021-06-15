@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 import numpy as np
 from p3iv_modules.interfaces.perception import PerceptInterface
 from p3iv_types.environment_model import EnvironmentModel
@@ -110,7 +110,7 @@ class Percept(PerceptInterface):
     def get_ground_truth_timestamp(timestamp, ground_truth):
         """Get ground-truth objects present in current timestamp by adding pointers"""
         gt_list = []
-        for gt_v in ground_truth.values():
+        for gt_v in list(ground_truth.values()):
             if gt_v.timestamps.latest().timestamp == timestamp:
                 gt_list.append(gt_v)
         return gt_list

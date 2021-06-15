@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import division
+
 import os
 import pickle
 import time
@@ -45,14 +45,13 @@ def run(configurations, f_execute=drive):
         )
         environment_model = bindings.get_environment_model(configurations["timestamp_begin"])
         ground_truth = bindings.create_ground_truth(environment_model.objects(), laneletmap, configurations)
-        assert configurations["vehicle_of_interest"] in ground_truth.keys()
+        assert configurations["vehicle_of_interest"] in list(ground_truth.keys())
     else:
         raise Exception("Specify ground truth object data!")
 
     # Extract timestamps to be computed
-    timestamps = range(
-        configurations["timestamp_begin"], configurations["timestamp_end"] + 1, configurations["temporal"]["dt"]
-    )
+    timestamps = list(range(
+        configurations["timestamp_begin"], configurations["timestamp_end"] + 1, configurations["temporal"]["dt"]))
 
     # Perform computation
     for i, ts_now in enumerate(timestamps):
@@ -79,7 +78,7 @@ def run(configurations, f_execute=drive):
         elif configurations["simulation_type"] == "closed-loop":
             # closed-loop simulation
             # (ground truth object list remains the same; no new entries)
-            for v in ground_truth.values():
+            for v in list(ground_truth.values()):
                 past_motion = v.timestamps.latest().motion[1:]
                 # planned trajectory includes past three points and the current;
                 # Those extra three points are trimmed away in Plan().
@@ -112,7 +111,7 @@ def run(configurations, f_execute=drive):
                 msg = "Simulation terminated before timestamp " + str(configurations["timestamp_end"])
                 msg += "\nThere may be a problem in calculations. "
                 msg += "\nMaybe the vehicle has reached its destination?"
-                print colored(msg, "red")
+                print(colored(msg, "red"))
                 break
         else:
             continue

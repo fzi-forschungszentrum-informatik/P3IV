@@ -1,4 +1,4 @@
-from __future__ import division, absolute_import
+
 import os
 import logging
 import numpy as np
@@ -66,7 +66,7 @@ class Prediction(PredictInterface):
     def read_pose(self, timestamp, vehicle_id):
         """Read poses from dataset as numpy array"""
 
-        for t_id in self.track_dictionary.keys():
+        for t_id in list(self.track_dictionary.keys()):
 
             if t_id == vehicle_id:
                 pose_array = np.zeros([(self._N + 1), 3])

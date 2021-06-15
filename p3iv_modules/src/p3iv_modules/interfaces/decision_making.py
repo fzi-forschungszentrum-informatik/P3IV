@@ -2,9 +2,7 @@ import abc
 import p3iv_types
 
 
-class DecisionMakingInterface(object):
-    __metaclass__ = abc.ABCMeta
-
+class DecisionMakingInterface(object, metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def __init__(self, configurations, max_acceleration, max_deceleration, *args, **kwargs):
         pass

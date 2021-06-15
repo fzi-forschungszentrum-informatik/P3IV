@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 import warnings
 import traceback
 import importlib
@@ -43,7 +43,7 @@ class VehicleModules(object):
             assert isinstance(self.perception, interfaces.PerceptInterface)
 
         except ImportError as e:
-            print(str(traceback.format_exc()))
+            print((str(traceback.format_exc())))
             self.perception = EmptyModule("Perception")
 
         # set understanding
@@ -70,10 +70,10 @@ class VehicleModules(object):
             assert isinstance(self.understanding, interfaces.SceneUnderstandingInterface)
 
         except ImportError as e:
-            print(str(traceback.format_exc()))
+            print((str(traceback.format_exc())))
             msg = "Is the understaning pkg '" + str(understanding_type) + "' in your workspace?"
             msg += "\nIs your ws is built & sourced?"
-            print(colored(msg, "red"))
+            print((colored(msg, "red")))
             self.understanding = EmptyModule("Understand")
 
         # set prediction
@@ -100,10 +100,10 @@ class VehicleModules(object):
             assert isinstance(self.prediction, interfaces.PredictInterface)
 
         except ImportError as e:
-            print(str(traceback.format_exc()))
+            print((str(traceback.format_exc())))
             msg = "Is the prediction pkg '" + str(prediction_type) + "' in your workspace?"
             msg += "\nIs your ws is built & sourced?"
-            print(colored(msg, "red"))
+            print((colored(msg, "red")))
             self.prediction = EmptyModule("Prediction")
 
         # set decision
@@ -121,7 +121,7 @@ class VehicleModules(object):
 
             assert isinstance(self.decision, interfaces.DecisionMakingInterface)
         except ImportError as e:
-            print(str(traceback.format_exc()))
+            print((str(traceback.format_exc())))
             self.decision = EmptyModule("Decision")
 
         # set planner
@@ -148,10 +148,10 @@ class VehicleModules(object):
             assert isinstance(self.planner, interfaces.PlannerInterface)
 
         except ImportError as e:
-            print(str(traceback.format_exc()))
+            print((str(traceback.format_exc())))
             msg = "Is the planner pkg '" + str(planner_type) + "' in your workspace?"
             msg += "\nIs your ws is built & sourced?"
-            print(colored(msg, "red"))
+            print((colored(msg, "red")))
             self.planner = EmptyModule("Planner")
 
         # set action
@@ -160,7 +160,7 @@ class VehicleModules(object):
             self.action = Act()
 
         except ImportError as e:
-            print(str(traceback.format_exc()))
+            print((str(traceback.format_exc())))
             self.action = EmptyModule("Action")
 
 
@@ -175,7 +175,7 @@ class EmptyModule(object):
 
 
 def get_planner_type(configurations, vehicle):
-    if vehicle.id in configurations["planning_meta"].keys():
+    if vehicle.id in list(configurations["planning_meta"].keys()):
         if configurations["planning_meta"][vehicle.id][1] == "default":
             return configurations["planning"]["type"]
         else:

@@ -8,7 +8,7 @@ class PointXY(object):
                 self.x = args[0][0]
                 self.y = args[0][1]
             except Exception as e:
-                print e
+                print(e)
         elif len(args) == 2:
             self.x = args[0]
             self.y = args[1]
@@ -49,7 +49,7 @@ class Polygon(object):
         # TODO: do this with yield
         p = self.points
 
-        ret = zip(p[:-1], p[1:])
+        ret = list(zip(p[:-1], p[1:]))
         ret.append((p[-1], p[0]))  # close polygon
 
         return ret
@@ -64,7 +64,7 @@ class Polyline(Polygon):
         # TODO: do this with yield
         p = self.points
 
-        return zip(p[:-1], p[1:])
+        return list(zip(p[:-1], p[1:]))
 
 
 def ray_segment_intersect(p_ray, d_ray, seg):
@@ -333,13 +333,13 @@ def _test_segment_interp():
     beg = [0,0]
     end = [0,1]
 
-    print '\ndx =', 0.07
+    print('\ndx =', 0.07)
     for i in segment_interpolation_points(beg, end, 0.07):
-        print i
+        print(i)
 
-    print '\nn =', 5
+    print('\nn =', 5)
     for i in segment_interpolation_points(beg, end, 0.1, n=5):
-        print i
+        print(i)
 
 
 def _test_arc():
@@ -364,5 +364,5 @@ def _test_arc():
 if __name__ == '__main__':
     _test_arc()
 
-    print 'segment interp'
+    print('segment interp')
     _test_segment_interp()

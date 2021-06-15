@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 import numpy as np
 from copy import deepcopy
 from p3iv_modules.interfaces.action import ActInterface

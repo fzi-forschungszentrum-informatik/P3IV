@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import division
+
 import matplotlib.pyplot as plt
 import matplotlib.patches as mplpatches
 from matplotlib.collections import PatchCollection
 from collections import namedtuple
-from geometry_utils import *
+from .geometry_utils import *
 from copy import deepcopy
 
 
@@ -106,7 +106,7 @@ class VisibilityModel(object):
                                     pos_rad(a_ray - eps_corner)]
 
                     vert = [r_v, a_ray]
-                    vert_corner = map(list, zip([r, r], a_ray_corner))
+                    vert_corner = list(map(list, list(zip([r, r], a_ray_corner))))
 
                     ray_points.append(vert)
                     ray_points_poly.append(None)
@@ -272,7 +272,7 @@ class VisibilityModel(object):
         elif extremal == 'r':
             minpol = np.argmin(ret_pol)
             maxpol = np.argmax(ret_pol)
-            print minpol, maxpol
+            print(minpol, maxpol)
 
             return [ret[minpol], ret[maxpol]]
         else:

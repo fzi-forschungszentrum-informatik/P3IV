@@ -1,4 +1,4 @@
-from __future__ import division
+
 import numpy as np
 from scipy.interpolate import interp1d
 from p3iv_utils.coordinate_transformation import CoordinateTransform
@@ -76,7 +76,7 @@ def match_sampling_intervals(solver_position_array, dt_simulation=0.1, dt_solver
 
     n_interpolated = int(len(solver_position_array) * r)
 
-    f = interp1d(range(0, len(solver_position_array) + 1), solver_position_array)
+    f = interp1d(list(range(0, len(solver_position_array) + 1)), solver_position_array)
     simulation_position_array = f(n_interpolated)
 
     return simulation_position_array

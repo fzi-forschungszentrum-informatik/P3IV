@@ -1,4 +1,4 @@
-from __future__ import absolute_import, division
+
 import numpy as np
 import warnings
 from p3iv_modules.perception.perfect import Percept as PerfectPerception
