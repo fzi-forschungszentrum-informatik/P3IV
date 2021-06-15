@@ -1,7 +1,7 @@
 import numpy as np
 import itertools
-from timestamp import Timestamps
-from tracked_object import TrackedObject, ExistenceProbability
+from .timestamp import Timestamps
+from .tracked_object import TrackedObject, ExistenceProbability
 
 
 class VehicleAppearanceBase:

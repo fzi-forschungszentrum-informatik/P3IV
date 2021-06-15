@@ -12,19 +12,19 @@ class GroundTruth(dict):
 
     def append(self, vehicle):
         assert isinstance(vehicle, Vehicle)
-        assert vehicle.id not in self.keys()
+        assert vehicle.id not in list(self.keys())
         self[vehicle.id] = vehicle
 
     def update(self, vehicle):
         assert isinstance(vehicle, Vehicle)
-        assert vehicle.id in self.keys()
+        assert vehicle.id in list(self.keys())
         self[vehicle.id] = vehicle
 
     def vehicles(self):
-        return self.values()
+        return list(self.values())
 
     def get_vehicle(self, vehicle_id):
-        assert vehicle_id in self.keys()
+        assert vehicle_id in list(self.keys())
         return self[vehicle_id]
 
     def dump(self, pickle_filename):

@@ -1,11 +1,11 @@
-from __future__ import division
+
 import os
 import itertools
 import uuid
 import numpy as np
 from lanelet2.core import BasicPoint2d
 from scipy.interpolate import UnivariateSpline
-from scene_object import SceneObject
+from .scene_object import SceneObject
 import logging
 
 logger = logging.getLogger(__file__.split(os.path.sep)[-1])
@@ -99,7 +99,7 @@ class PyLaneletSequence(object):
         ps = np.linspace(progress[0], progress[-1], resolution)
         xs = spline_x(ps)
         ys = spline_y(ps)
-        return np.asarray(zip(xs, ys))
+        return np.asarray(list(zip(xs, ys)))
 
 
 class RouteOption(object):
@@ -168,7 +168,7 @@ class SceneModel(object):
 
     def __setstate__(self, state):
         """Implement for load in pickle."""
-        for k, v in state.iteritems():
+        for k, v in state.items():
             setattr(self, k, v)
 
     def add_object(self, object2add, relative_distance):
@@ -201,17 +201,17 @@ class SceneModel(object):
 
     def objects(self, relative_to=""):
         if isinstance(relative_to, int):
-            return [v for v in self._scene_objects.values() if v.id != relative_to]
+            return [v for v in list(self._scene_objects.values()) if v.id != relative_to]
         elif relative_to is "":
-            return [v for v in self._scene_objects.values() if v.id != self._object_id]
+            return [v for v in list(self._scene_objects.values()) if v.id != self._object_id]
         elif relative_to is None:
-            return self._scene_objects.values()
+            return list(self._scene_objects.values())
         else:
             raise Exception("Case not implemented")
 
     def get_object(self, object_id):
         assert type(object_id) is int
-        if object_id in self._scene_objects.keys():
+        if object_id in list(self._scene_objects.keys()):
             return self._scene_objects[object_id]
         else:
             return None

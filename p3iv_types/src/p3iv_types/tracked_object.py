@@ -1,4 +1,4 @@
-from __future__ import division
+
 
 import numpy as np
 import random
@@ -37,7 +37,7 @@ class ExistenceProbability(ExistenceProbabilityBase, object):
 
 def get_color(index):
     colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
-    return colors.keys()[index]
+    return list(colors.keys())[index]
 
 
 class TrackedObject(ExistenceProbability):
@@ -74,5 +74,5 @@ class TrackedObject(ExistenceProbability):
 
     @color.setter
     def color(self, color):
-        assert isinstance(color, (unicode, str))
+        assert isinstance(color, str)
         self._color = color

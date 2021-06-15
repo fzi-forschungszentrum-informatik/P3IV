@@ -17,9 +17,9 @@ class MotionStateArrayTest(unittest.TestCase):
         m = MotionStateArray()
         m(pos, dt=0.1)
         print(m)
-        print(m.position)
-        print(m[1])
-        print(m[:2])
+        print((m.position))
+        print((m[1]))
+        print((m[:2]))
         m1 = m
         m2 = m
         m.append(m1)

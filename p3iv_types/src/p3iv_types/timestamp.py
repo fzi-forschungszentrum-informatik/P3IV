@@ -20,7 +20,7 @@ class Timestamps(object):
         return len(self._timestamps)
 
     def __call__(self, *args, **kwargs):
-        return self._timestamps.values()
+        return list(self._timestamps.values())
 
     def add(self, timestamp, timestamp_data):
         assert isinstance(timestamp, int)
@@ -34,15 +34,15 @@ class Timestamps(object):
 
     def get(self, timestamp=None):
         if timestamp is None:
-            return self._timestamps.values()[-1]
+            return list(self._timestamps.values())[-1]
         else:
             return self._timestamps[str(timestamp)]
 
     def latest(self):
-        return next(reversed(self._timestamps.values()))
+        return next(reversed(list(self._timestamps.values())))
 
     def previous(self):
-        return self._timestamps.values()[-2]
+        return list(self._timestamps.values())[-2]
 
 
 class TimestampData(object):

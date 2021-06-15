@@ -1,4 +1,4 @@
-from __future__ import division
+
 import warnings
 import itertools
 from p3iv_types.scene_object import SceneObject

@@ -1,4 +1,4 @@
-from __future__ import division, absolute_import
+
 import numpy as np
 from util_probability.distributions import UnivariateNormalDistribution, BivariateNormalDistribution
 from util_probability.distributions import UnivariateNormalDistributionSequence, BivariateNormalDistributionSequence

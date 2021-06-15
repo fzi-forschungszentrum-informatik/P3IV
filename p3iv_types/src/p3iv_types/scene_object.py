@@ -1,9 +1,9 @@
-from __future__ import division
+
 import itertools
 import numpy as np
 from copy import deepcopy
-from vehicle import VehicleAppearance
-from tracked_object import TrackedObject
+from .vehicle import VehicleAppearance
+from .tracked_object import TrackedObject
 
 
 class SceneObject(TrackedObject, VehicleAppearance):
@@ -44,7 +44,7 @@ class SceneObject(TrackedObject, VehicleAppearance):
 
     def __setstate__(self, state):
         """Implement for load in pickle."""
-        for k, v in state.iteritems():
+        for k, v in state.items():
             setattr(self, k, v)
 
     def __deepcopy__(self, memo):

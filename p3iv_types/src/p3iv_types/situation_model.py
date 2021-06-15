@@ -18,7 +18,7 @@ class SituationModel(object):
         return self._situation_objects[object_id]
 
     def objects(self):
-        return self._situation_objects.values()
+        return list(self._situation_objects.values())
 
     def add(self, situation_object):
         assert isinstance(situation_object, SituationObject)

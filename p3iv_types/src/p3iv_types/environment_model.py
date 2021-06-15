@@ -1,4 +1,4 @@
-from __future__ import division
+
 import itertools
 from p3iv_types.vehicle import TrackedVehicle
 
@@ -39,7 +39,7 @@ class EnvironmentModel(object):
 
     def __setstate__(self, state):
         """Implement for load in pickle."""
-        for k, v in state.iteritems():
+        for k, v in state.items():
             setattr(self, k, v)
 
     @property
@@ -62,11 +62,11 @@ class EnvironmentModel(object):
 
     def objects(self, relative_to=""):
         if isinstance(relative_to, int):
-            return [v for v in self._tracked_objects.values() if v.id != relative_to]
+            return [v for v in list(self._tracked_objects.values()) if v.id != relative_to]
         elif relative_to is "":
-            return [v for v in self._tracked_objects.values() if v.id != self._vehicle_id]
+            return [v for v in list(self._tracked_objects.values()) if v.id != self._vehicle_id]
         elif relative_to is None:
-            return self._tracked_objects.values()
+            return list(self._tracked_objects.values())
         else:
             raise Exception("Case not implemented")
 
