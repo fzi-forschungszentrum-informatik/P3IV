@@ -56,7 +56,7 @@ class VehicleModules(object):
             except (ImportError, KeyError):
                 # search externally
                 # todo: module_path = "understanding_" + understanding_type + ".understand"
-                module_path = "understanding" + understanding_type + ".understand"
+                module_path = "understanding_" + understanding_type + ".understand"
                 Understand = getattr(importlib.import_module(module_path), "Understand")
 
             self.understanding = Understand(
@@ -79,16 +79,16 @@ class VehicleModules(object):
         # set prediction
         try:
             prediction_type = configurations["prediction"]["type"]
-            # try:
-            # search in internal modules (p3iv_modules) first
-            module_path = "p3iv_modules.prediction." + prediction_type
-            Prediction = getattr(importlib.import_module(module_path), "Prediction")
-            """
+            try:
+                # search in internal modules (p3iv_modules) first
+                module_path = "p3iv_modules.prediction." + prediction_type
+                Prediction = getattr(importlib.import_module(module_path), "Predict")
+
             except ImportError:
                 # search externally
                 module_path = "prediction_" + prediction_type + ".prediction"
-                Prediction = getattr(importlib.import_module(module_path), "Prediction")
-            """
+                Prediction = getattr(importlib.import_module(module_path), "Predict")
+
             self.prediction = Prediction(
                 configurations["temporal"]["dt"],
                 configurations["temporal"]["N"],
