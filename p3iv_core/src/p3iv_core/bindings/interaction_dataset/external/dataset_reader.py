@@ -5,7 +5,7 @@
 
 import csv
 
-from dataset_types import MotionState, Track
+from .dataset_types import MotionState, Track
 
 
 class Key:
@@ -65,7 +65,7 @@ def read_tracks(filename):
                 # new track
                 track_id = int(row[KeyEnum.track_id])
                 assert (
-                    track_id not in track_dict.keys()
+                    track_id not in list(track_dict.keys())
                 ), "Line %i: Track id %i already in dict, track file not sorted properly" % (i + 1, track_id)
                 track = Track(track_id)
                 track.agent_type = row[KeyEnum.agent_type]

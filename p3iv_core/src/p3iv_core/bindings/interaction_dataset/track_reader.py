@@ -3,8 +3,8 @@
 import lanelet2
 import os
 
-from external import dataset_reader
-from external import dict_utils
+from .external import dataset_reader
+from .external import dict_utils
 
 
 def track_reader(scenario_name, interaction_dataset_dir, track_file_number=0):

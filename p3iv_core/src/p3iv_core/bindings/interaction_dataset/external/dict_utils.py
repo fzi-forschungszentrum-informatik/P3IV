@@ -9,7 +9,7 @@ import sys
 def get_value_list(d):
     assert isinstance(d, dict)
     if sys.version_info[0] == 2:
-        item_list = d.values()
+        item_list = list(d.values())
     elif sys.version_info[0] == 3:
         item_list = list(d.values())
     else:
@@ -22,10 +22,10 @@ def get_value_list(d):
 def get_item_iterator(d):
     assert isinstance(d, dict)
     if sys.version_info[0] == 2:
-        item_iter = d.iteritems()
+        item_iter = iter(d.items())
         assert hasattr(item_iter, "next")
     elif sys.version_info[0] == 3:
-        item_iter = iter(d.items())
+        item_iter = iter(list(d.items()))
         assert hasattr(item_iter, "__next__")
     else:
         # should not happen

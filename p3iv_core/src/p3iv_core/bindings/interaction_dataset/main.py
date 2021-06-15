@@ -4,8 +4,8 @@ from p3iv_types.ground_truth import GroundTruth
 from p3iv_types.environment_model import EnvironmentModel
 from p3iv_modules.modules import VehicleModules
 from p3iv_utils.consoleprint import Print2Console
-from track_reader import track_reader
-from data_converter import DataConverter
+from .track_reader import track_reader
+from .data_converter import DataConverter
 
 
 class InteractionDatasetBindings(object):
@@ -70,7 +70,7 @@ class InteractionDatasetBindings(object):
     def update_open_loop_simulation(self, ground_truth, timestamp, laneletmap, configurations):
         current_env_model = self.get_environment_model(timestamp)
         for o in current_env_model.objects():
-            if o.id in ground_truth.keys():
+            if o.id in list(ground_truth.keys()):
                 self.update_simulation_object(ground_truth.get(o.id), timestamp)
             else:
                 v = self.spawn_simulation_object(o, laneletmap, configurations)
