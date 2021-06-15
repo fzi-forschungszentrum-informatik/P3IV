@@ -1,6 +1,6 @@
-from __future__ import division
+
 import os
-from animator import Animator
+from .animator import Animator
 import time
 import logging
 import matplotlib.pyplot as plt
@@ -86,7 +86,7 @@ class AnimateSingle(object):
              * increment the counter 'i' by one.
              * print the terminal outputs
             """
-            print "\033[1m%-2s %2i\033[0m\n" % ("TIMESTEP:", self.i_anim)
+            print("\033[1m%-2s %2i\033[0m\n" % ("TIMESTEP:", self.i_anim))
             self.update()
             self.animation_index_counter()
 

@@ -1,4 +1,4 @@
-from __future__ import division
+
 import os
 from collections import OrderedDict
 from p3iv_visualization.lanelet2.plot_map import PlotLanelet2Map
@@ -39,7 +39,7 @@ class PlotCartesian(object):
         path_file = os.path.dirname(os.path.realpath(__file__))
         path_img = os.path.normpath(os.path.join(path_file, "../res/car.png"))
 
-        for vehicle_id, pv in self.vehicles.items():
+        for vehicle_id, pv in list(self.vehicles.items()):
 
             if self.uncertainty:
                 pv.set_uncertainty_ellipse()

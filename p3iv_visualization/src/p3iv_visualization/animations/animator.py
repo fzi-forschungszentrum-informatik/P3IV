@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+
 import numpy as np
 from p3iv_visualization.cartesian.plot_cartesian import PlotCartesian
 from p3iv_visualization.spatiotemporal.utils.plot_utils import PlotUtils
@@ -125,7 +125,7 @@ class Animator(object):
         # print "timestamp: ", timestampdata.timestamp
 
         # iterate over all vehicles defined in Cartesian plot
-        for v_id in self.p_ax1.vehicles.keys():
+        for v_id in list(self.p_ax1.vehicles.keys()):
 
             # ego vehicle is inside PlotCartesian vehicles; but it is updated in separate call.
             if v_id is self.vehicle_id:

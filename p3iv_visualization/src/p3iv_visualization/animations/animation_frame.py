@@ -1,4 +1,4 @@
-from __future__ import division
+
 import os
 from functools import partial
 import matplotlib.pyplot as plt
@@ -162,7 +162,7 @@ class AnimationFrame(object):
         # once resumed, change the label back to 'Pause'. Not 'elif', because pause could be initialized as 'True'.
         if self.pause_flag is not True:
             self.pause_button.label.set_text("Pause")
-        print "\nAnimation paused\n"
+        print("\nAnimation paused\n")
 
     def __save_figure(self, event):
         """
@@ -198,7 +198,7 @@ class AnimationFrame(object):
     def save_animation_instance(self, save_dir, i_anim):
         if self.save_figure_flag:
             save_file_name = "step_{:03}.png".format(i_anim)
-            print ("The figure is being saved to:\n" + save_file_name)
+            print(("The figure is being saved to:\n" + save_file_name))
             self.fig.savefig(os.path.join(save_dir, save_file_name), format="png", dpi=self.fig.dpi)
 
 

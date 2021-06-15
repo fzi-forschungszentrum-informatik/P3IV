@@ -1,4 +1,4 @@
-from __future__ import division, absolute_import
+
 import unittest
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse

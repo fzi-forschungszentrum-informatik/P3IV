@@ -1,4 +1,4 @@
-from __future__ import division
+
 import warnings
 import matplotlib.image as mpimg
 from matplotlib.axes import Axes
@@ -19,7 +19,7 @@ class MapImagery(object):
     def __init__(self, axes, img_path, x_min, x_max, y_min, y_max, map_config=map_configurations):
         assert isinstance(axes, Axes)
         map_name = img_path.split("/")[-1].split(".")[0]
-        if map_name not in map_config.keys():
+        if map_name not in list(map_config.keys()):
             warnings.warn("Map is not in map_configurations! Will fail!")
 
         # set values from initialization
@@ -41,7 +41,7 @@ class MapImagery(object):
             self.background_image = mpimg.imread(img_path)
             self._set_transformation_parameters_from_config()
         except IOError:
-            print(map_name + " not found!")
+            print((map_name + " not found!"))
 
     def get_extend(self):
         l_x = self.background_image.shape[0]

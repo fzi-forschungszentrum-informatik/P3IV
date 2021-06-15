@@ -1,4 +1,4 @@
-from __future__ import division
+
 import unittest
 import numpy as np
 from p3iv_utils.coordinate_transformation import CoordinateTransform

@@ -1,9 +1,9 @@
-from __future__ import division
+
 import lanelet2
 from matplotlib.axes import Axes
 from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
-from map_imagery import MapImagery
+from .map_imagery import MapImagery
 
 
 def get_laneletmap(laneletmap, lat_origin=0.0, lon_origin=0.0):
@@ -49,17 +49,17 @@ class PlotLanelet2Map(object):
         unknown_linestring_types = list()
         for ls in self.laneletmap.lineStringLayer:
 
-            if "type" not in ls.attributes.keys():
+            if "type" not in list(ls.attributes.keys()):
                 raise RuntimeError("ID " + str(ls.id) + ": Linestring type must be specified")
             elif ls.attributes["type"] == "curbstone":
                 type_dict = dict(color="black", linewidth=1, zorder=1)
             elif ls.attributes["type"] == "line_thin":
-                if "subtype" in ls.attributes.keys() and ls.attributes["subtype"] == "dashed":
+                if "subtype" in list(ls.attributes.keys()) and ls.attributes["subtype"] == "dashed":
                     type_dict = dict(color="white", linewidth=1, zorder=1, dashes=[10, 10])
                 else:
                     type_dict = dict(color="white", linewidth=1, zorder=1)
             elif ls.attributes["type"] == "line_thick":
-                if "subtype" in ls.attributes.keys() and ls.attributes["subtype"] == "dashed":
+                if "subtype" in list(ls.attributes.keys()) and ls.attributes["subtype"] == "dashed":
                     type_dict = dict(color="white", linewidth=2, zorder=1, dashes=[10, 10])
                 else:
                     type_dict = dict(color="white", linewidth=2, zorder=1)
@@ -89,7 +89,7 @@ class PlotLanelet2Map(object):
             self.ax.plot(ls_points_x, ls_points_y, **type_dict)
 
             if len(unknown_linestring_types) != 0:
-                print("Found the following unknown types, did not plot them: " + str(unknown_linestring_types))
+                print(("Found the following unknown types, did not plot them: " + str(unknown_linestring_types)))
 
     def _add_laneletlayer_objects(self):
         lanelets = []

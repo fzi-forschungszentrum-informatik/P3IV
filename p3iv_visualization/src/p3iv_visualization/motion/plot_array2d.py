@@ -47,7 +47,7 @@ class PlotArray2D(object):
         self.ax.set_xticks(ticks)
 
         if set_ticks:
-            tick_labels = map(str, ticks)
+            tick_labels = list(map(str, ticks))
         else:
             tick_labels = ""
         self.ax.set_xticklabels(tick_labels)

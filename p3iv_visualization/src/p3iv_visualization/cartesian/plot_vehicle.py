@@ -1,8 +1,8 @@
-from __future__ import division
+
 import numpy as np
-from car_image import CarImage
+from .car_image import CarImage
 from matplotlib.patches import Rectangle, Polygon
-from uncertainty_ellipse import UncertaintyEllipse
+from .uncertainty_ellipse import UncertaintyEllipse
 from matplotlib.collections import PatchCollection
 
 

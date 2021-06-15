@@ -1,4 +1,4 @@
-from __future__ import division
+
 import numpy as np
 from util_probability.distributions import UnivariateNormalDistributionSequence
 from util_probability.visualization.plot_truncated_gaussian_distribution import plot_distribution_confidence as p

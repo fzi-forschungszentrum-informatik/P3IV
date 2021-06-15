@@ -1,5 +1,5 @@
-from __future__ import division
-from animator import Animator
+
+from .animator import Animator
 import os
 import sys
 import time

@@ -1,4 +1,4 @@
-from __future__ import division, absolute_import
+
 import os
 import unittest
 from matplotlib import pyplot as plt
@@ -24,7 +24,7 @@ def example_with_vehicles(ax, lanelet_map_path):
     v2 = Vehicle(2, "blue", 2.2, 4.0)
     vehicles = {1: v1, 2: v2}
 
-    p.fill_vehicles(vehicles.values())
+    p.fill_vehicles(list(vehicles.values()))
     p.set_vehicle_plots()
     p.update_vehicle_plot(1, 997, 1012, 15, 10.0)
     p.update_vehicle_plot(2, 986, 1005, 60, 10.0)

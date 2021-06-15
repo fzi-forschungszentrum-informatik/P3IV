@@ -1,4 +1,4 @@
-from __future__ import division
+
 import matplotlib.image as mpimg
 from matplotlib.transforms import Affine2D
 
