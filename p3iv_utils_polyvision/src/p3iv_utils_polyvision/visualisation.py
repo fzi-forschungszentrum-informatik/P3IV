@@ -1,4 +1,4 @@
-from __future__ import division
+
 import numpy as np
 import math
 
@@ -232,7 +232,7 @@ def testCar():
     # TODO: Bug detected! try 10,15,20 degree here # try to increase precision!
     car.updateCarPose(np.array([0, 0]), 125)  # 17.8
 
-    print(car.fieldOfView)
+    print((car.fieldOfView))
 
     # # plot visible area
     visA = car.getVisibleArea(obs)
@@ -382,7 +382,7 @@ def testAnimation():
             ax.add_collection(visAPatchCol)
 
     ani = FuncAnimation(
-        fig, animate, frames=range(0, 100), init_func=initAnimation, blit=False, repeat=True, interval=10
+        fig, animate, frames=list(range(0, 100)), init_func=initAnimation, blit=False, repeat=True, interval=10
     )
 
     plt.show()

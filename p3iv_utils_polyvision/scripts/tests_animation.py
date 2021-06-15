@@ -1,4 +1,4 @@
-from __future__ import division, absolute_import
+
 import numpy as np
 import math
 
@@ -143,7 +143,7 @@ def testFoVWedge():
     fovPatchCol = generatePolygonPatchCollection(fovs)
     ax.add_collection(fovPatchCol)
 
-    print checkInside(np.array([0, 2]), [fov1])
+    print(checkInside(np.array([0, 2]), [fov1]))
 
     # ax.autoscale_view()
     ax.set_xlim(-12, 12)
@@ -584,7 +584,7 @@ def genericTestAnimation(obstacles, car):
         ax.add_collection(visAreaPatchCol)
 
     ani = FuncAnimation(
-        fig, animate, frames=range(0, 100), init_func=initAnimation, blit=False, repeat=True, interval=10
+        fig, animate, frames=list(range(0, 100)), init_func=initAnimation, blit=False, repeat=True, interval=10
     )
 
     plt.show()
@@ -601,7 +601,7 @@ def genericTestPlot(obstacles, car):
     start_time = time.time()
     # get visible area calculation results
     visAList = car.getVisibleArea(obstacles)
-    print ("--- %s seconds ---" % (time.time() - start_time))
+    print(("--- %s seconds ---" % (time.time() - start_time)))
 
     # plot obstacles
     obsPatchCol = generatePolygonPatchCollection(visAList[1], "red", 0.8)
@@ -637,7 +637,7 @@ def genericTestPlot2(obstacles, car):
     start_time = time.time()
     # get visible area calculation results
     visAList = car.getVisibleArea(obstacles)
-    print ("--- %s seconds ---" % (time.time() - start_time))
+    print(("--- %s seconds ---" % (time.time() - start_time)))
 
     # plot obstacles
     obsPatchCol = generatePolygonPatchCollection(visAList[1], "red", 0.8)
