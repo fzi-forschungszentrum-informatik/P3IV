@@ -195,7 +195,7 @@ if __name__ == "__main__":
             Print2Console.p("s", ["Displaying results from:"], style="magenta")
             Print2Console.p("s", [results_dir], style="magenta")
             Print2Console.p("s", ["Press enter to continue"], style="magenta", bold=True)
-            raw_input("")
+            # raw_input("")
             gt, configurations = load_results(results_dir)
 
         if args.show_single:
