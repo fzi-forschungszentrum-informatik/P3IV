@@ -24,7 +24,7 @@ def lanelet_map_reader(map_name, maps_dir=None):
     # load and draw the lanelet2 map, either with or without the lanelet2 library
     lat_origin = 0.0  # origin is necessary to correctly project the lat lon values in the osm file to the local
     lon_origin = 0.0  # coordinates in which the tracks are provided; we decided to use (0|0) for every scenario
-    print "\nLoading map : ", str(map_name)
+    print("\nLoading map : ", str(map_name))
 
     projector = lanelet2.projection.UtmProjector(lanelet2.io.Origin(lat_origin, lon_origin))
     laneletmap = lanelet2.io.load(lanelet_map_file, projector)
