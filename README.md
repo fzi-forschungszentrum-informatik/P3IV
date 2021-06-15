@@ -138,6 +138,10 @@ While developing algorithms, researchers frequently need some common functions. 
 
 Visualization can guide researchers for possible improvements and help with debugging. Because there isn't a single visualization that depicts all possible metrics, visualization is implement in an object-oritented fashion but in a very modular way. Every visualization function is a class, that can accept instances of others, e.g. Cartesian plot instantiates the class that depicts vehicles and the class that depict a Lanelet2 map. Such functions are located inside `p3iv/p3iv_visualization`.
 
+### Modules
+ TODO
+ Understanding types
+ * Smooth centerlines
 
 ### Simulation configurations
 
