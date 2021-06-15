@@ -70,4 +70,4 @@ class Print2Console(object):
             string = format_options % string
 
         # Print the format with its variables ('var')
-        print(string % tuple(var))
+        print((string % tuple(var)))

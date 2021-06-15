@@ -1,4 +1,4 @@
-from __future__ import division
+
 import numpy as np
 from scipy.interpolate import interp1d
 
@@ -90,7 +90,7 @@ class IntelligentDriverModel(object):
         h = self._dt / upsampling_rate
         N_upsampled = int(self._N * upsampling_rate)
 
-        sampled_times = range(0, self._N + 1)
+        sampled_times = list(range(0, self._N + 1))
         upsampled_times = np.linspace(0, self._N, N_upsampled + 1)
 
         l_front_array = self._equalize_lengths(l_front_array, self._N + 1)

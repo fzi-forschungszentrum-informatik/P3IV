@@ -47,17 +47,17 @@ class TestIDM(unittest.TestCase):
         t_start = datetime.datetime.now()
         pos_ego, spd_ego, acc_ego = idm(0.0, ego_speed, l_mio, v_mio)
         t_completion = datetime.datetime.now() - t_start
-        print(t_completion.microseconds / 1000, " ms")
+        print((t_completion.microseconds / 1000, " ms"))
 
         t_start = datetime.datetime.now()
         pos_ego, spd_ego, acc_ego = idm(0.0, ego_speed, l_mio, v_mio, upsampling_rate=2)
         t_completion = datetime.datetime.now() - t_start
-        print(t_completion.microseconds / 1000, " ms")
+        print((t_completion.microseconds / 1000, " ms"))
 
         t_start = datetime.datetime.now()
         pos_ego, spd_ego, acc_ego = idm.accs(0.0, ego_speed, l_mio, v_mio, N, dt)
         t_completion = datetime.datetime.now() - t_start
-        print(t_completion.microseconds / 1000, " ms")
+        print((t_completion.microseconds / 1000, " ms"))
 
         import matplotlib.pyplot as plt
 
