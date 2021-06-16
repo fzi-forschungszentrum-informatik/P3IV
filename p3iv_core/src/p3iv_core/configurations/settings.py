@@ -34,7 +34,7 @@ settings = {
         "otherVehicle_sensor_fov": 130,
     },
     "understanding": {
-        "type": "bayesian",
+        "type": "basic",
     },
     "prediction": {
         "multi_modal": False,
@@ -43,7 +43,7 @@ settings = {
         "deceleration_maximum": -8.0,
         "acceleration_maximum": 2.5,
         "deceleration_comfortable_host": -3.0,
-        "type": "reachable_sets",
+        "type": "pseudo",
     },
     "decision_making": {
         "pkg_name": None,
