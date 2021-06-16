@@ -1,1 +1,1 @@
-from interaction_dataset.main import InteractionDatasetBindings
+from .interaction_dataset.main import InteractionDatasetBindings

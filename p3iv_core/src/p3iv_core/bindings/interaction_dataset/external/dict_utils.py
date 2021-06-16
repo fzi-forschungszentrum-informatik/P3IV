@@ -22,7 +22,7 @@ def get_value_list(d):
 def get_item_iterator(d):
     assert isinstance(d, dict)
     if sys.version_info[0] == 2:
-        item_iter = iter(d.items())
+        item_iter = iter(list(d.items()))
         assert hasattr(item_iter, "next")
     elif sys.version_info[0] == 3:
         item_iter = iter(list(d.items()))

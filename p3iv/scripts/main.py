@@ -148,9 +148,8 @@ if __name__ == "__main__":
         # save configurations as well
         filename_json = os.path.join(output_path, "configurations.json")
         j = json.dumps(configurations, indent=4)
-        f = open(filename_json, "w")
-        print >> f, j
-        f.close()
+        with open(filename_json, "w") as f:
+            json.dump(j, f)
         print("Completed!")
 
     elif args.predict:

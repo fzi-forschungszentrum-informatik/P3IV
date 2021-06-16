@@ -50,8 +50,9 @@ def run(configurations, f_execute=drive):
         raise Exception("Specify ground truth object data!")
 
     # Extract timestamps to be computed
-    timestamps = list(range(
-        configurations["timestamp_begin"], configurations["timestamp_end"] + 1, configurations["temporal"]["dt"]))
+    timestamps = list(
+        range(configurations["timestamp_begin"], configurations["timestamp_end"] + 1, configurations["temporal"]["dt"])
+    )
 
     # Perform computation
     for i, ts_now in enumerate(timestamps):

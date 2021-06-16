@@ -2,13 +2,13 @@ from __future__ import division
 import numpy as np
 import warnings
 from matplotlib import colors as mcolors
-from external.dataset_types import Track
+from .external.dataset_types import Track
 from p3iv_types.motion_state import MotionState
 
 
 def get_color(index):
     colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
-    return colors.keys()[index]
+    return list(colors.keys())[index]
 
 
 class DatasetValueError(Exception):
@@ -18,7 +18,7 @@ class DatasetValueError(Exception):
 class DataConverter(object):
     def __init__(self, dt, track_dictionary):
         assert isinstance(dt, int)
-        assert isinstance(track_dictionary.values()[0], Track)
+        assert isinstance(list(track_dictionary.values())[0], Track)
 
         self.dt = dt
         self.track_dictionary = track_dictionary
@@ -35,7 +35,7 @@ class DataConverter(object):
         """
         assert isinstance(timestamp, int)
 
-        for t_id, track in self.track_dictionary.items():
+        for t_id, track in list(self.track_dictionary.items()):
             state = self.get_state(timestamp, t_id)
             if state:
                 environment.add_object(t_id, get_color(t_id), track.length, track.width, state)
