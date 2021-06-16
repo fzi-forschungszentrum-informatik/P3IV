@@ -56,7 +56,7 @@ class Print2Console(object):
             else:
                 # Define character (or sub-column) width for any element to be printed
                 # 'n_item - 1' because the first element has already a length of 24
-                col_w = (line_width - first_col_w - n_space) / (n_item - 1)
+                col_w = int((line_width - first_col_w - n_space) / (n_item - 1))
 
                 if format_str[i] == "s":
                     string_msg += " %" + str(col_w) + "s"
