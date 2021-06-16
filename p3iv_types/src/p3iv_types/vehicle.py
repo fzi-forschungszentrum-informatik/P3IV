@@ -1,20 +1,25 @@
+import abc
 import numpy as np
 import itertools
-from .timestamp import Timestamps
+import random
+from p3iv_types.timestamp import Timestamps
+from matplotlib import colors as mcolors
 from .tracked_object import TrackedObject, ExistenceProbability
 
 
-class VehicleAppearanceBase:
-    __slots__ = ["_length", "_width"]
+def get_color(index):
+    colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
+    return list(colors.keys())[index]
 
 
-class VehicleAppearance(object, VehicleAppearanceBase):
+class AbstractVehicleAppearance(object):
+    __metaclass__ = abc.ABCMeta
+
+    """
+    Define an abstract VehicleAppearance class for mro of TrackedVehicle.
+    """
+
     __slots__ = []
-
-    def __init__(self):
-        super(VehicleAppearance, self).__init__()
-        self._length = 0.0
-        self._width = 0.0
 
     @property
     def length(self):
@@ -33,6 +38,25 @@ class VehicleAppearance(object, VehicleAppearanceBase):
     def width(self, width):
         assert isinstance(width, (int, float))
         self._width = width
+
+    @property
+    def color(self):
+        return self._color
+
+    @color.setter
+    def color(self, color):
+        assert isinstance(color, str)
+        self._color = color
+
+
+class VehicleAppearance(AbstractVehicleAppearance):
+    __slots__ = ["_length", "_width", "_color"]
+
+    def __init__(self):
+        super(VehicleAppearance, self).__init__()
+        self._length = 0.0
+        self._width = 0.0
+        self._color = get_color(random.randint(0, 155))
 
 
 class VehicleCharacteristics(object):
@@ -107,7 +131,7 @@ class Vehicle(object):
         self._object_id = object_id
 
 
-class TrackedVehicle(TrackedObject, VehicleAppearance):
+class TrackedVehicle(AbstractVehicleAppearance, TrackedObject):
     """
     Contains information on a detected vehicle.
 
@@ -119,7 +143,7 @@ class TrackedVehicle(TrackedObject, VehicleAppearance):
         Object color
     """
 
-    __slots__ = []
+    __slots__ = ["_length", "_width", "state"]
 
     def __init__(self):
         super(TrackedVehicle, self).__init__()

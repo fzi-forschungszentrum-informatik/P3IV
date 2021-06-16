@@ -1,12 +1,10 @@
-
 import itertools
 import numpy as np
 from copy import deepcopy
-from .vehicle import VehicleAppearance
-from .tracked_object import TrackedObject
+from .vehicle import TrackedVehicle
 
 
-class SceneObject(TrackedObject, VehicleAppearance):
+class SceneObject(TrackedVehicle):
     """
     Contains information on a detected vehicle.
 

@@ -1,8 +1,4 @@
-
-
 import numpy as np
-import random
-from matplotlib import colors as mcolors
 
 
 class ExistenceProbabilityBase:
@@ -35,11 +31,6 @@ class ExistenceProbability(ExistenceProbabilityBase, object):
         self._existence_probability = probability
 
 
-def get_color(index):
-    colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
-    return list(colors.keys())[index]
-
-
 class TrackedObject(ExistenceProbability):
     """
     Contains information on a detected object.
@@ -57,7 +48,6 @@ class TrackedObject(ExistenceProbability):
     def __init__(self):
         super(TrackedObject, self).__init__()
         self._object_id = 0
-        self._color = get_color(random.randint(0, 155))
 
     @property
     def id(self):
@@ -67,12 +57,3 @@ class TrackedObject(ExistenceProbability):
     def id(self, object_id):
         assert isinstance(object_id, int)
         self._object_id = object_id
-
-    @property
-    def color(self):
-        return self._color
-
-    @color.setter
-    def color(self, color):
-        assert isinstance(color, str)
-        self._color = color

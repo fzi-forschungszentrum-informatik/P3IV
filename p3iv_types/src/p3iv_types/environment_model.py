@@ -1,4 +1,3 @@
-
 import itertools
 from p3iv_types.vehicle import TrackedVehicle
 
