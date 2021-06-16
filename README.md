@@ -83,9 +83,8 @@ catkin init
 catkin config --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo # build in release mode (or whatever you prefer)
 cd src
 git clone https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/p3iv.git
+git clone https://github.com/KIT-MRT/mrt_cmake_modules.git
 pip install -r p3iv/requirements.txt
-chmod +x p3iv/install.sh
-./p3iv/install.sh
 cd ..
 source ../../devel/setup.bash  # or zsh
 catkin build
@@ -196,8 +195,8 @@ You can find answers to frequently asked questions below.
                 "program": "${workspaceFolder}/src/p3iv/p3iv/scripts/main.py",
                 "cwd": "${workspaceFolder}/src/p3iv/p3iv/scripts",
                 "args": [
-                    "DEU_Roundabout_OL_01",
-                    "--run"
+                    "--run",
+                    "DEU_Roundabout_OL_01"
                 ],
                 "console": "internalConsole"
             }
