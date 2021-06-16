@@ -26,5 +26,5 @@ def create_output_path(output_dir_):
 def save_settings(output_path, instance_settings):
     j_settings = json.dumps(instance_settings, indent=4)
     f_settings = open(output_path + "settings.json", "w")
-    print(j_settings, file=f_settings)
-    f_settings.close()
+    with open(output_path + "settings.json", "w") as f_settings:
+        json.dump(j_settings, f_settings)
