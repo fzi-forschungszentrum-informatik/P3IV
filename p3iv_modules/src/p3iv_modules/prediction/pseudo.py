@@ -1,4 +1,3 @@
-
 import os
 import logging
 import numpy as np
@@ -21,7 +20,7 @@ logger = logging.getLogger(__file__.split(os.path.sep)[-2])
 logger.setLevel(logging.DEBUG)
 
 
-class Prediction(PredictInterface):
+class Predict(PredictInterface):
     """
     This class reads the true Cartesian values from the dataset and returns these as predicted motion.
     """
