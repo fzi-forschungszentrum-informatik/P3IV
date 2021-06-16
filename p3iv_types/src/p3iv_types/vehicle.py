@@ -45,7 +45,7 @@ class AbstractVehicleAppearance(object):
 
     @color.setter
     def color(self, color):
-        assert isinstance(color, str)
+        # assert isinstance(color, str) # comment out for Python2 compat.
         self._color = color
 
 

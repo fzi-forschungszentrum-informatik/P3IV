@@ -4,6 +4,12 @@ import importlib
 import p3iv_modules.interfaces as interfaces
 from termcolor import colored
 
+# for backwards compatibility with Python2
+try:
+    ModuleNotFoundError
+except NameError:
+    ModuleNotFoundError = ImportError
+
 
 class VehicleModules(object):
     def __init__(self, configurations, laneletmap, vehicle):
