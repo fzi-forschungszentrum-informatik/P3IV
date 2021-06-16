@@ -1,7 +1,7 @@
 #pragma once
-#include "util_probability/bivariate_distribution.hpp"
-#include "util_probability/sequence_distribution.hpp"
-#include "util_probability/univariate_distribution.hpp"
+#include "p3iv_utils_probability/bivariate_distribution.hpp"
+#include "p3iv_utils_probability/sequence_distribution.hpp"
+#include "p3iv_utils_probability/univariate_distribution.hpp"
 
 namespace p3iv_types {
 

@@ -14,7 +14,7 @@
   <test_depend>gtest</test_depend>
 
   <depend>pybind11-dev</depend>
-  <depend>util_probability</depend>
+  <depend>p3iv_utils_probability</depend>
 
   <export>
     <rosdoc config="../rosdoc.yaml" />

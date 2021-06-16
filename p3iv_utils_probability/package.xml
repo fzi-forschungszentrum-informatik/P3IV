@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>p3iv_utils_probability</name>
+  <version>0.0.0</version>
+  <description>Definitions and functions for probability distributions</description>
+
+  <license>MRT</license>
+  <maintainer email="sahin.tas@kit.edu">Sahin Tas</maintainer>
+  <author email="sahin.tas@kit.edu">Sahin Tas</author>
+  <url type="repository">https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/util_probability</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>mrt_cmake_modules</build_depend>
+  <test_depend>gtest</test_depend>
+  <test_depend>boost</test_depend>
+  <exec_depend>scipy</exec_depend>
+  <exec_depend>numpy</exec_depend>
+  <exec_depend>matplotlib</exec_depend>
+  <depend>eigen</depend>
+  <depend>libgoogle-glog-dev</depend>
+
+  <export>
+    <rosdoc config="../rosdoc.yaml" />
+  </export>
+
+</package>

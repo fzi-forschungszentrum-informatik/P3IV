@@ -1,7 +1,9 @@
-
 import numpy as np
-from util_probability.distributions import UnivariateNormalDistribution, BivariateNormalDistribution
-from util_probability.distributions import UnivariateNormalDistributionSequence, BivariateNormalDistributionSequence
+from p3iv_utils_probability.distributions import UnivariateNormalDistribution, BivariateNormalDistribution
+from p3iv_utils_probability.distributions import (
+    UnivariateNormalDistributionSequence,
+    BivariateNormalDistributionSequence,
+)
 from p3iv_utils.finite_differences import finite_differences
 from p3iv_utils.helper_functions import get_yaw_angle
 

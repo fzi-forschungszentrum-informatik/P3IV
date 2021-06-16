@@ -15,10 +15,9 @@
 
   <depend>lanelet2_core</depend>
   <depend>lanelet2_matching</depend>
-  <depend>util_probability</depend>
   <depend>p3iv_utils</depend>
   <depend>p3iv_utils_polyvision</depend>
-
+  <depend>p3iv_utils_probability</depend>
 
   <export>
     <rosdoc config="../rosdoc.yaml" />
