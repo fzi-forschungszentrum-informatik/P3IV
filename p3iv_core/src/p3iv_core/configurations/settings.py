@@ -4,7 +4,7 @@ ws_path = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__
 ws_path = os.path.realpath(ws_path)
 
 settings = {
-    "interaction_dataset_dir": os.path.join(ws_path, "INTERACTION-Dataset-DR-v1_0"),
+    "interaction_dataset_dir": os.path.join(ws_path, "INTERACTION-Dataset-DR-v1_1"),
     "temporal": {
         "horizon": 6,  # s
         "dt": 100,  # ms (step-width)
