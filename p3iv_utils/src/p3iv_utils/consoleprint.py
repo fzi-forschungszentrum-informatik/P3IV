@@ -38,7 +38,7 @@ class Print2Console(object):
         """
 
         # Initialize string
-        string = ""
+        string_msg = ""
 
         # Instantiate 'Print2Console.get_format_options' as format_options
         format_options = Print2Console.get_format_options(style, bold)
@@ -50,24 +50,24 @@ class Print2Console(object):
         for i in range(n_item):
             if i == 0:
                 if n_item == 1:
-                    string += "%-" + str(line_width) + format_str[0]
+                    string_msg += "%-" + str(line_width) + format_str[0]
                 else:
-                    string += "%-" + str(first_col_w) + format_str[0]
+                    string_msg += "%-" + str(first_col_w) + format_str[0]
             else:
                 # Define character (or sub-column) width for any element to be printed
                 # 'n_item - 1' because the first element has already a length of 24
                 col_w = (line_width - first_col_w - n_space) / (n_item - 1)
 
                 if format_str[i] == "s":
-                    string += " %" + str(col_w) + "s"
+                    string_msg += " %" + str(col_w) + "s"
                 elif format_str[i] == "i":
-                    string += " %" + str(col_w) + "i"
+                    string_msg += " %" + str(col_w) + "i"
                 elif format_str[i] == "f":
-                    string += " %" + str(col_w) + "." + str(decimals) + "f"
+                    string_msg += " %" + str(col_w) + "." + str(decimals) + "f"
 
         # If format_options are defined, wrap the output
         if format_options != "":
-            string = format_options % string
+            string_msg = format_options % string_msg
 
         # Print the format with its variables ('var')
-        print((string % tuple(var)))
+        print(string_msg % tuple(var))
