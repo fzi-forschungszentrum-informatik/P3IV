@@ -2,7 +2,7 @@ import unittest
 import logging
 import numpy as np
 from scipy.stats import multivariate_normal
-from util_probability.distributions import UnivariateNormalDistribution, BivariateNormalDistribution
+from p3iv_utils_probability.distributions import UnivariateNormalDistribution, BivariateNormalDistribution
 
 
 class TestUnivariateNormalDistribution(unittest.TestCase):

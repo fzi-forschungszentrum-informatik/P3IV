@@ -2,12 +2,12 @@ import unittest
 import logging
 import numpy as np
 import matplotlib.pyplot as plt
-from util_probability.distributions import (
+from p3iv_utils_probability.distributions import (
     UnivariateNormalDistribution,
     BivariateNormalDistribution,
     UnivariateNormalDistributionSequence,
 )
-from util_probability.visualization.plot_distribution import PlotProbabilityDistribution
+from p3iv_utils_probability.visualization.plot_distribution import PlotProbabilityDistribution
 
 
 class TestUnivariateNormalDistribution(unittest.TestCase):

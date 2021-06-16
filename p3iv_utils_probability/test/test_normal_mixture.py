@@ -1,9 +1,8 @@
-
 import numpy as np
 import unittest
 import logging
-from util_probability.visualization.plots import plot_gaussians
-from util_probability.distributions import (
+from p3iv_utils_probability.visualization.plots import plot_gaussians
+from p3iv_utils_probability.distributions import (
     UnivariateNormalMixtureDistribution,
     UnivariateNormalSequenceMixtureDistribution,
     UnivariateNormalDistributionSequence,

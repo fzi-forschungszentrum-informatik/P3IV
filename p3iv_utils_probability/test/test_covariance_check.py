@@ -1,7 +1,7 @@
 import unittest
 import logging
 import numpy as np
-from util_probability.distributions.base.normal import check_covariance_vals
+from p3iv_utils_probability.distributions.base.normal import check_covariance_vals
 
 
 class TestValueCheck(unittest.TestCase):

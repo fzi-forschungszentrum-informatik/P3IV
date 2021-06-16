@@ -1,9 +1,8 @@
-
 import unittest
 import numpy as np
 import matplotlib.pyplot as plt
 import logging
-from util_probability.distributions import *
+from p3iv_utils_probability.distributions import *
 
 
 logger = logging.getLogger()

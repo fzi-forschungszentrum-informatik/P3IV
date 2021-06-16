@@ -1,7 +1,7 @@
 import unittest
 import logging
 import numpy as np
-from util_probability.distributions.base.normal import type_check
+from p3iv_utils_probability.distributions.base.normal import type_check
 
 
 class TestTypeCheck(unittest.TestCase):
