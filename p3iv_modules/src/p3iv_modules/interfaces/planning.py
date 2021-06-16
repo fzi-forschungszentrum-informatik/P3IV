@@ -2,7 +2,9 @@ import abc
 import p3iv_types
 
 
-class PlannerInterface(object, metaclass=abc.ABCMeta):
+class PlannerInterface(object):
+    __metaclass__ = abc.ABCMeta
+
     @abc.abstractmethod
     def __init__(self, v_id, v_width, v_length, configurations, max_acceleration, max_deceleration, *args, **kwargs):
         pass

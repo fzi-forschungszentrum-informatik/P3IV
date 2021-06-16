@@ -3,7 +3,9 @@ import numpy as np
 import p3iv_types
 
 
-class PerceptInterface(object, metaclass=abc.ABCMeta):
+class PerceptInterface(object):
+    __metaclass__ = abc.ABCMeta
+
     @abc.abstractmethod
     def __init__(self, *args, **kwargs):
         """

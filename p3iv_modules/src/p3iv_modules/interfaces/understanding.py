@@ -3,7 +3,9 @@ import numpy as np
 import p3iv_types
 
 
-class SceneUnderstandingInterface(object, metaclass=abc.ABCMeta):
+class SceneUnderstandingInterface(object):
+    __metaclass__ = abc.ABCMeta
+
     @abc.abstractmethod
     def __init__(self, dt, N, laneletmap, vehicle_id, toLanelet=None, *args, **kwargs):
         """

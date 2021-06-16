@@ -2,7 +2,9 @@ import abc
 import p3iv_types
 
 
-class ActInterface(object, metaclass=abc.ABCMeta):
+class ActInterface(object):
+    __metaclass__ = abc.ABCMeta
+
     @abc.abstractmethod
     def __call__(self, motion_plans, *args, **kwargs):
         """
