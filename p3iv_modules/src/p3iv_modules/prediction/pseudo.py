@@ -25,11 +25,22 @@ class Predict(PredictInterface):
     This class reads the true Cartesian values from the dataset and returns these as predicted motion.
     """
 
-    def __init__(self, dt, N, map_name, prediction_configs, interaction_dataset_dir, laneletmap, *args, **kwargs):
+    def __init__(
+        self,
+        dt,
+        N,
+        map_name,
+        prediction_configs,
+        interaction_dataset_dir,
+        laneletmap,
+        track_file_number,
+        *args,
+        **kwargs
+    ):
         assert dt > 1
         self._dt = dt
         self._N = N
-        self.track_dictionary = track_reader(map_name, interaction_dataset_dir)
+        self.track_dictionary = track_reader(map_name, interaction_dataset_dir, track_file_number)
         self.dataset_handler = DataConverter(int(self._dt), self.track_dictionary)
         self._laneletmap = laneletmap
         self._traffic_rules = lanelet2.traffic_rules.create(

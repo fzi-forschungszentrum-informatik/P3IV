@@ -101,6 +101,7 @@ class VehicleModules(object):
                 configurations["prediction"],
                 configurations["interaction_dataset_dir"],
                 laneletmap,
+                configurations["track_file_number"],
             )
             assert isinstance(self.prediction, interfaces.PredictInterface)
 

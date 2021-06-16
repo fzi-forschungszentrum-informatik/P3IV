@@ -9,8 +9,8 @@ from .data_converter import DataConverter
 
 
 class InteractionDatasetBindings(object):
-    def __init__(self, track_name, interaction_dataset_dir, dt):
-        track_dictionary = track_reader(track_name, interaction_dataset_dir)
+    def __init__(self, track_name, interaction_dataset_dir, track_file_number, dt):
+        track_dictionary = track_reader(track_name, interaction_dataset_dir, track_file_number)
         self._dataset_handler = DataConverter(int(dt), track_dictionary)
 
     def get_environment_model(self, timestamp):

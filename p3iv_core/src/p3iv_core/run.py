@@ -41,7 +41,10 @@ def run(configurations, f_execute=drive):
         from p3iv_core.bindings import InteractionDatasetBindings
 
         bindings = InteractionDatasetBindings(
-            configurations["map"], configurations["interaction_dataset_dir"], configurations["temporal"]["dt"]
+            configurations["map"],
+            configurations["interaction_dataset_dir"],
+            configurations["track_file_number"],
+            configurations["temporal"]["dt"],
         )
         environment_model = bindings.get_environment_model(configurations["timestamp_begin"])
         ground_truth = bindings.create_ground_truth(environment_model.objects(), laneletmap, configurations)
