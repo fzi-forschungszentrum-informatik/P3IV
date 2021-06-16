@@ -69,7 +69,7 @@ class DataConverter(object):
         """Read track data at provided timestamp.
         Protected, as it serves as a helper func.
         """
-        assert isinstance(timestamp, int)
+        assert isinstance(timestamp, (int, np.int, np.int64))
         assert isinstance(track, Track)
 
         if not (track.time_stamp_ms_first <= timestamp <= track.time_stamp_ms_last):
