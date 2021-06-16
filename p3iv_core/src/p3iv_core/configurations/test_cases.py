@@ -2,6 +2,7 @@ test_cases = {
     "EvalCh6.4_Planner_Model_Parameter_Tree_Search": {  # evaluate planner for multiple timesteps
         "source": "interaction_sim",
         "map": "DR_DEU_Roundabout_OF",
+        "track_file_number": 0,
         "timestamp_begin": 146000,
         "timestamp_end": 152000,
         "vehicle_of_interest": 61,
@@ -11,6 +12,7 @@ test_cases = {
     "DEU_Merging_CL_01": {
         "source": "interaction_sim",
         "map": "DR_DEU_Merging_MT",
+        "track_file_number": 0,
         "timestamp_begin": 4500,
         "timestamp_end": 4500,
         "vehicle_of_interest": 1,
@@ -25,6 +27,7 @@ test_cases = {
     "DEU_Merging_OL_01": {
         "source": "interaction_sim",
         "map": "DR_DEU_Merging_MT",
+        "track_file_number": 0,
         "timestamp_begin": 4500,
         "timestamp_end": 4500,
         "vehicle_of_interest": 1,
@@ -34,6 +37,7 @@ test_cases = {
     "DEU_Merging_OL_02": {
         "source": "interaction_sim",
         "map": "DR_DEU_Merging_MT",
+        "track_file_number": 0,
         "timestamp_begin": 6400,
         "timestamp_end": 6700,
         "vehicle_of_interest": 1,
@@ -43,6 +47,7 @@ test_cases = {
     "DEU_Roundabout_OL_01": {
         "source": "interaction_sim",
         "map": "DR_DEU_Roundabout_OF",
+        "track_file_number": 0,
         "timestamp_begin": 12400,
         "timestamp_end": 17500,
         "vehicle_of_interest": 14,
@@ -52,6 +57,7 @@ test_cases = {
     "MB": {
         "source": "interaction_sim",
         "map": "DR_DEU_Roundabout_OF",
+        "track_file_number": 0,
         "timestamp_begin": 143800,
         "timestamp_end": 152100,
         "vehicle_of_interest": 61,
@@ -61,6 +67,7 @@ test_cases = {
     "DEU_Roundabout_OL_02": {
         "source": "interaction_sim",
         "map": "DR_DEU_Roundabout_OF",
+        "track_file_number": 0,
         "timestamp_begin": 3200,
         "timestamp_end": 3200,
         "vehicle_of_interest": 12,
@@ -70,6 +77,7 @@ test_cases = {
     "USA_Intersection_EP0_01": {
         "source": "interaction_sim",
         "map": "DR_USA_Intersection_EP0",
+        "track_file_number": 0,
         "timestamp_begin": 8200,
         "timestamp_end": 29200,
         "vehicle_of_interest": 5,
@@ -79,6 +87,7 @@ test_cases = {
     "USA_Intersection_EP1_01": {
         "source": "interaction_sim",
         "map": "DR_USA_Intersection_EP1",
+        "track_file_number": 0,
         "timestamp_begin": 3000,
         "timestamp_end": 3000,
         "vehicle_of_interest": 9,
@@ -88,6 +97,7 @@ test_cases = {
     "USA_Intersection_EP0_02": {
         "source": "interaction_sim",
         "map": "DR_USA_Intersection_EP0",
+        "track_file_number": 0,
         "timestamp_begin": 31500,
         "timestamp_end": 48000,
         "vehicle_of_interest": 13,
@@ -97,6 +107,7 @@ test_cases = {
     "USA_Intersection_EP0_03": {
         "source": "interaction_sim",
         "map": "DR_USA_Intersection_EP0",
+        "track_file_number": 0,
         "timestamp_begin": 55000,
         "timestamp_end": 76500,
         "vehicle_of_interest": 21,
@@ -106,6 +117,7 @@ test_cases = {
     "USA_Intersection_EP0_04": {
         "source": "interaction_sim",
         "map": "DR_USA_Intersection_EP0",
+        "track_file_number": 0,
         "timestamp_begin": 87500,
         "timestamp_end": 104000,
         "vehicle_of_interest": 28,
@@ -115,6 +127,7 @@ test_cases = {
     "USA_Intersection_EP0_05": {
         "source": "interaction_sim",
         "map": "DR_USA_Intersection_EP0",
+        "track_file_number": 0,
         "timestamp_begin": 182000,
         "timestamp_end": 203000,
         "vehicle_of_interest": 49,
@@ -125,6 +138,7 @@ test_cases = {
     "USA_Intersection_EP0_06": {
         "source": "interaction_sim",
         "map": "DR_USA_Intersection_EP0",
+        "track_file_number": 0,
         "timestamp_begin": 176100,
         "timestamp_end": 196000,
         "vehicle_of_interest": 48,
@@ -134,6 +148,7 @@ test_cases = {
     "USA_Roundabout_FT_01": {
         "source": "interaction_sim",
         "map": "DR_USA_Roundabout_FT",
+        "track_file_number": 0,
         "timestamp_begin": 25500,
         "timestamp_end": 43400,
         "vehicle_of_interest": 17,
@@ -143,6 +158,7 @@ test_cases = {
     "USA_Roundabout_FT_02": {
         "source": "interaction_sim",
         "map": "DR_USA_Roundabout_FT",
+        "track_file_number": 0,
         "timestamp_begin": 28500,
         "timestamp_end": 56000,
         "vehicle_of_interest": 19,
@@ -152,6 +168,7 @@ test_cases = {
     "USA_Intersection_EP0_80": {
         "source": "interaction_sim",
         "map": "DR_USA_Intersection_EP0",
+        "track_file_number": 0,
         "timestamp_begin": 114600,
         "timestamp_end": 114700,
         "vehicle_of_interest": 32,
@@ -161,6 +178,7 @@ test_cases = {
     "USA_Intersection_EP0_81": {
         "source": "interaction_sim",
         "map": "DR_USA_Intersection_EP0",
+        "track_file_number": 0,
         "timestamp_begin": 114600,
         "timestamp_end": 128500,
         "vehicle_of_interest": 32,
@@ -170,6 +188,7 @@ test_cases = {
     "DEU_Roundabout_OF_82": {
         "source": "interaction_sim",
         "map": "DR_DEU_Roundabout_OF",
+        "track_file_number": 0,
         "timestamp_begin": 66000,
         "timestamp_end": 68500,
         "vehicle_of_interest": 30,
@@ -179,6 +198,7 @@ test_cases = {
     "DEU_Roundabout_OF_83": {
         "source": "interaction_sim",
         "map": "DR_DEU_Roundabout_OF",
+        "track_file_number": 0,
         "timestamp_begin": 67000,
         "timestamp_end": 68100,
         "vehicle_of_interest": 30,
