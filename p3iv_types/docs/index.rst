@@ -11,15 +11,10 @@ Welcome to P3IV Simulator's documentation!
    :caption: Contents:
 
 
-p3iv
-===================
-.. automodule:: p3iv.scripts.main
+p3iv types
+=======================================
+.. automodule:: p3iv_types.motion_state
    :members:
-
-p3iv modules
-=====================
-.. automodule:: p3iv_modules
-   :members: modules
 
 
 Indices and tables
