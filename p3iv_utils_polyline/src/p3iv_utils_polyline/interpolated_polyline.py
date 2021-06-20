@@ -10,7 +10,7 @@ from p3iv_utils_polyline.interpolated_polyline_segment import InterpolatedPolyli
 class InterpolatedPolyline(object):
     def __init__(self, xs, ys):
         self.N = len(xs)
-        self._MAX_VALUE = float("inf")
+        self._MAX_VALUE = np.finfo(np.float64).max
 
         if self.N < 3:
             warnings.warn("Number of support points is too low!")
@@ -19,7 +19,6 @@ class InterpolatedPolyline(object):
 
         self.xs = np.asarray(xs)
         self.ys = np.asarray(ys)
-        self._MAX_VALUE = float("inf")
 
         self.segments = [None] * (self.N - 1)
         self.arclengths = np.empty(self.N)

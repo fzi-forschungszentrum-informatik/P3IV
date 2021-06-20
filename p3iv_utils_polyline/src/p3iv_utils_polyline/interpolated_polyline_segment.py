@@ -2,12 +2,10 @@
 # copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
 
 
-
 import numpy as np
 import warnings
 
 
-# @numbajit
 def hypot(a, b):
     # do not use np.hypot(a, b); may not work well with autodiff & jit
     return (a ** 2 + b ** 2) ** 0.5
