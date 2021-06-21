@@ -87,7 +87,7 @@ public:
             i_base = 0;
         } else {
             for (i_base = 1; i_base < arclengths_.size(); i_base++) {
-                if (l < arclengths_[i_base]) {
+                if (l <= arclengths_[i_base]) {
                     break;
                 }
             }

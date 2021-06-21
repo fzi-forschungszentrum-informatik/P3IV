@@ -63,7 +63,7 @@ class InterpolatedPolyline(object):
             i_base = 0
         else:
             for i_base in range(1, len(self.arclengths)):
-                if l < self.arclengths[i_base]:
+                if l <= self.arclengths[i_base]:
                     break
             i_base = i_base - 1
 
