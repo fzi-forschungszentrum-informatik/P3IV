@@ -76,7 +76,7 @@ cd ..
 catkin build
 ```
 
-After you have built, create a new workspace and source the `lanelet2_ws` and pull the simulation environment.
+After you have built, create a new workspace and source the `lanelet2_ws` by executing e.g. `source devel/setup.bash` from that lanelet2 workspace directory and execute the commands below.
 ```
 cd ../..
 mkdir p3iv_ws && cd p3iv_ws && mkdir src
