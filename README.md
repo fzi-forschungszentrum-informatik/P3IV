@@ -63,7 +63,7 @@ Python implementations in P3IV are formatted with [black](https://github.com/psf
 
 Developing an algorithm typically requires numerous builds in release and debug configurations. Binding a C++ implementation with `boost-python` or `pybind` can increase build times significantly. Therefore, it is recommended to build `Lanelet2` on a separate catkin workspace than p3iv and once it is built, to source that workspace from p3iv workspace. If you are novice, you can build lanelet2 in the same workspace as well.
 
-In order to build you lanelet2 workspace, execute
+In order to build a lanelet2 workspace, execute
 ```
 source /opt/ros/$ROS_DISTRO/setup.bash
 mkdir catkin_workspaces && cd catkin_workspaces && mkdir lanelet2_ws && cd lanelet2_ws && mkdir src
@@ -71,6 +71,7 @@ catkin init
 catkin config --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
 cd src
 git clone https://github.com/fzi-forschungszentrum-informatik/Lanelet2.git
+git clone https://github.com/KIT-MRT/mrt_cmake_modules.git
 cd ..
 catkin build
 ```
