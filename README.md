@@ -90,6 +90,8 @@ cd ..
 source ../../devel/setup.bash  # or zsh
 catkin build
 ```
+If you aim to use INTERACTION dataset, please ensure that it is in your workspace below `src/` directory
+
 
 ## Usage
 
@@ -101,10 +103,12 @@ python main.py --run=DEU_Roundabout_OL_01
 
 This command executes the test case `DEU_Roundabout_OL_01` defined inside `p3iv/src/p3iv/configurations/test_cases.py`. You can add more test cases, depending on your need. 
 
-If you have any problems and need help, execute
+If you have any problems and need help, you can execute
 ```
 python main.py --help
 ``` 
+for additional information. If this doesn't help, refer to [FAQ](##FAQ) below.
+
 If you want to display inspect the results of a simulation, you can either execute
 ```
 python main.py --show-single=<TIMESTAMP_VALUE>
@@ -181,10 +185,21 @@ Apart from the package `p3iv_utils`, there are additional packages whose name st
 
 You can find answers to frequently asked questions below.
 
- * Simulation framework fails to find a package or a module. Why?
-   * Please ensure that you have built and sourced your workspace in the terminal you run the simulation environment. In case, refer search for keywords _ros catkin workspace source_ on the internet.
+### General Questions
  * For which type of application would you recommend p3iv most?
    * This is up to you. No matter if you are developing Dynamic Bayesian networks for prediction or model based planning methods such as mpc-planner, you can use this simulation framework. But if you do reinforcement learning, you may prefer to limit your use to some utility functions.
+
+### Questions on Building and Execution
+
+ * I have problems with building Lanelet2 and its dependencies. How to resolve these?
+   * Probably some dependencies are missing. Please refer to [Lanelet2 repository](https://github.com/fzi-forschungszentrum-informatik/Lanelet2) and check `README.md` and open & closed issues.
+  
+ * Simulation framework fails to find a package or a module. Why?
+   * Please ensure that you have built and sourced your workspace in the terminal you run the simulation environment. In case, refer search for keywords _ros catkin workspace source_ on the internet.
+
+ * Simulation environment fails to find Lanelet2 maps.
+   * Please ensure that INTERACTION dataset is located in your workspace below `src/` directory. If the problem persists, check if `interaction_dataset_dir` entry `src/p3iv/p3iv_core/src/p3iv_core/configurations/settings.py` matches the version of your dataset.
+
  * How can I set up this simulation framework in VS Code?
     * It's always a good idea to run some Python code in an IDE: adding breakpoints to unclear places helps to reveal the types and to understand the processing. You may add the lines below to your `launch.json` file.
         ```
@@ -211,8 +226,11 @@ You can find answers to frequently asked questions below.
             "--line-length",
             "120"
         ]        ```
+### Questions on Modules
+
+### Questions on Outputs
 * Is it possible to create videos from results?
-  * Yes, the animation figures are named during saving in such a way that, they can be used to create a video file. For this, ensure that you have installed ``ffmpeg` on your computer and then change to the outputs directory you want to create a video. Execute the command `ffmpeg -r 5 -i step_%03d.png -c:v libx264 -vf fps=25 -pix_fmt yuv420p out.mp4`.
+  * Yes, the animation figures are named during saving in such a way that, they can be used to create a video file. For this, ensure that you have installed `ffmpeg` on your computer and then change to the outputs directory you want to create a video. Execute the command `ffmpeg -r 5 -i step_%03d.png -c:v libx264 -vf fps=25 -pix_fmt yuv420p out.mp4`.
 
 ## Citation
 
