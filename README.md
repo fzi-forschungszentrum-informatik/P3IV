@@ -95,6 +95,8 @@ If you aim to use INTERACTION dataset, please ensure that it is in your workspac
 
 ## Usage
 
+### Execution
+
 The simulation framework can be executed as 
 ```
 cd p3iv/p3iv/scripts
@@ -108,6 +110,8 @@ If you have any problems and need help, you can execute
 python main.py --help
 ``` 
 for additional information. If this doesn't help, refer to [FAQ](##FAQ) below.
+
+### Visualization & Postprocessing
 
 If you want to display inspect the results of a simulation, you can either execute
 ```
