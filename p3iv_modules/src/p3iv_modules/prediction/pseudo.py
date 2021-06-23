@@ -104,8 +104,8 @@ class Predict(PredictInterface):
             if np.sum(pose[:2]) == 0:
                 # assert (i > 1)
                 displacement = pose_array[i - 1][:2] - pose_array[i - 2][:2]
-                speed = np.linalg.norm(displacement) / (dt / 1000)
-                arc_pos = c.xy2ld(pose_array[i - 1][:2])[0] + speed * dt / 1000
+                speed = np.linalg.norm(displacement) / (dt / 1000.0)
+                arc_pos = c.xy2ld(pose_array[i - 1][:2])[0] + speed * dt / 1000.0
                 try:
                     # if arc_pos is longer than centerline, IndexError will be raised
                     x, y = c.ld2xy([arc_pos, 0])
@@ -201,7 +201,7 @@ class Predict(PredictInterface):
                 speed_limit,
                 self._dt,
                 self._N,
-                self._dt * self._N * 1000,
+                self._dt * self._N * 1000.0,
             )
         ]
         hypotheses[0].probability.route = 1.0
