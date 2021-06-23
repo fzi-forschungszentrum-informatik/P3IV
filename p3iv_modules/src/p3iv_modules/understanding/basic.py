@@ -117,7 +117,7 @@ class Understand(SceneUnderstandingInterface):
                 continue
         assert (
             route_option,
-            "Lanelet matcher has performed poorly and route option could no be calculated",
+            "Lanelet matcher has performed poorly and route option could not be calculated",
         )
         self._route_memory = route_option
 
