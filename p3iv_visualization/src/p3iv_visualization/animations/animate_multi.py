@@ -1,4 +1,3 @@
-
 from .animator import Animator
 import os
 import sys

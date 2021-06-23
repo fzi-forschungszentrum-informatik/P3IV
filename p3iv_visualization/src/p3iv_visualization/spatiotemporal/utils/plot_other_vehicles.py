@@ -1,7 +1,6 @@
-
 import numpy as np
-from util_probability.distributions import UnivariateNormalDistributionSequence
-from util_probability.visualization.plot_truncated_gaussian_distribution import plot_distribution_confidence as p
+from p3iv_utils_probability.distributions import UnivariateNormalDistributionSequence
+from p3iv_utils_probability.visualization.plot_truncated_gaussian_distribution import plot_distribution_confidence as p
 
 
 class PlotOtherVehicles(object):

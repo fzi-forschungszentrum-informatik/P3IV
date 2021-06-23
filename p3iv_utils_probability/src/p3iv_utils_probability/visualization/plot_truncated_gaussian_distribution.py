@@ -1,7 +1,6 @@
-
 import numpy as np
-from util_probability.distributions import UnivariateNormalDistribution, BivariateNormalDistributionSequence
-from util_probability.distributions import UnivariateNormalDistributionSequence
+from p3iv_utils_probability.distributions import UnivariateNormalDistribution, BivariateNormalDistributionSequence
+from p3iv_utils_probability.distributions import UnivariateNormalDistributionSequence
 
 
 def plot_univariate_normal_distribution(ax, tr_g, color, dt, weight=1.0, sigma=3):
