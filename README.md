@@ -43,9 +43,9 @@ P3IV is targeted towards Linux and ROS. The installation steps below are describ
 
 ### Required Dependencies
 
-P3IV is designed to operate on top of Lanelet2 maps. Hence, the build procedure and dependencies of Lanelet2 apply to P3IV.
+P3IV is designed to operate on top of Lanelet2 maps. Hence, the build procedure and [dependencies of Lanelet2](https://github.com/fzi-forschungszentrum-informatik/Lanelet2/blob/master/README.md#dependencies) apply to P3IV.
 
-Other required dependencies are
+Further dependencies other than those for Lanelet2 are
  * `Pybind11`
  * Several python packages stored in `requirements.txt`
 
