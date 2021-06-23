@@ -203,6 +203,9 @@ You can find answers to frequently asked questions below.
  * Simulation environment fails to find Lanelet2 maps.
    * Please ensure that INTERACTION dataset is located in your workspace below `src/` directory. If the problem persists, check if `interaction_dataset_dir` entry `src/p3iv/p3iv_core/src/p3iv_core/configurations/settings.py` matches the version of your dataset.
 
+ * Should build in `Release` or in `Debug`?
+   * If you are developing and debugging, `Debug` build is advantageous.   
+
  * How can I set up this simulation framework in VS Code?
     * It's always a good idea to run some Python code in an IDE: adding breakpoints to unclear places helps to reveal the types and to understand the processing. You may add the lines below to your `launch.json` file.
         ```
