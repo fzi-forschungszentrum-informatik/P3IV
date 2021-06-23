@@ -96,7 +96,7 @@ class Understand(SceneUnderstandingInterface):
         # increase tolerance if no match is found
         if len(ego_v.current_lanelets) == 0:
             current_lanelets = []
-            for m in self.match2Lanelet(self._laneletmap, self._traffic_rules, e.state.pose, tolerance=1.0):
+            for m in self.match2Lanelet(self._laneletmap, self._traffic_rules, ego_v.state.pose, tolerance=1.0):
                 current_lanelets.append(m.lanelet)
             ego_v.current_lanelets = current_lanelets
 
