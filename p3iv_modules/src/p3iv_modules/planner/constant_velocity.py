@@ -1,4 +1,3 @@
-
 import numpy as np
 from p3iv_modules.interfaces.planning import PlannerInterface
 from p3iv_types.motion_plans import MotionPlan, MotionPlans
@@ -11,7 +10,7 @@ class Planner(PlannerInterface):
         self._id = ego_id
         self._width = ego_width
         self._length = ego_length
-        self.dt = configurations["temporal"]["dt"] / 1000
+        self.dt = configurations["temporal"]["dt"] / 1000.0
         self.n = configurations["temporal"]["N"]
         self.timestamp = 0
 

@@ -18,7 +18,7 @@ class AnimateMulti(object):
         self.egovehicle = ground_truth[configurations["vehicle_of_interest"]]
 
         self.n = configurations["temporal"]["N"]
-        self.dt = configurations["temporal"]["dt"] / 1000
+        self.dt = configurations["temporal"]["dt"] / 1000.0
         n_pin_past = configurations["temporal"]["N_pin_past"]
         n_pin_future = configurations["temporal"]["N_pin_future"]
         self.save_dir = configurations["save_dir"]
