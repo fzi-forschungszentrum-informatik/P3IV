@@ -90,7 +90,7 @@ cd ..
 source ../../devel/setup.bash  # or zsh
 catkin build
 ```
-If you aim to use INTERACTION dataset, please ensure that it is in your workspace below `src/` directory
+If you aim to use INTERACTION dataset, please ensure that it is in your workspace below `src/` directory. If you work from a new terminal, do not forget to source ROS and the both catkin workspaces.
 
 
 ## Usage
@@ -102,7 +102,6 @@ The simulation framework can be executed as
 cd p3iv/p3iv/scripts
 python main.py --run=DEU_Roundabout_OL_01
 ```
-
 This command executes the test case `DEU_Roundabout_OL_01` defined inside `p3iv/src/p3iv/configurations/test_cases.py`. You can add more test cases, depending on your need. 
 
 If you have any problems and need help, you can execute
