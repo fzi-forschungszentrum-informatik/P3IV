@@ -83,6 +83,9 @@ class Understand(SceneUnderstandingInterface):
             for m in self.match2Lanelet(self._laneletmap, self._traffic_rules, e.state.pose):
                 current_lanelets.append(m.lanelet)
 
+            if len(current_lanelets) == 0 and e.id != self._id:
+                continue
+
             # create instances of SceneObject
             s = SceneModel.create_object(e.id, e.color, e.length, e.width, e.state)
             s.current_lanelets = current_lanelets
@@ -93,7 +96,7 @@ class Understand(SceneUnderstandingInterface):
             else:
                 scene_objects.append(s)
 
-        # increase tolerance if no match is found
+        # increase tolerance of ego vehicle if no match is found
         if len(ego_v.current_lanelets) == 0:
             current_lanelets = []
             for m in self.match2Lanelet(self._laneletmap, self._traffic_rules, ego_v.state.pose, tolerance=1.0):
