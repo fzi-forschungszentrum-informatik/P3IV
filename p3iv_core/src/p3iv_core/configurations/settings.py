@@ -50,6 +50,7 @@ settings = {
         "astar_initialization": False,
     },
     "planning": {
+        "speed_desired": 11.0,
         "distance2static_obs": 1.0,  # m
         "v2v_safety_dist": 6.0,  # m
         "override_max_deceleration": True,
