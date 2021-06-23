@@ -75,7 +75,7 @@ class VehicleModules(object):
 
         except ImportError as e:
             print((str(traceback.format_exc())))
-            msg = "Is the understaning pkg '" + str(understanding_type) + "' in your workspace?"
+            msg = "Is the understaning pkg 'understanding_" + str(understanding_type) + "' in your workspace?"
             msg += "\nIs your ws is built & sourced?"
             print((colored(msg, "red")))
             self.understanding = EmptyModule("Understand")
@@ -106,7 +106,7 @@ class VehicleModules(object):
 
         except ImportError as e:
             print((str(traceback.format_exc())))
-            msg = "Is the prediction pkg '" + str(prediction_type) + "' in your workspace?"
+            msg = "Is the prediction pkg 'prediction_" + str(prediction_type) + "' in your workspace?"
             msg += "\nIs your ws is built & sourced?"
             print((colored(msg, "red")))
             self.prediction = EmptyModule("Prediction")
@@ -154,7 +154,7 @@ class VehicleModules(object):
 
         except ImportError as e:
             print((str(traceback.format_exc())))
-            msg = "Is the planner pkg '" + str(planner_type) + "' in your workspace?"
+            msg = "Is the planner pkg 'planner_" + str(planner_type) + "' in your workspace?"
             msg += "\nIs your ws is built & sourced?"
             print((colored(msg, "red")))
             self.planner = EmptyModule("Planner")
