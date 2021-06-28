@@ -87,7 +87,7 @@ class DistributionSequence(object):
 
     @property
     def components(self):
-        self._update_components()
+        self._update_components()  # todo: do lazy eval?
         return self._components
 
     @components.setter
