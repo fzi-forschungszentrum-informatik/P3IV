@@ -1,8 +1,7 @@
-
 import unittest
 import numpy as np
 from p3iv_utils.coordinate_transformation import CoordinateTransform
-from util_probability.distributions import BivariateNormalDistributionSequence
+from p3iv_utils_probability.distributions import BivariateNormalDistributionSequence
 from p3iv_visualization.motion.plot_array2d import PlotArray2D
 from p3iv_visualization.motion.plot_motion_components import PlotMotionComponents
 import matplotlib.pyplot as plt

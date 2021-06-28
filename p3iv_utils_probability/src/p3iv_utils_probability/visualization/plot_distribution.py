@@ -1,11 +1,13 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 import matplotlib.transforms as transforms
 from matplotlib import rcParams
 from matplotlib.colors import LinearSegmentedColormap
-from util_probability.distributions import BivariateNormalDistribution, UnivariateNormalDistributionSequence  # , \
+from p3iv_utils_probability.distributions import (
+    BivariateNormalDistribution,
+    UnivariateNormalDistributionSequence,
+)  # , \
 
 # TruncatedUnivariateNormalSequenceDistribution, UnivariateNormalSequenceMixtureDistribution, \
 # TruncatedUnivariateNormalSequenceMixtureDistribution
