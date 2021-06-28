@@ -1,30 +1,68 @@
-.. P3IV Simulator documentation master file, created by
-   sphinx-quickstart on Wed Jun 16 20:29:49 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+====
+P3IV
+====
 
-Welcome to P3IV Simulator's documentation!
-==========================================
+Probabilistic Prediction and Planning for Intelligent Vehicles (P3IV) Simulator is a simulation framework for motion prediction and planning of autonomous vehicles.
+
+Focus:
+  - Algorithm development for prediction and planning
+  - Consideration of uncertainties and limited visibility
+  - Multi-agent interactions
+  - Provides utility libraries for prediction and planning
+  - Allows both open-loop and closed-loop simulation
+
+.. image:: graphics/p3iv.gif
+  :width: 600
+  :align: center
+  :alt: Alternative text
+
+Key features:
+  - Catkin package structure: seamless integration into ROS
+  - Implemented in Python and C++; wrapped with PyBind
+  - Build on the HD map library Lanelet2
+  - Bindings to simulate with real-world drone datasets
+  - BSD 3-Clause license
+
 
 .. toctree::
+   :caption: Overview
+   :hidden:
+   :maxdepth: 3
+
+   sections/overview
+
+.. toctree::
+   :caption: Installation
+   :hidden:
    :maxdepth: 2
-   :caption: Contents:
+
+   sections/installation
+
+.. toctree::
+   :caption: Usage
+   :hidden:
+   :maxdepth: 2
+
+   sections/usage
+
+.. toctree::
+   :caption: Utility Functions
+   :maxdepth: 1
+   :hidden:
+
+   sections/utility
+
+.. toctree::
+   :caption: FAQ
+   :maxdepth: 2
+   :hidden:
+
+   sections/faq
+
+.. toctree::
+   :caption: Misc
+   :maxdepth: 2
+   :hidden:
 
 
-p3iv
-===================
-.. automodule:: p3iv.scripts.main
-   :members:
-
-p3iv modules
-=====================
-.. automodule:: p3iv_modules
-   :members: modules
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   sections/misc
