@@ -51,7 +51,7 @@ class Visualizer(object):
             n[i, :] = n[i, :] / np.linalg.norm(vec[i, :])
         self.ax_cartesian.set_aspect("equal")
         # self.ax_frenet.set_aspect('equal')
-        self.ax_cartesian.quiver(origin[0], origin[1], n[:, 0], n[:, 1], color="red", lw=0.25, width=0.0025, scale=8)
+        self.ax_cartesian.quiver(origin, n[:, 0], n[:, 1], color="red", lw=0.25, width=0.0025, scale=8)
 
         for i in range(n.shape[0]):
             self.plot_points_on_normal(origin, n[i, :])
