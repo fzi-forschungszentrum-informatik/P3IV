@@ -52,6 +52,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libcgal-dev \
     pybind11-dev \
+    python3-pip \
     libgoogle-glog-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -90,3 +91,6 @@ RUN git -C /home/developer/workspace/src/mrt_cmake_modules pull
 
 # build
 RUN /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && catkin build --no-status"
+
+# run tests
+RUN cd src/p3iv && pip3 install -r requirements.txt && catkin run_tests
