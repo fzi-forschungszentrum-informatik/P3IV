@@ -18,8 +18,8 @@ class TestUnivariateNormalDistribution(unittest.TestCase):
 
     def test_pdf_and_cdf_float(self):
         val = 2.0
-        self.assertAlmostEqual(self.distribution.pdf(val), self.dist2compare.pdf(val), places=4)
-        self.assertAlmostEqual(self.distribution.cdf(val), self.dist2compare.cdf(val), places=4)
+        self.assertAlmostEqual(self.distribution.pdf(val)[0], self.dist2compare.pdf(val), places=4)
+        self.assertAlmostEqual(self.distribution.cdf(val)[0], self.dist2compare.cdf(val), places=4)
 
     def test_pdf_and_cdf_array(self):
         vals = np.array([-1, -0.5, 0, 1, 2, 3, 4, 5])

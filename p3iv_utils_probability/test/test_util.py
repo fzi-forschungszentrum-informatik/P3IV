@@ -42,8 +42,8 @@ class TestBasics(unittest.TestCase):
         r = test.range(2)
         self.assertEqual(r.shape, (2,))
         self.assertAlmostEqual(np.sum(r - np.array([-9.0, 11.0])), 0.0)
-        self.assertAlmostEqual(test.pdf(2), 0.161434225872)
-        self.assertAlmostEqual(test.cdf(1), 0.5)
+        self.assertAlmostEqual(test.pdf(2)[0], 0.161434225872)
+        self.assertAlmostEqual(test.cdf(1)[0], 0.5)
 
     def test_truncated_univariate_float(self):
         m = 1.0
