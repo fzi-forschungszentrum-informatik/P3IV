@@ -50,6 +50,7 @@ if __name__ == "__main__":
         try:
             configurations = load_configurations(str(test_case))
         except:
+            print((str(traceback.format_exc())))
             raise argparse.ArgumentTypeError(
                 "Test-case is invalid!\nFor valid test cases see 'p3iv/src/p3iv/configurations/test_cases.yaml'"
             )
@@ -64,6 +65,7 @@ if __name__ == "__main__":
             _v_id = configurations["vehicle_of_interest"]
             configurations["meta_state"][_v_id] = (configurations["meta_state"][_v_id][0], "default")
         except:
+            print((str(traceback.format_exc())))
             raise argparse.ArgumentTypeError(
                 "Test-case is invalid!\nFor valid test cases see 'p3iv/src/p3iv/configurations/test_cases.py'"
             )
