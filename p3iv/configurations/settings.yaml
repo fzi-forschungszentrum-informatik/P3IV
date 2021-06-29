@@ -4,8 +4,6 @@
 "temporal":
   "horizon": 6 # s
   "dt": 100 # ms (step-width)
-  "N_pin_past": 4 # including current; so there are 3 points in the past!
-  "N_pin_future": 3
   # N is calculated automatically; int(horizon / dt)
 
 "localization":
@@ -46,7 +44,8 @@
   "astar_initialization": False
 
 "planning":
-  "speed_desired": 11.0
+  "computation_time": 400 # ms
+  "speed_desired": 11.0 # m/s
   "distance2static_obs": 1.0 # m
   "v2v_safety_dist": 6.0 # m
   "override_max_deceleration": True
