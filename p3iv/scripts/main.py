@@ -62,7 +62,7 @@ if __name__ == "__main__":
             # overwrite 'simulation type' and 'planner type' in prediction
             configurations["simulation_type"] = "open-loop"
             _v_id = configurations["vehicle_of_interest"]
-            configurations["planning_meta"][_v_id] = (configurations["planning_meta"][_v_id][0], "default")
+            configurations["meta_state"][_v_id] = (configurations["meta_state"][_v_id][0], "default")
         except:
             raise argparse.ArgumentTypeError(
                 "Test-case is invalid!\nFor valid test cases see 'p3iv/src/p3iv/configurations/test_cases.py'"

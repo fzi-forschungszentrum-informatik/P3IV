@@ -180,10 +180,10 @@ class EmptyModule(object):
 
 
 def get_planner_type(configurations, vehicle):
-    if vehicle.id in list(configurations["planning_meta"].keys()):
-        if configurations["planning_meta"][vehicle.id][1] == "default":
+    if vehicle.id in list(configurations["meta_state"].keys()):
+        if configurations["meta_state"][vehicle.id][1] == "default":
             return configurations["planning"]["type"]
         else:
-            return configurations["planning_meta"][vehicle.id][1]
+            return configurations["meta_state"][vehicle.id][1]
     else:
         return configurations["planning"]["type"]
