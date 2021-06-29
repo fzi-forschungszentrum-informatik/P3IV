@@ -1,4 +1,3 @@
-
 import os
 from .animator import Animator
 import time
@@ -19,14 +18,14 @@ class AnimateSingle(object):
 
         self.n = configurations["temporal"]["N"]
         self.dt = configurations["temporal"]["dt"] / 1000
-        n_pin_past = configurations["temporal"]["N_pin_past"]
-        n_pin_future = configurations["temporal"]["N_pin_future"]
+        n_pin_past = 1  # todo: check it pins only the current value
+        n_pin_future = int(configurations["planning"]["computation_time"] / configurations["temporal"]["dt"])
         self.save_dir = configurations["save_dir"]
 
         self.timestamp2show = timestamp2show
         map_filename = configurations["map"] + ".osm"
         lanelet_map_file = os.path.abspath(
-            os.path.join(configurations["save_dir"], configurations["interaction_dataset_dir"], "maps", map_filename)
+            os.path.join(configurations["save_dir"], configurations["dataset"], "maps", map_filename)
         )
 
         self.animator = Animator(
