@@ -1,7 +1,7 @@
 ---
 "EvalCh6.4_Planner_Model_Parameter_Tree_Search":
-  "source": "interaction_sim"
   "simulation_type": "open-loop"
+  "source": "interaction_sim"
   "map": "DR_DEU_Roundabout_OF"
   "track_file_number": 0
   "timestamp_begin": 146000
@@ -10,9 +10,9 @@
   "meta_state":
     61: ["30022", "constant_velocity"]
 
-"DEU_Merging_CL_01":
-  "source": "interaction_sim"
+"CL_DEU_Merging_01":
   "simulation_type": "closed-loop"
+  "source": "interaction_sim"
   "map": "DR_DEU_Merging_MT"
   "track_file_number": 0
   "timestamp_begin": 4500
@@ -26,9 +26,9 @@
     2: ["30008", "constant_velocity"]
     3: ["30008", "constant_velocity"]
 
-"DEU_Merging_OL_01":
-  "source": "interaction_sim"
+"OL_DEU_Merging_01":
   "simulation_type": "open-loop"
+  "source": "interaction_sim"
   "map": "DR_DEU_Merging_MT"
   "track_file_number": 0
   "timestamp_begin": 4500
@@ -37,9 +37,9 @@
   "meta_state":
     1: ["30008", "mpcc"]
 
-"DEU_Merging_OL_02":
-  "source": "interaction_sim"
+"OL_DEU_Merging_02":
   "simulation_type": "open-loop"
+  "source": "interaction_sim"
   "map": "DR_DEU_Merging_MT"
   "track_file_number": 0
   "timestamp_begin": 6400
@@ -48,9 +48,9 @@
   "meta_state":
     1: ["30008", "default"]
 
-"DEU_Roundabout_OL_01":
-  "source": "interaction_sim"
+"OL_DEU_Roundabout_01":
   "simulation_type": "semi-open-loop"
+  "source": "interaction_sim"
   "map": "DR_DEU_Roundabout_OF"
   "track_file_number": 0
   "timestamp_begin": 12400
@@ -60,8 +60,8 @@
     14: ["30022", "default"]
 
 "MB":
-  "source": "interaction_sim"
   "simulation_type": "open-loop"
+  "source": "interaction_sim"
   "map": "DR_DEU_Roundabout_OF"
   "track_file_number": 0
   "timestamp_begin": 143800
@@ -70,9 +70,9 @@
   "meta_state":
     61: ["30022", "idm"]
 
-"DEU_Roundabout_OL_02":
-  "source": "interaction_sim"
+"OL_DEU_Roundabout_02":
   "simulation_type": "open-loop"
+  "source": "interaction_sim"
   "map": "DR_DEU_Roundabout_OF"
   "track_file_number": 0
   "timestamp_begin": 3200
@@ -81,9 +81,9 @@
   "meta_state":
     12: ["30022", "mpcc"]
 
-"USA_Intersection_EP0_01":
-  "source": "interaction_sim"
+"OL_USA_Intersection_EP0_01":
   "simulation_type": "open-loop"
+  "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
   "track_file_number": 0
   "timestamp_begin": 8200
@@ -92,9 +92,9 @@
   "meta_state":
     5: ["30013", "default"]
 
-"USA_Intersection_EP1_01":
-  "source": "interaction_sim"
+"OL_USA_Intersection_EP1_01":
   "simulation_type": "open-loop"
+  "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP1"
   "track_file_number": 0
   "timestamp_begin": 3000
@@ -103,9 +103,9 @@
   "meta_state":
     9: ["30044", "mpcc"]
 
-"USA_Intersection_EP0_02":
-  "source": "interaction_sim"
+"OL_USA_Intersection_EP0_02":
   "simulation_type": "open-loop"
+  "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
   "track_file_number": 0
   "timestamp_begin": 31500
@@ -114,9 +114,9 @@
   "meta_state":
     13: ["30047", "default"]
 
-"USA_Intersection_EP0_03":
-  "source": "interaction_sim"
+"OL_USA_Intersection_EP0_03":
   "simulation_type": "open-loop"
+  "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
   "track_file_number": 0
   "timestamp_begin": 55000
@@ -125,9 +125,9 @@
   "meta_state":
     21: ["30029", "default"]
 
-"USA_Intersection_EP0_04":
-  "source": "interaction_sim"
+"OL_USA_Intersection_EP0_04":
   "simulation_type": "open-loop"
+  "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
   "track_file_number": 0
   "timestamp_begin": 87500
@@ -137,32 +137,32 @@
   "meta_state":
     28: ["30012", "default"]
 
-"USA_Intersection_EP0_05":
+"OL_USA_Intersection_EP0_05":
+  "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
   "track_file_number": 0
   "timestamp_begin": 182000
   "timestamp_end": 203000
   "vehicle_of_interest": 49
-  "simulation_type": "open-loop"
   "meta_state":
     49: ["30055", "default"]
 
 # Use with increased matching-tolerance; see 'match2Lanelet()' args.
-"USA_Intersection_EP0_06":
+"OL_USA_Intersection_EP0_06":
+  "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
   "track_file_number": 0
   "timestamp_begin": 176100
   "timestamp_end": 196000
   "vehicle_of_interest": 48
-  "simulation_type": "open-loop"
   "meta_state":
     48: ["30047", "default"]
 
-"USA_Roundabout_FT_01":
-  "source": "interaction_sim"
+"OL_USA_Roundabout_FT_01":
   "simulation_type": "open-loop"
+  "source": "interaction_sim"
   "map": "DR_USA_Roundabout_FT"
   "track_file_number": 0
   "timestamp_begin": 25500
@@ -171,9 +171,9 @@
   "meta_state":
     17: ["30007", "default"]
 
-"USA_Roundabout_FT_02":
-  "source": "interaction_sim"
+"OL_USA_Roundabout_FT_02":
   "simulation_type": "open-loop"
+  "source": "interaction_sim"
   "map": "DR_USA_Roundabout_FT"
   "track_file_number": 0
   "timestamp_begin": 28500
@@ -182,9 +182,9 @@
   "meta_state":
     19: ["30017", "default"]
 
-"USA_Intersection_EP0_80":
-  "source": "interaction_sim"
+"CL_USA_Intersection_EP0_80":
   "simulation_type": "closed-loop"
+  "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
   "track_file_number": 0
   "timestamp_begin": 114600
@@ -193,9 +193,9 @@
   "meta_state":
     32: ["30055", "default"]
 
-"USA_Intersection_EP0_81":
-  "source": "interaction_sim"
+"CL_USA_Intersection_EP0_81":
   "simulation_type": "closed-loop"
+  "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
   "track_file_number": 0
   "timestamp_begin": 114600
@@ -204,9 +204,9 @@
   "meta_state":
     32: ["30055", "default"]
 
-"DEU_Roundabout_OF_82":
-  "source": "interaction_sim"
+"CL_DEU_Roundabout_OF_82":
   "simulation_type": "closed-loop"
+  "source": "interaction_sim"
   "map": "DR_DEU_Roundabout_OF"
   "track_file_number": 0
   "timestamp_begin": 66000
@@ -216,9 +216,9 @@
     30: ["30022", "default"]
     29: ["30028", "constant_velocity"]
 
-"DEU_Roundabout_OF_83":
-  "source": "interaction_sim"
+"CL_DEU_Roundabout_OF_83":
   "simulation_type": "closed-loop"
+  "source": "interaction_sim"
   "map": "DR_DEU_Roundabout_OF"
   "track_file_number": 0
   "timestamp_begin": 67000
