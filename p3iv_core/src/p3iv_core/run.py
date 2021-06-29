@@ -17,7 +17,6 @@ from p3iv_utils.ofstream import create_output_dir, create_output_path, save_sett
 from p3iv_utils.lanelet_map_reader import lanelet_map_reader
 from p3iv_types.vehicle import Vehicle
 from p3iv_modules.execute import drive, predict
-from p3iv_core.configurations.test_cases import test_cases
 from p3iv_core.configurations.utils import load_configurations
 
 

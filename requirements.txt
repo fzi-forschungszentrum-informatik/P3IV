@@ -5,3 +5,4 @@ pyfiglet
 termcolor
 shapely
 filterpy
+pyyaml

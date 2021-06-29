@@ -6,7 +6,7 @@ from p3iv_utils_probability.distributions.base.probability_distribution import P
 def type_check(obj, row, col):
     if isinstance(obj, list):
         obj = np.asarray(obj)
-    elif isinstance(obj, (int, float)):
+    elif isinstance(obj, (int, np.integer, float, np.floating)):
         obj = np.asarray([obj])
     assert isinstance(obj, np.ndarray)
 

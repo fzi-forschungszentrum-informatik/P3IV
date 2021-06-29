@@ -11,7 +11,7 @@ class DistributionSequence(object):
 
         self._n = 0
 
-        if self.dtype.dim is 1:
+        if self.dtype.dim == 1:
             self._mean = np.array([])
             self._covariance = np.array([])
         else:
@@ -47,7 +47,7 @@ class DistributionSequence(object):
         self._n = n
         self._components = np.empty(self._n, dtype=self.dtype)
 
-        if self.dtype.dim is 1:
+        if self.dtype.dim == 1:
             self._mean = np.zeros(n)
             self._covariance = np.zeros(n)
         else:
@@ -64,7 +64,7 @@ class DistributionSequence(object):
     @mean.setter
     def mean(self, mean):
         assert self._n == len(mean)
-        if self.dtype.dim is 1:
+        if self.dtype.dim == 1:
             assert len(mean.shape) == 1
             self._mean = mean
         else:
@@ -78,7 +78,7 @@ class DistributionSequence(object):
     @covariance.setter
     def covariance(self, covariance):
         assert self._n == len(covariance)
-        if self.dtype.dim is 1:
+        if self.dtype.dim == 1:
             assert len(covariance.shape) == 1
             self._covariance = covariance
         else:
@@ -87,14 +87,14 @@ class DistributionSequence(object):
 
     @property
     def components(self):
-        self._update_components()
+        self._update_components()  # todo: do lazy eval?
         return self._components
 
     @components.setter
     def components(self, components):
         assert self._n == len(components)
         self._components = components
-        if self.dtype.dim is 1:
+        if self.dtype.dim == 1:
             self._mean = np.empty([self._n])
             self._covariance = np.empty([self._n])
             for i in range(len(components)):
@@ -117,7 +117,7 @@ class DistributionSequence(object):
         assert isinstance(other, DistributionSequence)
         assert self.dtype.dim == other.dtype.dim
         self._n = len(self) + len(other)
-        if self.dtype.dim is 1:
+        if self.dtype.dim == 1:
             self._mean = np.append(self._mean, other._mean)
             self._covariance = np.append(self._covariance, other._covariance)
             # are updated by the components.getter!
@@ -132,7 +132,7 @@ class DistributionSequence(object):
             self._components[i] = self.dtype(mean=self._mean[i], covariance=self._covariance[i])
 
     def _get_bound(self, operation, sigma):
-        if self.dtype.dim is 1:
+        if self.dtype.dim == 1:
             m_dim_cov = self._mean
         else:
             m_dim_cov = np.expand_dims(self._mean, axis=1)

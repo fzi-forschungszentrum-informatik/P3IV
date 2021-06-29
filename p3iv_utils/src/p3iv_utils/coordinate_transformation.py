@@ -99,7 +99,7 @@ class CoordinateTransform(object):
         Typecasting for Lanelet2.
         """
         cartesian = lanelet2.core.BasicPoint2d()
-        cartesian.x, cartesian.y = input_coordinates
+        cartesian.x, cartesian.y = np.asarray(input_coordinates, dtype=np.float64)
         return cartesian
 
     @staticmethod
@@ -108,5 +108,5 @@ class CoordinateTransform(object):
         Typecasting for Lanelet2.
         """
         frenet = lanelet2.geometry.ArcCoordinates()
-        frenet.length, frenet.distance = input_coordinates
+        frenet.length, frenet.distance = np.asarray(input_coordinates, dtype=np.float64)
         return frenet

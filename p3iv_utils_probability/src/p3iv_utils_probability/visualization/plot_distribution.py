@@ -1,11 +1,13 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 import matplotlib.transforms as transforms
 from matplotlib import rcParams
 from matplotlib.colors import LinearSegmentedColormap
-from util_probability.distributions import BivariateNormalDistribution, UnivariateNormalDistributionSequence  # , \
+from p3iv_utils_probability.distributions import (
+    BivariateNormalDistribution,
+    UnivariateNormalDistributionSequence,
+)  # , \
 
 # TruncatedUnivariateNormalSequenceDistribution, UnivariateNormalSequenceMixtureDistribution, \
 # TruncatedUnivariateNormalSequenceMixtureDistribution
@@ -143,16 +145,16 @@ class PlotProbabilityDistribution(object):
         Y += distribution.mean  # shift Y by the mean to get the true coordinates
 
         # map X and Y coordinates to indices of img
-        Y = Y.astype(np.float)
+        Y = Y.astype(float)
         miny = np.min(Y)
         maxy = np.max(Y)
-        y_idx = np.round((Y - miny) / (maxy - miny) * (ny - 1)).astype(np.int)
+        y_idx = np.round((Y - miny) / (maxy - miny) * (ny - 1)).astype(int)
 
-        X = X.astype(np.float)
+        X = X.astype(float)
         minx = np.min(X)
         maxx = np.max(X)
-        nx = np.float(len(distribution))
-        x_idx = np.round((X - minx) / (maxx - minx) * (nx - 1)).astype(np.int)
+        nx = float(len(distribution))
+        x_idx = np.round((X - minx) / (maxx - minx) * (nx - 1)).astype(int)
 
         # convert X, Y, Z to one array for imshow
         img = np.zeros((ny, len(distribution)))
