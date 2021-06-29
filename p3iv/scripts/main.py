@@ -91,16 +91,14 @@ if __name__ == "__main__":
         "--run",
         action="store",
         type=SimulationTestCase,
-        help="Run simulations for the config-file. \
-                             \nUsage: --run=<test_case>",
+        help="Run simulations for the config-file.\nUsage: --run=<test_case>",
     )
     parser.add_argument(
         "-p",
         "--predict",
         action="store",
         type=PredictionCase,
-        help="Run prediction for the config-file. \
-                             \nUsage: --predict=<test_case>",
+        help="Run prediction for the config-file.\nUsage: --predict=<test_case>",
     )
     parser.add_argument(
         "-ss",
@@ -108,9 +106,9 @@ if __name__ == "__main__":
         action="store",
         metavar="",
         type=TimestampKey,
-        help="Show single-timestamp results of the simulation-run.\
-                            Must be provided together with timestamp value. \
-                            Usage: '--show-single=<integer>",
+        help="Show single-timestamp results of the simulation-run."
+        + "Must be provided together with timestamp value.\n"
+        + "Usage: '--show-single=<integer>",
     )
     parser.add_argument(
         "-sm", "--show-multi", action="store_true", help="Show all-timestamp results of the simulation-run"
@@ -120,9 +118,8 @@ if __name__ == "__main__":
         "--input",
         action="store",
         type=SimulationResultsDir,
-        help="Show results from file. If not provided, \
-                        the latest results from the output directory will be displayed. "
-        "Usage: --input=<path_to_file>",
+        help="Show results from file. If not provided, the latest results from the output directory will be displayed.\n"
+        + "Usage: --input=<path_to_file>",
     )
     args = parser.parse_args()
 
