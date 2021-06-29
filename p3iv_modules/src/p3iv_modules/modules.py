@@ -98,7 +98,7 @@ class VehicleModules(object):
                 configurations["temporal"]["N"],
                 configurations["map"],
                 configurations["prediction"],
-                configurations["interaction_dataset_dir"],
+                configurations["dataset"],
                 laneletmap,
                 configurations["track_file_number"],
             )
@@ -113,9 +113,10 @@ class VehicleModules(object):
 
         # set decision
         try:
+            decision_type = configurations["decision_making"]["type"]
             try:
-                # search in p3iv_modules as fallback
-                module_path = "p3iv_modules.decision.decision_making"
+                # search in internal modules (p3iv_modules) first
+                module_path = "p3iv_modules.decision." + decision_type
                 Decide = getattr(importlib.import_module(module_path), "Decide")
             except ImportError:
                 # search externally
@@ -180,10 +181,10 @@ class EmptyModule(object):
 
 
 def get_planner_type(configurations, vehicle):
-    if vehicle.id in list(configurations["planning_meta"].keys()):
-        if configurations["planning_meta"][vehicle.id][1] == "default":
+    if vehicle.id in list(configurations["meta_state"].keys()):
+        if configurations["meta_state"][vehicle.id][1] == "default":
             return configurations["planning"]["type"]
         else:
-            return configurations["planning_meta"][vehicle.id][1]
+            return configurations["meta_state"][vehicle.id][1]
     else:
         return configurations["planning"]["type"]

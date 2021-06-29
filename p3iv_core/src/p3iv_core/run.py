@@ -32,7 +32,7 @@ def run(configurations, f_execute=drive):
     pprint(configurations)
 
     # Load lanelet2 map
-    maps_dir = os.path.join(configurations["interaction_dataset_dir"], "maps")
+    maps_dir = os.path.join(configurations["dataset"], "maps")
     laneletmap = lanelet_map_reader(configurations["map"], maps_dir=maps_dir)
 
     # Get ground-truth object data
@@ -41,7 +41,7 @@ def run(configurations, f_execute=drive):
 
         bindings = InteractionDatasetBindings(
             configurations["map"],
-            configurations["interaction_dataset_dir"],
+            configurations["dataset"],
             configurations["track_file_number"],
             configurations["temporal"]["dt"],
         )
