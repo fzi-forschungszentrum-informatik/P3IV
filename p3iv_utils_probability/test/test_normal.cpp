@@ -24,7 +24,9 @@ TEST(NormalDistribution, parameterizedConstructorMeanCovariance) {
     // create a 3x1 mean value and 3x3 cov-matrix
 
     Eigen::Matrix<double, 3, 1> mean;
+    mean << 1.0, 2.0, 3.0;
     Eigen::Matrix<double, 3, 3> cov;
+    cov << 1.0, 2.0, 3.0, 1.0, 2.0, 3.0, 1.0, 2.0, 3.0;
 
     NormalDistribution<double, 3> normalDistribution(mean, cov);
     std::cout << normalDistribution.covariance() << std::endl;
