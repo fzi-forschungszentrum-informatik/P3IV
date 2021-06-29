@@ -113,9 +113,10 @@ class VehicleModules(object):
 
         # set decision
         try:
+            decision_type = configurations["decision_making"]["type"]
             try:
-                # search in p3iv_modules as fallback
-                module_path = "p3iv_modules.decision.decision_making"
+                # search in internal modules (p3iv_modules) first
+                module_path = "p3iv_modules.decision." + decision_type
                 Decide = getattr(importlib.import_module(module_path), "Decide")
             except ImportError:
                 # search externally

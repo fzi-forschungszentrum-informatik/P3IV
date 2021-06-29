@@ -40,8 +40,8 @@
   "type": "pseudo"
 
 "decision_making":
-  "pkg_name": None
   "astar_initialization": False
+  "type": "basic"
 
 "planning":
   "computation_time": 400 # ms
