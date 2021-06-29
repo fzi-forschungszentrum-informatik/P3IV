@@ -4,9 +4,9 @@
 The simulation framework can be executed as
 ```shell
 cd p3iv/p3iv/scripts
-python main.py --run=DEU_Roundabout_OL_01
+python main.py --run=OL_DEU_Roundabout_01
 ```
-This command executes the test case `DEU_Roundabout_OL_01` defined inside `p3iv/src/p3iv/configurations/test_cases.py`. After each simulation run, the outputs are stored inside `p3iv/p3iv` with their directory names reflecting the start time of the simulation run.
+This command executes the test case `OL_DEU_Roundabout_OL_01` defined inside `p3iv/src/p3iv/configurations/test_cases.py`. After each simulation run, the outputs are stored inside `p3iv/p3iv` with their directory names reflecting the start time of the simulation run.
 
 If you have any problems and need help, you can execute
 ```shell
@@ -18,13 +18,13 @@ for additional information. If this doesn't help, please refer to [FAQ](##FAQ).
 
 If you want to display inspect the results of a simulation, you can either execute
 ```shell
-python main.py --show-single=<TIMESTAMP_VALUE>
+python main.py --show-single=<TIMESTAMP_INTEGER>
 ```
 or
 ```shell
 python main.py --show-multi
 ```
-These commands will start animations on the outcomes of planned trajectories. The first command will animate the planning results for a single timestamp ``<TIMESTAMP_VALUE>`` by iterating over individual timesteps, whereas the latter will iterate over all the timestamps at which planning is performed and will animate these.
+These commands will start animations on the outcomes of planned trajectories. The first command will animate the planning results for a single timestamp ``<TIMESTAMP_INTEGER>`` by iterating over individual timesteps, whereas the latter will iterate over all the timestamps at which planning is performed and will animate these.
 
 ## Configurations
 
@@ -32,11 +32,67 @@ In P3IV there two types of configurations that a user can modify:
 - test cases
 - simulation settings
 
-Test cases are located inside `p3iv/p3iv_core/src/p3iv_core/configurations/test_cases.py`. This file contains a dictionary with key representing names that can be used an argument for the main script, e.g. `python main.py --run=<TEST_CASE_KEY>`. Every test case specifies the begin and end timestamps of the simulation, the ID of the ego (or host) vehicle. With the key `planning_meta`, it specifies as a dictionary with keys representing the IDs of the vehicle where the vehicle is heading to and with values both the lanelet ID where that heading to and the type of planner the vehicle with that ID is heading to. All vehicle IDs defined in `planning_meta` do closed-loop simulation. In other words, they react to the changes in the simulation environment.
+Both of these files written in yaml format and are located inside `p3iv/p3iv/configurations/`.
 
-The simulation settings are located inside `p3iv/p3iv_core/src/p3iv_core/configurations/settings.py`. This files defines parameters such as planning horizon, location of a drone dataset, levels of uncertainty. Therefore, whereas the former one, `test_cases.py` describe the test scene, this describes the individual parameters of the test scenario.
+The ``test_cases.yaml`` file contains test case entries that can be used as an argument for the main script, e.g. `python main.py --run=<TEST_CASE_NAME>`. Every test case entry has the following structure:
+```yaml
+<TEST_CASE_NAME>:
+  "simulation_type": ("open-loop" / "closed-loop")
+  "source": ("interaction_sim" / "internal_simulation")
+  "map": <LANELET_MAP_FILE_NAME>
+  "track_file_number": <TRACK_FILE_INTEGER>
+  "timestamp_begin": <TIMESTAMP_INTEGER>
+  "timestamp_end": <TIMESTAMP_INTEGER>
+  "vehicle_of_interest": <VEHICLE_ID_INTEGER>
+  "meta_state":
+    <VEHICLE_ID_INTEGER>: [<DESTINATION_LANELET_ID_INTEGER>, <PLANNER_PKG_NAME>]
+```
+The test cases specify how p3iv should run the current simulation. It starts with `"simulation_type"` key, which specifies if the simulation is an "open-loop" or "closed-loop" simulation. An open-loop simulation discards planned actions in a single timestamp and reads motion from a dataset. In contrast, a closed-loop simulation only reads initial data and then applies the planned actions by eventually overwriting the ground truth. The key `"source"` specifies whether to read data from a dataset or to perform an internal simulation. The key `"map"` defines the Lanelet2 map file name. Drone datasets typically contain multiple recordings per map. If simulation data is read from a dataset, the entry `"track_file_number"` defines which track record for the defined map should be used. The timestamp entries `"timestamp_begin"` and `"timestamp_end"` specify for which timestamps intervals the simulation shall be run. The entry `"vehicle_of_interest"` specifies the vehicle ID that is the _ego_ (or the _host_) vehicle. The whole processing is done from the perspective of this vehicle. The entry `"meta_state"` defines to which lanelet ID a vehicle is heading and what type of planner that vehicle is using. The keys are the vehicle IDs and the values are a list of integer and a planner package name. All vehicle IDs defined in `meta_state` do closed-loop simulation. In other words, they react to the changes in the simulation environment.
+
+.. note::
+   Whereas, the numbers specified with ``"timestamp_begin"`` and ``"timestamp_end"`` are relevant for reading from drone datasets, they are irrelevant for internal simulation, as this is independent of any dataset. An internal simulation only considers the duration between begin and end.
+
+.. warning::
+   Vehicle defined as ``"vehicle_of_interest"`` must have an entry in ``"meta_state"``, i.e. the vehicle for which planning is done must have a valid destination lanelet ID and a planner type.
+
+Simulation settings in ``settings.yaml`` define individual parameters of the modules that have a framework-wide impact, such as uncertainty levels during perception,or the path of data, such as drone dataset paths.
+```yaml
+"dataset": "INTERACTION-Dataset-DR-v1_0"
+
+"temporal":
+  "horizon": 6       # s
+  "dt": 100          # ms (step-width)
+  # n, number of timesteps is calculated automatically; int(horizon / dt)
+
+"localization":
+  (...)
+
+"perception":
+  (...)
+
+"understanding":
+  (...)
+  "type": "basic"
+
+"prediction":
+  (...)
+  "type": "pseudo"
+
+"decision_making":
+  (...)
+  "type": "basic"
+
+
+"planning":
+  (...)
+  "type": "constant_velocity"
+
+```
+The first entry ``"dataset"`` defines the name of the dataset, if a dataset is used as source. The entry ``"temporal"`` defines the system-wide temporal parameters such as prediction & planning horizon, sampling interval. After these keys, module settings are listed. The last entry in every module setting is the key ``"type"`` and define the catkin package to import frome. Other entries present in the current ``settings.yaml`` define the default parameters on motion limits, uncertainties etc.
 
 Independent of the defined configurations in these two files, every module written by the users can contain other configuration files. This is up to the user. The users can also modify and extend these settings to match their needs.
+
+When the simulation environment is run, the chosen test case configurations are fused with the settings and are dumped into outputs upon completion of the simulation run.
 
 ## Customization
 
@@ -134,10 +190,8 @@ While developing algorithms, researchers frequently need some common functions. 
 
 Visualization can guide researchers for possible improvements and help with debugging. Because there isn't a single visualization that depicts all possible metrics, visualization is implement in an object-oritented fashion but in a very modular way. Every visualization function is a class, that can accept instances of others, e.g. Cartesian plot instantiates the class that depicts vehicles and the class that depict a Lanelet2 map. Such functions are located inside `p3iv/p3iv_visualization`.
 
-
 .. note::
    Note that some modules may have modified ``__init__.py`` files, as in the case of ``p3iv/p3iv_modules/src/p3iv_modules/interfaces/``.
-
 
 ### Data processing structure of the framework
 
