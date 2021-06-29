@@ -51,8 +51,7 @@ if __name__ == "__main__":
             configurations = load_configurations(str(test_case))
         except:
             raise argparse.ArgumentTypeError(
-                "Test-case and/or configurations are invalid!\n \
-                    For valid test cases see 'p3iv/src/p3iv/configurations/test_cases.py'"
+                "Test-case is invalid!\nFor valid test cases see 'p3iv/src/p3iv/configurations/test_cases.yaml'"
             )
         return configurations
 
@@ -66,8 +65,7 @@ if __name__ == "__main__":
             configurations["planning_meta"][_v_id] = (configurations["planning_meta"][_v_id][0], "default")
         except:
             raise argparse.ArgumentTypeError(
-                "Test-case invalid!\n \
-                    For valid test cases see 'p3iv/src/p3iv/configurations/test_cases.py'"
+                "Test-case is invalid!\nFor valid test cases see 'p3iv/src/p3iv/configurations/test_cases.py'"
             )
         return configurations
 
