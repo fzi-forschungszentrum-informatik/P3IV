@@ -98,7 +98,7 @@ class VehicleModules(object):
                 configurations["temporal"]["N"],
                 configurations["map"],
                 configurations["prediction"],
-                configurations["interaction_dataset_dir"],
+                configurations["dataset"],
                 laneletmap,
                 configurations["track_file_number"],
             )

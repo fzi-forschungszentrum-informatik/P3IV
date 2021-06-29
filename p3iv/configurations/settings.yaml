@@ -1,5 +1,6 @@
 ---
-"interaction_dataset_dir": "INTERACTION-Dataset-DR-v1_0"
+"dataset": "INTERACTION-Dataset-DR-v1_0"
+
 "temporal":
   "horizon": 6 # s
   "dt": 100 # ms (step-width)
