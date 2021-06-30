@@ -73,7 +73,7 @@ class AnimationFrame(object):
         self.ax0.text(
             0.5,
             1.05,
-            "Safety Analysis on Path-Time Diagram",
+            "Path-Time Diagram",
             horizontalalignment="center",
             verticalalignment="bottom",
             transform=self.ax0.transAxes,
@@ -93,7 +93,7 @@ class AnimationFrame(object):
         self.ax2.text(
             0.5,
             1.16,
-            "Velocity, Acceleration and Jerk Profiles",
+            "Velocity, Speed and Control Inputs",
             horizontalalignment="center",
             verticalalignment="bottom",
             transform=self.ax2.transAxes,
