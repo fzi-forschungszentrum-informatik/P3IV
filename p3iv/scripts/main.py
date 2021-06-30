@@ -14,7 +14,6 @@ import itertools
 import shutil
 from p3iv_utils.consoleprint import Print2Console
 from p3iv_utils.ofstream import create_output_dir, create_output_path, save_settings
-from p3iv_utils.lanelet_map_reader import lanelet_map_reader
 from p3iv_types.vehicle import Vehicle
 from p3iv_modules.execute import drive, predict
 from p3iv_core.configurations.utils import load_configurations
@@ -164,6 +163,7 @@ if __name__ == "__main__":
 
         # run simulation
         gt = run(configurations, f_execute=predict)
+
         # save results
         filename_pickle = os.path.join(output_path, "results.pickle")
         gt.dump(filename_pickle)
