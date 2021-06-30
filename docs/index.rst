@@ -14,7 +14,7 @@ Focus:
 .. image:: graphics/p3iv.gif
   :width: 600
   :align: center
-  :alt: Alternative text
+  :alt: P3IV visualization
 
 Key features:
   - Catkin package structure: seamless integration into ROS

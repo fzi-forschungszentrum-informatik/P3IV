@@ -61,7 +61,19 @@ Normal (or Gaussian) distributions are frequently used in engineering. While dea
 
 Dealing with uncertainties necessitate performing arithmetic operations with these. For univariate distributions, the rules are pretty simple to apply whereas in higher dimensions, this becomes intractable.
 
-This package implements data containers for such multi-variate, univariate, bivariate distributions both as single or array wise operations. It further extends them as with their truncated counterparts. It is implemented both in Python and C++, whereas the C++ implementation doesn't match the Python variant exactly: the simulation framework internally uses the Python implementation and in the current version, C++ implementation is kept for convenience. Its visualization tools are written by using Matplotlib to allow to plot these distributions easily.
+This package implements data containers for such multi-variate, univariate, bivariate distributions both as single or array wise operations. It further extends them as with their truncated counterparts. It is implemented both in Python and C++, whereas the C++ implementation doesn't match the Python variant exactly: the simulation framework internally uses the Python implementation and in the current version, C++ implementation is kept for convenience. 
+
+The package has an internal visualization sub package written by using ``matplotlib``. It includes commands to plot the defined distributions easily.
+
+|bivariate| |univariate_seq|
+
+.. |bivariate| image:: ../graphics/bivariate_normal.png
+  :width: 320
+
+
+.. |univariate_seq| image:: ../graphics/univariate_normal_sequence.png
+  :width: 320
+
 
 Note that, probability and cumulative density functions the bivariate truncated normal distribution is experimental and may contain bugs!
 
