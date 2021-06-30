@@ -1,4 +1,3 @@
-
 import os
 from functools import partial
 import matplotlib.pyplot as plt
@@ -8,7 +7,7 @@ from matplotlib.widgets import Slider, Button
 
 class AnimationFrame(object):
     def __init__(self):
-        self.header = "Motion Planning Simulator"
+        self.header = "P3IV Simulator"
 
         self.pause_flag = False
         self.magnitude_flag = False
