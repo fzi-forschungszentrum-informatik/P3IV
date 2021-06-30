@@ -1,16 +1,9 @@
-
 import lanelet2
 from matplotlib.axes import Axes
 from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
+from p3iv_utils.lanelet_map_reader import lanelet_map_reader
 from .map_imagery import MapImagery
-
-
-def get_laneletmap(laneletmap, lat_origin=0.0, lon_origin=0.0):
-    if not isinstance(laneletmap, lanelet2.core.LaneletMap):
-        projector = lanelet2.projection.UtmProjector(lanelet2.io.Origin(lat_origin, lon_origin))
-        laneletmap = lanelet2.io.load(str(laneletmap), projector)
-    return laneletmap
 
 
 class PlotLanelet2Map(object):
@@ -20,7 +13,7 @@ class PlotLanelet2Map(object):
     """
 
     def __init__(self, axes, laneletmap, imagery_data=None):
-        self.laneletmap = get_laneletmap(laneletmap)
+        self.laneletmap = lanelet_map_reader(laneletmap)
 
         assert isinstance(axes, Axes)
         self.ax = axes
