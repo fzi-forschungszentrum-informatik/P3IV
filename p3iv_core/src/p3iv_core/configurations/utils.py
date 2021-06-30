@@ -22,7 +22,7 @@ def get_settings():
     fpath = os.path.join(pkg_path, "p3iv/configurations/settings.yaml")
     settings = read_yaml(fpath)
 
-    settings["dataset"] = os.path.join(pkg_path, "../.", settings["dataset"])
+    settings["dataset"] = os.path.normpath(os.path.join(pkg_path, "../.", settings["dataset"]))
     settings["start_time"] = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
     # Number of timesteps (horizon is defined in seconds, not ms)
