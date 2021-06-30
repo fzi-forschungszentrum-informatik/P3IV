@@ -122,7 +122,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    if args.run:
+    if args.run or args.predict:
 
         # set default logger
         logging.basicConfig(level=logging.INFO)
@@ -131,38 +131,15 @@ if __name__ == "__main__":
         output_dir = create_output_dir()
         output_path = create_output_path(output_dir)
 
-        # will serve as save directory for figures
-        configurations = args.run
+        # get configurations
+        configurations = [v for v in vars(args).values() if v != None][0]
         configurations["save_dir"] = str(output_path)
 
         # run simulation
-        gt = run(configurations, f_execute=drive)
-
-        # save results
-        filename_pickle = os.path.join(output_path, "results.pickle")
-        gt.dump(filename_pickle)
-
-        # save configurations as well
-        filename_json = os.path.join(output_path, "configurations.json")
-        with open(filename_json, "w") as f:
-            json.dump(configurations, f, ensure_ascii=False, indent=4)
-        print("Completed!")
-
-    elif args.predict:
-
-        # set default logger
-        logging.basicConfig(level=logging.INFO)
-
-        # create output dirs
-        output_dir = create_output_dir()
-        output_path = create_output_path(output_dir)
-
-        # will serve as save directory for figures
-        configurations = args.predict
-        configurations["save_dir"] = str(output_path)
-
-        # run simulation
-        gt = run(configurations, f_execute=predict)
+        if args.run:
+            gt = run(configurations, f_execute=drive)
+        else:
+            gt = run(configurations, f_execute=predict)
 
         # save results
         filename_pickle = os.path.join(output_path, "results.pickle")
