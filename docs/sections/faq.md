@@ -16,14 +16,14 @@
         ```
         "configurations": [
             {
-                "name": "DEU_Roundabout_OL_01",
+                "name": "OL_DEU_Roundabout_01",
                 "type": "python",
                 "request": "launch",
                 "program": "${workspaceFolder}/src/p3iv/p3iv/scripts/main.py",
                 "cwd": "${workspaceFolder}/src/p3iv/p3iv/scripts",
                 "args": [
                     "--run",
-                    "DEU_Roundabout_OL_01"
+                    "OL_DEU_Roundabout_01"
                 ],
                 "console": "internalConsole"
             }
