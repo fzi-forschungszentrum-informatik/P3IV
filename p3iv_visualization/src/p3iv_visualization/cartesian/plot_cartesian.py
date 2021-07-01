@@ -1,4 +1,3 @@
-
 import os
 from collections import OrderedDict
 from p3iv_visualization.lanelet2.plot_map import PlotLanelet2Map
@@ -10,6 +9,7 @@ class PlotCartesian(object):
         self,
         ax,
         lanelet_map_file,
+        map_coordinate_origin,
         center_vehicle_id=None,
         imagery_data=None,
         plot_uncertainty_ellipse=True,
@@ -19,7 +19,13 @@ class PlotCartesian(object):
         self.ax = ax
         self.center_vehicle_id = center_vehicle_id
         self.uncertainty = plot_uncertainty_ellipse
-        self.map_plot = PlotLanelet2Map(self.ax, lanelet_map_file, imagery_data=imagery_data)
+        self.map_plot = PlotLanelet2Map(
+            self.ax,
+            lanelet_map_file,
+            lat_origin=map_coordinate_origin[0],
+            lon_origin=map_coordinate_origin[1],
+            imagery_data=imagery_data,
+        )
         self.vehicles = OrderedDict()
         self.use_car_image_for_ego = use_car_image_for_ego
         self.alpha_vehicles = alpha_vehicles

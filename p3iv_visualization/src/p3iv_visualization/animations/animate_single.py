@@ -30,6 +30,7 @@ class AnimateSingle(object):
 
         self.animator = Animator(
             lanelet_map_file,
+            configurations["map_coordinate_origin"],
             self.egovehicle.id,
             self.egovehicle.appearance.color,
             ground_truth.vehicles(),

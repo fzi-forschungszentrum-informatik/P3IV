@@ -3,6 +3,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_DEU_Roundabout_OF"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 146000
   "timestamp_end": 152000
@@ -14,6 +15,7 @@
   "simulation_type": "closed-loop"
   "source": "interaction_sim"
   "map": "DR_DEU_Merging_MT"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 4500
   "timestamp_end": 4500
@@ -30,6 +32,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_DEU_Merging_MT"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 4500
   "timestamp_end": 4500
@@ -41,6 +44,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_DEU_Merging_MT"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 6400
   "timestamp_end": 6700
@@ -52,6 +56,7 @@
   "simulation_type": "semi-open-loop"
   "source": "interaction_sim"
   "map": "DR_DEU_Roundabout_OF"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 12400
   "timestamp_end": 17500
@@ -63,6 +68,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_DEU_Roundabout_OF"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 143800
   "timestamp_end": 152100
@@ -74,6 +80,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_DEU_Roundabout_OF"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 3200
   "timestamp_end": 3200
@@ -85,6 +92,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 8200
   "timestamp_end": 29200
@@ -96,6 +104,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP1"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 3000
   "timestamp_end": 3000
@@ -107,6 +116,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 31500
   "timestamp_end": 48000
@@ -118,6 +128,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 55000
   "timestamp_end": 76500
@@ -129,6 +140,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 87500
   "timestamp_end": 104000
@@ -141,6 +153,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 182000
   "timestamp_end": 203000
@@ -153,6 +166,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 176100
   "timestamp_end": 196000
@@ -164,6 +178,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_USA_Roundabout_FT"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 25500
   "timestamp_end": 43400
@@ -175,6 +190,7 @@
   "simulation_type": "open-loop"
   "source": "interaction_sim"
   "map": "DR_USA_Roundabout_FT"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 28500
   "timestamp_end": 56000
@@ -186,6 +202,7 @@
   "simulation_type": "closed-loop"
   "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 114600
   "timestamp_end": 114700
@@ -197,6 +214,7 @@
   "simulation_type": "closed-loop"
   "source": "interaction_sim"
   "map": "DR_USA_Intersection_EP0"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 114600
   "timestamp_end": 128500
@@ -208,6 +226,7 @@
   "simulation_type": "closed-loop"
   "source": "interaction_sim"
   "map": "DR_DEU_Roundabout_OF"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 66000
   "timestamp_end": 68500
@@ -220,6 +239,7 @@
   "simulation_type": "closed-loop"
   "source": "interaction_sim"
   "map": "DR_DEU_Roundabout_OF"
+  "map_coordinate_origin": [0.0, 0.0]
   "track_file_number": 0
   "timestamp_begin": 67000
   "timestamp_end": 68100

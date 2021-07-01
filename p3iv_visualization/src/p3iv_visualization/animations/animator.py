@@ -1,4 +1,3 @@
-
 import numpy as np
 from p3iv_visualization.cartesian.plot_cartesian import PlotCartesian
 from p3iv_visualization.spatiotemporal.utils.plot_utils import PlotUtils
@@ -10,7 +9,17 @@ from p3iv_utils.coordinate_transformation import CoordinateTransform
 
 
 class Animator(object):
-    def __init__(self, lanelet_map_file, vehicle_id, vehicle_color, vehicles, dt, imagery_data=None, header=None):
+    def __init__(
+        self,
+        lanelet_map_file,
+        map_coordinate_origin,
+        vehicle_id,
+        vehicle_color,
+        vehicles,
+        dt,
+        imagery_data=None,
+        header=None,
+    ):
         a = AnimationFrame()
         if header:
             a.set_header(header)
@@ -39,7 +48,11 @@ class Animator(object):
         self.p_ax0_pem = PlotEgoMotion(self.ax0, self.vehicle_id, self.vehicle_color)
 
         self.p_ax1 = PlotCartesian(
-            self.ax1, lanelet_map_file, center_vehicle_id=self.vehicle_id, imagery_data=imagery_data
+            self.ax1,
+            lanelet_map_file,
+            map_coordinate_origin,
+            center_vehicle_id=self.vehicle_id,
+            imagery_data=imagery_data,
         )
         self.p_ax1.fill_vehicles(vehicles)
         self.p_ax1.set_vehicle_plots()
