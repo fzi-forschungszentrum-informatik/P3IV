@@ -162,7 +162,7 @@ bool checkInsidePythonWrapper(const py::array_t<double>& point, const py::list& 
 
     std::vector<Point_2> points_;
     for (auto item : points) {
-        points_.push_back(numpyArray2Point_2(point));
+        points_.push_back(numpyArray2Point_2(item.cast<py::array_t<double>>()));
     }
     points_.push_back(points_[0]);
     return checkInside(point_, points_);
