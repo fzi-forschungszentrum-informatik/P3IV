@@ -10,7 +10,7 @@ def load_lanelet2_map(lanelet_map_file, lat_origin=0.0, lon_origin=0.0):
     return lanelet2.io.load(lanelet_map_file, projector)
 
 
-def lanelet_map_reader(laneletmap, maps_dir=None):
+def lanelet_map_reader(laneletmap, maps_dir=None, lat_origin=0.0, lon_origin=0.0, **kwargs):
     """
     Read lanelet2 map.
 
@@ -25,7 +25,7 @@ def lanelet_map_reader(laneletmap, maps_dir=None):
     print("\nRead map: ", str(laneletmap))
 
     if os.path.isfile(laneletmap):
-        return load_lanelet2_map(laneletmap)
+        return load_lanelet2_map(laneletmap, lat_origin, lon_origin)
 
     # if maps_dir is not given, use internally stored maps in res
     if not maps_dir:
@@ -40,4 +40,4 @@ def lanelet_map_reader(laneletmap, maps_dir=None):
         lanelet_map_ending = ".osm"
         laneletmap = laneletmap + lanelet_map_ending
 
-    return load_lanelet2_map(laneletmap)
+    return load_lanelet2_map(laneletmap, lat_origin, lon_origin)

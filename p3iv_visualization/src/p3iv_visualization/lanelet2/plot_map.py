@@ -12,8 +12,8 @@ class PlotLanelet2Map(object):
     (https://github.com/interaction-dataset/interaction-dataset/blob/8e53eecfa9cdcb2203517af2f8ed154ad40c2956/python/utils/map_vis_lanelet2.py)
     """
 
-    def __init__(self, axes, laneletmap, imagery_data=None):
-        self.laneletmap = lanelet_map_reader(laneletmap)
+    def __init__(self, axes, laneletmap, lat_origin=0.0, lon_origin=0.0, imagery_data=None):
+        self.laneletmap = lanelet_map_reader(laneletmap, lat_origin=lat_origin, lon_origin=lon_origin)
 
         assert isinstance(axes, Axes)
         self.ax = axes
