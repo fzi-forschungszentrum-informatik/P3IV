@@ -88,6 +88,20 @@
   "meta_state":
     12: ["30022", "mpcc"]
 
+"CL_SF_Drive_01":
+  "simulation_type": "closed-loop"
+  "source": None
+  "map": "SanFrancisco-Downtown-Sample-Lanelet2"
+  "map_coordinate_origin": [37.787, -122.406]
+  "track_file_number": None
+  "timestamp_begin": 100
+  "timestamp_end": 16000
+  "vehicle_of_interest": 0
+  "meta_state":
+    0: ["10000849", "default"]
+  "motion_state":
+    0: [-83.4, -46.2, 3.6, 1.7, 0.42, 4.24, 1.8]
+
 "OL_USA_Intersection_EP0_01":
   "simulation_type": "open-loop"
   "source": "interaction_sim"
