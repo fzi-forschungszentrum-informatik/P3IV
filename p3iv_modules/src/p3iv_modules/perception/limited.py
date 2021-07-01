@@ -1,4 +1,3 @@
-
 import numpy as np
 import warnings
 from p3iv_modules.perception.perfect import Percept as PerfectPerception
@@ -39,7 +38,7 @@ class VisibilityModel(object):
             percepted_objects = []
             for gt_o in ground_truth_objects:
                 if gt_o.id != ego_v_id and checkInside(
-                    gt_o.timestamps.latest().state.position.mean, [self._field_of_view]
+                    gt_o.timestamps.latest().state.position.mean, list(self._field_of_view[0])
                 ):
                     percepted_objects.append(gt_o)
             return percepted_objects

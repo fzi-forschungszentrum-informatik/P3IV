@@ -141,7 +141,7 @@ def testFoVWedge():
     fovPatchCol = generatePolygonPatchCollection(fovs)
     ax.add_collection(fovPatchCol)
 
-    print(checkInside(np.array([0, 2]), [fov1]))
+    print(checkInside(np.array([0, 2]), list(fov1)))
 
     # ax.autoscale_view()
     ax.set_xlim(-12, 12)
