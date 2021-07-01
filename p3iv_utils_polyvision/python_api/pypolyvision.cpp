@@ -48,10 +48,10 @@ py::list VisibleAreaPythonWrapper::getFieldsOfView() const {
 
 py::array_t<double> VisibleAreaPythonWrapper::getVisibilityBorder(const py::array_t<double>& line_xys) const {
     std::vector<Point_2> line;
-    line.reserve(line_xys.size()/2);
+    line.reserve(line_xys.size() / 2);
 
-    for (size_t i = 0; i < line_xys.size()/2; i++){
-        line.push_back(Point_2(line_xys.at(2*i), line_xys.at(2*i + 1)));
+    for (size_t i = 0; i < line_xys.size() / 2; i++) {
+        line.push_back(Point_2(line_xys.at(2 * i), line_xys.at(2 * i + 1)));
     }
 
     Point_2 intersection(LARGE_VALUE, LARGE_VALUE);

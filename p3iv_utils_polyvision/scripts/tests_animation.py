@@ -1,7 +1,5 @@
-
 import numpy as np
 import math
-
 import matplotlib.image as mpimg
 from matplotlib.transforms import Affine2D
 from matplotlib.patches import Polygon, PathPatch
@@ -529,9 +527,9 @@ def genericTestLinePlot(obstacles, car, line):
     ax.add_collection(visAreaPatchCol)
 
     # plot boundary of visible area with a centerline
-    print ("Line-point coordinates")
+    print("Line-point coordinates")
     intersection = car.getVisibilityBorder(obstacles, line)[0]
-    print (intersection)
+    print(intersection)
     ax.plot([line[0], line[2]], [line[1], line[3]])
     ax.plot(intersection[0], intersection[1], "o", ms=8)
 
