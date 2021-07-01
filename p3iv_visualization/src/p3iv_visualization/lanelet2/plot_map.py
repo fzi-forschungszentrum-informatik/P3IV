@@ -1,9 +1,30 @@
+import warnings
 import lanelet2
 from matplotlib.axes import Axes
 from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
 from p3iv_utils.lanelet_map_reader import lanelet_map_reader
 from .map_imagery import MapImagery
+
+
+type_colors = {
+    "virtual": "blue",
+    "curbstone": "black",
+    "line_thin": "white",
+    "line_thick": "white",
+    "pedestrian_marking": "white",
+    "bike_marking": "white",
+    "stop_line": "white",
+    "road_border": "black",
+    "guard_rail": "black",
+    "traffic_sign": "red",
+    "tree": "green",
+    "Streetlamp": "yellow",
+    "bus-stop": "yellow",
+    "tram-stop": "yellow",
+    "waste-container": "brown",
+    "plant-pot": "green",
+}
 
 
 class PlotLanelet2Map(object):
@@ -40,12 +61,11 @@ class PlotLanelet2Map(object):
     def _add_linestringlayer_objects(self):
 
         unknown_linestring_types = list()
+        unknown_linestring_IDs = list()
         for ls in self.laneletmap.lineStringLayer:
-
             if "type" not in list(ls.attributes.keys()):
-                raise RuntimeError("ID " + str(ls.id) + ": Linestring type must be specified")
-            elif ls.attributes["type"] == "curbstone":
-                type_dict = dict(color="black", linewidth=1, zorder=1)
+                unknown_linestring_IDs.append(str(ls.id))
+
             elif ls.attributes["type"] == "line_thin":
                 if "subtype" in list(ls.attributes.keys()) and ls.attributes["subtype"] == "dashed":
                     type_dict = dict(color="white", linewidth=1, zorder=1, dashes=[10, 10])
@@ -60,17 +80,10 @@ class PlotLanelet2Map(object):
                 type_dict = dict(color="white", linewidth=1, zorder=1, dashes=[5, 10])
             elif ls.attributes["type"] == "bike_marking":
                 type_dict = dict(color="white", linewidth=1, zorder=1, dashes=[5, 10])
-            elif ls.attributes["type"] == "stop_line":
-                type_dict = dict(color="white", linewidth=3, zorder=1)
             elif ls.attributes["type"] == "virtual":
                 continue
-                # type_dict = dict(color="blue", linewidth=1, zorder=1, dashes=[2, 5])
-            elif ls.attributes["type"] == "road_border":
-                type_dict = dict(color="black", linewidth=1, zorder=1)
-            elif ls.attributes["type"] == "guard_rail":
-                type_dict = dict(color="black", linewidth=1, zorder=1)
-            elif ls.attributes["type"] == "traffic_sign":
-                continue
+            elif ls.attributes["type"] in list(type_colors.keys()):
+                type_dict = dict(color=type_colors[ls.attributes["type"]], linewidth=1, zorder=1)
             else:
                 if ls.attributes["type"] not in unknown_linestring_types:
                     unknown_linestring_types.append(ls.attributes["type"])
@@ -81,8 +94,11 @@ class PlotLanelet2Map(object):
 
             self.ax.plot(ls_points_x, ls_points_y, **type_dict)
 
-            if len(unknown_linestring_types) != 0:
-                print(("Found the following unknown types, did not plot them: " + str(unknown_linestring_types)))
+        if len(unknown_linestring_types) != 0:
+            print(("Found the following unknown types, did not plot them: " + str(unknown_linestring_types)))
+            warnings.warn(
+                "\nIDs \n" + str(unknown_linestring_IDs) + "\nLinestring type must be specified", stacklevel=0
+            )
 
     def _add_laneletlayer_objects(self):
         lanelets = []
