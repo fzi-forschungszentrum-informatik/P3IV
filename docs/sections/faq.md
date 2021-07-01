@@ -47,7 +47,7 @@
    * Please ensure that you have built and sourced your workspace in the terminal you run the simulation environment. In case, refer search for keywords _ros catkin workspace source_ on the internet.
 
  * Simulation environment fails to find Lanelet2 maps.
-   * Please ensure that INTERACTION dataset is located in your workspace below `src/` directory. If the problem persists, check if `interaction_dataset_dir` entry `src/p3iv/p3iv_core/src/p3iv_core/configurations/settings.py` matches the version of your dataset.
+   * Please ensure that INTERACTION dataset is located in your workspace below `src/` directory. If the problem persists, check if `interaction_dataset_dir` entry `src/p3iv/p3iv//configurations/settings.yaml` matches the version of your dataset.
 
  * Lanelet2 raises C Locale warning ``"Warning: Current decimal point of the C locale is set to ..."``. ``"The loaded map will have wrong coordinates"`` and then fails. How to fix this?
    * This problem can appear when you have a LOCALE that has a decimal operator other than ``"."``, e.g. ``LC_NUMERIC=de_DE.UTF-8``. When you call ``plt.figure()`` the backend resets the locale. For more info check this [Gitlab issue](https://github.com/matplotlib/matplotlib/issues/6706). A workaround is to execute:
