@@ -1,4 +1,3 @@
-
 import os
 import unittest
 from matplotlib import pyplot as plt
@@ -32,6 +31,13 @@ class PlotLanelet2Test(unittest.TestCase):
 
         variant1(ax, lanelet_map_path)
         variant2(ax, path_this_file, lanelet_map_path, lanelet_map_name)
+
+
+class PlotLaneletMap(unittest.TestCase):
+    def test_laneletmap(self):
+        fig, ax = plt.subplots(1, 1)
+        p = PlotLanelet2Map(ax, "SanFrancisco-Downtown-Sample-Lanelet2", lat_origin=37.787, lon_origin=-122.406)
+        plt.show()
 
 
 if __name__ == "__main__":
