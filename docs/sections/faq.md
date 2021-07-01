@@ -49,6 +49,9 @@
  * Simulation environment fails to find Lanelet2 maps.
    * Please ensure that INTERACTION dataset is located in your workspace below `src/` directory. If the problem persists, check if `interaction_dataset_dir` entry `src/p3iv/p3iv//configurations/settings.yaml` matches the version of your dataset.
 
+ * I keep receiving ``clang: error: linker command failed with exit code 1`` even though all functions are defined, dependencies are entered in ``package.xml`` and source files are linked. What's the reason?
+   * Some symbol files for debugging might be missing. Ensure you have set ``-DCMAKE_BUILD_TYPE=RelWithDebInfo`` while building your catkin ws.
+
  * Lanelet2 raises C Locale warning ``"Warning: Current decimal point of the C locale is set to ..."``. ``"The loaded map will have wrong coordinates"`` and then fails. How to fix this?
    * This problem can appear when you have a LOCALE that has a decimal operator other than ``"."``, e.g. ``LC_NUMERIC=de_DE.UTF-8``. When you call ``plt.figure()`` the backend resets the locale. For more info check this [Gitlab issue](https://github.com/matplotlib/matplotlib/issues/6706). A workaround is to execute:
         ```
