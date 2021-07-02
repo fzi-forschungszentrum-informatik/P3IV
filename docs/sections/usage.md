@@ -32,7 +32,19 @@ These commands will start animations on the outcomes of planned trajectories. Th
 
 ## Configurations
 
-In P3IV there two types of configurations that a user can modify:
+### Simulation Types
+
+P3IV allows to perform both open-loop and closed-loop simulation. An open-loop simulation discards planned actions in a single timestamp and reads motion from a dataset. Therefore, prerecorded data is required to perform open-loop simulation. In contrast, a closed-loop simulation only reads initial data and then applies the planned actions by eventually overwriting the ground truth.
+
+P3IV allows performing closed loop simulation, given any Lanelet2 map. As described in the next section, it requires goal lanelet, behavior characteristics and initial motion state of any agent in the simulation world.
+
+Performing open-loop simulation is more tricky: it requires a database to overwrite the planned motion. Publicly available datasets that have an accompanying Lanelet2 map are very rare: currently only Interaction Dataset and RounD dataset provides these. Therefore, P3IV has bindings only to these datasets.
+
+If datasets are available, P3IV can execute closed-loop simulation for any arbitrary number of vehicles in a dataset trackfile. This allows to compare human-driven trajectories with planned or predicted ones.
+
+### Configuration Files
+
+In P3IV there two types of configuration files that a user can modify:
 - test cases
 - simulation settings
 
@@ -51,7 +63,7 @@ The ``test_cases.yaml`` file contains test case entries that can be used as an a
   "meta_state":
     <VEHICLE_ID_INTEGER>: [<DESTINATION_LANELET_ID_INTEGER>, <PLANNER_PKG_NAME>]
 ```
-The test cases specify how p3iv should run the current simulation. It starts with `"simulation_type"` key, which specifies if the simulation is an "open-loop" or "closed-loop" simulation. An open-loop simulation discards planned actions in a single timestamp and reads motion from a dataset. In contrast, a closed-loop simulation only reads initial data and then applies the planned actions by eventually overwriting the ground truth. The key `"source"` specifies whether to read data from a dataset or to perform an internal simulation. The key `"map"` defines the Lanelet2 map file name. Drone datasets typically contain multiple recordings per map. If simulation data is read from a dataset, the entry `"track_file_number"` defines which track record for the defined map should be used. The timestamp entries `"timestamp_begin"` and `"timestamp_end"` specify for which timestamps intervals the simulation shall be run. The entry `"vehicle_of_interest"` specifies the vehicle ID that is the _ego_ (or the _host_) vehicle. The whole processing is done from the perspective of this vehicle. The entry `"meta_state"` defines to which lanelet ID a vehicle is heading and what type of planner that vehicle is using. The keys are the vehicle IDs and the values are a list of integer and a planner package name. All vehicle IDs defined in `meta_state` do closed-loop simulation. In other words, they react to the changes in the simulation environment.
+The test cases specify how p3iv should run the current simulation. It starts with `"simulation_type"` key, which specifies if the simulation is an "open-loop" or "closed-loop" simulation. The key `"source"` specifies whether to read data from a dataset or to perform an internal simulation. The key `"map"` defines the Lanelet2 map file name. Drone datasets typically contain multiple recordings per map. If simulation data is read from a dataset, the entry `"track_file_number"` defines which track record for the defined map should be used. The timestamp entries `"timestamp_begin"` and `"timestamp_end"` specify for which timestamps intervals the simulation shall be run. The entry `"vehicle_of_interest"` specifies the vehicle ID that is the _ego_ (or the _host_) vehicle. The whole processing is done from the perspective of this vehicle. The entry `"meta_state"` defines to which lanelet ID a vehicle is heading and what type of planner that vehicle is using. The keys are the vehicle IDs and the values are a list of integer and a planner package name. All vehicle IDs defined in `meta_state` do closed-loop simulation. In other words, they react to the changes in the simulation environment.
 
 .. note::
    Whereas, the numbers specified with ``"timestamp_begin"`` and ``"timestamp_end"`` are relevant for reading from drone datasets, they are irrelevant for internal simulation, as this is independent of any dataset. An internal simulation only considers the duration between begin and end.
