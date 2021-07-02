@@ -4,7 +4,7 @@ P3IV is targeted towards Linux and ROS. The installation steps below are describ
 
 ### Required Dependencies
 
-P3IV is designed to operate on top of Lanelet2 maps. Hence, the build procedure and [dependencies of Lanelet2](https://github.com/fzi-forschungszentrum-informatik/Lanelet2/blob/master/README.md#dependencies) apply to P3IV.
+P3IV is designed to operate on top of Lanelet2 library. Because Lanelet2 is dependency of P3IV, the build procedure and [dependencies of Lanelet2](https://github.com/fzi-forschungszentrum-informatik/Lanelet2/blob/master/README.md#dependencies) apply to P3IV.
 
 Further dependencies other than those for Lanelet2 are
  * `Pybind11`
@@ -12,13 +12,18 @@ Further dependencies other than those for Lanelet2 are
 
 ### Optional Dependencies
 
-P3IV can imitate perception modules of an autonomous vehicle and can perform visible area calculations. The best way to perform these calculations is to use Computational Geometry and Algebra Library [CGAL](https://www.cgal.org/). However, CGAL has a restrictive license. Therefore, the perception module based on CGAL of the simulation environment is optional. If CMake doesn't find CGAL installed on your system, the simulation framework will fallback to matplotlib's patch-based visibility operations. This may in some cases show suboptimal performance and hence _full visibility_ can be activated from simulation settings.
+In autonomous driving applications as well as in this simulation framework, obtaining high precision in real-time is a topic of primary concern. For this reason, P3IV implements core functions in C++ and provides either a Python api or their Python counterparts.
 
-A CGAL version > 5.0.3 is needed. Note that, CGAL is header-only library since v.5.0
+P3IV can imitate perception modules of an autonomous vehicle and can perform visible area calculations. Such calculations can be performed with polygon clipping libraries, for which many alternatives are available. The most reliable and fastest way to perform these calculations is to use Computational Geometry and Algebra Library [CGAL](https://www.cgal.org/) which is implemented in C++.
 
-Another optional dependency is the source of information: because drone datasets are copyrighted, they are not provided with this dataset and must be obtained separately. If you want to use some drone dataset, make sure that you have copied it into your workspace. For interaction-dataset, the default version is `v1_0`. You can modify this by revising the entry ``interaction_dataset_dir`` in [``settings.py``](https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/p3iv/p3iv_core/src/p3iv_core/configurations/settings.py).
+CGAL has a restrictive license limiting its commercial use. Even though P3IV sets its focus on academic research, it sets the perception module which depends on CGAL as optional. If CMake doesn't find CGAL installed on your system, the simulation framework will fallback to perfect visibility, assuming an unlimited sensor range.
 
-Python implementations in P3IV are formatted with [black](https://github.com/psf/black) and C++ implementations are formatted with [clang-format](https://clang.llvm.org/docs/ClangFormatStyleOptions.html). To match line widths of black with clang-format, the default line width is increased to 120. If prefer to continue formatting with these, you may get black and clang format on your system.
+.. warning::
+   A CGAL version > v5.0.3 is needed. CGAL is header-only library since v5.0. Ubuntu package manager provides v4.x for 18.04 and v5.x for Ubuntu 20.04.
+
+Another optional dependency is the source of information: because drone datasets are copyrighted, they are not provided with this dataset and must be obtained separately. If you want to use some drone dataset, make sure that you have copied it below ``src/`` directory of your workspace. For interaction-dataset, the default version is `v1_0`. You can modify this by revising the entry ``dataset`` in ``settings.yaml`` (*cf.* :ref:`usage Configurations` for more information).
+
+Python implementations in P3IV are formatted with [black](https://github.com/psf/black) and C++ implementations are formatted with [clang-format](https://clang.llvm.org/docs/ClangFormatStyleOptions.html). To match line widths of black with clang-format, the default line width is increased to 120. If prefer to continue formatting with these, you may get black and clang format on your system (*cf.* :ref:`faq Building` for more information).
 
 ## Build
 
