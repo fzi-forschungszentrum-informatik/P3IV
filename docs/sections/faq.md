@@ -11,6 +11,9 @@
  * Should build in `Release` or in `Debug`?
    * If you are developing and debugging, `Debug` build is advantageous.
 
+ * I receiving ``CMake Error (...) Package lanelet2_python was not found`` error. What's the reason?
+   * Ensure you have sourced lanelet2 workspace from your current shell.
+
  * How can I set up this simulation framework in VS Code?
     * It's always a good idea to run some Python code in an IDE: adding breakpoints to unclear places helps to reveal the types and to understand the processing. You may add the lines below to your `launch.json` file.
         ```
