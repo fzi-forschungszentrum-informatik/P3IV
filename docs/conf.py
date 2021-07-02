@@ -6,7 +6,7 @@ import catkin_sphinx
 sys.path.insert(0, os.path.abspath("../."))
 
 project = "P3IV Documentation"
-copyright = "2021, Ö. Şahin Taş"
+copyright = "2021, FZI Forschungszentrum Informatik"
 author = "Ö. Şahin Taş"
 
 release = "0.1.0"
