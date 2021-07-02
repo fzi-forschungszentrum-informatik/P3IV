@@ -116,6 +116,12 @@ When the simulation environment is run, the chosen test case configurations are 
 
 Researchers frequently have to adapt the simulation settings to match the needs of their application. Even though, the framework has a clean layout, it may still be confusing for inexperienced researchers in python, catkin, or cmake.
 
+### Defining Custom Test Cases
+
+Even though P3IV defines a large number test scenarios, users might want to define custom test cases for their specific use case. For this, the users can add entries to ``test_cases.yaml`` and in case add new map files to the map directory ``p3iv_utils/res/maps``. Even though this is the default directory for maps, path of maps in other directories can be provided to lanelet2 reader.
+
+In order to display and modify lanelet2 maps, users can refer to [Java Openstreet Map Editor (JOSM)](https://josm.openstreetmap.de/).
+
 ### Catkin package structure
 
 The simulation framework is aimed to have a modular structure and to work with flexibly with various ROS packages and modules. Catkin package layout and CMake meets this requirement perfectly.
