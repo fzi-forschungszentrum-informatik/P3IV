@@ -12,7 +12,7 @@ I haven't published the simulation framework as publication yet. Still, I would 
 
 ## License
 
-This framework is licensed under the [BSD 3-Clause License](https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/p3iv/LICENSE)
+This framework is licensed under the [BSD 3-Clause License](https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/p3iv/LICENSE).
 
 ## Related Publications
 

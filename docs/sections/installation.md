@@ -60,9 +60,6 @@ catkin build
 ```
 
 .. note::
- The default path for datasets is in workspace below ``src/`` directory.
-
-.. note::
  If you work from a new terminal, do not forget to source ROS and the both catkin workspaces.
 
 
