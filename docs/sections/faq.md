@@ -55,6 +55,12 @@
  * I keep receiving ``clang: error: linker command failed with exit code 1`` even though all functions are defined, dependencies are entered in ``package.xml`` and source files are linked. What's the reason?
    * Some symbol files for debugging might be missing. Ensure you have set ``-DCMAKE_BUILD_TYPE=RelWithDebInfo`` while building your catkin ws.
 
+ * I receive strange import errors in Python.
+   * If your system is Ubuntu 18.04, you should have activated your Python3 virtual environment and set the cmake argument ``-DPYTHON_VERSION=3.6`` before while initializing or building. If this didn't happen, please clean your workspace, activate your Python3 environment and set the catkin configuration ``catkin config --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo -DPYTHON_VERSION=3.6``.
+
+ * Python nosetests fail in Ubuntu 18.04.
+   * Assuming you run the tests in Python, ensure you have python3 dependencies such as ``python3-catkin-pkg``, ``python3-catkin-tools``, ``python3-nose`` installed on your system.
+
  * Lanelet2 raises C Locale warning ``"Warning: Current decimal point of the C locale is set to ..."``. ``"The loaded map will have wrong coordinates"`` and then fails. How to fix this?
    * This problem can appear when you have a LOCALE that has a decimal operator other than ``"."``, e.g. ``LC_NUMERIC=de_DE.UTF-8``. When you call ``plt.figure()`` the backend resets the locale. For more info check this [Gitlab issue](https://github.com/matplotlib/matplotlib/issues/6706). A workaround is to execute:
         ```
