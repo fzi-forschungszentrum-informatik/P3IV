@@ -1,6 +1,7 @@
 ## Citation
 
-I haven't published the simulation framework as publication yet. Still, I would appreciate a citation if you use this framework or a utility function part of it in your research. You can use the `bibtex` entry below.
+This repository consists of almost twenty thousand lines of code (as of July'21). If you use any part of this framework or utility functions in your research, I would appreciate a citation to this work.
+
 ```bibtex
 @misc{p3iv,
   title = {P3IV: Probabilistic Prediction and Planning Simulator for Intelligent Vehicles},
