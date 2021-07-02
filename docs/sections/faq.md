@@ -71,6 +71,10 @@
         $ echo 'export LC_NUMERIC="en_US.UTF-8"' >> ~/.bashrc
         $ source ~/.bashrc
         ```
+ * The simulation runs, but when compiled in ``Debug`` mode, I receive dozens of errors like ``runtime error: member call on address (...) which does not point to an object of type (...)``. What the reason?
+   * I can approve this problem. This is an open issue but doesn't have any impact on the execution. I couldn't detect any memory leak either. Maybe its a problem with CGAL.
+
+.. _faq Customization:
 
 ### Customization
 
