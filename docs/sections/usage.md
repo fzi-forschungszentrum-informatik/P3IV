@@ -1,5 +1,7 @@
-## Execution
 
+.. _usage Execution:
+
+## Execution
 
 The simulation framework can be executed as
 ```shell
@@ -25,6 +27,8 @@ or
 python main.py --show-multi
 ```
 These commands will start animations on the outcomes of planned trajectories. The first command will animate the planning results for a single timestamp ``<TIMESTAMP_INTEGER>`` by iterating over individual timesteps, whereas the latter will iterate over all the timestamps at which planning is performed and will animate these.
+
+.. _usage Configurations:
 
 ## Configurations
 
@@ -94,6 +98,8 @@ Independent of the defined configurations in these two files, every module writt
 
 When the simulation environment is run, the chosen test case configurations are fused with the settings and are dumped into outputs upon completion of the simulation run.
 
+.. _usage Customization:
+
 ## Customization
 
 Researchers frequently have to adapt the simulation settings to match the needs of their application. Even though, the framework has a clean layout, it may still be confusing for inexperienced researchers in python, catkin, or cmake.
@@ -147,7 +153,6 @@ Packages have test cases for coverage and CI testing. These tests are located in
 
 .. tip::
    Even though tests are implemented for testing, they can serve as examples.
-
 
 ### Layout
 The `p3iv` itself is shipped as a catkin metapackage, e.g. a package that contains multiple other packages. It contains:
