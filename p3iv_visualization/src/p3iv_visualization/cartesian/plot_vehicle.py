@@ -1,4 +1,3 @@
-
 import numpy as np
 from .car_image import CarImage
 from matplotlib.patches import Rectangle, Polygon
@@ -24,7 +23,9 @@ class PlotVehicle(object):
 
         self.rectangle_patch = None
         self.id_text = self.ax.text(0.0, 0.0, "ID" + str(vehicle_id), horizontalalignment="center", zorder=2.8)
+        self.id_text.set_clip_on(True)
         self.speed_text = self.ax.text(0.0, 0.0, "")
+        self.speed_text.set_clip_on(True)
         self.rectangle_width = car_length  # the corner. that is rotated in the Rectangle-Patch is the Rear-Right corner
         self.rectangle_height = car_width
         self._d = ((self.rectangle_width / 2) ** 2 + (self.rectangle_height / 2) ** 2) ** 0.5
