@@ -23,15 +23,15 @@ class PlotMotionComponents(object):
     def initialize(self, timesteps):
         self.p_ax0.initialize(timesteps)
         self.p_ax0.set_x_axis(set_ticks=False)
-        self.p_ax0.set_y_axis(-2, 20, increment=3)
+        self.p_ax0.set_y_axis(-20, 20, increment=4)
 
         self.p_ax1.initialize(timesteps)
         self.p_ax1.set_x_axis(set_ticks=False)
-        self.p_ax1.set_y_axis(-2, 20, increment=3)
+        self.p_ax1.set_y_axis(0, 20, increment=3)
 
         self.p_ax2.initialize(timesteps)
         self.p_ax2.set_x_axis()
-        self.p_ax2.set_y_axis(-2, 20, increment=3)
+        self.p_ax2.set_y_axis(-10, 10, increment=2)
 
         # hide the x-labels of the 2nd and the 3rd subplot
         # but this is not necessary: set_ticks is False in ax.set_x_axis(set_ticks=False)
