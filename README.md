@@ -13,7 +13,7 @@ This framework is licensed under the BSD 3-Clause License.
 ## Citation
 
 Please use the bibtex entry below, if intend to cite this work.
-```
+```bibtex
 @misc{p3iv,
   title = {P3IV: Probabilistic Prediction and Planning Simulator for Intelligent Vehicles},
   author = {Ömer Sahin Tas},
