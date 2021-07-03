@@ -4,7 +4,7 @@ This repository consists of almost twenty thousand lines of code (as of July'21)
 
 ```bibtex
 @misc{p3iv,
-  title = {P3IV: Probabilistic Prediction and Planning Simulator for Intelligent Vehicles},
+  title = {P3IV: Probabilistic Prediction and Planning for Intelligent Vehicles Simulator},
   author = {{\"O}mer {\c S}ahin Ta{\c s}},
   year = {2021},
   note = {unpublished software}
