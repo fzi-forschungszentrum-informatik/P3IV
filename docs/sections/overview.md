@@ -23,7 +23,7 @@ Some important features of P3IV are listed and explained below:
   * Contains modular visualization functions that can be easily combined in application-specific plots
   * Released under the BSD 3-Clause license.
 
-## What P3IV is not?
+## What is P3IV not?
 
 If you consider to use P3IV for your research, you should be aware of what this framework is not intended to do with.
 
