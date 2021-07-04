@@ -39,9 +39,7 @@ class VehicleModules(object):
                 configurations["localization"]["velocity_sigma_lateral"],
                 configurations["localization"]["velocity_cross_correlation"],
                 laneletmap,
-                vehicle.perception.sensor_fov,
-                vehicle.perception.sensor_range,
-                vehicle.perception.sensor_noise,
+                vehicle.perception.sensors,
             )
 
             assert isinstance(self.perception, interfaces.PerceptInterface)

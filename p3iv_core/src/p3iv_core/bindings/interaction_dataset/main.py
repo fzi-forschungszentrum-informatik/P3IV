@@ -1,5 +1,6 @@
 import warnings
 from p3iv_types.vehicle import Vehicle
+from p3iv_types.vehicle import VehicleSensorFOV
 from p3iv_types.ground_truth import GroundTruth
 from p3iv_types.environment_model import EnvironmentModel
 from p3iv_modules.modules import VehicleModules
@@ -43,12 +44,9 @@ class InteractionDatasetBindings(object):
 
         # fill perception
         if scene_object.id != configurations["vehicle_of_interest"]:
-            v.perception.sensor_fov = configurations["perception"]["otherVehicle_sensor_fov"]
-            v.perception.sensor_range = configurations["perception"]["otherVehicle_sensor_range"]
+            v.perception.sensors = [VehicleSensorFOV(*configurations["perception"]["otherVehicle_sensors"])]
         else:
-            v.perception.sensor_fov = configurations["perception"]["egoVehicle_sensor_fov"]
-            v.perception.sensor_range = configurations["perception"]["egoVehicle_sensor_range"]
-        v.perception.sensor_noise = configurations["perception"]["perception_noise"]
+            v.perception.sensors = [VehicleSensorFOV(*configurations["perception"]["egoVehicle_sensors"])]
 
         # instantiate modules
         v.modules = VehicleModules(configurations, laneletmap, v)

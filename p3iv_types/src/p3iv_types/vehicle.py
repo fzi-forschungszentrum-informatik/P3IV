@@ -86,15 +86,28 @@ class VehicleObjective(object):
         self._to_lanelet = int(to_lanelet_id)
 
 
+class VehicleSensorFOV(object):
+
+    __slots__ = ["begin", "end", "range", "noise"]
+
+    def __init__(self, fov_begin, fov_end, fov_range, sensor_noise=0.8):
+        """
+        Field-of-view (FOV) begin and end relative to 90degrees
+        """
+        super(VehicleSensorFOV, self).__init__()
+        self.begin = fov_begin  # in degrees
+        self.end = fov_end  # in degrees
+        self.range = fov_range  # in meters
+        self.noise = sensor_noise
+
+
 class VehiclePerception(object):
 
-    __slots__ = ["sensor_range", "sensor_fov", "sensor_noise"]
+    __slots__ = ["sensors"]
 
-    def __init__(self, sensor_range=50, sensor_fov=120, sensor_noise=0.8):
+    def __init__(self, sensors=[]):
         super(VehiclePerception, self).__init__()
-        self.sensor_range = sensor_range  # in meters
-        self.sensor_fov = sensor_fov  # in degrees
-        self.sensor_noise = sensor_noise  # in degrees
+        self.sensors = sensors  # list
 
 
 class Vehicle(object):
