@@ -3,13 +3,11 @@ import numpy as np
 import itertools
 import random
 from p3iv_types.timestamp import Timestamps
-from matplotlib import colors as mcolors
 from .tracked_object import TrackedObject, ExistenceProbability
+import matplotlib.pyplot as plt
 
-
-def get_color(index):
-    colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
-    return list(colors.keys())[index]
+# todo: Appereance.color is set from outside; consider deleting this
+colormap = plt.cm.get_cmap("jet", 20)
 
 
 class AbstractVehicleAppearance(object):
@@ -56,7 +54,8 @@ class VehicleAppearance(AbstractVehicleAppearance):
         super(VehicleAppearance, self).__init__()
         self._length = 0.0
         self._width = 0.0
-        self._color = get_color(random.randint(0, 155))
+        # self._color = get_color(random.randint(0, 155))
+        self._color = colormap(random.randint(0, 20))
 
 
 class VehicleCharacteristics(object):

@@ -1,14 +1,13 @@
 from __future__ import division
 import numpy as np
 import warnings
-from matplotlib import colors as mcolors
+import random
+import matplotlib.pyplot as plt
 from .external.dataset_types import Track
 from p3iv_types.motion_state import MotionState
 
 
-def get_color(index):
-    colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
-    return list(colors.keys())[index]
+colormap = plt.cm.get_cmap("jet", 20)
 
 
 class DatasetValueError(Exception):
@@ -38,7 +37,7 @@ class DataConverter(object):
         for t_id, track in list(self.track_dictionary.items()):
             state = self.get_state(timestamp, t_id)
             if state:
-                environment.add_object(t_id, get_color(t_id), track.length, track.width, state)
+                environment.add_object(t_id, colormap(t_id % 20), track.length, track.width, state)
         return environment
 
     def get_state(self, timestamp, track_id):
