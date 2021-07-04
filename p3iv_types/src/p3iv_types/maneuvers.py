@@ -127,7 +127,7 @@ class ManeuverHypothesis(object):
         self.motion.velocity.mean[0] = current_state.velocity.mean
         self.progress = np.zeros(self.N + 1)
         self.progress[0] = progress
-        self.overlap = [True] * (self.N + 1)  # if position has any overlap withown ego/host-route
+        self.overlap = [False] * (self.N + 1)  # if position has any overlap withown ego/host-route
         self.probability = ManeuverProbability()
         self.speed_limit = speed_limits[0]
 

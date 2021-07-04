@@ -53,11 +53,9 @@ class Predict(PredictInterface):
         for sco in scene_model.objects():
             logger.info(" - predict vehicle-ID :" + str(sco.id))
             sto = self.predict_scene_object(scene_model.route_option, timestamp, sco)
-            """
             if not any(sto.route_option.overlap):
                 # todo clear object from scene model?
                 continue
-            """
             situation_model.add(sto)
         return situation_model
 
@@ -217,6 +215,11 @@ class Predict(PredictInterface):
                 self._dt * self._N * 1000.0,
             )
         ]
+        # set only those which are read form dataset
+        # (fix_zeros adds virtual entries. These do not overlap.
+        # Hence, default value of 'False' is left untouched).
+        for i, o in enumerate(overlap):
+            hypotheses[0].overlap[i] = o
         hypotheses[0].probability.route = 1.0
         hypotheses[0].probability.maneuver = 1.0
         situation_object.maneuvers.add(hypotheses)
