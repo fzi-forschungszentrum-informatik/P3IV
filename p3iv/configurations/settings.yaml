@@ -23,6 +23,8 @@
   "velocity_cross_correlation": 0.0
   "egoVehicle_sensors":
     - [15.0, 165.0, 40.0, 0.8]
+    - [0.0, 359.9, 10.0, 0.8]
+    - [250.0, 290.0, 25.0, 0.8]
   "otherVehicle_sensors":
     - [30.0, 150.0, 30.0, 0.8]
 

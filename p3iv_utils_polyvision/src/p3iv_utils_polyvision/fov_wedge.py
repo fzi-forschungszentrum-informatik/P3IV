@@ -7,7 +7,7 @@ def rotationMatrix(radian):
     return np.array([[c, -s], [s, c]])
 
 
-def generateFoVWedge(fov_begin, fov_end, visible_range, heading=90, numberOfPointsOnCircle=15, origin=np.array([0, 0])):
+def generateFoVWedge(fov_begin, fov_end, visible_range, heading=90, numberOfPointsOnCircle=25, origin=np.array([0, 0])):
     """
     openingAngle: angle in degree
     range: range of fov
