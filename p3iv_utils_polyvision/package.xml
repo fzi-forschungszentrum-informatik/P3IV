@@ -12,10 +12,10 @@
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>mrt_cmake_modules</build_depend>
   <test_depend>gtest</test_depend>
+  <test_depend>libgoogle-glog-dev</test_depend>
 
   <depend>cgal</depend>
   <depend>pybind11-dev</depend>
-  <depend>libgoogle-glog-dev</depend>
 
   <exec_depend>python3-numpy</exec_depend>
   <exec_depend>python3-matplotlib</exec_depend>

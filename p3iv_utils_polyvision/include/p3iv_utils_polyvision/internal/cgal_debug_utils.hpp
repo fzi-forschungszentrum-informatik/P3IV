@@ -6,7 +6,6 @@
 #include <CGAL/Polygon_2.h>
 #include <CGAL/Polygon_set_2.h>
 #include <CGAL/Polygon_with_holes_2.h>
-#include "gtest/gtest.h"
 #include "p3iv_utils_polyvision/polyvision_cgal.hpp"
 
 namespace polyvision {
