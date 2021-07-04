@@ -53,7 +53,7 @@ class Predict(PredictInterface):
         for sco in scene_model.objects():
             logger.info(" - predict vehicle-ID :" + str(sco.id))
             sto = self.predict_scene_object(scene_model.route_option, timestamp, sco)
-            if not any(sto.route_option.overlap):
+            if not any(sto.maneuvers.hypotheses[0].overlap):
                 # todo clear object from scene model?
                 continue
             situation_model.add(sto)
@@ -66,10 +66,10 @@ class Predict(PredictInterface):
 
         try:
             # if SceneModel(s) are extracted for SceneObjects in understanding module
-            route_scene, overlap = self.get_maneuver_path(route_option, scene_object, situation_object, pose_array)
+            route_scene, overlap = self.get_maneuver_path(route_option, scene_object, pose_array)
         except AssertionError:
             # Routes will be extracted for SceneObjects with the help of lanelet matcher
-            route_scene, overlap = self.create_maneuver_path(route_option, scene_object, situation_object, pose_array)
+            route_scene, overlap = self.create_maneuver_path(route_option, scene_object, pose_array)
 
         pose_array = self.fix_zeros(pose_array, route_scene.route_option.laneletsequence.centerline(), self._dt)
         self.create_maneuvers(scene_object, situation_object, route_scene, overlap)
@@ -118,7 +118,7 @@ class Predict(PredictInterface):
                     pose_array[i] = pose_array[i - 1]
         return pose_array
 
-    def get_maneuver_path(self, route_option, scene_object, situation_object, pose_array):
+    def get_maneuver_path(self, route_option, scene_object, pose_array):
         """Among many route options, pick the one that matches with the ground-truth."""
 
         assert len(scene_object.route_scenes) > 0
@@ -137,9 +137,9 @@ class Predict(PredictInterface):
                     break
             else:
                 break
-        return route_scene, None
+        return rso, None
 
-    def create_maneuver_path(self, route_option, scene_object, situation_object, pose_array):
+    def create_maneuver_path(self, route_option, scene_object, pose_array):
 
         # find unique lanelet matches
         i = 0
