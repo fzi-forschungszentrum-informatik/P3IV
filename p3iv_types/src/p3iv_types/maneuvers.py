@@ -1,4 +1,3 @@
-
 import uuid
 import numpy as np
 from enum import Enum
@@ -97,7 +96,7 @@ class ManeuverBounds(object):
 
 class ManeuverHypothesis(object):
     """
-    Contains (applies) assumptions on the dynamics of other vehicles; i.e. intentions asassadsdas asdasdasd sadsadasd asdasd
+    Contains (applies) assumptions on the dynamics of other vehicles; i.e. intentions
     Current position is the reference coordinate frame (0.0, 0.0)
     """
 
