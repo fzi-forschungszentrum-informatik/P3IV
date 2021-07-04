@@ -19,7 +19,7 @@ class PlotOtherVehicles(object):
         # todo@sahin: replace this line with the one below
         d.covariance = np.ones(len(d.mean)) * 2.0
         # d.covariance = self.get_longitudinal_covariance(motion_array, progress_array)
-        plots = p(self.ax, d, time_range, color, self.dt, weight=weight, **kwargs)
+        plots = p(self.ax, d, time_range, color, weight=weight, **kwargs)
         self.ax_other_vehicles.extend(plots)
 
     def clear_objects(self):
