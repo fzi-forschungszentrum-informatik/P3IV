@@ -12,7 +12,6 @@
   <build_depend>mrt_cmake_modules</build_depend>
   <test_depend>gtest</test_depend>
 
-
   <depend>lanelet2_core</depend>
   <depend>p3iv_utils</depend>
 
