@@ -30,6 +30,9 @@
   <depend>libgoogle-glog-dev</depend>
   <depend>pybind11-dev</depend>
 
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-matplotlib</exec_depend>
+
   <export>
     <!-- Other tools can request additional information be placed here -->
   </export>

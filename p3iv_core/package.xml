@@ -13,9 +13,12 @@
   <build_depend>mrt_cmake_modules</build_depend>
   <test_depend>gtest</test_depend>
 
-
   <depend>p3iv_utils</depend>
   <depend>p3iv_types</depend>
 
+  <exec_depend>python3-termcolor</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>python3-matplotlib</exec_depend>
+  <exec_depend>lanelet2_python</exec_depend>
 
 </package>
