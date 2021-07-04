@@ -52,24 +52,28 @@ class Predict(PredictInterface):
         situation_model = SituationModel()
         for sco in scene_model.objects():
             logger.info(" - predict vehicle-ID :" + str(sco.id))
-            sto = self.predict_scene_object(timestamp, sco)
+            sto = self.predict_scene_object(scene_model.route_option, timestamp, sco)
+            if not any(sto.maneuvers.hypotheses[0].overlap):
+                # clear object from scene model
+                del scene_model._scene_objects[sto.id]
+                continue
             situation_model.add(sto)
         return situation_model
 
-    def predict_scene_object(self, timestamp, scene_object):
+    def predict_scene_object(self, route_option, timestamp, scene_object):
         """Create a SituationObject filled with ground-truth-prediction."""
         situation_object = SituationObject(scene_object)
         pose_array = self.read_pose(timestamp, situation_object.id)
 
         try:
             # if SceneModel(s) are extracted for SceneObjects in understanding module
-            rso = self.get_maneuver_path(scene_object, situation_object, pose_array)
+            route_scene, overlap = self.get_maneuver_path(route_option, scene_object, pose_array)
         except AssertionError:
             # Routes will be extracted for SceneObjects with the help of lanelet matcher
-            rso = self.create_maneuver_path(scene_object, situation_object, pose_array)
+            route_scene, overlap = self.create_maneuver_path(route_option, scene_object, pose_array)
 
-        pose_array = self.fix_zeros(pose_array, rso.route_option.laneletsequence.centerline(), self._dt)
-        self.create_maneuvers(scene_object, situation_object, rso)
+        pose_array = self.fix_zeros(pose_array, route_scene.route_option.laneletsequence.centerline(), self._dt)
+        self.create_maneuvers(scene_object, situation_object, route_scene, overlap)
         self.set_motion_components(situation_object.maneuvers.hypotheses[0], pose_array, scene_object.progress)
         return situation_object
 
@@ -115,7 +119,7 @@ class Predict(PredictInterface):
                     pose_array[i] = pose_array[i - 1]
         return pose_array
 
-    def get_maneuver_path(self, scene_object, situation_object, pose_array):
+    def get_maneuver_path(self, route_option, scene_object, pose_array):
         """Among many route options, pick the one that matches with the ground-truth."""
 
         assert len(scene_object.route_scenes) > 0
@@ -134,15 +138,23 @@ class Predict(PredictInterface):
                     break
             else:
                 break
-        return rso
+        return rso, None
 
-    def create_maneuver_path(self, scene_object, situation_object, pose_array):
+    def create_maneuver_path(self, route_option, scene_object, pose_array):
 
         # find unique lanelet matches
         i = 0
         llt_matches_list = []
+        overlap = []
         while i < len(pose_array):
             current_matches = Understand.match2Lanelet(self._laneletmap, self._traffic_rules, pose_array[i])
+            current_match_ids = [cm.lanelet.id for cm in current_matches]
+
+            if any((True for x in current_match_ids if x in route_option.laneletsequence.ids())):
+                overlap.append(True)
+            else:
+                overlap.append(False)
+
             if len(llt_matches_list) == 0 or not lanelet_matches_equal(current_matches, llt_matches_list[-1]):
                 llt_matches_list.append(current_matches)
             i += 1
@@ -183,10 +195,10 @@ class Predict(PredictInterface):
                     latest_llt_id = llt_m.id
 
         route_option = RouteOption(route_lanelets)
-        rso = SceneModel(scene_object.id, scene_object.state.position.mean, route_option)
-        return rso
+        route_scene = SceneModel(scene_object.id, scene_object.state.position.mean, route_option)
+        return route_scene, overlap
 
-    def create_maneuvers(self, scene_object, situation_object, pso):
+    def create_maneuvers(self, scene_object, situation_object, pso, overlap):
         """
         Create a single ManeuverHypothesis that matches the ground-truth trajectory.
         Add the ManeuverHypothesis in situation_object.
@@ -204,6 +216,11 @@ class Predict(PredictInterface):
                 self._dt * self._N * 1000.0,
             )
         ]
+        # set only those which are read form dataset
+        # (fix_zeros adds virtual entries. These do not overlap.
+        # Hence, default value of 'False' is left untouched).
+        for i, o in enumerate(overlap):
+            hypotheses[0].overlap[i] = o
         hypotheses[0].probability.route = 1.0
         hypotheses[0].probability.maneuver = 1.0
         situation_object.maneuvers.add(hypotheses)

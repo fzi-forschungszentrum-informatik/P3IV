@@ -179,7 +179,7 @@ class Animator(object):
             c = timestampdata.scene.get_object(v.id).color
             for m in v.maneuvers.hypotheses:
                 l_current = m.progress[0]
-                self.p_ax0_pov.plot_object(m.motion, m.progress, c, offset=l_current)
+                self.p_ax0_pov.plot_object(m.motion, m.progress, m.overlap, c, offset=l_current)
 
     def update_timestamp_text(self, timestamp):
         assert isinstance(timestamp, int)

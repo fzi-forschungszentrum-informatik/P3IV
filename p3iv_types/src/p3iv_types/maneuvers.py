@@ -1,4 +1,3 @@
-
 import uuid
 import numpy as np
 from enum import Enum
@@ -97,7 +96,7 @@ class ManeuverBounds(object):
 
 class ManeuverHypothesis(object):
     """
-    Contains (applies) assumptions on the dynamics of other vehicles; i.e. intentions asassadsdas asdasdasd sadsadasd asdasd
+    Contains (applies) assumptions on the dynamics of other vehicles; i.e. intentions
     Current position is the reference coordinate frame (0.0, 0.0)
     """
 
@@ -109,6 +108,7 @@ class ManeuverHypothesis(object):
         "horizon",
         "motion",
         "progress",
+        "overlap",
         "probability",
         "speed_limit",
         "maneuver_bounds",
@@ -127,6 +127,7 @@ class ManeuverHypothesis(object):
         self.motion.velocity.mean[0] = current_state.velocity.mean
         self.progress = np.zeros(self.N + 1)
         self.progress[0] = progress
+        self.overlap = [False] * (self.N + 1)  # if position has any overlap withown ego/host-route
         self.probability = ManeuverProbability()
         self.speed_limit = speed_limits[0]
 
