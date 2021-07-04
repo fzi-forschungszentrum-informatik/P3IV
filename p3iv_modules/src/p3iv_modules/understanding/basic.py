@@ -131,16 +131,9 @@ class Understand(SceneUnderstandingInterface):
         for s in scene_objects:
 
             v2v_distance = np.linalg.norm(ego_v.state.position.mean - s.state.position.mean)
+            # in pseudo-prediction, depending on the ground-truth motion, some of the scene model objects will be removed.
             scene_model.add_object(s, v2v_distance)
 
-            """
-            for curr_llt in s.current_lanelets:
-                if curr_llt.id in route_option.laneletsequence.ids():
-                    # calculate Euclidean distance between vehicles
-                    v2v_distance = np.linalg.norm(ego_v.state.position.mean - s.state.position.mean)
-                    scene_model.add_object(s, v2v_distance)
-                    break
-            """
         return scene_model
 
     @staticmethod

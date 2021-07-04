@@ -54,7 +54,8 @@ class Predict(PredictInterface):
             logger.info(" - predict vehicle-ID :" + str(sco.id))
             sto = self.predict_scene_object(scene_model.route_option, timestamp, sco)
             if not any(sto.maneuvers.hypotheses[0].overlap):
-                # todo clear object from scene model?
+                # clear object from scene model
+                del scene_model._scene_objects[sto.id]
                 continue
             situation_model.add(sto)
         return situation_model
