@@ -3,11 +3,9 @@ from p3iv_utils_probability.distributions import UnivariateNormalDistribution, B
 from p3iv_utils_probability.distributions import UnivariateNormalDistributionSequence
 
 
-def plot_univariate_normal_distribution(ax, tr_g, color, dt, weight=1.0, sigma=3):
+def plot_univariate_normal_distribution(ax, tr_g, time_range, color, weight=1.0, sigma=3):
 
     plots = []
-
-    time_range = np.arange(len(tr_g.mean)) * dt
     (p,) = ax.plot(time_range, tr_g.mean, color=color, linestyle="--", linewidth=1)
 
     plots.append(p)
@@ -22,7 +20,7 @@ def plot_univariate_normal_distribution(ax, tr_g, color, dt, weight=1.0, sigma=3
     return plots
 
 
-def plot_bivariate_normal_distribution_1d(ax, tr_g, color, dt, weight=1.0, sigma=3, offset=0.0):
+def plot_bivariate_normal_distribution_1d(ax, tr_g, time_range, color, weight=1.0, sigma=3, offset=0.0):
     """
 
     Parameters
@@ -34,8 +32,6 @@ def plot_bivariate_normal_distribution_1d(ax, tr_g, color, dt, weight=1.0, sigma
     """
 
     plots = []
-
-    time_range = np.arange(len(tr_g.mean)) * dt
 
     l = len(tr_g.mean)
     covariance = np.zeros([l, 2, 2])
@@ -64,25 +60,27 @@ def plot_bivariate_normal_distribution_1d(ax, tr_g, color, dt, weight=1.0, sigma
     return plots
 
 
-def plot_truncated_gaussian_mixture_distribution_confidence(ax, tr_g_m, color, dt, sigma=3):
+def plot_truncated_gaussian_mixture_distribution_confidence(ax, tr_g_m, time_range, color, dt, sigma=3):
 
     plots = []
     for i in range(len(tr_g_m.weights)):
         weight = tr_g_m.weights[i]
         tr_g = tr_g_m.components[i]
-        pl = plot_truncated_gaussian_distribution_confidence(ax, tr_g, color, dt, weight=weight, sigma=sigma)
+        pl = plot_truncated_gaussian_distribution_confidence(ax, tr_g, time_range, color, weight=weight, sigma=sigma)
         plots.extend(pl)
 
     return plots
 
 
-def plot_distribution_confidence(ax, data, color, dt, sigma=3, weight=1.0, **kwargs):
+def plot_distribution_confidence(ax, data, time_range, color, sigma=3, weight=1.0, **kwargs):
     if isinstance(data, UnivariateNormalDistribution):
-        return plot_univariate_normal_distribution(ax, data, color, dt, weight=weight, sigma=sigma)
+        return plot_univariate_normal_distribution(ax, data, time_range, color, weight=weight, sigma=sigma)
     if isinstance(data, BivariateNormalDistributionSequence):
-        return plot_bivariate_normal_distribution_1d(ax, data, color, dt, weight=weight, sigma=sigma, **kwargs)
+        return plot_bivariate_normal_distribution_1d(ax, data, time_range, color, weight=weight, sigma=sigma, **kwargs)
     elif isinstance(data, UnivariateNormalDistributionSequence):
-        return plot_truncated_gaussian_mixture_distribution_confidence(ax, data, color, dt, sigma=sigma, **kwargs)
+        return plot_truncated_gaussian_mixture_distribution_confidence(
+            ax, data, time_range, color, sigma=sigma, **kwargs
+        )
     else:
         print(type(data))
         raise Exception("Plot function is not defined for this data type")
