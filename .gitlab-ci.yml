@@ -1,5 +1,33 @@
 #version=1.6
 include:
-   - project: 'pub/mrt_build_config'
-     ref: master
-     file: '/ci_templates/default_catkin_project.yml'
+  - project: "pub/mrt_build_config"
+    ref: master
+    file: "/ci_templates/default_catkin_project.yml"
+
+# Tests installing on a plain system without mrt stuff using the provided Docker image
+.build_docker:
+  stage: build
+  image: docker:18.09
+  only:
+    - master
+    - merge_requests
+  before_script: []
+  cache: {}
+  services:
+    - docker:18.09-dind
+  script:
+    - export IMAGE_NAME=$CI_REGISTRY_IMAGE:$TAG
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build --cache-from $IMAGE_NAME -t $IMAGE_NAME --build-arg=DISTRIBUTION=$DISTRIBUTION --build-arg=ROS_DISTRO=$ROS_DISTRO --build-arg ROS=$ROS .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - if [ "$CI_COMMIT_REF_NAME" = "master" ]; then docker push $IMAGE_NAME; fi
+
+build_docker_focal:
+  extends: .build_docker
+  variables:
+    DISTRIBUTION: "20.04"
+    TAG: "20.04"
+    ROS_DISTRO: noetic
+    DOCKER_DRIVER: overlay2
+    GIT_STRATEGY: fetch
+    ROS: ros
