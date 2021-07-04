@@ -9,13 +9,17 @@ class PlotOtherVehicles(object):
         self.dt = dt
         self.ax_other_vehicles = []
 
-    def plot_object(self, motion_array, progress_array, color, weight=1.0, **kwargs):
+    def plot_object(self, motion_array, progress_array, overlap, color, weight=1.0, **kwargs):
+        time_range = np.arange(len(progress_array)) * self.dt
+        time_range = time_range[overlap]
+
         d = UnivariateNormalDistributionSequence()
-        d.resize(len(progress_array))
-        d.mean = progress_array[:, 0]
-        d.covariance = np.ones(len(progress_array)) * 2.0  # todo@sahin: replace this line with the one below
+        d.resize(len(time_range))
+        d.mean = progress_array[:, 0][overlap]
+        # todo@sahin: replace this line with the one below
+        d.covariance = np.ones(len(d.mean)) * 2.0
         # d.covariance = self.get_longitudinal_covariance(motion_array, progress_array)
-        plots = p(self.ax, d, color, self.dt, weight=weight, **kwargs)
+        plots = p(self.ax, d, time_range, color, self.dt, weight=weight, **kwargs)
         self.ax_other_vehicles.extend(plots)
 
     def clear_objects(self):
