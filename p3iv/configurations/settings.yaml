@@ -21,8 +21,10 @@
   "velocity_sigma_longitudinal": 1
   "velocity_sigma_lateral": 0.2
   "velocity_cross_correlation": 0.0
-  "egoVehicle_sensors": [15.0, 165.0, 40.0, 0.8]
-  "otherVehicle_sensors": [30.0, 150.0, 30.0, 0.8]
+  "egoVehicle_sensors":
+    - [15.0, 165.0, 40.0, 0.8]
+  "otherVehicle_sensors":
+    - [30.0, 150.0, 30.0, 0.8]
 
 "understanding":
   "type": "basic"

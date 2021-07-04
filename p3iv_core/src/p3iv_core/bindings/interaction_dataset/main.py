@@ -42,11 +42,15 @@ class InteractionDatasetBindings(object):
             assert v.id is not configurations["vehicle_of_interest"]
         # v.objective.set_speed = ""
 
-        # fill perception
+        # fill sensors
+        sensors = []
         if scene_object.id != configurations["vehicle_of_interest"]:
-            v.perception.sensors = [VehicleSensorFOV(*configurations["perception"]["otherVehicle_sensors"])]
+            for sensor in configurations["perception"]["otherVehicle_sensors"]:
+                sensors.append(VehicleSensorFOV(*sensor))
         else:
-            v.perception.sensors = [VehicleSensorFOV(*configurations["perception"]["egoVehicle_sensors"])]
+            for sensor in configurations["perception"]["egoVehicle_sensors"]:
+                sensors.append(VehicleSensorFOV(*sensor))
+        v.perception.sensors = sensors
 
         # instantiate modules
         v.modules = VehicleModules(configurations, laneletmap, v)
