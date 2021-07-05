@@ -1,4 +1,3 @@
-
 import numpy as np
 
 
@@ -8,19 +7,25 @@ def rotationMatrix(radian):
     return np.array([[c, -s], [s, c]])
 
 
-def generateFoVWedge(
-    openingAngle, visible_range, numberOfPointsOnCircle=15, directionAngle=90, origin=np.array([0, 0])
-):
+def generateFoVWedge(fov_begin, fov_end, visible_range, heading=90, numberOfPointsOnCircle=25, origin=np.array([0, 0])):
     """
     openingAngle: angle in degree
     range: range of fov
-    numberOfPointsOnCircle: resolution of the circle"""
+    numberOfPointsOnCircle: resolution of the circle
+    """
+
+    # direction angle defined in VehicleSensorFOV
+    directionAngle = 90
 
     # initialize fov polygon
     fov = np.array([origin])
 
     # angles of the circle approximation
-    angles = np.linspace(directionAngle - openingAngle / 2, directionAngle + openingAngle / 2, numberOfPointsOnCircle)
+    angles = np.linspace(
+        (heading - directionAngle) + fov_begin,
+        (heading - directionAngle) + fov_end,
+        numberOfPointsOnCircle,
+    )
 
     # first approx.
     rad = np.radians(angles[0])

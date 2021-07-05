@@ -9,8 +9,8 @@ from p3iv_utils_polyvision_pyapi.pypolyvision import VisibleArea, checkInside
 
 
 class VisibilityModel(object):
-    def __init__(self, field_of_views):
-        self._field_of_views = field_of_views
+    def __init__(self, sensors):
+        self._sensors = sensors
         self._field_of_view = None
         self.polyvision = None  # instance of cpp visibility calculator
         self._visible_areas = None
@@ -19,10 +19,10 @@ class VisibilityModel(object):
 
     def __call__(self, origin, heading, obstacle_polygons):
         allFieldOfView = []
-        for fov_props in self._field_of_views:
-            v_angle = fov_props[0]
-            v_range = fov_props[1]
-            allFieldOfView.append(generateFoVWedge(v_angle, v_range, directionAngle=heading, origin=np.asarray(origin)))
+        for fov in self._sensors:
+            allFieldOfView.append(
+                generateFoVWedge(fov.begin, fov.end, fov.range, heading=heading, origin=np.asarray(origin))
+            )
         self.polyvision = VisibleArea(origin, allFieldOfView, obstacle_polygons)
         self.polyvision.calculateVisibleArea()
 
@@ -85,9 +85,7 @@ class Percept(PerceptInterface):
         loc_vel_sigma_y,
         loc_vel_cross_corr,
         laneletmap,
-        sensor_fov,
-        sensor_range,
-        sensor_noise,
+        sensors,
     ):
         """
         Parameters
@@ -127,9 +125,8 @@ class Percept(PerceptInterface):
         )
 
         self._laneletmap = laneletmap
-        fovs = [(sensor_fov, sensor_range)]
-        self._visibility_model = VisibilityModel(fovs)
-        self._visibility_model2plot = VisibilityModel(fovs)
+        self._visibility_model = VisibilityModel(sensors)
+        self._visibility_model2plot = VisibilityModel(sensors)
 
         self._polygons_static = self._get_static_obstacle_polygons(laneletmap)
         # self._measurement_model = ImperfectMeasurement(self.ego_id, self.ego_route, self.roads, sensor_range, perception_noise)
