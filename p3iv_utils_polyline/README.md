@@ -2,10 +2,9 @@
 
 ## Overview
 
-In robotics, especially in motion planning, transformations between global Cartesian coordinates and Frenet (arc-length) coordinates are required. This library allows transformation between these coordinate frames.
+In robotics, especially in motion planning, transformations between global Cartesian coordinates and arc-length (or Frenet) coordinates are required. This library allows transformation between these coordinate frames.
 
-Transformation among coordinate frames must be done with respect to line segments. The library performs interpolation among individual
-line segments and returns continuous values for distances.
+Transformation among coordinate frames must be done with respect to line segments. The library performs interpolation among individual line segments and returns continuous values for distances.
 
 
 <p align="center">
@@ -15,7 +14,7 @@ line segments and returns continuous values for distances.
 
 ## Structure of the Library
 
-The library is written both in C++ and Python. C++ implementation templated for use with non-scalar types such as autodiff. Because it is more effiecent than the Python implementation, it is wrapped with PyBind for use in Python. The separate Python implementation is aimed for use with libraries like `numba`, `JAX`, `cupy`. 
+The library is written both in C++ and Python. C++ implementation templated for use with non-scalar types such as autodiff. Because the C++ implementation is faster than its Python counterpart, it is wrapped with PyBind for use in Python. The separate Python implementation is aimed for use with libraries like `numba`, `JAX`, `cupy`.
 
 The package relies mainly on Catkin for building and is targeted towards Linux.
 
@@ -43,7 +42,7 @@ You can clone the repository in your catkin workspace and build.
   * `match(x,y)` finds the segment that is the nearest to (x, y) and return its corresponding Frenet coordinates (l, d)
   * `orientedDistance(x,y)` finds the segment that is the nearest to (x, y) and returns (l, d, tangent)
   * `reconstruct(l, d)` transforms the Frenet coordinates back to Cartesian coordinates
-  * `maxArclength()` returns the cumulative length of the segments 
+  * `maxArclength()` returns the cumulative length of the segments
 
 ### Coordinate Transformation
 The coordinate transformation class is implemented in Python only and is aimed as an utility class for transformations between Cartesian and Frenet frames. It is initialized by the coordinates of the points of a reference line.
@@ -51,7 +50,7 @@ The coordinate transformation class is implemented in Python only and is aimed a
   * `ld2xy(2d_numpy_array)` does the opposite.
 
 ## Algorithm Behind the Transformation
-### Cartesian to Frenet Transformation
+### Cartesian to Arc-Coordinates Transformation
 
 In order to transform a point (x, y) from Cartesian frame to Frenet frame, the following steps can be taken.
 
@@ -60,9 +59,9 @@ In order to transform a point (x, y) from Cartesian frame to Frenet frame, the f
   3. Perform this for every line segment in the polyline and take the index and lambda of the shortest normal distance.
   4. Calculate arc-length and tangent for this line-segment
 
-### Frenet to Cartesian Transformation
+### Arc-Coordinates to Cartesian Transformation
 
-Transforming a point (l, d) in Frenet coordinates is done by iterating over individual line segments and finding the point on the line segment that corresponds to the (l) seeked for. Based on the normal distance (d) and angle of that line segment, a Cartesian point is calculated. No interpolation is done during this operation.
+Transforming a point (l, d) in arc-coordinates coordinates is done by iterating over individual line segments and finding the point on the line segment that corresponds to the (l) seeked for. Based on the normal distance (d) and angle of that line segment, a Cartesian point is calculated. No interpolation is done during this operation.
 ### References
 
 This implementation is based on the dissertation of J. Ziegler [1]. This work takes _Phong Shading_ [2] as baseline.
