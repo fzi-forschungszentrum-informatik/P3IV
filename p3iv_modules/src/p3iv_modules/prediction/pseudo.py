@@ -147,14 +147,17 @@ class Predict(PredictInterface):
         llt_matches_list = []
         overlap = []
         while i < len(pose_array):
+            # get all lanelet matches for current pose
             current_matches = Understand.match2Lanelet(self._laneletmap, self._traffic_rules, pose_array[i])
-            current_match_ids = [cm.lanelet.id for cm in current_matches]
 
+            # if any current match is on route-option lanelets of ego (host) vehicle fill overlap list with True
+            current_match_ids = [cm.lanelet.id for cm in current_matches]
             if any((True for x in current_match_ids if x in route_option.laneletsequence.ids())):
                 overlap.append(True)
             else:
                 overlap.append(False)
 
+            # if the current lanelet matches is new, append this to the match list
             if len(llt_matches_list) == 0 or not lanelet_matches_equal(current_matches, llt_matches_list[-1]):
                 llt_matches_list.append(current_matches)
             i += 1
