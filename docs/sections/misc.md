@@ -17,7 +17,9 @@ This framework is licensed under the [BSD 3-Clause License](https://gitlab.mrt.u
 
 ## Related Publications
 
-This simulation framework has helped to realize the following academic publications:
+Early versions of this simulation framework has helped to realize 3 peer-reviewed publications and 5 student's thesis.
+
+Released version of this framework is utilized the following academic publications:
 
 ## Contact
 

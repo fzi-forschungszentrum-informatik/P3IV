@@ -2,7 +2,7 @@
 
 P3IV contains utility functions that are frequently used for motion prediction and planning. These functions do not have any dependency to other packages and can be used off-the-shelf.
 
-Utility functions shipped with P3IV are split into two groups: elementary functions and specific utility packages. The former group are located in the package ``p3iv_utils``, whereas the latter's name start with `p3iv_utils_` prefix. They also serve for utility functionalities and have a readme file describing their functionalities.
+Utility functions shipped with P3IV are split into two groups: elementary functions and specific utility packages. The former group are located in the package ``p3iv_utils``, whereas the latter's name starts with `p3iv_utils_` prefix. They also serve for utility functionalities and have a readme file describing their functionalities.
 
 ## Elementary Utility Functions
 
@@ -25,7 +25,7 @@ In robotics, especially in motion planning, transformations between global Carte
 Transformation among coordinate frames must be done with respect to line segments. The library performs interpolation among individual
 line segments and returns continuous values for distances.
 
-The library is written both in C++ and Python. C++ implementation templated for use with non-scalar types such as auto differentiation. Because the C++ implementation is faster than its Python counterpart, it is wrapped with PyBind for use in Python. The separate Python implementation is aimed for use with libraries like `numba`, `JAX`, `cupy`.
+The library is written both in C++ and Python. C++ implementation is templated for use with non-scalar types such as auto differentiation. Because the C++ implementation is faster than its Python counterpart, it is wrapped with PyBind for use in Python. The separate Python implementation is aimed for use with libraries like `numba`, `JAX`, `cupy`.
 
 ##### Transformations
 
@@ -36,7 +36,7 @@ In order to transform a point (x, y) from Cartesian frame to Frenet frame, the f
   3. Perform this for every line segment in the polyline and take the index and lambda of the shortest normal distance.
   4. Calculate arc-length and tangent for this line-segment
 
-Transforming a point (l, d) in arc-coordinates coordinates is done by iterating over individual line segments and finding the point on the line segment that corresponds to the (l) seeked for. Based on the normal distance (d) and angle of that line segment, a Cartesian point is calculated. No interpolation is done during this operation.
+Transforming a point (l, d) in arc-coordinates coordinates is done by iterating over individual line segments and finding the point on the line segment that corresponds to the (l) sought for. Based on the normal distance (d) and angle of that line segment, a Cartesian point is calculated. No interpolation is done during this operation.
 
 This implementation is based on the dissertation of J. Ziegler [1]. This work takes _Phong Shading_ [2] as baseline.
 
@@ -55,13 +55,13 @@ The library is implemented in C++ and is wrapped with PyBind for use in Python. 
 
 ### Probability Calculations
 
-There are already dozens of probability libraries with diverse utility functions available as open source software. Even though these libraries are powerful, they lack several simple functionalities that a prediction and planning researcher might need. This package aims to cover these deficits.
+There are already dozens of probability libraries with diverse utility functions available as open-source software. Even though these libraries are powerful, they lack several simple functionalities that a prediction and planning researcher might need. This package aims to cover these deficits.
 
-Normal (or Gaussian) distributions are frequently used in engineering. While dealing with timely equidistant sequential data, such as Motion (or in other words 'trajectory'), one can set up mean value $\mathbf{\mu}$ and covariance matrices $\Sigma$ with all the variables. If there is no cross-correlation between the entries of the data, which is often the assumption made in our domain, the matrix is very sparse and it is inefficient to store the matrix in this form. One solution is to use sparse matrix methods, other one is to define a separate, application-specific data container.
+Normal (or Gaussian) distributions are frequently used in engineering. While dealing with timely equidistant sequential data such as Motion (or in other words 'trajectory'), one can set up mean value $\mathbf{\mu}$ and covariance matrices $\Sigma$ with all the variables. If there is no cross-correlation between the entries of the data, which is often the assumption made in our domain, the matrix is very sparse and it is inefficient to store the matrix in this form. One solution is to use sparse matrix methods, other one is to define a separate, application-specific data container.
 
 Dealing with uncertainties necessitate performing arithmetic operations with these. For univariate distributions, the rules are pretty simple to apply whereas in higher dimensions, this becomes intractable.
 
-This package implements data containers for such multi-variate, univariate, bivariate distributions both as single or array wise operations. It further extends them as with their truncated counterparts. It is implemented both in Python and C++, whereas the C++ implementation doesn't match the Python variant exactly: the simulation framework internally uses the Python implementation and in the current version, C++ implementation is kept for convenience. 
+This package implements data containers for such multi-variate, univariate, bivariate distributions both as single and array wise operations. It further extends them as with their truncated counterparts. It is implemented both in Python and C++, whereas the C++ implementation doesn't match the Python variant exactly: the simulation framework internally uses the Python implementation and in the current version, C++ implementation is kept for convenience. 
 
 The package has an internal visualization sub package written by using ``matplotlib``. It includes commands to plot the defined distributions easily.
 
@@ -75,7 +75,7 @@ The package has an internal visualization sub package written by using ``matplot
   :width: 320
 
 
-Note that, probability and cumulative density functions the bivariate truncated normal distribution is experimental and may contain bugs!
+Please note that probability and cumulative density functions the bivariate truncated normal distribution is experimental and may contain bugs!
 
 ##### Usage
 

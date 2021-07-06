@@ -38,7 +38,7 @@ P3IV allows to perform both open-loop and closed-loop simulation. An open-loop s
 
 P3IV allows performing closed loop simulation, given any Lanelet2 map. As described in the next section, it requires goal lanelet, behavior characteristics and initial motion state of any agent in the simulation world.
 
-Performing open-loop simulation is more tricky: it requires a database to overwrite the planned motion. Publicly available datasets that have an accompanying Lanelet2 map are very rare: currently only Interaction Dataset and RounD dataset provides these. Therefore, P3IV has bindings only to these datasets.
+Performing open-loop simulation is more trickier: it requires a database to overwrite the planned motion. Publicly available datasets that have an accompanying Lanelet2 map are very rare: currently only Interaction Dataset and RounD dataset provide these. Therefore, P3IV has bindings only to these datasets.
 
 If datasets are available, P3IV can execute closed-loop simulation for any arbitrary number of vehicles in a dataset trackfile. This allows to compare human-driven trajectories with planned or predicted ones.
 
@@ -66,12 +66,12 @@ The ``test_cases.yaml`` file contains test case entries that can be used as an a
 The test cases specify how p3iv should run the current simulation. It starts with `"simulation_type"` key, which specifies if the simulation is an "open-loop" or "closed-loop" simulation. The key `"source"` specifies whether to read data from a dataset or to perform an internal simulation. The key `"map"` defines the Lanelet2 map file name. Drone datasets typically contain multiple recordings per map. If simulation data is read from a dataset, the entry `"track_file_number"` defines which track record for the defined map should be used. The timestamp entries `"timestamp_begin"` and `"timestamp_end"` specify for which timestamps intervals the simulation shall be run. The entry `"vehicle_of_interest"` specifies the vehicle ID that is the _ego_ (or the _host_) vehicle. The whole processing is done from the perspective of this vehicle. The entry `"meta_state"` defines to which lanelet ID a vehicle is heading and what type of planner that vehicle is using. The keys are the vehicle IDs and the values are a list of integer and a planner package name. All vehicle IDs defined in `meta_state` do closed-loop simulation. In other words, they react to the changes in the simulation environment.
 
 .. note::
-   Whereas, the numbers specified with ``"timestamp_begin"`` and ``"timestamp_end"`` are relevant for reading from drone datasets, they are irrelevant for internal simulation, as this is independent of any dataset. An internal simulation only considers the duration between begin and end.
+   Whereas the numbers specified with ``"timestamp_begin"`` and ``"timestamp_end"`` are relevant for reading from drone datasets, they are irrelevant for internal simulation, as this is independent of any dataset. An internal simulation only considers the duration between beginning and end.
 
 .. warning::
    Vehicle defined as ``"vehicle_of_interest"`` must have an entry in ``"meta_state"``, i.e. the vehicle for which planning is done must have a valid destination lanelet ID and a planner type.
 
-Simulation settings in ``settings.yaml`` define individual parameters of the modules that have a framework-wide impact, such as uncertainty levels during perception,or the path of data, such as drone dataset paths.
+Simulation settings in ``settings.yaml`` define individual parameters of the modules that have a framework-wide impact, such as uncertainty levels during perception, or the path of data, such as drone dataset paths.
 ```yaml
 "dataset": "INTERACTION-Dataset-DR-v1_0"
 
@@ -104,7 +104,7 @@ Simulation settings in ``settings.yaml`` define individual parameters of the mod
   "type": "constant_velocity"
 
 ```
-The first entry ``"dataset"`` defines the name of the dataset, if a dataset is used as source. The entry ``"temporal"`` defines the system-wide temporal parameters such as prediction & planning horizon, sampling interval. After these keys, module settings are listed. The last entry in every module setting is the key ``"type"`` and define the catkin package to import frome. Other entries present in the current ``settings.yaml`` define the default parameters on motion limits, uncertainties etc.
+The first entry ``"dataset"`` defines the name of the dataset, if a dataset is used as source. The entry ``"temporal"`` defines the system-wide temporal parameters such as prediction & planning horizon, sampling interval. After these keys, module settings are listed. The last entry in every module setting is the key ``"type"`` and define the catkin package to import from. Other entries present in the current ``settings.yaml`` define the default parameters on motion limits, uncertainties etc.
 
 Independent of the defined configurations in these two files, every module written by the users can contain other configuration files. This is up to the user. The users can also modify and extend these settings to match their needs.
 
@@ -114,19 +114,19 @@ When the simulation environment is run, the chosen test case configurations are 
 
 ## Customization
 
-Researchers frequently have to adapt the simulation settings to match the needs of their application. Even though, the framework has a clean layout, it may still be confusing for inexperienced researchers in python, catkin, or cmake.
+Researchers frequently have to adapt the simulation settings to match the needs of their application. Even though the framework has a clean layout, it may still be confusing for inexperienced researchers in python, catkin, or cmake.
 
 ### Defining Custom Test Cases
 
-Even though P3IV defines a large number test scenarios, users might want to define custom test cases for their specific use case. For this, the users can add entries to ``test_cases.yaml`` and in case add new map files to the map directory ``p3iv_utils/res/maps``. Even though this is the default directory for maps, path of maps in other directories can be provided to lanelet2 reader.
+Even though P3IV defines a large number of test scenarios, users might want to define custom test cases for their specific use case. For this, the users can add entries to ``test_cases.yaml`` and in case add new map files to the map directory ``p3iv_utils/res/maps``. Although this is the default directory for maps, path of maps in other directories can be provided to the lanelet2 reader.
 
 In order to display and modify lanelet2 maps, users can refer to [Java Openstreet Map Editor (JOSM)](https://josm.openstreetmap.de/).
 
 ### Catkin package structure
 
-The simulation framework is aimed to have a modular structure and to work with flexibly with various ROS packages and modules. Catkin package layout and CMake meets this requirement perfectly.
+The simulation framework is aimed to have a modular structure and to work with flexibly with various ROS packages and modules. Catkin package layout and CMake meet this requirement perfectly.
 
-The structure of a catkin package layout as illustrated below.
+The structure of a catkin package layout is illustrated below.
 
 ```
 .
@@ -186,7 +186,7 @@ The `p3iv` itself is shipped as a catkin metapackage, e.g. a package that contai
 ├── p3iv_utils_probability
 └── p3iv_visualization
 ```
-The package `p3iv/p3iv` is the metapackage that is "binding" other packages. As introduces above, it contains the scripts to execute the simulation environment and serves as directory to store simulation results.
+The package `p3iv/p3iv` is the metapackage that is "binding" other packages. As introduced above, it contains the scripts to execute the simulation environment and serves as directory to store simulation results.
 
 The core functions to run the environment are inside `p3iv/p3iv_core`. Bindings to data sources such as drone datasets, functions to run the simulation framework and configuration files are located in this package.
 
@@ -205,13 +205,13 @@ The default (or _exemplary_) modules together with their interface definitions a
 ```
 The subdirectory `interfaces` contain abstract classes that define the interfaces these modules must match. These interfaces ensure the simulation environment to work with appropriate module definitions, preventing any incompatibility.
 
-A vehicle instantiates these modules from the class `VehicleModules` in `p3iv/p3iv_modules/src/p3iv_modules/modules.py`. During instantiation, it checks whether instantiated modules follow the interfaces. During execution, it calls these module for every timestamp. These modules calculate the required output, such as predicted motion of other vehicles around for every *timestep* in the planning horizon. A user is free to modify and extend these data types and interfaces.
+A vehicle instantiates these modules from the class `VehicleModules` in `p3iv/p3iv_modules/src/p3iv_modules/modules.py`. During instantiation, it checks whether instantiated modules follow the interfaces. During execution, it calls these modules for every timestamp. These modules calculate the required output, such as predicted motion of other vehicles around for every *timestep* in the planning horizon. The user is free to modify and extend these data types and interfaces.
 
-The data types serve both as baseline and as a guideline for future improvements. These are located inside `p3iv/p3iv_types`. Note that, this package has also type implementations for C++ and their PyBind bindings for Python-use.
+The data types serve both as baseline and as a guideline for future improvements. These are located inside `p3iv/p3iv_types`. Please note that this package has also type implementations for C++ and their PyBind bindings for Python-use.
 
-While developing algorithms, researchers frequently need some common functions. Most of the time, such functions are implemented in various libraries. However, some application specific utilities are sometimes hard to fine. `p3iv/p3iv_utils` contains a small amount of useful functions. P3IV is shipped with useful utility functions, that can be used independently. Name of such packages start with ``p3iv_utils_`` prefix. Utility functions are described in next section in detail.
+While developing algorithms, researchers frequently need some common functions. Most of the time such functions are implemented in various libraries. However, some application specific utilities are sometimes hard to find. `p3iv/p3iv_utils` contains a small number of useful functions. P3IV is shipped with useful utility functions that can be used independently. Name of such packages start with ``p3iv_utils_`` prefix. Utility functions are described in next section in detail.
 
-Visualization can guide researchers for possible improvements and help with debugging. Because there isn't a single visualization that depicts all possible metrics, visualization is implement in an object-oritented fashion but in a very modular way. Every visualization function is a class, that can accept instances of others, e.g. Cartesian plot instantiates the class that depicts vehicles and the class that depict a Lanelet2 map. Such functions are located inside `p3iv/p3iv_visualization`.
+Visualization can guide researchers for possible improvements and help with debugging. Because there isn't a single visualization that depicts all possible metrics, visualization is implement in an object-oriented fashion but in a very modular way. Every visualization function is a class that can accept instances of others, e.g. Cartesian plot instantiates the class that depicts vehicles and the class that depict a Lanelet2 map. Such functions are located inside `p3iv/p3iv_visualization`.
 
 .. note::
    Note that some modules may have modified ``__init__.py`` files, as in the case of ``p3iv/p3iv_modules/src/p3iv_modules/interfaces/``.
@@ -220,9 +220,9 @@ Visualization can guide researchers for possible improvements and help with debu
 
 The simulation framework runs staring from `timestamp_begin` defined in `test_cases.py` and finishes at `timestamp_end` defined in the same file. It sequentially executes the modules and returns the output. If the `simulation_type` is closed-loop, it updates its current position based on the planned value. An open-loop usage requires presence of a dataset, as it reads data from such a source to update for the next timestamp.
 
-Upon execution, the simulation framework starts sequentially executing the processing pipeline defined in `p3iv/p3iv_modules/src/p3iv_modules/execute.py` from `p3iv/p3iv_core/src/p3iv_core/run.py/#L102`, where the argument `f_execute` is passed from `p3iv/p3iv/scripts/main.py`. Remember that the instantiation of the modules are defined in `p3iv/p3iv_modules/src/p3iv_modules/modules.py`.
+Upon execution, the simulation framework starts sequentially executing the processing pipeline defined in `p3iv/p3iv_modules/src/p3iv_modules/execute.py` from `p3iv/p3iv_core/src/p3iv_core/run.py/#L102`, where the argument `f_execute` is passed from `p3iv/p3iv/scripts/main.py`. Remember that the instantiation of the modules is defined in `p3iv/p3iv_modules/src/p3iv_modules/modules.py`.
 
 While importing external modules, the simulation environment requires to follow a package name scheme. This scheme is implemented in `p3iv_modules/src/p3iv_modules/modules.py`. That is, a planner package in the workspace, besides inheriting from the metaclass interface, must have a name starting with `planner_`, whereas a prediction package's name must start with `prediction_` prefixes. Which module to use as a planner is controlled from `settings.py` file.
 
 .. todo::
-   Consider to add Python API and describe the motivation behind individual implementations.
+   Consider addding Python API and describe the motivation behind individual implementations.

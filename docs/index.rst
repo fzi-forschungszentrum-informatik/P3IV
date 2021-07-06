@@ -7,7 +7,7 @@ Probabilistic Prediction and Planning for Intelligent Vehicles (P3IV) Simulator 
 Focus:
   - Algorithm development for prediction and planning
   - Consideration of uncertainties and limited visibility
-  - Multi-agent interactions
+  - Covers multi-agent interactions
   - Provides utility libraries for prediction and planning
   - Allows both open-loop and closed-loop simulation
 

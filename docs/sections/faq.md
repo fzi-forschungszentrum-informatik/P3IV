@@ -1,7 +1,7 @@
 ### General
 
  * For which type of application would you recommend p3iv most?
-   * This is up to you. No matter if you are developing Dynamic Bayesian networks for prediction or model based planning methods such as mpc-planner, you can use this simulation framework. But if you do reinforcement learning, you may prefer to limit your use to some utility functions.
+   * This is up to you. No matter if you are developing Dynamic Bayesian networks for prediction or model-based planning methods such as mpc-planner, you can use this simulation framework. But if you do reinforcement learning, you may prefer to limit your use to some utility functions.
 
 .. _faq Building:
 
@@ -13,7 +13,7 @@
  * Should build in `Release` or in `Debug`?
    * If you are developing and debugging, `Debug` build is advantageous.
 
- * I receiving ``CMake Error (...) Package lanelet2_python was not found`` error. What's the reason?
+ * I receive ``CMake Error (...) Package lanelet2_python was not found`` error. What's the reason?
    * Ensure you have sourced lanelet2 workspace from your current shell.
 
  * How can I set up this simulation framework in VS Code?
@@ -72,13 +72,13 @@
         $ source ~/.bashrc
         ```
  * The simulation runs, but when compiled in ``Debug`` mode, I receive dozens of errors like ``runtime error: member call on address (...) which does not point to an object of type (...)``. What the reason?
-   * I can approve this problem. This is an open issue but doesn't have any impact on the execution. I couldn't detect any memory leak either. Maybe its a problem with CGAL.
+   * I can approve this problem. This is an open issue but doesn't have any impact on the execution. I couldn't detect any memory leak either. Maybe it's a problem with CGAL.
 
 .. _faq Customization:
 
 ### Customization
 
- * Should I set the settings of my package from the simulation settings file or should I define a settings file in my package?
+ * Should I set the settings of my package from the simulation settings file, or should I define a settings file in my package?
    * This is up to your specific case. If the settings you define are read and processed by other modules as well, then you should define it centrally. Otherwise, defining algorithm-specific settings inside the package makes more sense.
 
 ### Outputs

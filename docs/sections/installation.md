@@ -4,7 +4,7 @@ P3IV is targeted towards Linux and ROS. The installation steps below are describ
 
 ### Required Dependencies
 
-P3IV is designed to operate on top of Lanelet2 library. Because Lanelet2 is dependency of P3IV, the build procedure and [dependencies of Lanelet2](https://github.com/fzi-forschungszentrum-informatik/Lanelet2/blob/master/README.md#dependencies) apply to P3IV.
+P3IV is designed to operate on top of Lanelet2 library. Because Lanelet2 is a dependency of P3IV, the build procedure and [dependencies of Lanelet2](https://github.com/fzi-forschungszentrum-informatik/Lanelet2/blob/master/README.md#dependencies) apply to P3IV.
 
 Further dependencies other than those for Lanelet2 are
  * `Pybind11`
@@ -16,7 +16,7 @@ In autonomous driving applications as well as in this simulation framework, obta
 
 P3IV can imitate perception modules of an autonomous vehicle and can perform visible area calculations. Such calculations can be performed with polygon clipping libraries, for which many alternatives are available. The most reliable and fastest way to perform these calculations is to use Computational Geometry and Algebra Library [CGAL](https://www.cgal.org/) which is implemented in C++.
 
-CGAL has a restrictive license limiting its commercial use. Even though P3IV sets its focus on academic research, it sets the perception module which depends on CGAL as optional. If CMake doesn't find CGAL installed on your system, the simulation framework will fallback to perfect visibility, assuming an unlimited sensor range.
+CGAL has a restrictive license limiting its commercial use. Even though P3IV sets its focus on academic research, it sets the perception module which depends on CGAL as optional. If CMake doesn't find CGAL installed on your system, the simulation framework will fall back to perfect visibility, assuming an unlimited sensor range.
 
 .. warning::
    A CGAL version > v5.0.3 is needed. CGAL is header-only library since v5.0. Ubuntu package manager provides v4.x for 18.04 and v5.x for Ubuntu 20.04.
