@@ -97,6 +97,26 @@ class Predict(PredictInterface):
                 break
         return pose_array
 
+    def read_goal_lanelet(self, vehicle_id):
+        """
+        Read destination Lanelet ID from dataset
+        """
+        if vehicle_id in list(self.track_dictionary.keys()):
+            # read the last track for the vehicle
+            last_motion_state = list(self.track_dictionary[vehicle_id].motion_states.values())[-1]
+            x, y, yaw_degrees = last_motion_state.x, last_motion_state.y, np.rad2deg(last_motion_state.psi_rad)
+
+            # vehicles sometimes leave their lane; add tolerance of 2 meters
+            current_matches = Understand.match2Lanelet(
+                self._laneletmap, self._traffic_rules, [x, y, yaw_degrees], tolerance=2.0
+            )
+
+            # there may be multiple candidates; return all of them
+            goal_candidates = [match.lanelet for match in current_matches]
+            return goal_candidates
+        else:
+            raise KeyError("Vehicle not in track dictionary")
+
     @staticmethod
     def fix_zeros(pose_array, centerline, dt):
         """
