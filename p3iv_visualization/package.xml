@@ -12,9 +12,12 @@
   <build_depend>mrt_cmake_modules</build_depend>
   <test_depend>gtest</test_depend>
 
-
   <depend>lanelet2_core</depend>
   <depend>p3iv_utils</depend>
+
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-matplotlib</exec_depend>
+  
 
   <export>
     <rosdoc config="../rosdoc.yaml" />

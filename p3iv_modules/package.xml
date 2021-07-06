@@ -19,6 +19,10 @@
   <depend>p3iv_utils_polyvision</depend>
   <depend>p3iv_utils_probability</depend>
 
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-shapely</exec_depend>
+  <exec_depend>lanelet2_python</exec_depend>
+
   <export>
     <rosdoc config="../rosdoc.yaml" />
   </export>

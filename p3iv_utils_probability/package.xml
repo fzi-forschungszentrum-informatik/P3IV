@@ -13,11 +13,13 @@
   <build_depend>mrt_cmake_modules</build_depend>
   <test_depend>gtest</test_depend>
   <test_depend>boost</test_depend>
-  <exec_depend>scipy</exec_depend>
-  <exec_depend>numpy</exec_depend>
-  <exec_depend>matplotlib</exec_depend>
+
   <depend>eigen</depend>
   <depend>libgoogle-glog-dev</depend>
+
+  <exec_depend>python3-scipy</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-matplotlib</exec_depend>
 
   <export>
     <rosdoc config="../rosdoc.yaml" />

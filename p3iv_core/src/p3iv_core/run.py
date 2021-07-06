@@ -3,7 +3,6 @@
 import os
 import pickle
 import time
-from pyfiglet import Figlet
 from datetime import datetime
 from pprint import pprint
 import sys
