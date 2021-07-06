@@ -64,13 +64,14 @@ class Predict(PredictInterface):
         """Create a SituationObject filled with ground-truth-prediction."""
         situation_object = SituationObject(scene_object)
         pose_array = self.read_pose(timestamp, situation_object.id)
+        goal_candidates = self.read_goal_lanelet(situation_object.id)
 
         try:
             # if SceneModel(s) are extracted for SceneObjects in understanding module
             route_scene, overlap = self.get_maneuver_path(route_option, scene_object, pose_array)
         except AssertionError:
             # Routes will be extracted for SceneObjects with the help of lanelet matcher
-            route_scene, overlap = self.create_maneuver_path(route_option, scene_object, pose_array)
+            route_scene, overlap = self.create_maneuver_path(route_option, scene_object, pose_array, goal_candidates)
 
         pose_array = self.fix_zeros(pose_array, route_scene.route_option.laneletsequence.centerline(), self._dt)
         self.create_maneuvers(scene_object, situation_object, route_scene, overlap)
@@ -160,7 +161,7 @@ class Predict(PredictInterface):
                 break
         return rso, None
 
-    def create_maneuver_path(self, route_option, scene_object, pose_array):
+    def create_maneuver_path(self, route_option, scene_object, pose_array, goal_candidates):
 
         # find unique lanelet matches
         i = 0
@@ -168,7 +169,9 @@ class Predict(PredictInterface):
         overlap = []
         while i < len(pose_array):
             # get all lanelet matches for current pose
-            current_matches = Understand.match2Lanelet(self._laneletmap, self._traffic_rules, pose_array[i])
+            current_matches = Understand.match2Lanelet(
+                self._laneletmap, self._traffic_rules, pose_array[i], tolerance=2.0
+            )
 
             # if any current match is on route-option lanelets of ego (host) vehicle fill overlap list with True
             current_match_ids = [cm.lanelet.id for cm in current_matches]
@@ -182,42 +185,24 @@ class Predict(PredictInterface):
                 llt_matches_list.append(current_matches)
             i += 1
 
-        # convert the list of lanelet-matches to a list of matched lanelets
-        matched_llts = []
-        for llt_matches in llt_matches_list:
-            if len(llt_matches) != 0:
-                matched_llts.append([llms.lanelet for llms in llt_matches])
+        # get the first matches from matches_list and check if any leads to destination
+        route_alternatives = []
+        for goal_lanelet in goal_candidates:
+            for match in llt_matches_list[0]:
+                try:
+                    # use routing graph
+                    lanelet2sequence = self._routing_graph.getRoute(match.lanelet, goal_lanelet).shortestPath()
 
-        # remove not-connected matches from the list
-        for j in range(1, len(matched_llts) - 1):
-            current_llt_ids = [cllt.id for cllt in matched_llts[j]]
-            following_ids = self._allLaneletsConnectedWithCurrentLaneletsFollowing(matched_llts[j], current_llt_ids)
-            for m in matched_llts[j + 1]:
-                if m.id not in following_ids:
-                    matched_llts[j + 1].remove(m)
+                    # add to candidates
+                    route_alternatives.append(lanelet2sequence)
+                except:
+                    pass
 
-            current_llt_ids = [cllt.id for cllt in matched_llts[j]]
-            previous_ids = self._allLaneletsConnectedWithCurrentLaneletsPrevious(matched_llts[j], current_llt_ids)
-            for m in matched_llts[j - 1]:
-                if m.id not in previous_ids:
-                    matched_llts[j - 1].remove(m)
+        # get the shortest route
+        route_lanelets = min(route_alternatives, key=len)
 
-        try:
-            # use routing graph
-            lanelet2sequence = self._routing_graph.getRoute(matched_llts[0][0], matched_llts[-1][0]).shortestPath()
-            route_lanelets = [llt for llt in lanelet2sequence]
-        except:
-            # use lanelet matches - eleminate subsequently occuring multiple same lanelet matches
-            # e.g. [30032, 30016, 30016, 30016, 30017, 30017, 30017, 30036, ...]
-            route_lanelets = []
-            latest_llt_id = None
-            for llt_matches in matched_llts:
-                llt_m = llt_matches[0]
-                if llt_m.id != latest_llt_id:
-                    route_lanelets.append(llt_m)
-                    latest_llt_id = llt_m.id
-
-        route_option = RouteOption(route_lanelets)
+        # cast it into RouteOption
+        route_option = RouteOption([llt for llt in route_lanelets])
         route_scene = SceneModel(scene_object.id, scene_object.state.position.mean, route_option)
         return route_scene, overlap
 
