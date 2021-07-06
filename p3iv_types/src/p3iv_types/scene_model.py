@@ -1,4 +1,3 @@
-
 import os
 import itertools
 import uuid
@@ -88,18 +87,22 @@ class PyLaneletSequence(object):
     @staticmethod
     def smooth_centerline(centerline, resolution=100):
         """Takes Cartesian coordinates of centerline and smoothens them."""
-        distances = np.linalg.norm(np.diff(centerline, axis=0), axis=1)
-        distances = np.append(np.array([0]), distances)  # insert 0 to match lengths
-        progress = np.cumsum(distances)
+        try:
+            distances = np.linalg.norm(np.diff(centerline, axis=0), axis=1)
+            distances = np.append(np.array([0]), distances)  # insert 0 to match lengths
+            progress = np.cumsum(distances)
 
-        spline_x = UnivariateSpline(progress, centerline[:, 0], k=5)
-        spline_y = UnivariateSpline(progress, centerline[:, 1], k=5)
-        spline_x.set_smoothing_factor(0.75)
-        spline_y.set_smoothing_factor(0.75)
-        ps = np.linspace(progress[0], progress[-1], resolution)
-        xs = spline_x(ps)
-        ys = spline_y(ps)
-        return np.asarray(list(zip(xs, ys)))
+            spline_x = UnivariateSpline(progress, centerline[:, 0], k=5)
+            spline_y = UnivariateSpline(progress, centerline[:, 1], k=5)
+            spline_x.set_smoothing_factor(0.75)
+            spline_y.set_smoothing_factor(0.75)
+            ps = np.linspace(progress[0], progress[-1], resolution)
+            xs = spline_x(ps)
+            ys = spline_y(ps)
+            return np.asarray(list(zip(xs, ys)))
+        except:
+            # if the input centerline too short, scipy will raise dfitpack.error
+            return centerline
 
 
 class RouteOption(object):
