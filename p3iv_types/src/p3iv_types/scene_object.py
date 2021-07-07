@@ -1,4 +1,5 @@
 import itertools
+import warnings
 import numpy as np
 from copy import deepcopy
 from .vehicle import TrackedVehicle
@@ -14,6 +15,8 @@ class SceneObject(TrackedVehicle):
         Current motion state of the scene object
     progress: Univariate normal distribution
         Current longitudinal position.
+    speed_sign: double
+        Sign of the speed relative to ego vehicle.
     current_lanelets : list
         Contains list of current Lanelets the object might be on.
     route_options: List
@@ -24,11 +27,20 @@ class SceneObject(TrackedVehicle):
         If the object for which a scene model is built has right of way over the observer.
     """
 
-    __slots__ = ["state", "progress", "current_lanelets", "route_options", "route_scenes", "has_right_of_way"]
+    __slots__ = [
+        "state",
+        "progress",
+        "speed_sign",
+        "current_lanelets",
+        "route_options",
+        "route_scenes",
+        "has_right_of_way",
+    ]
 
     def __init__(self):
         super(SceneObject, self).__init__()
         self.progress = 0.0
+        self.speed_sign = 1.0
         self.current_lanelets = []
         self.route_options = []
         self.route_scenes = []
@@ -65,3 +77,11 @@ class SceneObject(TrackedVehicle):
                 v = getattr(self, k)
                 setattr(result, k, v)
         return result
+
+    @property
+    def speed(self):
+        try:
+            return self.state.speed * self.speed_sign
+        except AttributeError:
+            warnings.warn("State not set yet")
+            return 0.0

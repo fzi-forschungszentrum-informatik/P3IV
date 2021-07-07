@@ -75,7 +75,7 @@ class Predict(PredictInterface):
 
         pose_array = self.fix_zeros(pose_array, route_scene.route_option.laneletsequence.centerline(), self._dt)
         self.create_maneuvers(scene_object, situation_object, route_scene, overlap)
-        self.set_motion_components(situation_object.maneuvers.hypotheses[0], pose_array, scene_object.progress)
+        self.set_motion_components(situation_object.maneuvers.hypotheses[0], pose_array, scene_object)
         return situation_object
 
     def read_pose(self, timestamp, vehicle_id):
@@ -194,15 +194,14 @@ class Predict(PredictInterface):
                     lanelet2sequence = self._routing_graph.getRoute(match.lanelet, goal_lanelet).shortestPath()
 
                     # add to candidates
-                    route_alternatives.append(lanelet2sequence)
+                    route_option = RouteOption([llt for llt in lanelet2sequence])
+                    route_alternatives.append(route_option)
                 except:
                     pass
 
         # get the shortest route
-        route_lanelets = min(route_alternatives, key=len)
+        route_option = min(route_alternatives, key=lambda r: r.laneletsequence.length)
 
-        # cast it into RouteOption
-        route_option = RouteOption([llt for llt in route_lanelets])
         route_scene = SceneModel(scene_object.id, scene_object.state.position.mean, route_option)
         return route_scene, overlap
 
@@ -233,12 +232,13 @@ class Predict(PredictInterface):
         hypotheses[0].probability.maneuver = 1.0
         situation_object.maneuvers.add(hypotheses)
 
-    def set_motion_components(self, maneuver_hypothesis, pose_array, progress):
+    def set_motion_components(self, maneuver_hypothesis, pose_array, scene_object):
         """Calculate velocity etc. in Cartesian frame & Frenet motion"""
         c = CoordinateTransform(maneuver_hypothesis.path.centerline())
         maneuver_hypothesis.motion(pose_array[:, :2], dt=self._dt)
         pos_arc = c.xy2ld(maneuver_hypothesis.motion.position.mean)
-        offset = pos_arc[0, 0] - progress
+        offset = pos_arc[0, 0] - scene_object.progress
+        pos_arc *= scene_object.speed_sign
         pos_arc[:, 0] -= offset
         maneuver_hypothesis.progress = pos_arc
 

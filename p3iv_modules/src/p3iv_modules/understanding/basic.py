@@ -9,6 +9,7 @@ import traceback
 from termcolor import colored
 from p3iv_types.scene_model import RouteOption, SceneModel
 from p3iv_utils.coordinate_transformation import CoordinateTransform
+from p3iv_utils.helper_functions import angle_between_vectors
 from p3iv_modules.interfaces import SceneUnderstandingInterface
 import lanelet2
 import lanelet2.matching as lanelet2_matching
@@ -79,7 +80,7 @@ class Understand(SceneUnderstandingInterface):
 
             # match lanelets
             current_lanelets = []
-            for m in self.match2Lanelet(self._laneletmap, self._traffic_rules, e.state.pose):
+            for m in self.match2Lanelet(self._laneletmap, self._traffic_rules, e.state.pose, tolerance=2.0):
                 current_lanelets.append(m.lanelet)
 
             if len(current_lanelets) == 0 and e.id != self._id:
@@ -95,13 +96,8 @@ class Understand(SceneUnderstandingInterface):
             else:
                 scene_objects.append(s)
 
-        # increase tolerance of ego vehicle if no match is found
-        if len(ego_v.current_lanelets) == 0:
-            current_lanelets = []
-            for m in self.match2Lanelet(self._laneletmap, self._traffic_rules, ego_v.state.pose, tolerance=1.0):
-                current_lanelets.append(m.lanelet)
-            ego_v.current_lanelets = current_lanelets
-
+        # get routes that lead to goal lanelet
+        route_alternatives = []
         for current_llt in ego_v.current_lanelets:
             try:
                 # it's not the initial calculation and current lanelet id is in laneletsequence-memory
@@ -110,17 +106,20 @@ class Understand(SceneUnderstandingInterface):
                 route_to_destination = self._routing_graph.getRoute(
                     current_llt, self._laneletmap.laneletLayer[self._toLanelet]
                 )
-                lanelet2_laneletsequence = route_to_destination.shortestPath()
-                llts = [llt for llt in lanelet2_laneletsequence]
-                route_option = RouteOption(llts)
-                break
+                lanelet2sequence = route_to_destination.shortestPath()
+                route_option = RouteOption([llt for llt in lanelet2sequence])
+                route_alternatives.append(route_option)
+
             except AttributeError:
                 # if 'toLanelet' is not reachable, lanelet2.python will return 'route_to_destination' as None
                 continue
         assert (
-            route_option,
+            len(route_alternatives) > 0,
             "Lanelet matcher has performed poorly and route option could not be calculated",
         )
+
+        # get the shortest route
+        route_option = min(route_alternatives, key=lambda r: r.laneletsequence.length)
         self._route_memory = route_option
 
         scene_model = SceneModel(ego_v.id, ego_v.state.position.mean, route_option)
@@ -130,7 +129,11 @@ class Understand(SceneUnderstandingInterface):
         # and add the tracked object into scene model if any may overlap with ego route.)
         for s in scene_objects:
 
-            v2v_distance = np.linalg.norm(ego_v.state.position.mean - s.state.position.mean)
+            # calculate speed sign of scene object form the perspective of ego vehicle
+            s.speed_sign = self.speed_sign(ego_v.state, s.state)
+
+            v2v_distance = self.signed_relative_distance(ego_v.state, s.state)
+
             # in pseudo-prediction, depending on the ground-truth motion, some of the scene model objects will be removed.
             scene_model.add_object(s, v2v_distance)
 
@@ -145,3 +148,39 @@ class Understand(SceneUnderstandingInterface):
         matches_all = lanelet2_matching.getDeterministicMatches(laneletmap, o, tolerance)
         matches = lanelet2_matching.removeNonRuleCompliantMatches(matches_all, traffic_rules)
         return matches
+
+    @staticmethod
+    def signed_relative_distance(host_state, guest_state):
+        """
+        Returns relative distance between host (ego) and guest (other), from the perspective of host.
+        """
+
+        # get relative distance
+        v2v_distance = np.linalg.norm(host_state.position.mean - guest_state.position.mean)
+
+        # get sign
+        pos_diff = guest_state.position.mean - host_state.position.mean
+        angle = (np.rad2deg(np.arctan2(pos_diff[1], pos_diff[0])) + 360.0) % 360.0
+        relative_heading = angle - host_state.yaw.mean
+        if 270.0 > relative_heading > 90.0:
+            # vehicle is behind ego vehicle
+            v2v_distance = v2v_distance * -1.0
+
+        # return vehicle-to-vehicle distance
+        return v2v_distance
+
+    @staticmethod
+    def speed_sign(host_state, guest_state):
+        """
+        Returns speed sign of guest from the perspective of ego vehicle
+        """
+
+        angle_rad = angle_between_vectors(host_state.velocity.mean, guest_state.velocity.mean)
+
+        angle = (np.rad2deg(angle_rad) + 360.0) % 360.0
+        if 270.0 > angle > 90.0:
+            # vehicle is driving towards host
+            return -1.0
+        else:
+            # vehicle is driving in the same direction as host
+            return 1.0

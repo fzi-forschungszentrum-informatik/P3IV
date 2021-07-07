@@ -39,6 +39,11 @@ class PyLaneletSequence(object):
     def lanelets(self):
         return self._lanelets
 
+    @property
+    def length(self):
+        centerline = self.centerline()
+        return np.sum(np.linalg.norm(np.diff(centerline, axis=0), axis=1))
+
     def centerline(self, smooth=False):
         """
         Get Cartesian coordinates of centerline. Options 'smooth' smoothens zig-zags.
