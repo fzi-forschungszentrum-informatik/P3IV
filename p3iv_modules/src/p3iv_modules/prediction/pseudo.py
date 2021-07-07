@@ -194,15 +194,14 @@ class Predict(PredictInterface):
                     lanelet2sequence = self._routing_graph.getRoute(match.lanelet, goal_lanelet).shortestPath()
 
                     # add to candidates
-                    route_alternatives.append(lanelet2sequence)
+                    route_option = RouteOption([llt for llt in lanelet2sequence])
+                    route_alternatives.append(route_option)
                 except:
                     pass
 
         # get the shortest route
-        route_lanelets = min(route_alternatives, key=len)
+        route_option = min(route_alternatives, key=lambda r: r.laneletsequence.length)
 
-        # cast it into RouteOption
-        route_option = RouteOption([llt for llt in route_lanelets])
         route_scene = SceneModel(scene_object.id, scene_object.state.position.mean, route_option)
         return route_scene, overlap
 

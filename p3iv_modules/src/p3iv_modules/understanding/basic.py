@@ -96,13 +96,8 @@ class Understand(SceneUnderstandingInterface):
             else:
                 scene_objects.append(s)
 
-        # increase tolerance of ego vehicle if no match is found
-        if len(ego_v.current_lanelets) == 0:
-            current_lanelets = []
-            for m in self.match2Lanelet(self._laneletmap, self._traffic_rules, ego_v.state.pose, tolerance=1.0):
-                current_lanelets.append(m.lanelet)
-            ego_v.current_lanelets = current_lanelets
-
+        # get routes that lead to goal lanelet
+        route_alternatives = []
         for current_llt in ego_v.current_lanelets:
             try:
                 # it's not the initial calculation and current lanelet id is in laneletsequence-memory
@@ -111,17 +106,20 @@ class Understand(SceneUnderstandingInterface):
                 route_to_destination = self._routing_graph.getRoute(
                     current_llt, self._laneletmap.laneletLayer[self._toLanelet]
                 )
-                lanelet2_laneletsequence = route_to_destination.shortestPath()
-                llts = [llt for llt in lanelet2_laneletsequence]
-                route_option = RouteOption(llts)
-                break
+                lanelet2sequence = route_to_destination.shortestPath()
+                route_option = RouteOption([llt for llt in lanelet2sequence])
+                route_alternatives.append(route_option)
+
             except AttributeError:
                 # if 'toLanelet' is not reachable, lanelet2.python will return 'route_to_destination' as None
                 continue
         assert (
-            route_option,
+            len(route_alternatives) > 0,
             "Lanelet matcher has performed poorly and route option could not be calculated",
         )
+
+        # get the shortest route
+        route_option = min(route_alternatives, key=lambda r: r.laneletsequence.length)
         self._route_memory = route_option
 
         scene_model = SceneModel(ego_v.id, ego_v.state.position.mean, route_option)
