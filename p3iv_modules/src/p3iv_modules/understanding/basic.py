@@ -9,6 +9,7 @@ import traceback
 from termcolor import colored
 from p3iv_types.scene_model import RouteOption, SceneModel
 from p3iv_utils.coordinate_transformation import CoordinateTransform
+from p3iv_utils.helper_functions import angle_between_vectors
 from p3iv_modules.interfaces import SceneUnderstandingInterface
 import lanelet2
 import lanelet2.matching as lanelet2_matching
@@ -129,7 +130,12 @@ class Understand(SceneUnderstandingInterface):
         # (Normally a good scene understanding module should inspect all maneuver options of a tracked vehicle,
         # and add the tracked object into scene model if any may overlap with ego route.)
         for s in scene_objects:
+
+            # calculate speed sign of scene object form the perspective of ego vehicle
+            s.speed_sign = self.speed_sign(ego_v.state, s.state)
+
             v2v_distance = self.signed_relative_distance(ego_v.state, s.state)
+
             # in pseudo-prediction, depending on the ground-truth motion, some of the scene model objects will be removed.
             scene_model.add_object(s, v2v_distance)
 
@@ -163,3 +169,19 @@ class Understand(SceneUnderstandingInterface):
 
         # return vehicle-to-vehicle distance
         return v2v_distance
+
+    @staticmethod
+    def speed_sign(host_state, guest_state):
+        """
+        Returns speed sign of guest from the perspective of ego vehicle
+        """
+
+        angle_rad = angle_between_vectors(host_state.velocity.mean, guest_state.velocity.mean)
+
+        angle = (np.rad2deg(angle_rad) + 360.0) % 360.0
+        if 360.0 > angle > 270.0 or 90.0 > angle > 0.0:
+            # vehicle is driving in the same direction as host
+            return 1.0
+        else:
+            # vehicle is driving towards host
+            return -1.0
