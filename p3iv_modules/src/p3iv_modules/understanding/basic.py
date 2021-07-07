@@ -179,9 +179,9 @@ class Understand(SceneUnderstandingInterface):
         angle_rad = angle_between_vectors(host_state.velocity.mean, guest_state.velocity.mean)
 
         angle = (np.rad2deg(angle_rad) + 360.0) % 360.0
-        if 360.0 > angle > 270.0 or 90.0 > angle > 0.0:
-            # vehicle is driving in the same direction as host
-            return 1.0
-        else:
+        if 270.0 > angle > 90.0:
             # vehicle is driving towards host
             return -1.0
+        else:
+            # vehicle is driving in the same direction as host
+            return 1.0
