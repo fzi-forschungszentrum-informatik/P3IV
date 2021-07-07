@@ -80,7 +80,7 @@ class Understand(SceneUnderstandingInterface):
 
             # match lanelets
             current_lanelets = []
-            for m in self.match2Lanelet(self._laneletmap, self._traffic_rules, e.state.pose):
+            for m in self.match2Lanelet(self._laneletmap, self._traffic_rules, e.state.pose, tolerance=2.0):
                 current_lanelets.append(m.lanelet)
 
             if len(current_lanelets) == 0 and e.id != self._id:
