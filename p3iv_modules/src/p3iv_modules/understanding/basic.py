@@ -161,7 +161,8 @@ class Understand(SceneUnderstandingInterface):
         # get sign
         pos_diff = guest_state.position.mean - host_state.position.mean
         angle = (np.rad2deg(np.arctan2(pos_diff[1], pos_diff[0])) + 360.0) % 360.0
-        if 270.0 > angle > 90.0:
+        relative_heading = angle - host_state.yaw.mean
+        if 270.0 > relative_heading > 90.0:
             # vehicle is behind ego vehicle
             v2v_distance = v2v_distance * -1.0
 
