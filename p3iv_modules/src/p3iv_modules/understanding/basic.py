@@ -129,8 +129,7 @@ class Understand(SceneUnderstandingInterface):
         # (Normally a good scene understanding module should inspect all maneuver options of a tracked vehicle,
         # and add the tracked object into scene model if any may overlap with ego route.)
         for s in scene_objects:
-
-            v2v_distance = np.linalg.norm(ego_v.state.position.mean - s.state.position.mean)
+            v2v_distance = self.signed_relative_distance(ego_v.state, s.state)
             # in pseudo-prediction, depending on the ground-truth motion, some of the scene model objects will be removed.
             scene_model.add_object(s, v2v_distance)
 
@@ -145,3 +144,22 @@ class Understand(SceneUnderstandingInterface):
         matches_all = lanelet2_matching.getDeterministicMatches(laneletmap, o, tolerance)
         matches = lanelet2_matching.removeNonRuleCompliantMatches(matches_all, traffic_rules)
         return matches
+
+    @staticmethod
+    def signed_relative_distance(host_state, guest_state):
+        """
+        Returns relative distance between host (ego) and guest (other), from the perspective of host.
+        """
+
+        # get relative distance
+        v2v_distance = np.linalg.norm(host_state.position.mean - guest_state.position.mean)
+
+        # get sign
+        pos_diff = guest_state.position.mean - host_state.position.mean
+        angle = (np.rad2deg(np.arctan2(pos_diff[1], pos_diff[0])) + 360.0) % 360.0
+        if 360.0 > angle > 170.0 or 10.0 > angle > 0.0:
+            # vehicle is behind ego vehicle
+            v2v_distance = v2v_distance * -1.0
+
+        # return vehicle-to-vehicle distance
+        return v2v_distance
