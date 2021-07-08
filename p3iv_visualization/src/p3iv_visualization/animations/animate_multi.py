@@ -49,7 +49,7 @@ class AnimateMulti(object):
 
         start = time.time()
         timestampdata = self.egovehicle.timestamps()[self.i_anim]
-        self.animator.update_ego(timestampdata, i=0, magnitude_flag=self.animator.frame.magnitude_flag)
+        self.animator.update_ego(timestampdata, i=0, magnitude_flag=False)
         self.animator.update_others_cartesian(timestampdata, i=self.i_anim)
         self.animator.update_others_frenet(timestampdata, i=self.i_anim)
         self.animator.update_timestamp_text(timestampdata.timestamp)
@@ -67,6 +67,7 @@ class AnimateMulti(object):
             self.animator.frame.save_figure_flag = False
 
         self.i_anim = i_anim_new % len(self.egovehicle.timestamps)
+        self.animator.frame.step = self.i_anim
 
     def animate(self, *args, **kwargs):
         """
@@ -102,9 +103,14 @@ class AnimateMulti(object):
                 # Non-standart console output:
                 print "\033[1m%-2s %2i\033[0m\n" %("TIMESTEP:", self.i_anim)
             """
+            # save very frame as an image during the first run
+            if self.animator.frame.save_figure_flag:
+                self.animator.frame.save_animation_instance(self.save_dir, self.i_anim)
 
-        if self.animator.frame.save_figure_flag:
-            self.animator.frame.save_animation_instance(self.save_dir, self.i_anim)
+        else:
+            if self.i_anim != self.animator.frame.step:
+                self.i_anim = self.animator.frame.step
+                self.update()
 
     @staticmethod
     def show():
