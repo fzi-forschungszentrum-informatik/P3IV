@@ -2,7 +2,7 @@ import numpy as np
 
 
 class PlotArray2D(object):
-    def __init__(self, ax, y_label, x_label="Time $(s)$", label_x="x-component", label_y="y-component"):
+    def __init__(self, ax, y_label="", x_label="Time $(s)$", label_x="x-component", label_y="y-component"):
         self.ax = ax
         self.ax.set_xlabel(x_label)
         self.ax.set_ylabel(y_label)
