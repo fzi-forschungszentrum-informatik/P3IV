@@ -1,3 +1,6 @@
+# This file is part of the P3IV Simulator (https://github.com/fzi-forschungszentrum-informatik/P3IV),
+# copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
+
 import numpy as np
 
 
@@ -37,7 +40,7 @@ class PointXY(object):
         return 2
 
     def __repr__(self):
-        return 'Point(%s, %s)' % (self.x, self.y)
+        return "Point(%s, %s)" % (self.x, self.y)
 
 
 class Polygon(object):
@@ -127,9 +130,7 @@ def seg_arc_intersect(seg, origin, radius, arc):
 
     D = D / t_max
 
-    coef = np.array([1,
-                     2 * np.dot(D, (A - O)),
-                     norm(A - O) ** 2 - r ** 2])
+    coef = np.array([1, 2 * np.dot(D, (A - O)), norm(A - O) ** 2 - r ** 2])
     coef = np.round(coef, decimals=8)
 
     sol = np.roots(coef)
@@ -146,7 +147,7 @@ def seg_arc_intersect(seg, origin, radius, arc):
             if on_arc(arc, ang):
                 return (P, None)
         else:
-            return (None,)*2
+            return (None,) * 2
     else:
         # two distinct roots, two possible intersection points
         ret = [None] * 2
@@ -220,7 +221,7 @@ def in_fov(fov, b, a):
         return (a > a2) or (a < a1)
     else:
         # why not return "a2 < a < a1"?
-        return (a2 < a < a1)
+        return a2 < a < a1
 
 
 def p_in_tri(p, tri):
@@ -278,6 +279,7 @@ def p_in_wedge(p, wedge):
 
     return False
 
+
 def segment_interpolation_points(beg, end, dx, n=0, equal=True, inc_end=True):
     """
     Generator that returns segment interpolation points.
@@ -316,28 +318,28 @@ def segment_interpolation_points(beg, end, dx, n=0, equal=True, inc_end=True):
         raise ValueError
 
     if not precise and equal:
-        offset = (d - n*dx) / 2
+        offset = (d - n * dx) / 2
     else:
         offset = 0
 
     yield beg
 
     for i in range(1, int(n)):
-        yield beg + (i*dx + offset) * direction
+        yield beg + (i * dx + offset) * direction
 
     if inc_end:
         yield end
 
 
 def _test_segment_interp():
-    beg = [0,0]
-    end = [0,1]
+    beg = [0, 0]
+    end = [0, 1]
 
-    print('\ndx =', 0.07)
+    print("\ndx =", 0.07)
     for i in segment_interpolation_points(beg, end, 0.07):
         print(i)
 
-    print('\nn =', 5)
+    print("\nn =", 5)
     for i in segment_interpolation_points(beg, end, 0.1, n=5):
         print(i)
 
@@ -361,8 +363,8 @@ def _test_arc():
     print(pts)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _test_arc()
 
-    print('segment interp')
+    print("segment interp")
     _test_segment_interp()
