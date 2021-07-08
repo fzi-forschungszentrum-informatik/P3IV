@@ -238,8 +238,12 @@ class Predict(PredictInterface):
         maneuver_hypothesis.motion(pose_array[:, :2], dt=self._dt)
         pos_arc = c.xy2ld(maneuver_hypothesis.motion.position.mean)
         offset = pos_arc[0, 0] - scene_object.progress
-        pos_arc *= scene_object.speed_sign
         pos_arc[:, 0] -= offset
+
+        # if vehicle is in oncoming direction
+        if scene_object.speed_sign < 0:
+            pos_arc[1:, 0] = pos_arc[0, 0] - np.diff(pos_arc[:, 0]) / (self._dt * 1000.0)
+
         maneuver_hypothesis.progress = pos_arc
 
     def _allLaneletsConnectedWithCurrentLaneletsFollowing(self, current_llts, current_llt_ids):
