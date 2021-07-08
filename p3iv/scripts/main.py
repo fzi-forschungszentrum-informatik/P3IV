@@ -163,10 +163,14 @@ if __name__ == "__main__":
             time_dir = os.path.join(result_date_dir, latest_date)
             latest_time_dir = sorted(os.listdir(time_dir))[-1]
             results_dir = os.path.realpath(os.path.join(time_dir, latest_time_dir))
-            Print2Console.p("s", ["Displaying results from:"], style="magenta")
+            Print2Console.p("s", ["Displaying results from:"], style="magenta", bold=True)
             Print2Console.p("s", [results_dir], style="magenta")
-            Print2Console.p("s", ["Press enter to continue"], style="magenta", bold=True)
-            # raw_input("")
+            # Print2Console.p("s", ["Press enter to continue"], style="magenta", bold=True)
+            msg = (
+                "\nIf you want to visualize some other simulation run, please rerun this script and\n"
+                + "specify this as argument, i.e. $ python main.py --show-multi=<RESULTS_DIRECTORY>"
+            )
+            Print2Console.p("s", [msg], style="magenta")
             gt, configurations = load_results(results_dir)
 
         if args.show_single:
