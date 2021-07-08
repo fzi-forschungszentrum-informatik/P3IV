@@ -102,9 +102,9 @@ class AnimateMulti(object):
                 # Non-standart console output:
                 print "\033[1m%-2s %2i\033[0m\n" %("TIMESTEP:", self.i_anim)
             """
-
-        if self.animator.frame.save_figure_flag:
-            self.animator.frame.save_animation_instance(self.save_dir, self.i_anim)
+            # save very frame as an image during the first run
+            if self.animator.frame.save_figure_flag:
+                self.animator.frame.save_animation_instance(self.save_dir, self.i_anim)
 
     @staticmethod
     def show():
