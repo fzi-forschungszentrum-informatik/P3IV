@@ -13,7 +13,7 @@ This repository consists of almost twenty thousand lines of code (as of July'21)
 
 ## License
 
-This framework is licensed under the [BSD 3-Clause License](https://github.com/fzi-forschungszentrum-informatik/P3IV/LICENSE).
+This framework is licensed under the [BSD 3-Clause License](https://github.com/fzi-forschungszentrum-informatik/P3IV/blob/master/LICENSE).
 
 ## Related Publications
 
@@ -23,4 +23,4 @@ Released version of this framework is utilized the following academic publicatio
 
 ## Contact
 
-If you find problem or have questions please feel free to create an issue or to send an email to tas@fzi.de!
+If you find problem or have questions please feel free to [create an issue](https://github.com/fzi-forschungszentrum-informatik/P3IV/issues/new) or to send an email to [tas@fzi.de](mailto:tas@fzi.de)!
