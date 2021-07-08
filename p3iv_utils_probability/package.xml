@@ -4,10 +4,10 @@
   <version>0.0.0</version>
   <description>Definitions and functions for probability distributions</description>
 
-  <license>MRT</license>
-  <maintainer email="sahin.tas@kit.edu">Sahin Tas</maintainer>
-  <author email="sahin.tas@kit.edu">Sahin Tas</author>
-  <url type="repository">https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/util_probability</url>
+  <license>BSD</license>
+  <maintainer email="tas@fzi.de">Sahin Tas</maintainer>
+  <author email="tas@fzi.de">Sahin Tas</author>
+  <url type="repository">https://github.com/fzi-forschungszentrum-informatik/P3IV</url>
 
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>mrt_cmake_modules</build_depend>
