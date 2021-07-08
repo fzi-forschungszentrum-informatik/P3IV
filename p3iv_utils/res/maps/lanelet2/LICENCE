@@ -1,4 +1,11 @@
-The Lanelet2 map "SanFrancisco-Downtown-Sample-Lanelet2.osm" by Atlatec GmbH [1] and is licenced with CC-BY-4.0 licence [2].
+The Lanelet2 map "SanFrancisco-Downtown-Sample-Lanelet2.osm" is copyrighted by Atlatec GmbH [1] and is licenced with
+CC-BY-4.0 licence [2].
+
+The Lanelet2 maps "DR_DEU_Merging_MT.osm", "DR_DEU_Roundabout_OF.osm", and "DR_USA_Intersection_EP0.osm" are released
+with INTERACTION dataset [3] and are copyrighted together by UC Berkeley, MINES ParisTech, and FZI Forschungszentrum
+Informatik. This repository contains these exemplary maps for testing and demonstration purposes. Terms and conditions
+provided in [3] apply.
 
 [1] https://atlatec.de/en/
 [2] https://creativecommons.org/licenses/by/4.0/
+[3] https://interaction-dataset.com/
