@@ -9,21 +9,26 @@ class PlotMotionComponents(object):
         ax1,
         ax2,
         ax0_label="Velocity $(m/s)$",
-        ax1_label="Acceleration $(m/s^2)$",
-        ax2_label="Jerk $(m/s^3)$",
+        ax1_label="Speed $(m/s)$",
+        ax2_label="Control Inputs",
     ):
-        self.p_ax0 = PlotArray2D(ax0, y_label=ax0_label)
+        self.p_ax0 = PlotArray2D(ax0, y_label=ax0_label, label_x="x-component", label_y="y-component")
         self.p_ax1 = PlotArray2D(ax1, y_label=ax1_label)
-        self.p_ax2 = PlotArray2D(ax2, y_label=ax2_label)
+        self.p_ax2 = PlotArray2D(
+            ax2, y_label=ax2_label, label_x="Steering angle $(deg)$", label_y="Acceleration $(m/s^2)$"
+        )
 
         self.lines_axvline_0 = ax0.axvline(x=-1, linewidth=0.5, color="r")
         self.lines_axvline_1 = ax1.axvline(x=-1, linewidth=0.5, color="r")
         self.lines_axvline_2 = ax2.axvline(x=-1, linewidth=0.5, color="r")
 
+        ax2_twin = ax2.twinx()
+        self.p_ax2_twin = PlotArray2D(ax2_twin)
+
     def initialize(self, timesteps):
         self.p_ax0.initialize(timesteps)
         self.p_ax0.set_x_axis(set_ticks=False)
-        self.p_ax0.set_y_axis(-20, 20, increment=4)
+        self.p_ax0.set_y_axis(-20, 20, increment=5)
 
         self.p_ax1.initialize(timesteps)
         self.p_ax1.set_x_axis(set_ticks=False)
@@ -31,7 +36,11 @@ class PlotMotionComponents(object):
 
         self.p_ax2.initialize(timesteps)
         self.p_ax2.set_x_axis()
-        self.p_ax2.set_y_axis(-10, 10, increment=2)
+        self.p_ax2.set_y_axis(-90, 90, increment=30)
+
+        self.p_ax2_twin.initialize(timesteps)
+        self.p_ax2_twin.set_x_axis()
+        self.p_ax2_twin.set_y_axis(-10, 10, increment=5)
 
         # hide the x-labels of the 2nd and the 3rd subplot
         # but this is not necessary: set_ticks is False in ax.set_x_axis(set_ticks=False)
@@ -46,12 +55,21 @@ class PlotMotionComponents(object):
         :param magnitude_flag: show magnitude line as well (boolean)
         :return:
         """
-        for ax, data in zip([self.p_ax0, self.p_ax1, self.p_ax2], [ax0_data, ax1_data, ax2_data]):
-            if data is not None:
+        if ax0_data is not None:
+            for ax, data in zip([self.p_ax0, self.p_ax1], [ax0_data, ax1_data]):
+
                 if len(data.shape) == 1:
                     ax.update_motion_array1d(data, index4pin2free=index4pin2free, magnitude_flag=magnitude_flag)
                 else:
                     ax.update_motion_array2d(data, index4pin2free=index4pin2free, magnitude_flag=magnitude_flag)
+
+            # not elegant due to twin plot; but modify lowest row manually
+            self.p_ax2._update_motion_array(
+                self.p_ax2.ax_x_pinn, self.p_ax2.ax_x_free, ax2_data[:, 0], index4pin2free=index4pin2free
+            )
+            self.p_ax2._update_motion_array(
+                self.p_ax2_twin.ax_y_pinn, self.p_ax2_twin.ax_y_free, ax2_data[:, 1], index4pin2free=index4pin2free
+            )
 
     def update_time_highlighter(self, t):
         self.lines_axvline_0.set_xdata(t)
@@ -62,7 +80,23 @@ class PlotMotionComponents(object):
         # Define a legend in order to specify the x-y components of the plotted item
         # (numpoints is for setting the number of markers shown in the legend )
         self.p_ax0.ax.legend(
-            bbox_to_anchor=(0, 1, 1, 0.100), loc=3, ncol=2, mode="expand", borderaxespad=0.0, numpoints=1
+            bbox_to_anchor=(0.005, 0.88, 0.99, 0.10),
+            loc="center",
+            ncol=2,
+            mode="expand",
+            borderaxespad=0.0,
+            numpoints=1,
+            prop={"size": 8},
+        )
+
+        self.p_ax2.ax.legend(
+            bbox_to_anchor=(0.005, 0.87, 0.99, 0.10),
+            loc="center",
+            ncol=2,
+            mode="expand",
+            borderaxespad=0.0,
+            numpoints=1,
+            prop={"size": 8},
         )
 
     def add_pickable_area(self):
