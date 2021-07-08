@@ -49,7 +49,7 @@ class AnimateSingle(object):
 
         start = time.time()
         timestampdata = self.egovehicle.timestamps.get(self.timestamp2show)
-        self.animator.update_ego(timestampdata, i=self.i_anim, magnitude_flag=self.animator.frame.magnitude_flag)
+        self.animator.update_ego(timestampdata, i=self.i_anim, magnitude_flag=False)
         self.animator.update_others_cartesian(timestampdata, i=self.i_anim)
         self.animator.update_others_frenet(timestampdata, i=self.i_anim)
         self.animator.update_timestamp_text(timestampdata.timestamp + int(self.dt * 1000) * self.i_anim)

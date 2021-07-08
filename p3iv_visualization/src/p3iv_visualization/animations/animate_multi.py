@@ -49,7 +49,7 @@ class AnimateMulti(object):
 
         start = time.time()
         timestampdata = self.egovehicle.timestamps()[self.i_anim]
-        self.animator.update_ego(timestampdata, i=0, magnitude_flag=self.animator.frame.magnitude_flag)
+        self.animator.update_ego(timestampdata, i=0, magnitude_flag=False)
         self.animator.update_others_cartesian(timestampdata, i=self.i_anim)
         self.animator.update_others_frenet(timestampdata, i=self.i_anim)
         self.animator.update_timestamp_text(timestampdata.timestamp)

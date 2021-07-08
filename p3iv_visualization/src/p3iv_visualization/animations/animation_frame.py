@@ -118,6 +118,11 @@ class AnimationFrame(object):
             delta_button=delta_button,
         )
 
+    def __set_previous_box(self, x_button, button_level, button_width, button_height, delta_button, **kwargs):
+        # Define a button in order to save the current instance as svg#
+        previous_box = plt.axes([x_button + delta_button, button_level, button_width, button_height])
+        self.previous_button = Button(previous_box, "Previous frame", hovercolor="0.975")
+
     def __set_pause_box(self, x_button, button_level, button_width, button_height, **kwargs):
         pause_box = plt.axes([x_button, button_level, button_width, button_height])
 
@@ -126,19 +131,14 @@ class AnimationFrame(object):
         else:
             self.pause_button = Button(pause_box, "Resume", hovercolor="0.975")
 
-    def __set_previous_box(self, x_button, button_level, button_width, button_height, delta_button, **kwargs):
-        # Define a button in order to save the current instance as svg#
-        previous_box = plt.axes([x_button + delta_button, button_level, button_width, button_height])
-        self.previous_button = Button(previous_box, "Previous frame", hovercolor="0.975")
-
     def __set_next_box(self, x_button, button_level, button_width, button_height, delta_button, **kwargs):
         # Define a button in order to display the magnitude of x- and y-components
         next_box = plt.axes([x_button + 2 * delta_button, button_level, button_width, button_height])
         self.next_button = Button(next_box, "Next frame", hovercolor="0.975")
 
     def set_buttons(self):
-        self.button_defaults(self.__set_pause_box)()
         self.button_defaults(self.__set_previous_box)()
+        self.button_defaults(self.__set_pause_box)()
         self.button_defaults(self.__set_next_box)()
         self.button_defaults(self.__set_zoom_slider)()
 
@@ -147,6 +147,12 @@ class AnimationFrame(object):
         self.previous_button.on_clicked(self.__previous_action)
         self.next_button.on_clicked(self.__next_action)
         self.zoom_slider.on_changed(self.__slider_update)
+
+    def __previous_action(self, event):
+        """
+        Set up an event callback to decrement frame number.
+        """
+        self.step -= 1
 
     def __pause_action(self, event):
         """
@@ -161,15 +167,9 @@ class AnimationFrame(object):
             self.pause_button.label.set_text("Pause")
         print("\nAnimation paused\n")
 
-    def __previous_action(self, event):
-        """
-        Set up an event callback for saving the figure.
-        """
-        self.step -= 1
-
     def __next_action(self, event):
         """
-        Increment frame step number.
+        Set up an event callback to increment frame number.
         """
         self.step += 1
 
