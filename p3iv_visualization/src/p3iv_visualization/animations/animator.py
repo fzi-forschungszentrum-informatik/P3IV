@@ -6,6 +6,7 @@ from p3iv_visualization.spatiotemporal.utils.plot_other_vehicles import PlotOthe
 from p3iv_visualization.motion.plot_motion_components import PlotMotionComponents
 from p3iv_visualization.animations.animation_frame import AnimationFrame
 from p3iv_utils.coordinate_transformation import CoordinateTransform
+from p3iv_utils.vehicle_models import get_control_inputs
 
 
 class Animator(object):
@@ -122,12 +123,16 @@ class Animator(object):
             motion_future=timestampdata.plan_optimal.motion.position.mean[i:],
         )
 
+        controls = get_control_inputs(
+            timestampdata.plan_optimal.motion.yaw.mean, timestampdata.plan_optimal.motion.speed, 3.0, self.dt
+        )
+
         # Motion Profile Diagram
         # motion_future contains the current pos. hence 'index4pin2free' is  'i+1'
         self.p_ax234.update_profile(
             timestampdata.plan_optimal.motion.velocity.mean,
-            timestampdata.plan_optimal.motion.speed,  # todo: change this to acceleration
-            # timestampdata.plan_optimal.motion.velocity.mean,  # todo: change this to steering angle
+            timestampdata.plan_optimal.motion.speed,
+            controls,
             index4pin2free=i + 1,
             magnitude_flag=magnitude_flag,
         )
