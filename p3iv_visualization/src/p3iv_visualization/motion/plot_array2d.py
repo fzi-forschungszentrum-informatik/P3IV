@@ -2,7 +2,7 @@ import numpy as np
 
 
 class PlotArray2D(object):
-    def __init__(self, ax, y_label, x_label="Time $(s)$", label_x="x-component", label_y="y-component"):
+    def __init__(self, ax, y_label="", x_label="Time $(s)$", label_x="x-component", label_y="y-component"):
         self.ax = ax
         self.ax.set_xlabel(x_label)
         self.ax.set_ylabel(y_label)
@@ -35,7 +35,7 @@ class PlotArray2D(object):
         self._update_motion_array(self.ax_y_pinn, self.ax_y_free, motion_array2d[:, 1], index4pin2free=index4pin2free)
         self._update_magnitude_array(motion_array2d, index4pin2free, magnitude_flag)
 
-    def set_x_axis(self, increment=2, set_ticks=True):
+    def set_x_axis(self, increment=1, set_ticks=True):
         """
         Define axis limits and ticks
         increment   : increment in x-ticks
