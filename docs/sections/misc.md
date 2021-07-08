@@ -13,7 +13,7 @@ This repository consists of almost twenty thousand lines of code (as of July'21)
 
 ## License
 
-This framework is licensed under the [BSD 3-Clause License](https://gitlab.mrt.uni-karlsruhe.de/planning-simulation/p3iv/LICENSE).
+This framework is licensed under the [BSD 3-Clause License](https://github.com/fzi-forschungszentrum-informatik/P3IV/LICENSE).
 
 ## Related Publications
 
