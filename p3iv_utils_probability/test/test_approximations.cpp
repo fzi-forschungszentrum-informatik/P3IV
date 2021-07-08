@@ -1,3 +1,8 @@
+/*
+ * This file is part of the Interpolated Polyline (https://github.com/fzi-forschungszentrum-informatik/P3IV),
+ * copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
+ */
+
 #include <glog/logging.h>
 #include <boost/math/distributions/lognormal.hpp>
 #include <boost/math/special_functions/erf.hpp> // for erf/erfc.

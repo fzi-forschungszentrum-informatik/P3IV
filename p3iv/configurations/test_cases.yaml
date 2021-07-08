@@ -1,16 +1,4 @@
 ---
-"EvalCh6.4_Planner_Model_Parameter_Tree_Search":
-  "simulation_type": "open-loop"
-  "source": "interaction_sim"
-  "map": "DR_DEU_Roundabout_OF"
-  "map_coordinate_origin": [0.0, 0.0]
-  "track_file_number": 0
-  "timestamp_begin": 146000
-  "timestamp_end": 152000
-  "vehicle_of_interest": 61
-  "meta_state":
-    61: ["30022", "constant_velocity"]
-
 "CL_DEU_Merging_01":
   "simulation_type": "closed-loop"
   "source": "interaction_sim"
@@ -38,7 +26,7 @@
   "timestamp_end": 4500
   "vehicle_of_interest": 1
   "meta_state":
-    1: ["30008", "mpcc"]
+    1: ["30008", "default"]
 
 "OL_DEU_Merging_02":
   "simulation_type": "open-loop"
@@ -64,18 +52,6 @@
   "meta_state":
     14: ["30022", "default"]
 
-"MB":
-  "simulation_type": "open-loop"
-  "source": "interaction_sim"
-  "map": "DR_DEU_Roundabout_OF"
-  "map_coordinate_origin": [0.0, 0.0]
-  "track_file_number": 0
-  "timestamp_begin": 143800
-  "timestamp_end": 152100
-  "vehicle_of_interest": 61
-  "meta_state":
-    61: ["30022", "idm"]
-
 "OL_DEU_Roundabout_02":
   "simulation_type": "open-loop"
   "source": "interaction_sim"
@@ -86,7 +62,7 @@
   "timestamp_end": 3200
   "vehicle_of_interest": 12
   "meta_state":
-    12: ["30022", "mpcc"]
+    12: ["30022", "default"]
 
 "CL_SF_Drive_01":
   "simulation_type": "closed-loop"
@@ -124,7 +100,7 @@
   "timestamp_end": 3000
   "vehicle_of_interest": 9
   "meta_state":
-    9: ["30044", "mpcc"]
+    9: ["30044", "default"]
 
 "OL_USA_Intersection_EP0_02":
   "simulation_type": "open-loop"

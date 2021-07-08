@@ -1,3 +1,8 @@
+/*
+ * This file is part of the Interpolated Polyline (https://github.com/fzi-forschungszentrum-informatik/P3IV),
+ * copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
+ */
+
 #include <iostream>
 #include <list>
 #include <CGAL/Arr_segment_traits_2.h>

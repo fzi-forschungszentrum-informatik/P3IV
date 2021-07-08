@@ -54,7 +54,7 @@
    * Please ensure that you have built and sourced your workspace in the terminal you run the simulation environment. In case, refer search for keywords _ros catkin workspace source_ on the internet.
 
  * Simulation environment fails to find Lanelet2 maps.
-   * Please ensure that INTERACTION dataset is located in your workspace below `src/` directory. If the problem persists, check if `interaction_dataset_dir` entry `src/p3iv/p3iv//configurations/settings.yaml` matches the version of your dataset.
+   * Please ensure that INTERACTION dataset is located in your workspace below `src/` directory. If the problem persists, check if `interaction_dataset_dir` entry `src/p3iv/p3iv/configurations/settings.yaml` matches the version of your dataset.
 
  * I keep receiving ``clang: error: linker command failed with exit code 1`` even though all functions are defined, dependencies are entered in ``package.xml`` and source files are linked. What's the reason?
    * Some symbol files for debugging might be missing. Ensure you have set ``-DCMAKE_BUILD_TYPE=RelWithDebInfo`` while building your catkin ws.

@@ -1,3 +1,8 @@
+/*
+ * This file is part of the Interpolated Polyline (https://github.com/fzi-forschungszentrum-informatik/P3IV),
+ * copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
+ */
+
 #pragma once
 
 #include <chrono>

@@ -1,6 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
+# This file is part of the P3IV Simulator (https://github.com/fzi-forschungszentrum-informatik/P3IV),
+# copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as mplpatches
@@ -10,19 +9,22 @@ from .geometry_utils import *
 from copy import deepcopy
 
 
-class VisibilityPolygon(namedtuple("VisibilityPolygon", ('cartesian', 'polar'))):
-   pass
+class VisibilityPolygon(namedtuple("VisibilityPolygon", ("cartesian", "polar"))):
+    pass
+
+
 # obsolete: see _test()
-#class StaticObjects(namedtuple('StaticObjects', ('poly', 'polyline'))):
+# class StaticObjects(namedtuple('StaticObjects', ('poly', 'polyline'))):
 #    pass
 
 
 def _update_change_dec(func):
-    '''
+    """
     Decorator to track property changes in class. Apply @property.setter after @_update_change_dec
     :param func: function object to decorate
     :return: decorated function
-    '''
+    """
+
     def _wrapper(self, val):
         self._changed = True
         func(self, val)
@@ -72,12 +74,10 @@ class VisibilityModel(object):
         static_objects = self._objects
 
         # angles in anticlockwise order
-        arc = np.array([pos_rad(b + fov[1]),
-                        pos_rad(b + fov[0])])
+        arc = np.array([pos_rad(b + fov[1]), pos_rad(b + fov[0])])
 
         # points which will be evaluated, start with extrema defined by FOV cone
-        ray_points = [[r, pos_rad(b + fov[1])],
-                      [r, pos_rad(b + fov[0])]]
+        ray_points = [[r, pos_rad(b + fov[1])], [r, pos_rad(b + fov[0])]]
 
         ray_points_poly = [-1, -1]  # the two extrema are not taken from a poly
 
@@ -102,8 +102,7 @@ class VisibilityModel(object):
 
                 if in_fov(fov, b, a_ray) and r_v <= r:
                     # TODO: handle edge cases, instead of using epsilons
-                    a_ray_corner = [pos_rad(a_ray + eps_corner),
-                                    pos_rad(a_ray - eps_corner)]
+                    a_ray_corner = [pos_rad(a_ray + eps_corner), pos_rad(a_ray - eps_corner)]
 
                     vert = [r_v, a_ray]
                     vert_corner = list(map(list, list(zip([r, r], a_ray_corner))))
@@ -141,16 +140,15 @@ class VisibilityModel(object):
         rp = ray_points[:, 1]
         if a1 > a2:
             if b < a1:
-                idx = (rp >= a1)
+                idx = rp >= a1
                 offset = -2 * np.pi
             else:
-                idx = (rp <= a2)
+                idx = rp <= a2
                 offset = 2 * np.pi
 
             rp_slice = ray_points[idx]
             rp_slice[:, 1] += offset
             ray_points[idx] = rp_slice
-
 
         rp_argsort = ray_points[:, 1].argsort()
 
@@ -175,11 +173,11 @@ class VisibilityModel(object):
 
     @property
     def pyplot_patches(self):
-        '''
+        """
         Get a pyplot.PatchCollection representing the visibility polygon, made up of Wedge and triangles as Polygon
         objects
         :return: PatchCollection
-        '''
+        """
         self._force_computation()
 
         vis_poly = self.visibility_polygon
@@ -187,21 +185,17 @@ class VisibilityModel(object):
         patches = []
 
         for i in range(0, len(vis_poly.cartesian) - 1):
-            draw_wedge = np.isclose(vis_poly.polar[i, 0], self._radius) and \
-                         np.isclose(vis_poly.polar[i + 1, 0], self._radius)
+            draw_wedge = np.isclose(vis_poly.polar[i, 0], self._radius) and np.isclose(
+                vis_poly.polar[i + 1, 0], self._radius
+            )
 
             if draw_wedge:
                 ang1 = vis_poly.polar[i, 1]
                 ang2 = vis_poly.polar[i + 1, 1]
 
-                patches.append(mplpatches.Wedge(self._origin,
-                                                self._radius,
-                                                ang1 * 180.0 / np.pi,
-                                                ang2 * 180.0 / np.pi))
+                patches.append(mplpatches.Wedge(self._origin, self._radius, ang1 * 180.0 / np.pi, ang2 * 180.0 / np.pi))
             else:
-                patches.append(mplpatches.Polygon([self._origin,
-                                                   vis_poly.cartesian[i],
-                                                   vis_poly.cartesian[i + 1]]))
+                patches.append(mplpatches.Polygon([self._origin, vis_poly.cartesian[i], vis_poly.cartesian[i + 1]]))
 
         return PatchCollection(patches)
 
@@ -214,8 +208,9 @@ class VisibilityModel(object):
             return False
 
         for i in range(0, len(vis_poly.cartesian) - 1):
-            is_wedge = np.isclose(vis_poly.polar[i, 0], self._radius) and \
-                        np.isclose(vis_poly.polar[i + 1, 0], self._radius)
+            is_wedge = np.isclose(vis_poly.polar[i, 0], self._radius) and np.isclose(
+                vis_poly.polar[i + 1, 0], self._radius
+            )
 
             if is_wedge:
                 ang1 = pos_rad(vis_poly.polar[i, 1])
@@ -225,23 +220,20 @@ class VisibilityModel(object):
                 if p_in_wedge(p, wedge):
                     return True
             else:
-                tri = (self._origin,
-                       vis_poly.cartesian[i],
-                       vis_poly.cartesian[i+1])
+                tri = (self._origin, vis_poly.cartesian[i], vis_poly.cartesian[i + 1])
 
                 if p_in_tri(p, tri):
                     return True
 
         return False
 
-
-    def get_polyline_visible_points(self, poly, interp_dx=0, extremal=''):
-        '''
+    def get_polyline_visible_points(self, poly, interp_dx=0, extremal=""):
+        """
 
         :param poly:
         :param extremal:
         :return:
-        '''
+        """
         vis_poly = self.visibility_polygon
 
         ret = []
@@ -249,16 +241,18 @@ class VisibilityModel(object):
 
         if True:
             for i, p in enumerate(poly[:-1]):
-                for j in segment_interpolation_points(poly[i], poly[i+1], interp_dx, inc_end=(i==len(poly)-2)):
+                for j in segment_interpolation_points(poly[i], poly[i + 1], interp_dx, inc_end=(i == len(poly) - 2)):
                     if self.is_visible(j):
                         ret.append(j)
                         ret_pol.append(dist_p2p(self._origin, PointXY(j)))
 
         if False:
             from py_distance_transform import PyPseudoDistanceFunction as PDF
+
             pdf = PDF(poly, True, True)
             upsampled_cartesian_points = np.asarray(
-                [pdf.reconstruct(x, 0.0) for x in np.arange(0.1, pdf.max_arclength(), interp_dx)]).reshape(-1, 2)
+                [pdf.reconstruct(x, 0.0) for x in np.arange(0.1, pdf.max_arclength(), interp_dx)]
+            ).reshape(-1, 2)
 
             for p in upsampled_cartesian_points:
                 if self.is_visible(p):
@@ -267,9 +261,9 @@ class VisibilityModel(object):
 
         ret_pol = np.array(ret_pol)
 
-        if extremal == '':
+        if extremal == "":
             return ret
-        elif extremal == 'r':
+        elif extremal == "r":
             minpol = np.argmin(ret_pol)
             maxpol = np.argmax(ret_pol)
             print(minpol, maxpol)
@@ -278,16 +272,14 @@ class VisibilityModel(object):
         else:
             raise ValueError
 
-
-
-    def get_polygon_visible_points(self, poly, extremal='', store = False):
-        '''
+    def get_polygon_visible_points(self, poly, extremal="", store=False):
+        """
         Get the visibe 'angle' points of a polygon. The polygon is trated as part of the scene, and depending on param
         store will be stored in self.objects.
         :param poly: polygon to calculate
         :param store: store polygon in self.objects?
         :return: list of points of polygon visible
-        '''
+        """
         old_objects = deepcopy(self._objects)
         self._objects.append(Polyline(poly))
 
@@ -311,12 +303,12 @@ class VisibilityModel(object):
         ret_pol = np.array(ret_pol)
         ret = np.array(ret)
 
-        if extremal == '':
+        if extremal == "":
             return ret
         else:
-            if extremal == 'r':
+            if extremal == "r":
                 ax1 = 0
-            elif extremal == 'a':
+            elif extremal == "a":
                 ax1 = 1
             else:
                 raise ValueError
@@ -372,10 +364,10 @@ class VisibilityModel(object):
 
 
 def _test():
-    '''
+    """
     Test and show usage of code within this module
     :return:
-    '''
+    """
     h = 105
 
     dir = ang2vec(np.deg2rad(h))
@@ -386,46 +378,32 @@ def _test():
 
     fig, ax = plt.subplots()
 
-
     # plot obstacles
-    sq1pts = np.array([PointXY([5.0, 5.0]),
-                    PointXY([4.5, 5.5]),
-                    PointXY([5.0, 6.0]),
-                    PointXY([6.0, 6.0]),
-                    PointXY([6.0, 5.0])])
+    sq1pts = np.array(
+        [PointXY([5.0, 5.0]), PointXY([4.5, 5.5]), PointXY([5.0, 6.0]), PointXY([6.0, 6.0]), PointXY([6.0, 5.0])]
+    )
     sq1 = Polygon(sq1pts)
 
-
     # one can also use a numpy array, this works because point implements __getitem__
-    sq2pts = np.array([[0, 10],
-                        [0, 11],
-                        [1, 11],
-                        [1, 10]])
+    sq2pts = np.array([[0, 10], [0, 11], [1, 11], [1, 10]])
     sq2 = Polygon(sq2pts)
 
-    sq3pts = np.array([PointXY([-10, 17]),
-                    PointXY([-10, 20]),
-                    PointXY([20, 20]),
-                    PointXY([20, 17]),
-                    PointXY([5, 15])])
+    sq3pts = np.array([PointXY([-10, 17]), PointXY([-10, 20]), PointXY([20, 20]), PointXY([20, 17]), PointXY([5, 15])])
     sq3 = Polygon(sq3pts)
 
-    line1pts = np.array([[0, 7],
-                         [-5, 7],
-                         [-7, 5]])
+    line1pts = np.array([[0, 7], [-5, 7], [-7, 5]])
     line1 = line1pts
 
-    ax.add_patch(mplpatches.Polygon(sq1.points, facecolor='black', linewidth=0, alpha=0.5))
-    ax.add_patch(mplpatches.Polygon(sq2.points, facecolor='black', linewidth=0, alpha=0.5))
-    ax.add_patch(mplpatches.Polygon(sq3.points, facecolor='black', linewidth=0, alpha=0.5))
+    ax.add_patch(mplpatches.Polygon(sq1.points, facecolor="black", linewidth=0, alpha=0.5))
+    ax.add_patch(mplpatches.Polygon(sq2.points, facecolor="black", linewidth=0, alpha=0.5))
+    ax.add_patch(mplpatches.Polygon(sq3.points, facecolor="black", linewidth=0, alpha=0.5))
     plt.plot(line1pts[:, 0], line1pts[:, 1])
 
     # plot heading
-    plt.plot([o[0], o[0] + dir[0] * 3],
-             [o[1], o[1] + dir[1] * 3], '-', color='orange')
+    plt.plot([o[0], o[0] + dir[0] * 3], [o[1], o[1] + dir[1] * 3], "-", color="orange")
 
     # plot position
-    plt.plot(o[0], o[1], 'o', color='red')
+    plt.plot(o[0], o[1], "o", color="red")
 
     ##########
     # why to add line1 in objects? See line #242
@@ -445,7 +423,7 @@ def _test():
 
     pts = model.get_polygon_visible_points(line1, store=True)
     for i in pts:
-        plt.plot(i[0], i[1], 'o', color='orange')
+        plt.plot(i[0], i[1], "o", color="orange")
 
     # this doesn't recalculate because nothing has changed, simply returns the patches of the plygon calculeted
     # in model.get_polygon_visible_points, because store=True. For store=False, the next call recalculates because
@@ -457,34 +435,29 @@ def _test():
 
     # alternating patch colors for debugging
     cols = []
-    for i in range(len(model.visibility_polygon.cartesian)-1):
-        cols.append(('black','blue')[i%2])
+    for i in range(len(model.visibility_polygon.cartesian) - 1):
+        cols.append(("black", "blue")[i % 2])
     p.set_color(cols)
 
     ax.add_collection(p)
-
 
     # check visibility code
     x = np.linspace(-19, 20, 80)
     y = np.linspace(0, 20, 40)
 
-    mg = np.meshgrid(x,y)
+    mg = np.meshgrid(x, y)
     mg = np.dstack(mg)
-    mg = mg.reshape(-1, 2) # list of xy coordinates
+    mg = mg.reshape(-1, 2)  # list of xy coordinates
 
     for i in range(mg.shape[0]):
         p = mg[i]
         if model.is_visible(p):
-            plt.plot(p[0], p[1], '.', ms=0.5, color='b')
-
-
+            plt.plot(p[0], p[1], ".", ms=0.5, color="b")
 
     ax.grid()
-    plt.axis('equal')
+    plt.axis("equal")
     plt.show()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _test()
-
-

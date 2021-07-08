@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+# This file is part of the P3IV Simulator (https://github.com/fzi-forschungszentrum-informatik/P3IV),
+# copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
 
 import lanelet2
 import os
@@ -37,11 +38,3 @@ def track_reader(scenario_name, interaction_dataset_dir, track_file_number=0):
         timestamp_max = max(timestamp_max, track.time_stamp_ms_last)
 
     return track_dictionary
-
-
-if __name__ == "__main__":
-    from pprint import pprint
-
-    t = track_reader("DR_DEU_Merging_MT")
-    pprint(t)
-    print("Test passed")

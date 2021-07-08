@@ -1,9 +1,14 @@
+/*
+ * This file is part of the Interpolated Polyline (https://github.com/fzi-forschungszentrum-informatik/P3IV),
+ * copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
+ */
+
 #pragma once
 #include <pybind11/numpy.h>
 #include <pybind11/pybind11.h>
 
-#include "visible_area.hpp"
 #include "check_inside.hpp"
+#include "visible_area.hpp"
 
 namespace py = pybind11;
 

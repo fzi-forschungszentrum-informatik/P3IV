@@ -1,3 +1,6 @@
+# This file is part of the P3IV Simulator (https://github.com/fzi-forschungszentrum-informatik/P3IV),
+# copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
+
 from p3iv_utils_probability.distributions.base import DistributionSequence
 from p3iv_utils_probability.distributions.univariate_distribution import UnivariateNormalDistribution
 from p3iv_utils_probability.distributions.bivariate_distribution import BivariateNormalDistribution
