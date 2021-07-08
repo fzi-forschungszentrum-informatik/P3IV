@@ -1,13 +1,41 @@
 import numpy as np
+from scipy.interpolate import UnivariateSpline
+
+
+def smooth(x_data, y_data, order=5, resolution=None):
+    if resolution:
+        x_data_req = np.linspace(x_data[0], x_data[-1], resolution)
+    else:
+        x_data_req = x_data
+
+    try:
+        spline = UnivariateSpline(x_data, y_data, k=order)
+        spline.set_smoothing_factor(1.0)
+        y_data = spline(x_data_req)
+        return y_data
+    except:
+        # if the input array too short, scipy will raise dfitpack.error
+        return y_data
 
 
 def get_yaw_angle(pos_data, yaw0=None):
     """
-    Find the yaw angle/orientation of the vehicle
+    Find the yaw angle/orientation of the vehicle using finite differences.
+
+    Finite differences amplify numerical erros considerably. Ttherefore,
+    we perform spline interpolation and smooth yaw angle profile.
     """
     diff = np.diff(pos_data, axis=0)
     displacement = np.vstack([diff[0], diff])
-    yaw = np.degrees(np.arctan2(displacement[:, 1], displacement[:, 0]))
+
+    # calculate yaw angle using finite differences; in some cases finite differences cause numerical erros
+    # therefore, we perform spline interpolation and smooth yaw angle profile.
+    yaw = np.degrees(
+        np.arctan2(
+            smooth(range(len(displacement[:, 1])), displacement[:, 1]),
+            smooth(range(len(displacement[:, 0])), displacement[:, 0]),
+        )
+    )
     if yaw0 is not None:
         yaw[0] = yaw0
     # make more human-readable
