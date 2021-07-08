@@ -53,7 +53,7 @@ class Planner(PlannerInterface):
             current_pos = new_pos
         frenet_l = np.append(self._progress, profile)
 
-        xy = self._coordinate_transform.expand(self._state.position.mean, frenet_l)
+        xy = self._coordinate_transform.expand(self._state.position.mean, frenet_l, ignore_lateral_offset=True)
         mp = MotionPlan()
         mp.motion(xy, dt=self.dt)
 
