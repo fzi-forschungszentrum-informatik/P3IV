@@ -9,8 +9,9 @@ class AnimationFrame(object):
     def __init__(self):
         self.header = "P3IV Simulator"
 
+        self.step = 0  # frame step number
         self.pause_flag = False
-        self.magnitude_flag = False
+
         self.save_figure_flag = True
         self.zoom = 30
 
@@ -22,8 +23,8 @@ class AnimationFrame(object):
         self.ax4 = None
 
         self.pause_button = None
-        self.save_fig_button = None
-        self.magnitude_button = None
+        self.previous_button = None
+        self.next_button = None
         self.zoom_slider = None
 
     def create_subplots(self):
@@ -125,29 +126,26 @@ class AnimationFrame(object):
         else:
             self.pause_button = Button(pause_box, "Resume", hovercolor="0.975")
 
-    def __set_save_figure_box(self, x_button, button_level, button_width, button_height, delta_button, **kwargs):
+    def __set_previous_box(self, x_button, button_level, button_width, button_height, delta_button, **kwargs):
         # Define a button in order to save the current instance as svg#
-        save_fig_box = plt.axes([x_button + delta_button, button_level, button_width, button_height])
-        self.save_fig_button = Button(save_fig_box, "Save figure", hovercolor="0.975")
+        previous_box = plt.axes([x_button + delta_button, button_level, button_width, button_height])
+        self.previous_button = Button(previous_box, "Previous frame", hovercolor="0.975")
 
-    def __set_magnitude_box(self, x_button, button_level, button_width, button_height, delta_button, **kwargs):
+    def __set_next_box(self, x_button, button_level, button_width, button_height, delta_button, **kwargs):
         # Define a button in order to display the magnitude of x- and y-components
-        magnitude_box = plt.axes([x_button + 2 * delta_button, button_level, button_width, button_height])
-        if not self.pause_flag:
-            self.magnitude_button = Button(magnitude_box, "Magnitude: off", hovercolor="0.975")
-        else:
-            self.magnitude_button = Button(magnitude_box, "Magnitude: on ", hovercolor="0.975")
+        next_box = plt.axes([x_button + 2 * delta_button, button_level, button_width, button_height])
+        self.next_button = Button(next_box, "Next frame", hovercolor="0.975")
 
     def set_buttons(self):
         self.button_defaults(self.__set_pause_box)()
-        self.button_defaults(self.__set_save_figure_box)()
-        self.button_defaults(self.__set_magnitude_box)()
+        self.button_defaults(self.__set_previous_box)()
+        self.button_defaults(self.__set_next_box)()
         self.button_defaults(self.__set_zoom_slider)()
 
         # set callbacks
         self.pause_button.on_clicked(self.__pause_action)
-        self.save_fig_button.on_clicked(self.__save_figure)
-        self.magnitude_button.on_clicked(self.__show_magnitude)
+        self.previous_button.on_clicked(self.__previous_action)
+        self.next_button.on_clicked(self.__next_action)
         self.zoom_slider.on_changed(self.__slider_update)
 
     def __pause_action(self, event):
@@ -163,24 +161,17 @@ class AnimationFrame(object):
             self.pause_button.label.set_text("Pause")
         print("\nAnimation paused\n")
 
-    def __save_figure(self, event):
+    def __previous_action(self, event):
         """
         Set up an event callback for saving the figure.
         """
-        self.save_figure_flag = True
+        self.step -= 1
 
-    def __show_magnitude(self, event):
+    def __next_action(self, event):
         """
-        Set up an event callback for a magnitude button.
+        Increment frame step number.
         """
-        self.magnitude_flag ^= True
-        # if paused, change the label of the button widget with 'Resume'
-        if self.magnitude_flag is True:
-            self.magnitude_button.label.set_text("Magnitude: off")
-        # once resumed, change the label back to 'Pause'. Not 'elif', because pause could
-        # be initialized as 'True'.
-        if self.magnitude_flag is not True:
-            self.magnitude_button.label.set_text("Magnitude: on")
+        self.step += 1
 
     def __set_zoom_slider(self, button_level, button_height, **kwargs):
         # Define the position of the slider as a box in axes coordinates [left, bottom, width, height]
