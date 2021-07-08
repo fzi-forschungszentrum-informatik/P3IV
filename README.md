@@ -1,5 +1,7 @@
 # P3IV Simulator
 
+[![Documentation Status](https://readthedocs.org/projects/p3iv/badge/?version=latest)](https://p3iv.readthedocs.io/en/latest/?badge=latest)
+
 Probabilistic Prediction and Planning for Intelligent Vehicles (P3IV) Simulator is a simulation framework for motion prediction and planning for autonomous vehicles.
 
 ## Documentation
