@@ -71,8 +71,7 @@ class CoordinateTransform(object):
             output_coordinates[i] = np.asarray([cartesian.x, cartesian.y])
         return output_coordinates
 
-    def expand(self, cartesian_position, longitudinal_position_arr):
-
+    def expand(self, cartesian_position, longitudinal_position_arr, ignore_lateral_offset=False):
         """
         Given a motion profile in arc-length-coordinates, expand the dimension and transform it to Cartesian.
 
@@ -82,15 +81,18 @@ class CoordinateTransform(object):
             Initial Cartesian coordinates [x, y]
         longitudinal_position_arr: np.ndarray
             Logitudinal position array
+        ignore_lateral_offset: bool
+            Flag to ignore current lateral offset
         """
 
         # typecast if list
         longitudinal_position_arr = np.asarray(longitudinal_position_arr)
 
         offset_l, offset_d = self.xy2ld(cartesian_position)
-        ld_array = np.empty([len(longitudinal_position_arr), 2])
+        ld_array = np.zeros([len(longitudinal_position_arr), 2])
         ld_array[:, 0] = longitudinal_position_arr + offset_l
-        ld_array[:, 1] = np.linspace(offset_d, 0.0, len(longitudinal_position_arr))
+        if not ignore_lateral_offset:
+            ld_array[:, 1] = np.linspace(offset_d, 0.0, len(longitudinal_position_arr))
         return self.ld2xy(ld_array)
 
     @staticmethod
