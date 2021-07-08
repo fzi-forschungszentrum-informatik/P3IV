@@ -8,7 +8,7 @@ import logging
 import traceback
 from termcolor import colored
 from p3iv_types.scene_model import RouteOption, SceneModel
-from p3iv_utils.coordinate_transformation import CoordinateTransform
+from p3iv_utils_polyline.coordinate_transformation import CoordinateTransform
 from p3iv_utils.helper_functions import angle_between_vectors
 from p3iv_modules.interfaces import SceneUnderstandingInterface
 import lanelet2
@@ -123,16 +123,17 @@ class Understand(SceneUnderstandingInterface):
         self._route_memory = route_option
 
         scene_model = SceneModel(ego_v.id, ego_v.state.position.mean, route_option)
+        coordinate_transform = CoordinateTransform(route_option.laneletsequence.centerline())
 
         # Add all vehicles to the scene model.
         # (Normally a good scene understanding module should inspect all maneuver options of a tracked vehicle,
         # and add the tracked object into scene model if any may overlap with ego route.)
         for s in scene_objects:
 
-            # calculate speed sign of scene object form the perspective of ego vehicle
-            s.speed_sign = self.speed_sign(ego_v.state, s.state)
-
             v2v_distance = self.signed_relative_distance(ego_v.state, s.state)
+
+            # calculate speed sign of scene object form the perspective of ego vehicle
+            s.speed_sign = self.speed_sign(coordinate_transform, s.state, v2v_distance)
 
             # in pseudo-prediction, depending on the ground-truth motion, some of the scene model objects will be removed.
             scene_model.add_object(s, v2v_distance)
@@ -170,21 +171,18 @@ class Understand(SceneUnderstandingInterface):
         return v2v_distance
 
     @staticmethod
-    def speed_sign(host_state, guest_state):
+    def speed_sign(coordinate_transform, guest_state, v2v_distance):
         """
         Returns speed sign of guest from the perspective of ego vehicle
         """
-        # if speed is zero (incl. some measurement tolerance), take the orientation of the vehicle otherwise velocity
-        if host_state.speed > 0.3:
-            angle_rad = angle_between_vectors(host_state.velocity.mean, guest_state.velocity.mean)
-        else:
-            # get scalar angle value in radians from array
-            alpha = np.deg2rad(host_state.yaw.mean)[0]
-            orientation = np.array([np.cos(alpha), np.sin(alpha)])
-            angle_rad = angle_between_vectors(orientation, guest_state.velocity.mean)
 
-        angle = (np.rad2deg(angle_rad) + 360.0) % 360.0
-        if 270.0 > angle > 90.0:
+        # match the position of the object to the road centerline ahead
+        _, _, yaw_rad = coordinate_transform.ip.oriented_match(*guest_state.position.mean)
+
+        angle = (np.rad2deg(yaw_rad) - guest_state.yaw.mean[0] + 360.0) % 360.0
+
+        # check if the vehicle is ahead and its relative angle indicates a merge with own route
+        if 270.0 > angle > 90.0 and v2v_distance > 0.0:
             # vehicle is driving towards host
             return -1.0
         else:
