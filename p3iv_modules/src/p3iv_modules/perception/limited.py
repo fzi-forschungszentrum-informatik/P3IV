@@ -36,10 +36,26 @@ class VisibilityModel(object):
             return []
         else:
             percepted_objects = []
+
+            # check every object
             for gt_o in ground_truth_objects:
-                if gt_o.id != ego_v_id and checkInside(
-                    gt_o.timestamps.latest().state.position.mean, list(self._field_of_view[0])
-                ):
+
+                corners = VehicleRectangle.get_corners(
+                    gt_o.appearance.length,
+                    gt_o.appearance.width,
+                    gt_o.timestamps.latest().state.position.mean,
+                    gt_o.timestamps.latest().state.yaw.mean + 90,
+                )
+
+                # check if any corner of the vehicle is visible
+                is_inside = False
+                for c in corners:
+                    if checkInside(c, list(self._visible_areas[0])):
+                        is_inside = True
+                        break
+
+                # if a vehicle is not ego vehicle and has a corner that is visible
+                if gt_o.id != ego_v_id and is_inside:
                     percepted_objects.append(gt_o)
             return percepted_objects
 
@@ -138,8 +154,8 @@ class Percept(PerceptInterface):
 
         obstacle_polygons = self._get_dynamic_obstacle_polygons(gt_list) + self._polygons_static
         self._visibility_model2plot(current_cartesian_pos, current_yaw_angle, obstacle_polygons)
-        warnings.warn("implement static and dynamic object polygons")
-        obstacle_polygons = []
+
+        # obstacle_polygons = []
         self._visibility_model(current_cartesian_pos, current_yaw_angle, obstacle_polygons)
         percepted_objects = self._visibility_model.get_percepted_objects(gt_list, self._ego_v_id)
 
