@@ -174,8 +174,14 @@ class Understand(SceneUnderstandingInterface):
         """
         Returns speed sign of guest from the perspective of ego vehicle
         """
-
-        angle_rad = angle_between_vectors(host_state.velocity.mean, guest_state.velocity.mean)
+        # if speed is zero (incl. some measurement tolerance), take the orientation of the vehicle otherwise velocity
+        if host_state.speed > 0.3:
+            angle_rad = angle_between_vectors(host_state.velocity.mean, guest_state.velocity.mean)
+        else:
+            # get scalar angle value in radians from array
+            alpha = np.deg2rad(host_state.yaw.mean)[0]
+            orientation = np.array([np.cos(alpha), np.sin(alpha)])
+            angle_rad = angle_between_vectors(orientation, guest_state.velocity.mean)
 
         angle = (np.rad2deg(angle_rad) + 360.0) % 360.0
         if 270.0 > angle > 90.0:
