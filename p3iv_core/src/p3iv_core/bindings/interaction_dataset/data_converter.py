@@ -7,7 +7,7 @@ import warnings
 import random
 import matplotlib.pyplot as plt
 from .external.dataset_types import Track
-from p3iv_types.motion_state import MotionState
+from p3iv_types.motion import MotionState
 
 
 colormap = plt.cm.get_cmap("jet", 20)
