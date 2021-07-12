@@ -110,7 +110,16 @@ class Understand(SceneUnderstandingInterface):
                     current_llt, self._laneletmap.laneletLayer[self._toLanelet]
                 )
                 lanelet2sequence = route_to_destination.shortestPath()
-                route_option = RouteOption([llt for llt in lanelet2sequence])
+
+                # if there are previous lanelets, add the last one to ensure progress on arc coords is always positive
+                route_lanelets = []
+                if self._route_memory is not None:
+                    ind = self._route_memory.laneletsequence.ids().index(current_llt.id)
+                    if ind > 0:
+                        route_lanelets.append(self._route_memory.laneletsequence.lanelets[ind - 1])
+
+                route_lanelets += [llt for llt in lanelet2sequence]
+                route_option = RouteOption(route_lanelets)
                 route_alternatives.append(route_option)
 
             except AttributeError:
