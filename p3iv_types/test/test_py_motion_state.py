@@ -3,7 +3,7 @@
 
 import unittest
 import numpy as np
-from p3iv_types.py_motion_state import PyMotionState, PyMotionStateArray
+from p3iv_types.py_motion import PyMotionState, PyMotionStateArray
 
 
 class PyMotionStateTest(unittest.TestCase):

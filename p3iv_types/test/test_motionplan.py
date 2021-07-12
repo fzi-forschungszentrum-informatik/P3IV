@@ -2,7 +2,7 @@
 # copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
 
 import unittest
-from p3iv_types.motion_plans import MotionPlan, MotionPlans
+from p3iv_types.motion import MotionPlan, MotionPlans
 
 
 class MotionPlansTest(unittest.TestCase):

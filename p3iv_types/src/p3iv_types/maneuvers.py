@@ -5,7 +5,7 @@ import uuid
 import numpy as np
 from enum import Enum
 from copy import deepcopy
-from p3iv_types.motion_state import MotionStateArray
+from p3iv_types.motion import MotionStateArray
 
 
 class ManeuverIntentions(Enum):

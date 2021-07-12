@@ -73,7 +73,7 @@ def run(configurations, f_execute=drive):
             bindings.update_open_loop_simulation(ground_truth, ts_now, laneletmap, configurations)
 
             o = ground_truth[configurations["vehicle_of_interest"]]
-            driven = o.timestamps.previous().plan_optimal.motion[1]
+            driven = o.timestamps.previous().plan_optimal.states[1]
             o.timestamps.latest().state.position.mean = driven.position.mean
             o.timestamps.latest().state.yaw.mean = driven.yaw.mean
             o.timestamps.latest().state.velocity.mean = driven.velocity.mean
