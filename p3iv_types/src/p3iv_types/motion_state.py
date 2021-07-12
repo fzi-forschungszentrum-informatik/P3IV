@@ -43,7 +43,7 @@ class MotionState(object):
 
 class MotionStateArray(object):
     """
-    The MotionSequMotionStateArrayence object contains the motion sequence of a vehicle.
+    The MotionStateArray object contains the motion sequence of a vehicle.
 
     Attributes:
     ----------
