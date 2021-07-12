@@ -3,7 +3,7 @@
 
 import numpy as np
 from p3iv_modules.interfaces.planning import PlannerInterface
-from p3iv_types.motion_plans import MotionPlan, MotionPlans
+from p3iv_types.motion_state import MotionPlan, MotionPlans
 from p3iv_utils.coordinate_transformation import CoordinateTransform
 
 
