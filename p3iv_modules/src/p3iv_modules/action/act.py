@@ -20,10 +20,10 @@ class Act(object):
 
     @staticmethod
     def determine_the_optimal_motion_plan(motion_plans):
-        lowest_cost = min([mp.cost for mp in motion_plans if mp.motion is not None])
+        lowest_cost = min([mp.cost for mp in motion_plans if mp.states is not None])
         best_index = [
             i
             for i in range(len(motion_plans))
-            if motion_plans[i].motion is not None and motion_plans[i].cost == lowest_cost
+            if motion_plans[i].states is not None and motion_plans[i].cost == lowest_cost
         ][0]
         return best_index

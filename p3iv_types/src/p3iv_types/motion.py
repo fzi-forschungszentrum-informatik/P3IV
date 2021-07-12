@@ -169,7 +169,7 @@ class MotionStateArray(object):
 
 class MotionPlan(object):
     def __init__(self):
-        self.motion = MotionStateArray()
+        self.states = MotionStateArray()
         self.details = dict()
         self.cost = None
 

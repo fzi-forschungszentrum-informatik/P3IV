@@ -58,9 +58,9 @@ class Planner(PlannerInterface):
 
         xy = self._coordinate_transform.expand(self._state.position.mean, frenet_l, ignore_lateral_offset=True)
         mp = MotionPlan()
-        mp.motion(xy, dt=self.dt)
+        mp.states(xy, dt=self.dt)
 
         PlannerInterface.overwrite_with_current_state(mp, self._state)
 
-        assert len(mp.motion) == self.n + 1  # 1-> current state
+        assert len(mp.states) == self.n + 1  # 1-> current state
         return mp

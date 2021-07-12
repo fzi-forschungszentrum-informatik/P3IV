@@ -55,9 +55,9 @@ class PlannerInterface(object):
         Components of motion plans can be calculated with finite differences.
         Overwrite initial values with current state.
         """
-        motion_plan.motion.position.mean[0] = current_state.position.mean
-        motion_plan.motion.position.covariance[0] = current_state.position.covariance
-        motion_plan.motion.velocity.mean[0] = current_state.velocity.mean
-        motion_plan.motion.velocity.covariance[0] = current_state.velocity.covariance
-        motion_plan.motion.yaw.mean[0] = current_state.yaw.mean
-        motion_plan.motion.yaw.covariance[0] = current_state.yaw.covariance
+        motion_plan.states.position.mean[0] = current_state.position.mean
+        motion_plan.states.position.covariance[0] = current_state.position.covariance
+        motion_plan.states.velocity.mean[0] = current_state.velocity.mean
+        motion_plan.states.velocity.covariance[0] = current_state.velocity.covariance
+        motion_plan.states.yaw.mean[0] = current_state.yaw.mean
+        motion_plan.states.yaw.covariance[0] = current_state.yaw.covariance

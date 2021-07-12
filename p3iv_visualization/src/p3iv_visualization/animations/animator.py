@@ -87,7 +87,7 @@ class Animator(object):
 
         # Path-time Diagram
         c = CoordinateTransform(timestampdata.decision_base.corridor.center)
-        ld = c.xy2ld(timestampdata.plan_optimal.motion.position.mean)
+        ld = c.xy2ld(timestampdata.plan_optimal.states.position.mean)
 
         # because l_current is subtrachted as offset, static axis limits can be attained
         longitudinal_pos = ld[:, 0] - ld[0, 0]
@@ -101,9 +101,9 @@ class Animator(object):
         self.p_ax0_pem.update_timelighter(i * self.dt)
 
         # Cartesian-Motion Diagram
-        x, y = timestampdata.plan_optimal.motion.position.mean[i]
-        yaw = timestampdata.plan_optimal.motion.yaw.mean[i]
-        speed = timestampdata.plan_optimal.motion.speed[i]
+        x, y = timestampdata.plan_optimal.states.position.mean[i]
+        yaw = timestampdata.plan_optimal.states.yaw.mean[i]
+        speed = timestampdata.plan_optimal.states.speed[i]
         visible_region = timestampdata.environment.visible_areas
         uncertainty_ellipse = None  # v.state.position[2:]
 
@@ -115,19 +115,19 @@ class Animator(object):
             speed,
             visible_region=visible_region,
             zoom=self.frame.zoom,
-            motion_past=timestampdata.plan_optimal.motion.position.mean[: i + 1],
-            motion_future=timestampdata.plan_optimal.motion.position.mean[i:],
+            motion_past=timestampdata.plan_optimal.states.position.mean[: i + 1],
+            motion_future=timestampdata.plan_optimal.states.position.mean[i:],
         )
 
         controls = get_control_inputs(
-            timestampdata.plan_optimal.motion.yaw.mean, timestampdata.plan_optimal.motion.speed, 3.0, self.dt
+            timestampdata.plan_optimal.states.yaw.mean, timestampdata.plan_optimal.states.speed, 3.0, self.dt
         )
 
         # Motion Profile Diagram
         # motion_future contains the current pos. hence 'index4pin2free' is  'i+1'
         self.p_ax234.update_profile(
-            timestampdata.plan_optimal.motion.velocity.mean,
-            timestampdata.plan_optimal.motion.speed,
+            timestampdata.plan_optimal.states.velocity.mean,
+            timestampdata.plan_optimal.states.speed,
             controls,
             index4pin2free=i + 1,
             magnitude_flag=magnitude_flag,
