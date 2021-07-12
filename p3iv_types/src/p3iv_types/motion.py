@@ -167,9 +167,44 @@ class MotionStateArray(object):
         return np.linalg.norm(self.velocity.mean, axis=1)
 
 
+class MotionControl(object):
+    """
+    Motion control input of an object.
+    """
+
+    __slots__ = ["steering", "acceleration"]
+
+    def __init__(self, steering_angle, acceleration):
+        self.steering = steering_angle
+        self.acceleration = acceleration
+
+
+class MotionControlArray(object):
+    """
+    Motion control array input of an object.
+    """
+
+    __slots__ = ["steering", "acceleration"]
+
+    def __init__(self, steering_angle_array=np.array([]), acceleration_array=np.array([])):
+        assert len(steering_angle_array) == len(acceleration_array)
+
+        self.steering = steering_angle_array
+        self.acceleration = acceleration_array
+
+    def __getitem__(self, item):
+        steering = self.steering[item]
+        acceleration = self.acceleration[item]
+        return MotionControlArray(steering, acceleration)
+
+    def __len__(self):
+        return len(self.steering)
+
+
 class MotionPlan(object):
     def __init__(self):
         self.states = MotionStateArray()
+        self.controls = MotionControlArray()
         self.details = dict()
         self.cost = None
 
