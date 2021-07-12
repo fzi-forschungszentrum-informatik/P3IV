@@ -1,5 +1,5 @@
 ---
-"dataset": "INTERACTION-Dataset-DR-v1_0"
+"dataset": "INTERACTION-Dataset-DR-v1_1"
 
 "temporal":
   "horizon": 6 # s
