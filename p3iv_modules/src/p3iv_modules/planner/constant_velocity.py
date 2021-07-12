@@ -5,6 +5,7 @@ import numpy as np
 from p3iv_modules.interfaces.planning import PlannerInterface
 from p3iv_types.motion import MotionPlan, MotionPlans
 from p3iv_utils.coordinate_transformation import CoordinateTransform
+from p3iv_utils.vehicle_models import get_control_inputs
 
 
 class Planner(PlannerInterface):
@@ -59,6 +60,10 @@ class Planner(PlannerInterface):
         xy = self._coordinate_transform.expand(self._state.position.mean, frenet_l, ignore_lateral_offset=True)
         mp = MotionPlan()
         mp.states(xy, dt=self.dt)
+
+        mp.controls.acceleration = np.zeros(self.n + 1)
+        wheelbase = 0.7 * self._length
+        mp.controls.steering = get_control_inputs(mp.states.yaw.mean, mp.states.speed, wheelbase, self.dt)[:, 0]
 
         PlannerInterface.overwrite_with_current_state(mp, self._state)
 
