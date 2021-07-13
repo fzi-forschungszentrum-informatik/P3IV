@@ -2,6 +2,7 @@
 # copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
 
 import os
+import sys
 import logging
 import numpy as np
 import warnings
@@ -107,7 +108,13 @@ class Predict(PredictInterface):
         """
         if vehicle_id in list(self.track_dictionary.keys()):
             # read the last track for the vehicle
-            last_motion_state = list(self.track_dictionary[vehicle_id].motion_states.values())[-1]
+            if sys.version_info[0] == 3:
+                last_motion_state = list(self.track_dictionary[vehicle_id].motion_states.values())[-1]
+            else:
+                # .values() in Python2 will yield unordered list
+                last_timestamp = max(self.track_dictionary[vehicle_id].motion_states.keys())
+                last_motion_state = self.track_dictionary[vehicle_id].motion_states[last_timestamp]
+
             x, y, yaw_degrees = last_motion_state.x, last_motion_state.y, np.rad2deg(last_motion_state.psi_rad)
 
             # vehicles sometimes leave their lane; add tolerance of 2 meters
@@ -203,7 +210,11 @@ class Predict(PredictInterface):
                     pass
 
         # get the shortest route
-        route_option = min(route_alternatives, key=lambda r: r.laneletsequence.length)
+        if sys.version_info[0] == 3:
+            route_option = min(route_alternatives, key=lambda r: r.laneletsequence.length)
+        else:
+            route_lengths = [r.laneletsequence.length for r in route_alternatives]
+            route_option = route_alternatives[route_lengths.index(min(route_lengths))]
 
         route_scene = SceneModel(scene_object.id, scene_object.state.position.mean, route_option)
         return route_scene, overlap
