@@ -131,8 +131,8 @@ if __name__ == "__main__":
         output_dir = create_output_dir()
         output_path = create_output_path(output_dir)
 
-        # get configurations
-        configurations = [v for v in vars(args).values() if v != None][0]
+        # get configurations (prefer .items() over .values() for backwards compatibility in Python)
+        configurations = [v for _, v in vars(args).items() if v != None and v != False][0]
         configurations["save_dir"] = str(output_path)
 
         # run simulation
