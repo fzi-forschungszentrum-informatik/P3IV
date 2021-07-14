@@ -76,8 +76,8 @@
   "meta_state":
     0: ["10000849", "default"]
   "tracks":
-    # agent_type, x, y, vx, vy, psi_rad, length, width
-    0: ["car", -83.4, -46.2, 3.6, 1.7, 0.42, 4.24, 1.8]
+    # agent_type, x, y, psi_rad, vx, vy , length, width
+    0: ["car", -83.4, -46.2, 0.42, 3.6, 1.7, 4.24, 1.8]
 
 "OL_USA_Intersection_EP0_01":
   "simulation_type": "open-loop"
