@@ -41,7 +41,7 @@
     1: ["30008", "default"]
 
 "OL_DEU_Roundabout_01":
-  "simulation_type": "semi-open-loop"
+  "simulation_type": "closed-loop"
   "source": "interaction_sim"
   "map": "DR_DEU_Roundabout_OF"
   "map_coordinate_origin": [0.0, 0.0]

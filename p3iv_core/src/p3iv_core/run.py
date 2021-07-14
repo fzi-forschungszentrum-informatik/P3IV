@@ -56,28 +56,19 @@ def run(configurations, f_execute=drive):
             # update ground truth objects
             bindings.update_open_loop_simulation(ground_truth, ts_now)
 
-        elif configurations["simulation_type"] == "semi-open-loop":
-            # update ground truth objects
+        elif configurations["simulation_type"] == "closed-loop":
+            # check and get new vehicles
             bindings.update_open_loop_simulation(ground_truth, ts_now)
 
-            o = ground_truth[configurations["vehicle_of_interest"]]
-            driven = o.timestamps.previous().plan_optimal.states[1]
-            o.timestamps.latest().state.position.mean = driven.position.mean
-            o.timestamps.latest().state.yaw.mean = driven.yaw.mean
-            o.timestamps.latest().state.velocity.mean = driven.velocity.mean
-
-        elif configurations["simulation_type"] == "closed-loop":
-            # closed-loop simulation
-            # (ground truth object list remains the same; no new entries)
             for v in list(ground_truth.values()):
-                state_ts_now = v.timestamps.latest().plan_optimal.states[1]
-                v.timestamps.create_and_add(ts_now)
-                v.timestamps.latest().state = state_ts_now
+                # overwrite open loop data if the vehicle is specified for planning
+                if v.id in list(configurations["meta_state"].keys()):
+                    state_ts_now = v.timestamps.previous().plan_optimal.states[1]
+                    v.timestamps.create_and_add(ts_now)
+                    v.timestamps.latest().state = state_ts_now
+
         else:
-            msg = (
-                "'simulation_type' in configurations is wrong."
-                + "Choose between 'open-loop' / 'closed-loop' / 'semi-open-loop'"
-            )
+            msg = "'simulation_type' in configurations is wrong.\n" + "Choose between 'open-loop' and 'closed-loop'"
             raise Exception(msg)
 
         # Compute the trajectory of vehicles who have a 'toLanelet' in their **objective**!
