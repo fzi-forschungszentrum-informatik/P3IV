@@ -31,9 +31,22 @@ def run(configurations, f_execute=drive):
     Print2Console.p("s", ["=" * 72], style="magenta", bold=True)
     pprint(configurations)
 
+    # determine path of the lanelet map
+    if configurations["source"] == "interaction_sim":
+        # read INTERACTION dataset maps and records
+        maps_dir = os.path.join(configurations["dataset"], "maps")
+    elif configurations["source"] == "d_sim":
+        # read rounD dataset maps and records
+        maps_dir = os.path.join(configurations["dataset"], "lanelets")
+    else:
+        # read custom Lanelet map
+        maps_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../p3iv_utils/res/maps/lanelet2")
+
+    # read origin of the map
+    lat, lon = configurations["map_coordinate_origin"]
+
     # Load lanelet2 map
-    maps_dir = os.path.join(configurations["dataset"], "maps")
-    laneletmap = lanelet_map_reader(configurations["map"], maps_dir=maps_dir)
+    laneletmap = lanelet_map_reader(configurations["map"], maps_dir=maps_dir, lat_origin=lat, lon_origin=lon)
 
     # Get ground-truth object data
     if configurations["source"] == "interaction_sim":
