@@ -14,7 +14,7 @@ import itertools
 import shutil
 from p3iv_utils.consoleprint import Print2Console
 from p3iv_utils.ofstream import create_output_dir, create_output_path, save_settings
-from p3iv_utils.lanelet_map_reader import lanelet_map_reader
+from p3iv_utils.lanelet_map_reader import get_lanelet_map
 from p3iv_types.vehicle import Vehicle
 from p3iv_modules.execute import drive, predict
 from p3iv_core.configurations.utils import load_configurations
@@ -32,22 +32,8 @@ def run(configurations, f_execute=drive):
     Print2Console.p("s", ["=" * 72], style="magenta", bold=True)
     pprint(configurations)
 
-    # determine path of the lanelet map
-    if configurations["source"] == "interaction_sim":
-        # read INTERACTION dataset maps and records
-        maps_dir = os.path.join(configurations["dataset"], "maps")
-    elif configurations["source"] == "d_sim":
-        # read rounD dataset maps and records
-        maps_dir = os.path.join(configurations["dataset"], "lanelets")
-    else:
-        # read custom Lanelet map
-        maps_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../p3iv_utils/res/maps/lanelet2")
-
-    # read origin of the map
-    lat, lon = configurations["map_coordinate_origin"]
-
     # Load lanelet2 map
-    laneletmap = lanelet_map_reader(configurations["map"], maps_dir=maps_dir, lat_origin=lat, lon_origin=lon)
+    laneletmap = get_lanelet_map(configurations)
 
     # Get ground-truth object data
     bindings = SimulationBindings(configurations, laneletmap)

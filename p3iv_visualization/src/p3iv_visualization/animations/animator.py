@@ -2,20 +2,20 @@
 # copyright by FZI Forschungszentrum Informatik, licensed under the BSD-3 license (see LICENSE file in main directory)
 
 import numpy as np
+from p3iv_utils.lanelet_map_reader import get_lanelet_map
+from p3iv_utils.coordinate_transformation import CoordinateTransform
 from p3iv_visualization.cartesian.plot_cartesian import PlotCartesian
 from p3iv_visualization.spatiotemporal.utils.plot_utils import PlotUtils
 from p3iv_visualization.spatiotemporal.utils.plot_ego_motion import PlotEgoMotion
 from p3iv_visualization.spatiotemporal.utils.plot_other_vehicles import PlotOtherVehicles
 from p3iv_visualization.motion.plot_motion_components import PlotMotionComponents
 from p3iv_visualization.animations.animation_frame import AnimationFrame
-from p3iv_utils.coordinate_transformation import CoordinateTransform
 
 
 class Animator(object):
     def __init__(
         self,
-        lanelet_map_file,
-        map_coordinate_origin,
+        configurations,
         vehicle_id,
         vehicle_color,
         vehicles,
@@ -50,10 +50,12 @@ class Animator(object):
         self.p_ax0_pov = PlotOtherVehicles(self.ax0, dt)
         self.p_ax0_pem = PlotEgoMotion(self.ax0, self.vehicle_id, self.vehicle_color)
 
+        # Load lanelet2 map
+        laneletmap = get_lanelet_map(configurations)
+
         self.p_ax1 = PlotCartesian(
             self.ax1,
-            lanelet_map_file,
-            map_coordinate_origin,
+            laneletmap,
             center_vehicle_id=self.vehicle_id,
             imagery_data=imagery_data,
         )
