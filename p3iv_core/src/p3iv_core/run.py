@@ -18,6 +18,7 @@ from p3iv_utils.lanelet_map_reader import lanelet_map_reader
 from p3iv_types.vehicle import Vehicle
 from p3iv_modules.execute import drive, predict
 from p3iv_core.configurations.utils import load_configurations
+from p3iv_core.bindings.dataset import SimulationBindings
 
 
 def run(configurations, f_execute=drive):
@@ -49,20 +50,8 @@ def run(configurations, f_execute=drive):
     laneletmap = lanelet_map_reader(configurations["map"], maps_dir=maps_dir, lat_origin=lat, lon_origin=lon)
 
     # Get ground-truth object data
-    if configurations["source"] == "interaction_sim":
-        from p3iv_core.bindings import InteractionDatasetBindings
-
-        bindings = InteractionDatasetBindings(
-            configurations["map"],
-            configurations["dataset"],
-            configurations["track_file_number"],
-            configurations["temporal"]["dt"],
-        )
-        environment_model = bindings.get_environment_model(configurations["timestamp_begin"])
-        ground_truth = bindings.create_ground_truth(environment_model.objects(), laneletmap, configurations)
-        assert configurations["vehicle_of_interest"] in list(ground_truth.keys())
-    else:
-        raise Exception("Specify ground truth object data!")
+    bindings = SimulationBindings(configurations, laneletmap)
+    ground_truth = bindings.create_ground_truth(configurations["timestamp_begin"])
 
     # Extract timestamps to be computed
     timestamps = list(
@@ -79,11 +68,11 @@ def run(configurations, f_execute=drive):
         # update planned motion from previous solution or from dataset
         if configurations["simulation_type"] == "open-loop" or i == 0:
             # update ground truth objects
-            bindings.update_open_loop_simulation(ground_truth, ts_now, laneletmap, configurations)
+            bindings.update_open_loop_simulation(ground_truth, ts_now)
 
         elif configurations["simulation_type"] == "semi-open-loop":
             # update ground truth objects
-            bindings.update_open_loop_simulation(ground_truth, ts_now, laneletmap, configurations)
+            bindings.update_open_loop_simulation(ground_truth, ts_now)
 
             o = ground_truth[configurations["vehicle_of_interest"]]
             driven = o.timestamps.previous().plan_optimal.states[1]
