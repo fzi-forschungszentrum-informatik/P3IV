@@ -125,10 +125,9 @@ class Understand(SceneUnderstandingInterface):
             except AttributeError:
                 # if 'toLanelet' is not reachable, lanelet2.python will return 'route_to_destination' as None
                 continue
-        assert (
-            len(route_alternatives) > 0,
-            "Lanelet matcher has performed poorly and route option could not be calculated",
-        )
+
+        # Lanelet matcher has performed poorly and route option could not be calculated
+        assert len(route_alternatives) > 0
 
         # get the shortest route
         route_option = min(route_alternatives, key=lambda r: r.laneletsequence.length)
