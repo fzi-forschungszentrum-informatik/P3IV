@@ -23,6 +23,10 @@ def lanelet_map_reader(laneletmap, maps_dir=None, lat_origin=0.0, lon_origin=0.0
     :param laneletmap: Lanelet2 map instance or Lanelet2 map path
     :type laneletmap: lanelet2.core.LaneletMap / string
     """
+
+    if isinstance(laneletmap, lanelet2.core.LaneletMap):
+        return laneletmap
+
     print("\nRead map: ", str(laneletmap))
 
     if os.path.isfile(laneletmap):
@@ -42,3 +46,28 @@ def lanelet_map_reader(laneletmap, maps_dir=None, lat_origin=0.0, lon_origin=0.0
         laneletmap = laneletmap + lanelet_map_ending
 
     return load_lanelet2_map(laneletmap, lat_origin, lon_origin)
+
+
+def get_lanelet_map(configurations):
+    """
+    Get lanelet map based on type of simulation which is defined in simulation configurations.
+    """
+
+    # determine path of the lanelet map
+    if configurations["source"] == "interaction_sim":
+        # read INTERACTION dataset maps and records
+        maps_dir = os.path.join(configurations["dataset"], "maps")
+    elif configurations["source"] == "d_sim":
+        # read rounD dataset maps and records
+        maps_dir = os.path.join(configurations["dataset"], "lanelets")
+    else:
+        # read custom Lanelet map
+        maps_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../res/maps/lanelet2")
+
+    # read origin of the map
+    lat, lon = configurations["map_coordinate_origin"]
+
+    # Load lanelet2 map
+    laneletmap = lanelet_map_reader(configurations["map"], maps_dir=maps_dir, lat_origin=lat, lon_origin=lon)
+
+    return laneletmap

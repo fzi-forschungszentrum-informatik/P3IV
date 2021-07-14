@@ -94,15 +94,7 @@ class VehicleModules(object):
                 module_path = "prediction_" + prediction_type + ".prediction"
                 Prediction = getattr(importlib.import_module(module_path), "Predict")
 
-            self.prediction = Prediction(
-                configurations["temporal"]["dt"],
-                configurations["temporal"]["N"],
-                configurations["map"],
-                configurations["prediction"],
-                configurations["dataset"],
-                laneletmap,
-                configurations["track_file_number"],
-            )
+            self.prediction = Prediction(configurations, laneletmap)
             assert isinstance(self.prediction, interfaces.PredictInterface)
 
         except ImportError as e:

@@ -21,7 +21,7 @@ class Vehicle(object):
 
 
 def example_with_vehicles(ax, lanelet_map_path):
-    p = PlotCartesian(ax, lanelet_map_path, [0.0, 0.0])
+    p = PlotCartesian(ax, lanelet_map_path)
     v1 = Vehicle(1, "red", 2.2, 4.0)
     v2 = Vehicle(2, "blue", 2.2, 4.0)
     vehicles = {1: v1, 2: v2}

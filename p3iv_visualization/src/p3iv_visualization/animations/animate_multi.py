@@ -26,14 +26,8 @@ class AnimateMulti(object):
         n_pin_future = int(configurations["planning"]["computation_time"] / configurations["temporal"]["dt"])
         self.save_dir = configurations["save_dir"]
 
-        map_filename = configurations["map"] + ".osm"
-        lanelet_map_file = os.path.abspath(
-            os.path.join(configurations["save_dir"], configurations["dataset"], "maps", map_filename)
-        )
-
         self.animator = Animator(
-            lanelet_map_file,
-            configurations["map_coordinate_origin"],
+            configurations,
             self.egovehicle.id,
             self.egovehicle.appearance.color,
             ground_truth.vehicles(),

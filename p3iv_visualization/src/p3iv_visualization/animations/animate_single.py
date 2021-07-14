@@ -26,14 +26,9 @@ class AnimateSingle(object):
         self.save_dir = configurations["save_dir"]
 
         self.timestamp2show = timestamp2show
-        map_filename = configurations["map"] + ".osm"
-        lanelet_map_file = os.path.abspath(
-            os.path.join(configurations["save_dir"], configurations["dataset"], "maps", map_filename)
-        )
 
         self.animator = Animator(
-            lanelet_map_file,
-            configurations["map_coordinate_origin"],
+            configurations,
             self.egovehicle.id,
             self.egovehicle.appearance.color,
             ground_truth.vehicles(),
