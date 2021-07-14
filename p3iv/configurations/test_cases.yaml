@@ -75,8 +75,9 @@
   "vehicle_of_interest": 0
   "meta_state":
     0: ["10000849", "default"]
-  "motion_state":
-    0: [-83.4, -46.2, 3.6, 1.7, 0.42, 4.24, 1.8]
+  "tracks":
+    # agent_type, x, y, vx, vy, psi_rad, length, width
+    0: ["car", -83.4, -46.2, 3.6, 1.7, 0.42, 4.24, 1.8]
 
 "OL_USA_Intersection_EP0_01":
   "simulation_type": "open-loop"
