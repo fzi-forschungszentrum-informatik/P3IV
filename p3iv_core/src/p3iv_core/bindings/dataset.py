@@ -4,6 +4,7 @@
 import abc
 import warnings
 import numpy as np
+import matplotlib.pyplot as plt
 from p3iv_types.vehicle import Vehicle
 from p3iv_types.vehicle import VehicleSensorFOV
 from p3iv_types.ground_truth import GroundTruth
@@ -40,6 +41,10 @@ class DataConverterInterface(object):
         state.yaw.mean = (np.degrees(psi_rad) + 360.0) % 360.0
         state.velocity.mean = np.array([vx, vy])
         return state
+
+    def get_color(self, object_id):
+        colormap = plt.cm.get_cmap("jet", 20)
+        return colormap(object_id % 20)
 
 
 class SimulationBindings(object):

@@ -5,13 +5,10 @@ from __future__ import division
 import numpy as np
 import warnings
 import random
-import matplotlib.pyplot as plt
 from .external.dataset_types import Track
 from p3iv_types.motion import MotionState
 from p3iv_core.bindings.dataset import DataConverterInterface
 from p3iv_core.bindings.interaction_dataset.track_reader import track_reader
-
-colormap = plt.cm.get_cmap("jet", 20)
 
 
 class DatasetValueError(Exception):
@@ -40,7 +37,7 @@ class DataConverter(DataConverterInterface):
         for t_id, track in list(self._tracks.items()):
             state = self.get_state(timestamp, t_id)
             if state:
-                environment.add_object(t_id, colormap(t_id % 20), track.length, track.width, state)
+                environment.add_object(t_id, self.get_color(t_id), track.length, track.width, state)
         return environment
 
     def get_state(self, timestamp, track_id):
