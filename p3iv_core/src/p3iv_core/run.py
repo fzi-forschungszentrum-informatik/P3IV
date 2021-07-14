@@ -116,7 +116,7 @@ def run(configurations, f_execute=drive):
             try:
                 f_execute(vehicle, ground_truth)
 
-                # plot results
+                # if you want to have plots after each timestamp, you can add them here
                 curr_save_dir = os.path.join(configurations["save_dir"], str(ts_now), str(vehicle.id))
                 os.makedirs(curr_save_dir)
 
