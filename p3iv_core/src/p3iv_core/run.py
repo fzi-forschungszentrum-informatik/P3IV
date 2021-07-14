@@ -70,15 +70,9 @@ def run(configurations, f_execute=drive):
             # closed-loop simulation
             # (ground truth object list remains the same; no new entries)
             for v in list(ground_truth.values()):
-                past_motion = v.timestamps.latest().motion[1:]
-                # planned trajectory includes past three points and the current;
-                # Those extra three points are trimmed away in Plan().
-                # Therefore, take the first element in the motion array.
-                driven = v.timestamps.latest().plan_optimal.motion[1]
+                state_ts_now = v.timestamps.latest().plan_optimal.states[1]
                 v.timestamps.create_and_add(ts_now)
-                o.timestamps.latest().state.position.mean = driven.position.mean
-                o.timestamps.latest().state.yaw.mean = driven.yaw.mean
-                o.timestamps.latest().state.velocity.mean = driven.velocity.mean
+                v.timestamps.latest().state = state_ts_now
         else:
             msg = (
                 "'simulation_type' in configurations is wrong."
