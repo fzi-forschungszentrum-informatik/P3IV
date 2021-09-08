@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package format="2">
+<package format="3">
   <name>p3iv_utils_polyvision</name>
   <version>0.0.0</version>
   <description>Polygon intersection and offsetting operations for visible area calculations</description>
@@ -17,8 +17,10 @@
   <depend>cgal</depend>
   <depend>pybind11-dev</depend>
 
-  <exec_depend>python3-numpy</exec_depend>
-  <exec_depend>python3-matplotlib</exec_depend>
+  <exec_depend condition="$ROS_PYTHON_VERSION == 2">python-numpy</exec_depend>
+  <exec_depend condition="$ROS_PYTHON_VERSION == 2">python-matplotlib</exec_depend>
+  <exec_depend condition="$ROS_PYTHON_VERSION == 3">python3-numpy</exec_depend>
+  <exec_depend condition="$ROS_PYTHON_VERSION == 3">python3-matplotlib</exec_depend>
 
   <export>
     <rosdoc config="../rosdoc.yaml" />
