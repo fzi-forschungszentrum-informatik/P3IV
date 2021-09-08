@@ -4,7 +4,7 @@
 import unittest
 import numpy as np
 from p3iv_types.environment_model import EnvironmentModel
-from p3iv_types.motion_state import MotionState
+from p3iv_types.motion import MotionState
 
 
 class TestEnvironmentModel(unittest.TestCase):
