@@ -2,6 +2,8 @@
 
  * For which type of application would you recommend p3iv most?
    * This is up to you. No matter if you are developing Dynamic Bayesian networks for prediction or model-based planning methods such as mpc-planner, you can use this simulation framework. But if you do reinforcement learning, you may prefer to limit your use to some utility functions.
+ * Why P3IV uses degrees to store angles? Using radians would avoid unnecessary conversions.
+   * P3IV aims explicit and readable processing. For this reason all angles are stored in angles and are converted to radians wherever needed.
 
 .. _faq Building:
 
