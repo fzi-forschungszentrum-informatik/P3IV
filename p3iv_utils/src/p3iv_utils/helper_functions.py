@@ -75,3 +75,19 @@ def angle_between_vectors(v1, v2):
     v1_u = unit_vector(v1)
     v2_u = unit_vector(v2)
     return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
+
+
+def fill_covariances(sigma_longitudinal, sigma_lateral, cross_correlation_coeff):
+    cov = np.zeros([2, 2])
+    cov[0, 0] = sigma_longitudinal
+    cov[1, 1] = sigma_lateral
+    cov[0, 1] = cross_correlation_coeff * np.sqrt(sigma_longitudinal * sigma_lateral)
+    cov[1, 0] = cross_correlation_coeff * np.sqrt(sigma_longitudinal * sigma_lateral)
+    return cov
+
+
+def rotate_covariance_matrix(covariance_matrix, rotation_radians):
+    c, s = np.cos(rotation_radians), np.sin(rotation_radians)
+    rotation_matrix = np.matrix(np.array(((c, -s), (s, c))))
+    covariance_rotated = np.transpose(rotation_matrix) * np.matrix(covariance_matrix) * rotation_matrix
+    return np.array(covariance_rotated)
