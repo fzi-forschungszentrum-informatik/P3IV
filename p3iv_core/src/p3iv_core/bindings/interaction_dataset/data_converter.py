@@ -9,6 +9,7 @@ from .external.dataset_types import Track
 from p3iv_types.motion import MotionState
 from p3iv_core.bindings.dataset import DataConverterInterface
 from p3iv_core.bindings.interaction_dataset.track_reader import track_reader
+from p3iv_utils.helper_functions import fill_covariances, rotate_covariance_matrix
 
 
 class DatasetValueError(Exception):
@@ -18,6 +19,7 @@ class DatasetValueError(Exception):
 class DataConverter(DataConverterInterface):
     def __init__(self, configurations):
 
+        self.configurations = configurations
         self._tracks = track_reader(
             configurations["map"], configurations["dataset"], configurations["track_file_number"]
         )
@@ -37,6 +39,18 @@ class DataConverter(DataConverterInterface):
         for t_id, track in list(self._tracks.items()):
             state = self.get_state(timestamp, t_id)
             if state:
+                c_pos = fill_covariances(
+                    self.configurations["perception"]["position_sigma_longitudinal"],
+                    self.configurations["perception"]["position_sigma_lateral"],
+                    self.configurations["perception"]["position_cross_correlation"],
+                )
+                state.position.covariance = rotate_covariance_matrix(c_pos, np.radians(state.yaw.mean))
+                c_vel = fill_covariances(
+                    self.configurations["perception"]["velocity_sigma_longitudinal"],
+                    self.configurations["perception"]["velocity_sigma_lateral"],
+                    self.configurations["perception"]["velocity_cross_correlation"],
+                )
+                state.velocity.covariance = rotate_covariance_matrix(c_vel, np.radians(state.yaw.mean))
                 environment.add_object(t_id, self.get_color(t_id), track.length, track.width, state)
         return environment
 
