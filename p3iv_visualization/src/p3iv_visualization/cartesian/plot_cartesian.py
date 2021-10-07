@@ -11,8 +11,9 @@ class PlotCartesian(object):
     def __init__(
         self,
         ax,
-        lanelet_map_file,
-        map_coordinate_origin,
+        laneletmap,
+        lat_origin=0.0,
+        lon_origin=0.0,
         center_vehicle_id=None,
         imagery_data=None,
         plot_uncertainty_ellipse=True,
@@ -24,9 +25,9 @@ class PlotCartesian(object):
         self.uncertainty = plot_uncertainty_ellipse
         self.map_plot = PlotLanelet2Map(
             self.ax,
-            lanelet_map_file,
-            lat_origin=map_coordinate_origin[0],
-            lon_origin=map_coordinate_origin[1],
+            laneletmap,
+            lat_origin=lat_origin,
+            lon_origin=lon_origin,
             imagery_data=imagery_data,
         )
         self.vehicles = OrderedDict()

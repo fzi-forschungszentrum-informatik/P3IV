@@ -14,10 +14,11 @@ import itertools
 import shutil
 from p3iv_utils.consoleprint import Print2Console
 from p3iv_utils.ofstream import create_output_dir, create_output_path, save_settings
-from p3iv_utils.lanelet_map_reader import lanelet_map_reader
+from p3iv_utils.lanelet_map_reader import get_lanelet_map
 from p3iv_types.vehicle import Vehicle
 from p3iv_modules.execute import drive, predict
 from p3iv_core.configurations.utils import load_configurations
+from p3iv_core.bindings.dataset import SimulationBindings
 
 
 def run(configurations, f_execute=drive):
@@ -32,24 +33,11 @@ def run(configurations, f_execute=drive):
     pprint(configurations)
 
     # Load lanelet2 map
-    maps_dir = os.path.join(configurations["dataset"], "maps")
-    laneletmap = lanelet_map_reader(configurations["map"], maps_dir=maps_dir)
+    laneletmap = get_lanelet_map(configurations)
 
     # Get ground-truth object data
-    if configurations["source"] == "interaction_sim":
-        from p3iv_core.bindings import InteractionDatasetBindings
-
-        bindings = InteractionDatasetBindings(
-            configurations["map"],
-            configurations["dataset"],
-            configurations["track_file_number"],
-            configurations["temporal"]["dt"],
-        )
-        environment_model = bindings.get_environment_model(configurations["timestamp_begin"])
-        ground_truth = bindings.create_ground_truth(environment_model.objects(), laneletmap, configurations)
-        assert configurations["vehicle_of_interest"] in list(ground_truth.keys())
-    else:
-        raise Exception("Specify ground truth object data!")
+    bindings = SimulationBindings(configurations, laneletmap)
+    ground_truth = bindings.create_ground_truth(configurations["timestamp_begin"])
 
     # Extract timestamps to be computed
     timestamps = list(
@@ -66,36 +54,21 @@ def run(configurations, f_execute=drive):
         # update planned motion from previous solution or from dataset
         if configurations["simulation_type"] == "open-loop" or i == 0:
             # update ground truth objects
-            bindings.update_open_loop_simulation(ground_truth, ts_now, laneletmap, configurations)
-
-        elif configurations["simulation_type"] == "semi-open-loop":
-            # update ground truth objects
-            bindings.update_open_loop_simulation(ground_truth, ts_now, laneletmap, configurations)
-
-            o = ground_truth[configurations["vehicle_of_interest"]]
-            driven = o.timestamps.previous().plan_optimal.states[1]
-            o.timestamps.latest().state.position.mean = driven.position.mean
-            o.timestamps.latest().state.yaw.mean = driven.yaw.mean
-            o.timestamps.latest().state.velocity.mean = driven.velocity.mean
+            bindings.update_open_loop_simulation(ground_truth, ts_now)
 
         elif configurations["simulation_type"] == "closed-loop":
-            # closed-loop simulation
-            # (ground truth object list remains the same; no new entries)
+            # check and get new vehicles
+            bindings.update_open_loop_simulation(ground_truth, ts_now)
+
             for v in list(ground_truth.values()):
-                past_motion = v.timestamps.latest().motion[1:]
-                # planned trajectory includes past three points and the current;
-                # Those extra three points are trimmed away in Plan().
-                # Therefore, take the first element in the motion array.
-                driven = v.timestamps.latest().plan_optimal.motion[1]
-                v.timestamps.create_and_add(ts_now)
-                o.timestamps.latest().state.position.mean = driven.position.mean
-                o.timestamps.latest().state.yaw.mean = driven.yaw.mean
-                o.timestamps.latest().state.velocity.mean = driven.velocity.mean
+                # overwrite open loop data if the vehicle is specified for planning
+                if v.id in list(configurations["meta_state"].keys()):
+                    state_ts_now = v.timestamps.previous().plan_optimal.states[1]
+                    v.timestamps.create_and_add(ts_now)
+                    v.timestamps.latest().state = state_ts_now
+
         else:
-            msg = (
-                "'simulation_type' in configurations is wrong."
-                + "Choose between 'open-loop' / 'closed-loop' / 'semi-open-loop'"
-            )
+            msg = "'simulation_type' in configurations is wrong.\n" + "Choose between 'open-loop' and 'closed-loop'"
             raise Exception(msg)
 
         # Compute the trajectory of vehicles who have a 'toLanelet' in their **objective**!
@@ -103,7 +76,7 @@ def run(configurations, f_execute=drive):
             try:
                 f_execute(vehicle, ground_truth)
 
-                # plot results
+                # if you want to have plots after each timestamp, you can add them here
                 curr_save_dir = os.path.join(configurations["save_dir"], str(ts_now), str(vehicle.id))
                 os.makedirs(curr_save_dir)
 

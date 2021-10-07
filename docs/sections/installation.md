@@ -51,12 +51,12 @@ catkin init
 # build in release mode (or whatever you prefer):
 catkin config --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo
 cd src
-git clone https://github.com/fzi-forschungszentrum-informatik/P3IV.git
+git clone https://github.com/fzi-forschungszentrum-informatik/P3IV.git p3iv
 git clone https://github.com/KIT-MRT/mrt_cmake_modules.git
 pip install -r p3iv/requirements.txt
 cd ..
-source ../../devel/setup.bash  # or setup.zsh
 catkin build
+source ../../devel/setup.bash  # or setup.zsh
 ```
 
 .. note::

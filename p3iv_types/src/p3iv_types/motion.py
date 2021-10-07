@@ -110,12 +110,25 @@ class MotionStateArray(object):
         self.velocity.mean = v
         self.yaw.mean = get_yaw_angle(self.position.mean)
 
-    def __getitem__(self, item):
-        m = MotionStateArray(dt=self.dt)
-        m.resize(len(self.position[item]))
-        m.position = self.position[item]
-        m.yaw = self.yaw[item]
-        m.velocity = self.velocity[item]
+    def __getitem__(self, key):
+
+        if isinstance(key, slice):
+            m = MotionStateArray(dt=self.dt)
+            m.resize(len(self.position[key]))
+            m.position = self.position[key]
+            m.yaw = self.yaw[key]
+            m.velocity = self.velocity[key]
+        elif isinstance(key, int):
+            m = MotionState()
+            m.position.mean = self.position[key].mean[0]
+            m.position.covariance = self.position[key].covariance[0]
+            m.yaw.mean = self.yaw[key].mean[0]
+            m.yaw.covariance = self.yaw[key].covariance[0]
+            m.velocity.mean = self.velocity[key].mean[0]
+            m.velocity.covariance = self.velocity[key].covariance[0]
+        else:
+            raise Exception
+
         return m
 
     def __len__(self):

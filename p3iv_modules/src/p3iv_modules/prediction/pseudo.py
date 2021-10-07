@@ -29,23 +29,16 @@ class Predict(PredictInterface):
     This class reads the true Cartesian values from the dataset and returns these as predicted motion.
     """
 
-    def __init__(
-        self,
-        dt,
-        N,
-        map_name,
-        prediction_configs,
-        interaction_dataset_dir,
-        laneletmap,
-        track_file_number,
-        *args,
-        **kwargs
-    ):
+    def __init__(self, configurations, laneletmap, *args, **kwargs):
+        dt = int(configurations["temporal"]["dt"])
         assert dt > 1
         self._dt = dt
-        self._N = N
-        self.track_dictionary = track_reader(map_name, interaction_dataset_dir, track_file_number)
-        self.dataset_handler = DataConverter(int(self._dt), self.track_dictionary)
+        self._N = int(configurations["temporal"]["N"])
+        # todo: update for rounD-based simulation and fallback for custom simulation where no dataset is available
+        try:
+            self.dataset = DataConverter(configurations)
+        except:
+            pass
         self._laneletmap = laneletmap
         self._traffic_rules = lanelet2.traffic_rules.create(
             lanelet2.traffic_rules.Locations.Germany, lanelet2.traffic_rules.Participants.Vehicle
@@ -85,7 +78,7 @@ class Predict(PredictInterface):
     def read_pose(self, timestamp, vehicle_id):
         """Read poses from dataset as numpy array"""
 
-        for t_id in list(self.track_dictionary.keys()):
+        for t_id in list(self.dataset.tracks.keys()):
 
             if t_id == vehicle_id:
                 pose_array = np.zeros([(self._N + 1), 3])
@@ -93,11 +86,11 @@ class Predict(PredictInterface):
                 timestamps_until_horizon = np.arange(timestamp, timestamp + self._N * self._dt + 1, self._dt)
                 for i, ts in enumerate(timestamps_until_horizon):
                     try:
-                        data = self.dataset_handler.read_track_at_timestamp(t_id, ts)
+                        data = self.dataset.read_track_at_timestamp(t_id, ts)
                         pose_array[i] = data[1:4]
                     # data is not available for the full horizon
                     except Exception as e:
-                        # print e
+                        # print(e)
                         break
                 break
         return pose_array
@@ -106,14 +99,14 @@ class Predict(PredictInterface):
         """
         Read destination Lanelet ID from dataset
         """
-        if vehicle_id in list(self.track_dictionary.keys()):
+        if vehicle_id in list(self.dataset.tracks.keys()):
             # read the last track for the vehicle
             if sys.version_info[0] == 3:
-                last_motion_state = list(self.track_dictionary[vehicle_id].motion_states.values())[-1]
+                last_motion_state = list(self.dataset.tracks[vehicle_id].motion_states.values())[-1]
             else:
                 # .values() in Python2 will yield unordered list
-                last_timestamp = max(self.track_dictionary[vehicle_id].motion_states.keys())
-                last_motion_state = self.track_dictionary[vehicle_id].motion_states[last_timestamp]
+                last_timestamp = max(self.dataset.tracks[vehicle_id].motion_states.keys())
+                last_motion_state = self.dataset.tracks[vehicle_id].motion_states[last_timestamp]
 
             x, y, yaw_degrees = last_motion_state.x, last_motion_state.y, np.rad2deg(last_motion_state.psi_rad)
 
