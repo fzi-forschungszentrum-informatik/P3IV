@@ -29,7 +29,10 @@ def generate_position_velocity_acc_array(
 
     # TODO append n_pin_future points
 
+    # create a zero-array to fill
     x = np.zeros((3, n_sim_timesteps + 1))
+
+    # set initial values
     x[:, 0] = np.array([s_0, v_0, 0])
 
     half_dt_sim_square = 0.5 * dt_sim ** 2
