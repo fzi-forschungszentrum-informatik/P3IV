@@ -8,7 +8,8 @@ import os
 def load_lanelet2_map(lanelet_map_file, lat_origin=0.0, lon_origin=0.0):
     # load the lanelet2 map
     projector = lanelet2.projection.UtmProjector(lanelet2.io.Origin(lat_origin, lon_origin))
-    return lanelet2.io.load(lanelet_map_file, projector)
+    # lanelet2 C++ interface requires basic string. Cast unicode to string.
+    return lanelet2.io.load(str(lanelet_map_file), projector)
 
 
 def lanelet_map_reader(laneletmap, maps_dir=None, lat_origin=0.0, lon_origin=0.0, **kwargs):
