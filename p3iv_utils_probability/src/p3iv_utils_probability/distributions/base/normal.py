@@ -28,7 +28,7 @@ def check_covariance_vals(cov, dimension):
         assert np.all(cov >= 0)
     elif dimension == 2:
         assert np.all(cov.diagonal() >= 0)
-        assert cov[0, 1] == cov[1, 0]
+        assert np.abs(cov[0, 1] - cov[1, 0]) < 1e-5
         if np.any(cov.diagonal() == 0):
             assert cov[0, 1] == 0
         else:
