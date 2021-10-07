@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 from p3iv_utils_probability.distributions import UnivariateNormalDistribution, BivariateNormalDistributionSequence
 from p3iv_utils_probability.distributions import UnivariateNormalDistributionSequence
