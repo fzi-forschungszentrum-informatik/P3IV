@@ -6,12 +6,11 @@ import sys
 import logging
 import numpy as np
 import warnings
-from shapely.geometry import Point
-from shapely.geometry.polygon import Polygon
 import lanelet2
 from p3iv_core.bindings.interaction_dataset.track_reader import track_reader
 from p3iv_core.bindings.interaction_dataset.data_converter import DataConverter
 from p3iv_utils.coordinate_transformation import CoordinateTransform
+from p3iv_utils.polygon_operations import PolygonCalculation
 from p3iv_types.situation_object import SituationObject
 from p3iv_types.maneuvers import ManeuverHypothesis
 from p3iv_modules.interfaces import PredictInterface
@@ -274,15 +273,3 @@ def lanelet_matches_equal(match1, match2):
     match1_ids = [m.lanelet.id for m in match1]
     match2_ids = [m.lanelet.id for m in match2]
     return match1_ids == match2_ids
-
-
-class PolygonCalculation(object):
-    def __init__(self, right_bound, left_bound):
-        """Create a shapely-polygon"""
-        p = np.vstack([right_bound, left_bound[::-1]])
-        self.polygon = Polygon(p)
-
-    def __call__(self, point_xy):
-        """Check if point is inside polygon. Return boolean"""
-        point = Point(point_xy[0], point_xy[1])
-        return self.polygon.contains(point)
