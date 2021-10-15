@@ -141,7 +141,12 @@ class ManeuverHypothesis(object):
         self.maneuver_bounds.lower_spd_bound = np.zeros(self.N)
 
     def __eq__(self, other):
-        return self.maneuver_bounds == other.maneuver_bounds
+        # if both maneuver bounds and the id, which indicates driving corridor, are the same,
+        # two maneuvers are considered equal
+        if self.maneuver_bounds == other.maneuver_bounds and self.id == other.id:
+            return True
+        else:
+            return False
 
     def clone(self):
         clone_ = deepcopy(self)
