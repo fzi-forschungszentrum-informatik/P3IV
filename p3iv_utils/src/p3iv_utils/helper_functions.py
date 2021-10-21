@@ -90,4 +90,4 @@ def rotate_covariance_matrix(covariance_matrix, rotation_radians):
     c, s = np.cos(rotation_radians), np.sin(rotation_radians)
     rotation_matrix = np.matrix(np.array(((c, -s), (s, c))))
     covariance_rotated = np.transpose(rotation_matrix) * np.matrix(covariance_matrix) * rotation_matrix
-    return np.array(covariance_rotated)
+    return np.abs(np.array(covariance_rotated))
