@@ -4,6 +4,7 @@
 import numpy as np
 from p3iv_modules.interfaces.perception import PerceptInterface
 from p3iv_types.environment_model import EnvironmentModel
+from p3iv_utils.helper_functions import fill_covariances, rotate_covariance_matrix
 
 
 class Percept(PerceptInterface):
@@ -81,16 +82,18 @@ class Percept(PerceptInterface):
         # add other vehicles
         for po in percepted_objects:
             po_state = po.timestamps.latest().state
-            po_state.position.covariance = per_pos_cov
-            po_state.velocity.covariance = per_vel_cov
+
+            po_state.position.covariance = rotate_covariance_matrix(per_pos_cov, np.radians(po_state.yaw.mean))
+            po_state.velocity.covariance = rotate_covariance_matrix(per_vel_cov, np.radians(po_state.yaw.mean))
+
             environment_model.add_object(
                 po.id, po.appearance.color, po.appearance.length, po.appearance.width, po_state
             )
 
         # add ego vehicle
         ego_state = ground_truth[ego_id].timestamps.latest().state
-        ego_state.position.covariance = loc_pos_cov
-        ego_state.velocity.covariance = loc_vel_cov
+        ego_state.position.covariance = rotate_covariance_matrix(per_pos_cov, np.radians(ego_state.yaw.mean))
+        ego_state.velocity.covariance = rotate_covariance_matrix(per_vel_cov, np.radians(ego_state.yaw.mean))
 
         environment_model.add_object(
             ground_truth[ego_id].id,
