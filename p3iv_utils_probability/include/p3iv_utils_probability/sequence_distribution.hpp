@@ -94,24 +94,16 @@ struct UnivariateNormalDistributionSequence : NormalDistributionSequence<T, 1> {
 
 
 template <typename T>
-struct BivariateNormalDistributionSequence : NormalDistributionSequence<T, 2> {
+struct BivariateNormalDistributionSequence {
     using Mean = Eigen::Matrix<T, Eigen::Dynamic, 2>;
     using Covariance = Eigen::Matrix<T, Eigen::Dynamic, 4>;
 
-    using NormalDistributionSequence<T, 2>::NormalDistributionSequence;
+    BivariateNormalDistributionSequence() = default;
 
     BivariateNormalDistributionSequence(const Eigen::Ref<const Mean>& mean_,
-                                        Eigen::Matrix<T, Eigen::Dynamic, 1>& variance_)
-            : NormalDistributionSequence<T, 2>(mean_, Covariance::Zero()) {
-
-        for (size_t i = 0; i < this->dimension(); i++) {
-            this->_covariance(i, 0) = variance_(i);
-            this->_covariance(i, 3) = variance_(i);
-        }
+                                        const Eigen::Ref<const Covariance>& covariance_)
+            : _mean{mean_}, _covariance{covariance_} {
     }
-
-    using NormalDistributionSequence<T, 2>::mean;
-    using NormalDistributionSequence<T, 2>::covariance;
 
     T mean(size_t e, size_t c) const {
         return this->_mean(e, c);
@@ -121,14 +113,35 @@ struct BivariateNormalDistributionSequence : NormalDistributionSequence<T, 2> {
         return this->_covariance(e, c);
     }
 
-    virtual Eigen::Matrix<T, Eigen::Dynamic, 2> variance() const {
-        Eigen::Matrix<T, Eigen::Dynamic, 2> variance;
-        for (size_t i = 0; i < this->dimension(); i++) {
+    Mean mean() const {
+        return _mean;
+    }
+
+    Covariance covariance() const {
+        return _covariance;
+    }
+
+    void setMean(std::vector<T> mean_) {
+        //toDo: let function make something useful
+    }
+
+    void setCovariance(std::vector<T> covariance_) {
+        //toDo: let function make something usefull
+    }
+
+    virtual Eigen::Matrix<T, Eigen::Dynamic, 4> variance() const {
+        Eigen::Matrix<T, Eigen::Dynamic, 4> variance;
+        for (size_t i = 0; i < _mean.size() / 2; i++) {
             variance(i, 0) = this->_covariance(i, 0);
-            variance(i, 1) = this->_covariance(i, 3);
+            variance(i, 1) = this->_covariance(i, 1);
+            variance(i, 2) = this->_covariance(i, 2);
+            variance(i, 3) = this->_covariance(i, 3);
         }
         return variance;
     }
+protected:
+    Mean _mean;
+    Covariance _covariance;
 };
 
 
