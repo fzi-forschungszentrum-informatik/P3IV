@@ -80,9 +80,9 @@ class InterpolatedPolylineSegment(object):
 
             elif self.mode == "LAST":
                 # let the last segment's lambda be flexible
-                if abs(lmda) > 1.0:
+                if lmda > 1.0:
                     lmda = 1.0
-                elif lmda < -1.0:
+                elif lmda < 0.0:
                     valid = False
 
             else:

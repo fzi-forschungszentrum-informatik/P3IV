@@ -122,9 +122,9 @@ protected:
                 }
             } else if (mode_ == SegmentMode::LAST) {
                 // let the last segment's lambda be flexible
-                if (abs(lambda) > T(1.)) {
+                if (lambda > T(1.)) {
                     lambda = T(1.0);
-                } else if (lambda < T(-1.0)) {
+                } else if (lambda < T(0.0)) {
                     valid = false;
                 }
             } else {
