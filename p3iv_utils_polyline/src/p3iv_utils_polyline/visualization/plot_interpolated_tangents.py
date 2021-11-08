@@ -13,7 +13,6 @@ def main(r, polyline_obj, offset, K_mesh, distance_bounds, K_arrows, show=True):
     plot_reference_line(ax, oo)
     plot_meshgrid(ax, mesh_x, mesh_y, mesh_z1)
 
-    K_arrows = 10
     ax.quiver(
         x_val[::K_arrows],
         y_val[::K_arrows],
@@ -48,4 +47,7 @@ if __name__ == "__main__":
     K_mesh = 20
     distance_bounds = 2.0
     K_arrows = 10
-    main(oo, polyline_obj, offset, K_mesh, distance_bounds, K_arrows)
+    main(oo, polyline_obj, offset, K_mesh, distance_bounds, K_arrows, show=False)
+    plt.savefig("/home/tas/interpolated_distance.pdf")
+
+
