@@ -179,6 +179,15 @@ class MotionStateArray(object):
     def speed(self):
         return np.linalg.norm(self.velocity.mean, axis=1)
 
+    @speed.setter
+    def speed(self, speed_yaw):
+        """Use speed and yaw angle (in radians) to set velocity values."""
+        speed, yaw_radians = speed_yaw
+        velocity = np.empty([len(speed), 2])
+        velocity[:, 0] = speed * np.cos(yaw_radians)
+        velocity[:, 1] = speed * np.sin(yaw_radians)
+        self.velocity.mean = velocity
+
 
 class MotionControl(object):
     """
