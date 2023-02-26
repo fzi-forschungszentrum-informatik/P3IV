@@ -10,6 +10,10 @@
 namespace util_probability {
 
 
+/**
+ * @brief: Container for n-dimensional normal distributions
+ *
+ */
 template <typename T, int DistributionDim>
 struct NormalDistributionSequence {
     using Mean = Eigen::Matrix<T, Eigen::Dynamic, DistributionDim>;
@@ -73,13 +77,16 @@ protected:
 };
 
 
+/**
+ * @brief: Container for univariate normal distributions
+ *
+ */
 template <typename T>
 struct UnivariateNormalDistributionSequence : NormalDistributionSequence<T, 1> {
     using Mean = Eigen::Matrix<T, Eigen::Dynamic, 1>;
     using Covariance = Eigen::Matrix<T, Eigen::Dynamic, 1>;
 
     using NormalDistributionSequence<T, 1>::NormalDistributionSequence;
-
     using NormalDistributionSequence<T, 1>::mean;
     using NormalDistributionSequence<T, 1>::covariance;
 
@@ -93,6 +100,11 @@ struct UnivariateNormalDistributionSequence : NormalDistributionSequence<T, 1> {
 };
 
 
+/**
+ * @brief: Container for bivariate normal distributions
+ *
+ * Cross correlation terms are set to zero.
+ */
 template <typename T>
 struct BivariateNormalDistributionSequence : NormalDistributionSequence<T, 2> {
     using Mean = Eigen::Matrix<T, Eigen::Dynamic, 2>;
