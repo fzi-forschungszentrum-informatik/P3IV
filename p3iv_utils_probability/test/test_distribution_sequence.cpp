@@ -26,8 +26,10 @@ TEST(UnivariateNormalDistributionSequence, vectorConstructor) {
     vMean.push_back(6);
     std::vector<double> vVariance(4, 1);
 
-    UnivariateNormalDistributionSequence<double> univariateNormalSeq(vMean, vVariance);
-    ASSERT_EQ(univariateNormalSeq.dimension(), 4);
+    UnivariateNormalDistributionSequence<double> uniNormalSq(vMean, vVariance);
+    ASSERT_DOUBLE_EQ(uniNormalSq.mean()[0], 3);
+    ASSERT_DOUBLE_EQ(uniNormalSq.covariance()[0], 1);
+    ASSERT_EQ(uniNormalSq.dimension(), 4);
 }
 
 
@@ -42,11 +44,22 @@ TEST(BivariateNormalDistributionSequence, vectorConstructor) {
 }
 
 
-/*
 TEST(UnivariateNormalDistributionSequence, eigenConstructor) {
-    UnivariateNormalDistributionSequence<double, 4> uniNormal;
+
+    Eigen::Matrix<double, 4, 1> mean;
+    mean << 3.0, 4.0, 5.0, 6.0;
+    Eigen::Matrix<double, 4, 1> cov;
+    cov << 1.0, 1.0, 1.0, 1.0;
+    UnivariateNormalDistributionSequence<double> uniNormalSq(mean, cov);
+
+    ASSERT_DOUBLE_EQ(uniNormalSq.mean()[0], 3);
+    ASSERT_DOUBLE_EQ(uniNormalSq.covariance()[0], 1);
+    ASSERT_EQ(uniNormalSq.dimension(), 4);
+    // ASSERT_DOUBLE_EQ(4, uniNormal.upperBound(1.0)[0]);
+    // ASSERT_DOUBLE_EQ(5, uniNormal.upperBound(1.0)[1]);
+    // ASSERT_DOUBLE_EQ(2, uniNormal.lowerBound(1.0)[0]);
+    // ASSERT_DOUBLE_EQ(2, uniNormal.lowerBound(2.0)[1]);
 }
-*/
 
 /*
 TEST(UnivariateNormalDistributionArray, vectorConstructor) {
