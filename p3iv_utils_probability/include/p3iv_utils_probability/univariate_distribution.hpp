@@ -36,8 +36,8 @@ public:
         std::vector<T> rangeValues;
         rangeValues.resize(2);
 
-        rangeValues[0] = this->_mean(0, 0) - this->_variance(0, 0) * n;
-        rangeValues[1] = this->_mean(1, 0) + this->_variance(1, 0) * n;
+        rangeValues[0] = this->_mean(0, 0) - this->_covariance(0, 0) * n;
+        rangeValues[1] = this->_mean(0, 0) + this->_covariance(0, 0) * n;
 
         return rangeValues;
     }

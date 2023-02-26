@@ -28,8 +28,8 @@ TEST(UnivariateNormalDistribution, vectorConstructorSingle) {
     ASSERT_DOUBLE_EQ(1, u_normal_dist.variance()[0]);
     ASSERT_DOUBLE_EQ(1, u_normal_dist.covariance()[0]);
     ASSERT_DOUBLE_EQ(1, u_normal_dist.dimension());
-    // ASSERT_DOUBLE_EQ(4, u_normal_dist.upper_bound(1.0)[0]);
-    // ASSERT_DOUBLE_EQ(2, u_normal_dist.lower_bound(1.0)[0]);
+    ASSERT_DOUBLE_EQ(2, u_normal_dist.range(1.0)[0]);
+    ASSERT_DOUBLE_EQ(4, u_normal_dist.range(1.0)[1]);
 }
 
 
