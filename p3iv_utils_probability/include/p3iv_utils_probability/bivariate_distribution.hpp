@@ -34,10 +34,12 @@ public:
 
     Eigen::Matrix<double, 5, 1> range(const double& n) const {
 
-        std::vector<T> rangeValues;
-        rangeValues.resize(5);
+        // calculate ellipse parameters
+        Eigen::Matrix<double, 3, 1> ellipseParams = getEllipseParameters(2);
 
-        // todo: calculate ellipse parameters
+        // rangeValues: x, y, theta, ell_radius_x, ell_radius_y
+        Eigen::Matrix<double, 5, 1> rangeValues;
+        rangeValues << this->_mean, ellipseParams;
 
         return rangeValues;
     }
