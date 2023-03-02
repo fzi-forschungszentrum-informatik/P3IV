@@ -23,6 +23,8 @@ Please use the bibtex entry below, if you intend to cite this work.
   title = {P3IV: Probabilistic Prediction and Planning for Intelligent Vehicles Simulator},
   author = {Ömer Sahin Tas},
   year = {2021},
-  note = {unpublished software}
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/fzi-forschungszentrum-informatik/P3IV}},
 }
 ```
