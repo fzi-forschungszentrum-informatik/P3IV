@@ -5,6 +5,7 @@
 
 #pragma once
 #include <cmath>
+#include <Eigen/Eigenvalues>
 #include "internal/normal.hpp"
 
 namespace util_probability {
@@ -14,6 +15,8 @@ template <typename T>
 class BivariateNormalDistribution : public NormalDistribution<T, 2> {
 public:
     BivariateNormalDistribution() = default;
+
+    using NormalDistribution<T, 2>::NormalDistribution;
 
     explicit BivariateNormalDistribution(T meanX, T meanY) {
         this->_mean << meanX, meanY;
