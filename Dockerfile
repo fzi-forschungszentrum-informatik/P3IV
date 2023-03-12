@@ -55,6 +55,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libgoogle-glog-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# dev packages
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    clang-format-11 clang-tidy-11 clang-11
+
 second stage: get the code
 FROM p3iv_deps AS p3iv_src
 
