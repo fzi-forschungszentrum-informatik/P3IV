@@ -6,3 +6,5 @@ termcolor
 shapely
 filterpy
 pyyaml
+simplejson
+black

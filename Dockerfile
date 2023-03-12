@@ -47,7 +47,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     ros-$ROS_DISTRO-rosbash \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-
 # dependencies for p3iv
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libcgal-dev \
@@ -56,13 +55,11 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libgoogle-glog-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-
 # create a user
 RUN useradd --create-home --groups sudo --shell /bin/bash developer \
     && mkdir -p /etc/sudoers.d \
     && echo "developer ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/developer \
     && chmod 0440 /etc/sudoers.d/developer
-
 
 # environment, dependencies and entry points
 USER developer
@@ -80,6 +77,7 @@ RUN cd /home/developer/workspace \
     && git clone https://github.com/KIT-MRT/mrt_cmake_modules.git /home/developer/workspace/src/mrt_cmake_modules \
     && git clone https://github.com/fzi-forschungszentrum-informatik/Lanelet2.git /home/developer/workspace/src/lanelet2   
 
+
 # second stage: get the code and build the image
 FROM p3iv_deps As p3iv
 
@@ -89,8 +87,12 @@ COPY --chown=developer:developer . /home/developer/workspace/src/p3iv
 # update dependencies
 RUN git -C /home/developer/workspace/src/mrt_cmake_modules pull
 
+# install python requirements and add them into path
+RUN cd src/p3iv && pip3 install -r requirements.txt
+ENV PATH="/home/developer/.local/bin:${PATH}"
+
 # build
 RUN /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && catkin build --no-status"
 
 # run tests
-RUN cd src/p3iv && pip3 install -r requirements.txt && catkin run_tests
+RUN catkin run_tests
