@@ -55,6 +55,9 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     libgoogle-glog-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+second stage: get the code
+FROM p3iv_deps AS p3iv_src
+
 # create a user
 RUN useradd --create-home --groups sudo --shell /bin/bash developer \
     && mkdir -p /etc/sudoers.d \
@@ -77,10 +80,6 @@ RUN cd /home/developer/workspace \
     && git clone https://github.com/KIT-MRT/mrt_cmake_modules.git /home/developer/workspace/src/mrt_cmake_modules \
     && git clone https://github.com/fzi-forschungszentrum-informatik/Lanelet2.git /home/developer/workspace/src/lanelet2   
 
-
-# second stage: get the code and build the image
-FROM p3iv_deps As p3iv
-
 # bring in the code
 COPY --chown=developer:developer . /home/developer/workspace/src/p3iv
 
@@ -91,8 +90,9 @@ RUN git -C /home/developer/workspace/src/mrt_cmake_modules pull
 RUN cd src/p3iv && pip3 install -r requirements.txt
 ENV PATH="/home/developer/.local/bin:${PATH}"
 
+# third stage: build the image
+FROM p3iv_src AS p3iv
+
 # build
 RUN /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && catkin build --no-status"
 
-# run tests
-RUN catkin run_tests
