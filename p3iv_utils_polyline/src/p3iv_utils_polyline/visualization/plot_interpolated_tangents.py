@@ -49,5 +49,3 @@ if __name__ == "__main__":
     K_arrows = 10
     main(oo, polyline_obj, offset, K_mesh, distance_bounds, K_arrows, show=False)
     plt.savefig("/home/tas/interpolated_distance.pdf")
-
-

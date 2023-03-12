@@ -64,8 +64,8 @@ def read_tracks(filename):
             if int(row[KeyEnum.track_id]) != track_id:
                 # new track
                 track_id = int(row[KeyEnum.track_id])
-                assert (
-                    track_id not in list(track_dict.keys())
+                assert track_id not in list(
+                    track_dict.keys()
                 ), "Line %i: Track id %i already in dict, track file not sorted properly" % (i + 1, track_id)
                 track = Track(track_id)
                 track.agent_type = row[KeyEnum.agent_type]

@@ -1,4 +1,3 @@
-
 import unittest
 import numpy as np
 from p3iv_utils.finite_differences import finite_differences
