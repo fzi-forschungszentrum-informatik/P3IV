@@ -7,4 +7,4 @@ shapely
 filterpy
 pyyaml
 simplejson
-black==21.4b2
+black==22.3.0
