@@ -27,18 +27,18 @@ def uvn_product(uvn1, uvn2):
 
 
 def _cal_par(mu1, sigma1, mu2, sigma2):
-    mu_12 = (mu1 * sigma2 ** 2 + mu2 * sigma1 ** 2) / (sigma1 ** 2 + sigma2 ** 2)
-    sigma_12 = np.sqrt((sigma1 ** 2 * sigma2 ** 2) / (sigma1 ** 2 + sigma2 ** 2))
+    mu_12 = (mu1 * sigma2**2 + mu2 * sigma1**2) / (sigma1**2 + sigma2**2)
+    sigma_12 = np.sqrt((sigma1**2 * sigma2**2) / (sigma1**2 + sigma2**2))
     s = (
         1
-        / (np.sqrt(2 * np.pi * (sigma1 ** 2 + sigma2 ** 2)))
-        * np.exp(-((mu1 - mu2) ** 2 / (2 * (sigma1 ** 2 + sigma2 ** 2))))
+        / (np.sqrt(2 * np.pi * (sigma1**2 + sigma2**2)))
+        * np.exp(-((mu1 - mu2) ** 2 / (2 * (sigma1**2 + sigma2**2))))
     )
     return s, mu_12, sigma_12
 
 
 def cal_uncertainty_of_mul(mu1, cov1, mu2, cov2):
-    return mu2 ** 2 * cov1 + mu1 ** 2 * cov2
+    return mu2**2 * cov1 + mu1**2 * cov2
 
 
 def get_diff_integral_list(uvn1, uvn2, n_std=4):

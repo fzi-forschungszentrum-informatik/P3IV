@@ -140,7 +140,7 @@ def generateFoVWedge(
     radius = halfwidth + radiusFactor * (baserange - halfwidth)
     # calculate center point of circle sector
     # c_y = leftP_y - sqrt(radius²-leftP_x²)
-    center_y = leftP[1] - math.sqrt(radius ** 2 - leftP[0] ** 2)
+    center_y = leftP[1] - math.sqrt(radius**2 - leftP[0] ** 2)
     center = np.array([0, center_y])
     # calculate angle of circle sector
     circleSectorAngle = 2 * math.asin(halfwidth / radius)  # in radians

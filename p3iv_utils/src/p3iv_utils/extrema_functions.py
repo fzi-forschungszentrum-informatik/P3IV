@@ -16,12 +16,12 @@ def get_braking_dist(v_curr, acceleration, **kwargs):
     dist = v_curr * dt - 0.5 * acceleration * dt**2 - 1/6 * jerk * dt**3
     """
 
-    return np.abs(v_curr ** 2 / (2 * acceleration))
+    return np.abs(v_curr**2 / (2 * acceleration))
 
 
 def accelerating_motion(v_curr, acceleration, **kwargs):
     delta_time = kwargs["delta_time"]
-    return v_curr * delta_time + 0.5 * acceleration * delta_time ** 2
+    return v_curr * delta_time + 0.5 * acceleration * delta_time**2
 
 
 def get_max_acc_displacements(vel_array, motion_func, acc, dt):
@@ -55,12 +55,12 @@ def saturation(param, threshold):
 
 
 def get_delta_l(v, a, dt):
-    delta_l = v * dt + 0.5 * a * dt ** 2
+    delta_l = v * dt + 0.5 * a * dt**2
     if delta_l > 0:
         return delta_l
     else:
         t_stop = np.abs(v / a)
-        return v * t_stop + 0.5 * a * t_stop ** 2
+        return v * t_stop + 0.5 * a * t_stop**2
 
 
 def get_delta_v(v, a, dt):

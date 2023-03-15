@@ -130,7 +130,7 @@ def seg_arc_intersect(seg, origin, radius, arc):
 
     D = D / t_max
 
-    coef = np.array([1, 2 * np.dot(D, (A - O)), norm(A - O) ** 2 - r ** 2])
+    coef = np.array([1, 2 * np.dot(D, (A - O)), norm(A - O) ** 2 - r**2])
     coef = np.round(coef, decimals=8)
 
     sol = np.roots(coef)

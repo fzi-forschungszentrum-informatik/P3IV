@@ -23,10 +23,10 @@ class InterpolatedPolylineTest(unittest.TestCase):
         self.assertAlmostEqual(obs_ip.signed_distance(0, 2), 1)
 
         # test the distance at the LAST-segment
-        self.assertAlmostEqual(obs_ip.signed_distance(4, 3), 2 * 2 ** 0.5)
+        self.assertAlmostEqual(obs_ip.signed_distance(4, 3), 2 * 2**0.5)
 
         # test the distance at the FIRST-segment
-        self.assertAlmostEqual(obs_ip.signed_distance(-4, -1), -2 * 2 ** 0.5)
+        self.assertAlmostEqual(obs_ip.signed_distance(-4, -1), -2 * 2**0.5)
 
     def test_straight_line_w_pybind_impl(self):
         from p3iv_utils_polyline.py_interpolated_polyline import PyInterpolatedPolyline as InterpolatedPolyline
@@ -44,10 +44,10 @@ class InterpolatedPolylineTest(unittest.TestCase):
         self.assertAlmostEqual(obs_ip.signed_distance(0, 2), 1)
 
         # test the distance at the LAST-segment
-        self.assertAlmostEqual(obs_ip.signed_distance(4, 3), 2 * 2 ** 0.5)
+        self.assertAlmostEqual(obs_ip.signed_distance(4, 3), 2 * 2**0.5)
 
         # test the distance at the FIRST-segment
-        self.assertAlmostEqual(obs_ip.signed_distance(-4, -1), -2 * 2 ** 0.5)
+        self.assertAlmostEqual(obs_ip.signed_distance(-4, -1), -2 * 2**0.5)
 
 
 class InterpolatedPolylineRoundaboutOFCenterlineTest(unittest.TestCase):

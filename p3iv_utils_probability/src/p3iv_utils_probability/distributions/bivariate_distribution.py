@@ -83,11 +83,11 @@ class BivariateNormalDistribution(NormalDistribution):
         rho = self.covariance[0, 1] / (sigma_1 * sigma_2)
         f = (
             1
-            / (2 * np.pi * sigma_1 * sigma_2 * np.sqrt(1 - rho ** 2))
+            / (2 * np.pi * sigma_1 * sigma_2 * np.sqrt(1 - rho**2))
             * np.exp(
-                -((x - mu[0]) ** 2) / (2 * (1 - rho ** 2) * sigma_1 ** 2)
-                - (y - mu[1]) ** 2 / (2 * (1 - rho ** 2) * sigma_2 ** 2)
-                + (rho * (x - mu[0]) * (y - mu[1])) / ((1 - rho ** 2) * sigma_1 * sigma_2)
+                -((x - mu[0]) ** 2) / (2 * (1 - rho**2) * sigma_1**2)
+                - (y - mu[1]) ** 2 / (2 * (1 - rho**2) * sigma_2**2)
+                + (rho * (x - mu[0]) * (y - mu[1])) / ((1 - rho**2) * sigma_1 * sigma_2)
             )
         )
         return f

@@ -82,7 +82,7 @@ class TruncatedUnivariateNormalDistribution(TruncatedNormalDistribution, Univari
     @staticmethod
     def _pdf_standard(x):
         """Probability distribution of standard normal distribution"""
-        return 1 / np.sqrt(2 * np.pi) * np.exp(-(x ** 2) / 2)
+        return 1 / np.sqrt(2 * np.pi) * np.exp(-(x**2) / 2)
 
     @staticmethod
     def _cdf_standard(x):
@@ -104,7 +104,7 @@ class TruncatedBivariateNormalDistribution(TruncatedNormalDistribution, Bivariat
         points = self.reform_points(x, y)
 
         mean_x, mean_y, theta, a, b = super(TruncatedBivariateNormalDistribution, self).range(n_std)
-        c = np.sqrt(a ** 2 - b ** 2)  # calculate linear eccentricity
+        c = np.sqrt(a**2 - b**2)  # calculate linear eccentricity
         F1 = np.array([mean_x, mean_y]) + c * np.array([np.cos(theta), np.sin(theta)])  # focal-point 1 coords
         F2 = np.array([mean_x, mean_y]) - c * np.array([np.cos(theta), np.sin(theta)])  # focal-point 2 coords
 

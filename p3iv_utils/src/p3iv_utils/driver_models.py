@@ -78,7 +78,7 @@ class IntelligentDriverModel(object):
                 if idm_acc < v_ego / dt:
                     idm_acc = v_ego / dt
 
-            displacement = v_ego * dt + 0.5 * idm_acc * (dt ** 2)
+            displacement = v_ego * dt + 0.5 * idm_acc * (dt**2)
             l_ego = l_ego + displacement
 
             idm_pos_array[i] = l_ego

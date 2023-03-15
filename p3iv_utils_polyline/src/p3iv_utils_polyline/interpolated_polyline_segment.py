@@ -7,7 +7,7 @@ import warnings
 
 def hypot(a, b):
     # do not use np.hypot(a, b); may not work well with autodiff & jit
-    return (a ** 2 + b ** 2) ** 0.5
+    return (a**2 + b**2) ** 0.5
 
 
 class InterpolatedPolylineSegment(object):

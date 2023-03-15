@@ -35,7 +35,7 @@ def generate_position_velocity_acc_array(
     # set initial values
     x[:, 0] = np.array([s_0, v_0, 0])
 
-    half_dt_sim_square = 0.5 * dt_sim ** 2
+    half_dt_sim_square = 0.5 * dt_sim**2
 
     for i in range(n_sim_timesteps):
         x[0, i + 1] = x[0, i] + dt_sim * x[1, i] + half_dt_sim_square * acc[i]

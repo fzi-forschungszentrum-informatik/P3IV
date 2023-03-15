@@ -72,7 +72,7 @@ class UnivariateNormalDistribution(NormalDistribution):
     def pdf(self, x, *args):
         mu = self.mean
         sigma = np.sqrt(self.covariance)
-        f_val = 1 / (np.sqrt(2 * np.pi) * sigma) * np.exp(-((x - mu) ** 2 / (2 * sigma ** 2)))
+        f_val = 1 / (np.sqrt(2 * np.pi) * sigma) * np.exp(-((x - mu) ** 2 / (2 * sigma**2)))
         return f_val
 
     def cdf(self, x, *args):
